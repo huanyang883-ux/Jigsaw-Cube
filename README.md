@@ -92,11 +92,11 @@ Windows 双击 start-game.cmd，浏览器自动打开。构建版 dist/ 已包�
 - 拼片共享一张 GPU 纹理，以独立 UV 连续取样。手机画布按实际显示尺寸与像素比设置，减少过度渲染。
 - 首页三套背景保持静态配色，以合成层透明度完成 0.8 秒渐变，避免切换时逐帧重绘大面积模糊、渐变和网格；各层裁剪到视口。魔方外壳采用实例化绘制，加载时预先准备主题牌背纹理和着色器；静止的装饰画布只在尺寸变化或播放粒子时刷新。
 - 图片 URL 带内容版本，支持长期缓存；更新图片后版本自动变化。正式服务为文本资源提供 gzip、ETag 与 304。
-- 原始 PNG 在 art-source/images/，保留用于后续修改，不进入 dist/。游戏 WebP 在 public/assets/，旧公共目录 PNG 副本及独立缩略图目录已移除。旧缩略图备份在 .local/unused-thumbnails/，不参与构建。
+- 原始 PNG 在 art-source/images/，仅在制作机本地保留用于后续修改，由 .gitignore 排除，不提交到 GitHub，也不进入 dist/。游戏运行、测试和构建使用仓库中的 public/assets/ WebP。旧公共目录 PNG 副本及独立缩略图目录已移除。旧缩略图备份在 .local/unused-thumbnails/，不参与构建。
 - 新增 85 张图通过内置 imagegen 生成，完整提示词在 art-source/catalog.json；初版 5 张图的提示词在 art-source/initial-prompts.txt。压缩统计在 art-source/optimization-report.json。
-- 白手套由内置 imagegen 生成，原图与提示词在 art-source/ui/，游戏使用 public/assets/ui/guide-hand.webp：384×384、透明 Alpha、约 11 KB。
+- 白手套由内置 imagegen 生成，art-source/ui/ 中的 PNG 原图仅在本地保留，提示词随仓库提交；游戏使用 public/assets/ui/guide-hand.webp：384×384、透明 Alpha、约 11 KB。
 
-替换原图后运行：
+需要重新处理素材时，先在 art-source/images/ 恢复完整的 90 张原始 PNG，再替换需要修改的原图并运行（普通克隆后的运行、测试和构建不需要此步骤）：
 
     npm run art:optimize
     npm run build
