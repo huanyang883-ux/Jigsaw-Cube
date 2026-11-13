@@ -1,0 +1,9 @@
+Generated with the built-in imagegen tool, transparent_background=true.
+Runtime asset: public/assets/ui/guide-hand.webp (384px, WebP quality 85, alpha retained).
+Original: art-source/ui/guide-hand.png
+
+Use case: stylized-concept.
+Asset type: transparent UI tutorial hand sprite for a fresh, soft cartoon mobile puzzle game.
+Primary request: one RIGHT hand wearing a clean WHITE cartoon glove, with only the INDEX FINGER extended straight upwards in a pointing/tapping gesture; the other three fingers gently curled into the palm, thumb tucked on the viewer's LEFT side, back of the right hand facing the viewer. Rounded glove cuff at the bottom, no visible arm or skin. Clear anatomically readable right hand silhouette, five fingers total.
+Style: polished simple 2D hand-drawn cartoon game asset, softly rounded forms, medium warm gray-brown outline, ivory white main fill, restrained pale beige shading, no harsh black. Clean readable at small mobile UI size, matches pastel mint and peach interface.
+Composition: single complete hand centered, upright, index fingertip is at the very top of the silhouette near 43% of image width. Generous clean transparent padding on all sides. Portrait-shaped subject within a square image. No arrows, no click lines, no circles, no motion trails, no text, no letters, no logo, no watermark, no background, no checkerboard pattern. True transparent alpha outside the hand. Just the one right-hand glove sprite.

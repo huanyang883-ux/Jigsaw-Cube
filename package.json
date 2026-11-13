@@ -1,0 +1,28 @@
+{
+  "name": "sweet-cube-puzzle",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5173",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
+    "test": "node --test tests/*.test.js",
+    "test:browser": "node scripts/browser-check.mjs",
+    "art:optimize": "node scripts/optimize-art.mjs",
+    "test:photos": "node scripts/photo-check.mjs",
+    "test:entrance": "node scripts/entrance-check.mjs",
+    "test:guides": "node scripts/guide-check.mjs",
+    "test:loading": "node scripts/loading-check.mjs",
+    "test:recovery": "node scripts/recovery-check.mjs"
+  },
+  "dependencies": {
+    "pixi.js": "^8.17.1",
+    "three": "^0.183.2"
+  },
+  "devDependencies": {
+    "playwright": "^1.58.2",
+    "sharp": "^0.35.5",
+    "vite": "^6.4.1"
+  }
+}

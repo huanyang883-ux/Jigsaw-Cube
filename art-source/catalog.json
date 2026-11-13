@@ -1,0 +1,682 @@
+[
+  {
+    "id": "candy-face",
+    "theme": 0,
+    "chapter": "candy",
+    "label": "糖果",
+    "cover": true,
+    "prompt": "Use case: stylized-concept. Asset type: square chapter illustration for a fresh cartoon dessert puzzle game. Create a cheerful candy-shop still life: a large clear round candy jar brimming with pastel striped hard candies, spiral pink mint and yellow lollipops, wrapped bonbons, ribbon candies and jewel-like gummy hearts scattered over a mint counter, softly blurred peach shelves and window light behind. Premium charming rounded 3D clay cartoon illustration, edible texture, fresh creamy pastel colors, rich crisp details across every quadrant for a 2x2 puzzle chapter cover. Entire square filled with one coherent scene, no borders, no text, no logo, no collage, no panel divisions. Square 1024x1024 composition."
+  },
+  {
+    "id": "candy-01",
+    "theme": 0,
+    "chapter": "candy",
+    "label": "糖果",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a tall bouquet of pink mint and lemon spiral lollipops in a striped ceramic jug, scattered hard candies on a mint counter, peach shop shelves and a sunlit window. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "candy-02",
+    "theme": 0,
+    "chapter": "candy",
+    "label": "糖果",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a round glass jar overflowing with colorful jellybeans and wrapped bonbons, a wooden scoop and ribbon curls in the foreground, a soft sunny sweet shop behind. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "candy-03",
+    "theme": 0,
+    "chapter": "candy",
+    "label": "糖果",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a cascade of rainbow sugar ribbon candies and heart-shaped gummies over a pale blue pedestal plate, little citrus slices, pastel tiled bakery background. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "candy-04",
+    "theme": 0,
+    "chapter": "candy",
+    "label": "糖果",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a stack of pillowy pastel marshmallows and sugar stars under a glass cloche, scattered candy pearls, a lavender linen napkin and a bright cozy candy kitchen. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "jelly-face",
+    "theme": 0,
+    "chapter": "jelly",
+    "label": "果冻",
+    "cover": true,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a delightful fruit jelly dessert table, glossy rainbow molded jellies, translucent fruit-filled cups, strawberries, citrus and mint leaves. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Square 1024x1024 chapter cover."
+  },
+  {
+    "id": "jelly-01",
+    "theme": 0,
+    "chapter": "jelly",
+    "label": "果冻",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a tall translucent strawberry jelly with whole berries suspended inside on a scalloped white plate, fresh strawberries and mint in the foreground, rosy sunlit patisserie. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "jelly-02",
+    "theme": 0,
+    "chapter": "jelly",
+    "label": "果冻",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: three layered peach and mango jelly parfaits in tall glass cups, slices of peach and yellow mango, an airy cream and mint bakery counter. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "jelly-03",
+    "theme": 0,
+    "chapter": "jelly",
+    "label": "果冻",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a wobbly turquoise and lavender ocean jelly dome with tiny star-shaped sweets inside, round jelly bites and blueberries on a sandy cream plate, sunny tiled dessert shop. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "jelly-04",
+    "theme": 0,
+    "chapter": "jelly",
+    "label": "果冻",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a luminous citrus ring jelly with orange segments and kiwi in a translucent lime glaze, cut fruit and silver dessert spoon on a checked cloth, pale yellow bakery window. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "icecream-face",
+    "theme": 0,
+    "chapter": "icecream",
+    "label": "冰淇淋",
+    "cover": true,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: an inviting ice cream parlor counter filled with colorful scoops, waffle cones, sundaes, fresh berries and fruit sauces. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Square 1024x1024 chapter cover."
+  },
+  {
+    "id": "icecream-01",
+    "theme": 0,
+    "chapter": "icecream",
+    "label": "冰淇淋",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a tall waffle cone with strawberry vanilla and pistachio ice cream scoops, a cherry and wafer, berry bowls and a pastel ice cream counter in the background. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "icecream-02",
+    "theme": 0,
+    "chapter": "icecream",
+    "label": "冰淇淋",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a banana split in a long glass dessert dish with three ice cream scoops, chocolate drizzle, whipped cream and cherries, sunny peach parlor interior. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "icecream-03",
+    "theme": 0,
+    "chapter": "icecream",
+    "label": "冰淇淋",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: two fruit popsicles with kiwi strawberry and orange slices suspended inside, crushed ice in a mint bowl, scattered fresh fruit on a pale pink summer counter. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "icecream-04",
+    "theme": 0,
+    "chapter": "icecream",
+    "label": "冰淇淋",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a tall blueberry lavender ice cream sundae in a fluted glass, cream rosettes and waffle fans, berries and a lavender napkin against an airy pastel dessert café. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "chocolate-face",
+    "theme": 0,
+    "chapter": "chocolate",
+    "label": "巧克力",
+    "cover": true,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a cozy chocolaterie display with cocoa truffles, glossy chocolate bars, brownies, warm cocoa and cream-colored ceramic plates. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Square 1024x1024 chapter cover."
+  },
+  {
+    "id": "chocolate-01",
+    "theme": 0,
+    "chapter": "chocolate",
+    "label": "巧克力",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a chocolate fondue fountain flowing over three tiers, strawberries and marshmallows on a plate below, warm wood and pink tiled chocolaterie background. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "chocolate-02",
+    "theme": 0,
+    "chapter": "chocolate",
+    "label": "巧克力",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: an open elegant plain cream box of assorted cocoa truffles with pink and pistachio fillings, chocolate curls, raspberries and a folded linen on a bright café table. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "chocolate-03",
+    "theme": 0,
+    "chapter": "chocolate",
+    "label": "巧克力",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a tower of fudgy brownies with glossy chocolate ganache, walnuts and vanilla cream, a small cup of cocoa on a pale mint patisserie counter. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "chocolate-04",
+    "theme": 0,
+    "chapter": "chocolate",
+    "label": "巧克力",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a tall hot chocolate in a transparent mug topped with whipped cream and cocoa curls, chocolate bar pieces and rolled wafer biscuits, a sunny cozy café window. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "cream-face",
+    "theme": 0,
+    "chapter": "cream",
+    "label": "奶油",
+    "cover": true,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a fresh cream patisserie display with swirled whipped cream pastries, cream puffs, meringues, strawberries and pastel china. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Square 1024x1024 chapter cover."
+  },
+  {
+    "id": "cream-01",
+    "theme": 0,
+    "chapter": "cream",
+    "label": "奶油",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a golden cream puff tower with soft vanilla cream and tiny strawberries, pastel plate and lace paper, bright mint and peach patisserie background. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "cream-02",
+    "theme": 0,
+    "chapter": "cream",
+    "label": "奶油",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a tall strawberry pavlova with crisp meringue, generous cream swirls and mixed berries, a dessert fork and petals on a sunlit pale wood table. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "cream-03",
+    "theme": 0,
+    "chapter": "cream",
+    "label": "奶油",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: two vanilla éclairs piped with cream rosettes, peach slices and a strawberry, white ceramic tray and pale blue linen in a cozy bakery. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "cream-04",
+    "theme": 0,
+    "chapter": "cream",
+    "label": "奶油",
+    "cover": false,
+    "prompt": "Use case: stylized-concept. Asset type: fresh cartoon dessert puzzle game illustration. One coherent full-bleed scene: a ribbon of whipped cream on a tall layered berry millefeuille, golden flaky pastry and mint leaves, a cream pitcher and strawberry bowl at a pastel café window. Premium charming rounded 3D clay cartoon illustration matching a fresh pastel dessert game, tactile edible textures, creamy bright colors, beautiful soft daylight. Compose interesting identifiable details across the entire image so every puzzle piece contains useful visual clues. No text, typography, logos, watermark, border, frame, montage or collage. Portrait 3:4 composition, 960x1280, subject and environment arranged vertically like a beautiful collectible photo."
+  },
+  {
+    "id": "ocean-face",
+    "theme": 1,
+    "chapter": "ocean",
+    "label": "海洋生物",
+    "cover": true,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a green sea turtle swimming over a vibrant shallow coral reef, tropical fish, branching coral, sunbeams through clear turquoise ocean. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Square 1024x1024 chapter cover."
+  },
+  {
+    "id": "ocean-01",
+    "theme": 1,
+    "chapter": "ocean",
+    "label": "海洋生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a green sea turtle gliding above coral gardens, orange fish and blue sea fans, shafts of sunlight and the distant turquoise water surface. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ocean-02",
+    "theme": 1,
+    "chapter": "ocean",
+    "label": "海洋生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a bottlenose dolphin and calf swimming through blue ocean over a sandy seabed, silver fish, surface light ripples and underwater rock formations. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ocean-03",
+    "theme": 1,
+    "chapter": "ocean",
+    "label": "海洋生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: orange clownfish sheltering within a waving sea anemone, textured reef rocks and branching coral, clear aquamarine water and filtered sunshine. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ocean-04",
+    "theme": 1,
+    "chapter": "ocean",
+    "label": "海洋生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a giant manta ray soaring above a coral cleaning station, small reef fish, white sand channels and deep blue tropical water. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ocean-05",
+    "theme": 1,
+    "chapter": "ocean",
+    "label": "海洋生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a curious octopus beside a rocky reef crevice, seagrass, purple sea urchins and pebbled sand, authentic underwater natural light. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ocean-06",
+    "theme": 1,
+    "chapter": "ocean",
+    "label": "海洋生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a seahorse holding onto red seagrass in a lush underwater meadow, tiny shrimp, drifting particles and softly lit blue-green water. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ocean-07",
+    "theme": 1,
+    "chapter": "ocean",
+    "label": "海洋生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a whale shark cruising over a sunlit tropical reef edge with a school of silver fish, layered coral and deep ocean beyond. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ocean-08",
+    "theme": 1,
+    "chapter": "ocean",
+    "label": "海洋生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a sea otter floating in a golden kelp forest, gentle waves and a rocky Pacific coastline in the distance, soft coastal morning light. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ocean-09",
+    "theme": 1,
+    "chapter": "ocean",
+    "label": "海洋生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: translucent moon jellyfish drifting among shafts of underwater sunlight, subtle plankton and dark blue ocean depth, luminous natural texture. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "amphibians-face",
+    "theme": 1,
+    "chapter": "amphibians",
+    "label": "两栖生物",
+    "cover": true,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a red-eyed tree frog on a broad wet rainforest leaf, bromeliads, mossy branches, dew drops and lush green jungle depth. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Square 1024x1024 chapter cover."
+  },
+  {
+    "id": "amphibians-01",
+    "theme": 1,
+    "chapter": "amphibians",
+    "label": "两栖生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a red-eyed tree frog perched on a rain-wet banana leaf, tropical flowers, curled vines and misty rainforest understory. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "amphibians-02",
+    "theme": 1,
+    "chapter": "amphibians",
+    "label": "两栖生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a spotted fire salamander walking across a moss-covered fallen log, fern fronds, mushrooms and damp autumn forest leaves. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "amphibians-03",
+    "theme": 1,
+    "chapter": "amphibians",
+    "label": "两栖生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a green pond frog sitting beside a flowering water lily, lily pads, ripples, reeds and a sunlit freshwater pond bank. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "amphibians-04",
+    "theme": 1,
+    "chapter": "amphibians",
+    "label": "两栖生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a tiny blue poison dart frog on wet brown leaf litter, textured tree roots, tropical ferns and water droplets in a rainforest. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "amphibians-05",
+    "theme": 1,
+    "chapter": "amphibians",
+    "label": "两栖生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: an alpine newt beneath the surface of a crystal-clear mountain pond, submerged pebbles, aquatic grass and refracted sunbeams. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "amphibians-06",
+    "theme": 1,
+    "chapter": "amphibians",
+    "label": "两栖生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a common toad beneath a woodland fern, dewy mushrooms, bark and autumn foliage in soft early morning light. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "amphibians-07",
+    "theme": 1,
+    "chapter": "amphibians",
+    "label": "两栖生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a glass frog on a translucent green leaf beside a rainforest stream, delicate water droplets, moss and softly blurred foliage. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "amphibians-08",
+    "theme": 1,
+    "chapter": "amphibians",
+    "label": "两栖生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a tree frog perched on a slender reed above a still marsh pond, flowering grasses, water reflections and golden dusk light. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "amphibians-09",
+    "theme": 1,
+    "chapter": "amphibians",
+    "label": "两栖生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: an axolotl in a clear freshwater habitat, aquatic plants, smooth stones, small bubbles and natural filtered daylight. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "land-face",
+    "theme": 1,
+    "chapter": "land",
+    "label": "陆地生物",
+    "cover": true,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: an elephant family at a savanna waterhole, acacia trees, tall golden grasses, distant hills and soft late-afternoon light. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Square 1024x1024 chapter cover."
+  },
+  {
+    "id": "land-01",
+    "theme": 1,
+    "chapter": "land",
+    "label": "陆地生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: an African elephant family walking near a savanna waterhole, acacia trees, golden grasses and distant blue hills in warm afternoon light. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "land-02",
+    "theme": 1,
+    "chapter": "land",
+    "label": "陆地生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a red fox standing in a wildflower meadow at the edge of a birch forest, dew-covered grass and soft sunrise mist. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "land-03",
+    "theme": 1,
+    "chapter": "land",
+    "label": "陆地生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a giant panda sitting among dense bamboo stems, mossy rocks, ferns and a misty green mountain forest. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "land-04",
+    "theme": 1,
+    "chapter": "land",
+    "label": "陆地生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a giraffe browsing an acacia tree on the savanna, golden grass, branching shadows, distant herd and high pale clouds. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "land-05",
+    "theme": 1,
+    "chapter": "land",
+    "label": "陆地生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a snow leopard resting on a rocky mountain ledge, scattered snow, hardy grasses and layered Himalayan peaks. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "land-06",
+    "theme": 1,
+    "chapter": "land",
+    "label": "陆地生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a red deer stag in a woodland clearing, amber bracken, beech trees and shafts of autumn sunlight. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "land-07",
+    "theme": 1,
+    "chapter": "land",
+    "label": "陆地生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a ring-tailed lemur perched on a branch in a Madagascar woodland, textured bark, green leaves, warm dappled sunlight. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "land-08",
+    "theme": 1,
+    "chapter": "land",
+    "label": "陆地生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a kangaroo with its joey in eucalyptus woodland, dry grasses, fallen branches and gentle evening sunlight. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "land-09",
+    "theme": 1,
+    "chapter": "land",
+    "label": "陆地生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a brown bear catching fish beside a cascading forest stream, wet boulders, evergreen trees and mist, no gore. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "insects-face",
+    "theme": 1,
+    "chapter": "insects",
+    "label": "昆虫",
+    "cover": true,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a monarch butterfly on a purple coneflower in a lush flowering meadow, bees, grass stems, dew and soft morning light. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Square 1024x1024 chapter cover."
+  },
+  {
+    "id": "insects-01",
+    "theme": 1,
+    "chapter": "insects",
+    "label": "昆虫",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a monarch butterfly resting on a purple coneflower, surrounding wildflowers, green meadow grasses and warm morning light, environmental macro photography. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "insects-02",
+    "theme": 1,
+    "chapter": "insects",
+    "label": "昆虫",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a honeybee collecting pollen on a sunflower, textured golden petals, layered leaves and a sunny garden beyond, environmental macro photography. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "insects-03",
+    "theme": 1,
+    "chapter": "insects",
+    "label": "昆虫",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a jewel-green dragonfly perched on a reed beside a pond, rippled water, lotus leaves and delicate grasses, natural macro photography. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "insects-04",
+    "theme": 1,
+    "chapter": "insects",
+    "label": "昆虫",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a red ladybird walking along a dew-covered fern frond, moss, curled leaves and soft woodland light, crisp macro detail. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "insects-05",
+    "theme": 1,
+    "chapter": "insects",
+    "label": "昆虫",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a praying mantis on a flowering lavender stalk, a lush herb garden, small pebbles and warm side light, environmental macro photography. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "insects-06",
+    "theme": 1,
+    "chapter": "insects",
+    "label": "昆虫",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a blue morpho butterfly on a rainforest branch, orchids, wet green leaves and soft tropical background, realistic butterfly wing anatomy. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "insects-07",
+    "theme": 1,
+    "chapter": "insects",
+    "label": "昆虫",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: leaf-cutter ants carrying tiny leaves across a mossy branch, rainforest ground, bark texture and filtered green sunlight, environmental macro photo. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "insects-08",
+    "theme": 1,
+    "chapter": "insects",
+    "label": "昆虫",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a rhinoceros beetle on textured tree bark, mushrooms and forest leaf litter below, rich humid woodland light, environmental macro photo. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "insects-09",
+    "theme": 1,
+    "chapter": "insects",
+    "label": "昆虫",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a bumblebee hovering beside pink foxglove flowers, cottage garden foliage, distant sunlit blooms and natural wing motion. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "birds-face",
+    "theme": 1,
+    "chapter": "birds",
+    "label": "鸟类",
+    "cover": true,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a kingfisher perched on a willow branch beside a clear river, reeds, river stones, reflected trees and morning sunlight. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Square 1024x1024 chapter cover."
+  },
+  {
+    "id": "birds-01",
+    "theme": 1,
+    "chapter": "birds",
+    "label": "鸟类",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a kingfisher perched on a willow branch over a clear river, reeds, smooth river stones and leafy reflections in morning sunlight. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "birds-02",
+    "theme": 1,
+    "chapter": "birds",
+    "label": "鸟类",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a scarlet macaw on a rainforest canopy branch, tropical leaves, orchids and distant misty green treetops. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "birds-03",
+    "theme": 1,
+    "chapter": "birds",
+    "label": "鸟类",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a snowy owl sitting on a snow-dusted fence post, winter grasses, birch woodland and pale dawn sky. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "birds-04",
+    "theme": 1,
+    "chapter": "birds",
+    "label": "鸟类",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a group of flamingos wading in a shallow pink salt lagoon, reflected legs, distant mountains and soft sunrise clouds. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "birds-05",
+    "theme": 1,
+    "chapter": "birds",
+    "label": "鸟类",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a hummingbird hovering at red tubular flowers, layered tropical garden leaves and soft dappled light, natural wing motion. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "birds-06",
+    "theme": 1,
+    "chapter": "birds",
+    "label": "鸟类",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a puffin standing beside a grassy sea cliff burrow, wild coastal flowers, ocean waves and distant rocky islands. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "birds-07",
+    "theme": 1,
+    "chapter": "birds",
+    "label": "鸟类",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a peacock walking through a lush woodland clearing, ferns, fallen leaves and a gently lit garden pond, naturally folded or partly spread tail. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "birds-08",
+    "theme": 1,
+    "chapter": "birds",
+    "label": "鸟类",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: an emperor penguin and chick on Antarctic sea ice, textured snow drifts, icy blue ridges and softly glowing winter sky. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "birds-09",
+    "theme": 1,
+    "chapter": "birds",
+    "label": "鸟类",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: wildlife photo for an animal puzzle game. Create a believable high-end wildlife documentary photograph: a bald eagle perched in a tall pine tree above a mountain lake, evergreen forest, reflections and distant peaks. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ancient-face",
+    "theme": 1,
+    "chapter": "ancient",
+    "label": "古生物",
+    "cover": true,
+    "prompt": "Use case: photorealistic-natural. Asset type: photo-real prehistoric wildlife puzzle artwork. Create a scientifically plausible naturalistic prehistoric scene reconstruction with the visual language of a real wildlife photograph: a naturalistic reconstruction of a Triceratops family beside a late Cretaceous river, ferns, conifers, flowering plants and distant misty hills. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Square 1024x1024 chapter cover."
+  },
+  {
+    "id": "ancient-01",
+    "theme": 1,
+    "chapter": "ancient",
+    "label": "古生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: photo-real prehistoric wildlife puzzle artwork. Create a scientifically plausible naturalistic prehistoric scene reconstruction with the visual language of a real wildlife photograph: a Triceratops family drinking beside a late Cretaceous river, ferns, conifers, flowering plants, reflective water and distant misty hills. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ancient-02",
+    "theme": 1,
+    "chapter": "ancient",
+    "label": "古生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: photo-real prehistoric wildlife puzzle artwork. Create a scientifically plausible naturalistic prehistoric scene reconstruction with the visual language of a real wildlife photograph: a feathered Velociraptor moving through a dry late Cretaceous dune landscape, sparse shrubs, weathered sandstone and warm dawn light, plausible animal proportions. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ancient-03",
+    "theme": 1,
+    "chapter": "ancient",
+    "label": "古生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: photo-real prehistoric wildlife puzzle artwork. Create a scientifically plausible naturalistic prehistoric scene reconstruction with the visual language of a real wildlife photograph: a Stegosaurus walking beside a Jurassic forest stream, cycads, ferns and tall conifers, dappled sunlight and muddy footprints. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ancient-04",
+    "theme": 1,
+    "chapter": "ancient",
+    "label": "古生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: photo-real prehistoric wildlife puzzle artwork. Create a scientifically plausible naturalistic prehistoric scene reconstruction with the visual language of a real wildlife photograph: a Brachiosaurus browsing treetops in a Jurassic floodplain, tall conifers, ferns, reflective pools and hazy mountains. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ancient-05",
+    "theme": 1,
+    "chapter": "ancient",
+    "label": "古生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: photo-real prehistoric wildlife puzzle artwork. Create a scientifically plausible naturalistic prehistoric scene reconstruction with the visual language of a real wildlife photograph: a woolly mammoth and calf crossing a Pleistocene steppe, snow patches, dry grasses, distant hills and soft winter sunlight. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ancient-06",
+    "theme": 1,
+    "chapter": "ancient",
+    "label": "古生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: photo-real prehistoric wildlife puzzle artwork. Create a scientifically plausible naturalistic prehistoric scene reconstruction with the visual language of a real wildlife photograph: a saber-toothed cat Smilodon resting near a Pleistocene woodland waterhole, grasses, gnarled trees and warm evening light, no attack or gore. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ancient-07",
+    "theme": 1,
+    "chapter": "ancient",
+    "label": "古生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: photo-real prehistoric wildlife puzzle artwork. Create a scientifically plausible naturalistic prehistoric scene reconstruction with the visual language of a real wildlife photograph: an ammonite swimming above a shallow ancient seabed, crinoids, shell fragments, sand ripples and filtered underwater sunlight. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ancient-08",
+    "theme": 1,
+    "chapter": "ancient",
+    "label": "古生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: photo-real prehistoric wildlife puzzle artwork. Create a scientifically plausible naturalistic prehistoric scene reconstruction with the visual language of a real wildlife photograph: a Pteranodon standing on a rocky late Cretaceous coastal ledge, waves, distant cliffs and a cloudy ocean sky, plausible pterosaur anatomy. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  },
+  {
+    "id": "ancient-09",
+    "theme": 1,
+    "chapter": "ancient",
+    "label": "古生物",
+    "cover": false,
+    "prompt": "Use case: photorealistic-natural. Asset type: photo-real prehistoric wildlife puzzle artwork. Create a scientifically plausible naturalistic prehistoric scene reconstruction with the visual language of a real wildlife photograph: a Parasaurolophus herd walking through a lush late Cretaceous riverbank, ferns, flowering shrubs, conifers and misty dawn. The animal is the main subject but the image also clearly shows a rich, detailed habitat, foreground and background with distinctive features in all quadrants for puzzle clues. Natural animal anatomy, realistic fur feathers scales or shell as appropriate, physically believable light, authentic photographic textures and depth. Environmental composition with enough habitat in focus, not an isolated studio animal portrait. No text, logos, watermark, borders, frame, montage, collage, fantasy, cartoon or illustration aesthetics. Portrait 3:4 composition, 960x1280, a single full-bleed wildlife photograph."
+  }
+]

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#fcf8ee" />
+    <meta name="description" content="甜品与动物双主题魔方拼图，1080×1920竖屏H5游戏。" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>魔方拼图</title>
+    <style>
+      html,body{margin:0;background:#fcf8ee}#loading[hidden],#retry-load[hidden]{display:none!important}
+      #loading{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:radial-gradient(ellipse at 25% 20%,#e7efdc,transparent 60%),radial-gradient(ellipse at 90% 65%,#f8e4d3,transparent 55%),#fcf8ee}
+      .loading-art{width:min(42vw,230px);display:flex;align-items:center;flex-direction:column;gap:32px}
+      .loading-tiles{width:108px;height:108px;display:grid;grid-template-columns:1fr 1fr;gap:7px;transform:rotate(-8deg)}
+      .loading-tiles i{background:#e0ebcf;border:2px solid #a8b98c;border-radius:16px 14px 15px 13px;box-shadow:0 4px 0 #c6d4ae;animation:load-tile 1.8s ease-in-out infinite}
+      .loading-tiles i:nth-child(2){background:#f9e5c7;border-color:#d6bd92;box-shadow:0 4px 0 #e4d2af;animation-delay:.15s}.loading-tiles i:nth-child(3){background:#f2d1bf;border-color:#c9a890;box-shadow:0 4px 0 #dfbfa8;animation-delay:.45s}.loading-tiles i:nth-child(4){background:#dce9e8;border-color:#a5bfba;box-shadow:0 4px 0 #bfd5cf;animation-delay:.3s}
+      .loading-track{width:100%;height:7px;border-radius:8px;background:#e0e4d1;overflow:hidden}.loading-fill{width:0;height:100%;border-radius:inherit;background:#a9be87;transition:width .18s ease}
+      #retry-load{display:grid;place-items:center;width:58px;height:58px;border:2px solid #bcb89f;border-radius:18px;background:#fffaf0;color:#998465;box-shadow:0 4px 0 #ded8c2;cursor:pointer}#retry-load svg{width:30px;height:30px}.load-error .loading-tiles i{animation:none}
+      @keyframes load-tile{0%,65%,100%{transform:translateY(0)}30%{transform:translateY(-9px) rotate(4deg)}}@media(prefers-reduced-motion:reduce){.loading-tiles i{animation:none}}
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="loading" role="status" aria-label="正在准备游戏" aria-busy="true"><div class="loading-art"><div class="loading-tiles" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="loading-track" role="progressbar" aria-label="加载进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="loading-fill" class="loading-fill"></div></div><button id="retry-load" aria-label="重新加载" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 9a8 8 0 1 0 0 7M20 3v6h-6"/></svg></button></div></div>
+    <script>
+      // Keep recovery inside HTML so a failed module download cannot remove the retry button.
+      (() => {
+        const key = 'sweet-cube:load-recovery:v1', cachePrefix = 'sweet-cube:assets:';
+        const screen = document.querySelector('#loading'), fill = document.querySelector('#loading-fill'), retry = document.querySelector('#retry-load');
+        let saved; try { saved = JSON.parse(sessionStorage.getItem(key)); } catch {}
+        let recovery = { attempts: Number(saved?.attempts) || 0, urls: Array.isArray(saved?.urls) ? saved.urls : [] };
+        let sequence = 0, delayed, watchdog, failed = false;
+        const known = new Set();
+        function assetURL(value) {
+          try {
+            const url = new URL(value, location.href);
+            // Ignore removed thumbnails in recovery sessions saved by an older build.
+            if (url.pathname.startsWith('/assets/thumbs/')) return null;
+            return url.origin === location.origin && /^\/(assets|src|node_modules\/\.vite)\//.test(url.pathname) && /\.(js|css|webp|png|svg)$/.test(url.pathname) ? url.href : null;
+          } catch { return null; }
+        }
+        function track(value) { const url = assetURL(value); if (url) known.add(url); }
+        recovery.urls.forEach(track);
+        function collect() {
+          performance.getEntriesByType('resource').forEach((entry) => track(entry.name));
+          document.querySelectorAll('script[src],link[rel="stylesheet"],link[rel="modulepreload"]').forEach((el) => track(el.src || el.href));
+          return [...known];
+        }
+        function persist() { try { sessionStorage.setItem(key, JSON.stringify(recovery)); } catch {} }
+        function arm() { clearTimeout(watchdog); watchdog = setTimeout(() => fail(new Error('Loading stalled')), 45000); }
+        function begin(delay = 0) {
+          const ticket = ++sequence; let last = -1;
+          clearTimeout(delayed); failed = false; arm();
+          retry.hidden = true; retry.disabled = false; screen.classList.remove('load-error');
+          fill.style.width = '0%'; fill.parentElement.setAttribute('aria-valuenow', '0'); screen.setAttribute('aria-busy', 'true');
+          if (delay) delayed = setTimeout(() => { screen.hidden = false; }, delay); else screen.hidden = false;
+          return {
+            get active() { return ticket === sequence && !failed; },
+            fail(error) { if (ticket === sequence && !failed) fail(error); },
+            progress(value) {
+              if (ticket !== sequence || failed) return;
+              const fraction = Math.max(0, Math.min(1, value));
+              if (fraction > last) { last = fraction; arm(); }
+              fill.style.width = `${fraction * 100}%`; fill.parentElement.setAttribute('aria-valuenow', Math.round(fraction * 100));
+            },
+            finish() {
+              if (ticket !== sequence || failed) return;
+              clearTimeout(delayed); clearTimeout(watchdog); screen.hidden = true; screen.setAttribute('aria-busy', 'false');
+              recovery = { attempts: 0, urls: [] }; try { sessionStorage.removeItem(key); } catch {}
+            },
+          };
+        }
+        function fail(error) {
+          if (failed) return;
+          failed = true; sequence++; clearTimeout(delayed); clearTimeout(watchdog);
+          track(error?.resourceUrl || error?.target?.src);
+          recovery = { attempts: recovery.attempts + 1, urls: collect() }; persist();
+          screen.hidden = false; screen.setAttribute('aria-busy', 'false'); screen.classList.add('load-error');
+          retry.hidden = false; retry.disabled = false; retry.dataset.recovery = recovery.attempts < 2 ? 'reload' : 'refresh-assets';
+        }
+        async function refreshAssets() {
+          const urls = [location.href.split('#')[0], ...collect()], ticket = begin();
+          window.dispatchEvent(new Event('sweet-cube:clear-assets'));
+          const abort = new AbortController(); let completed = 0;
+          try {
+            // Cache Storage is optional on LAN HTTP. Never touch another app's caches or player storage.
+            try {
+              if (window.caches) {
+                const names = await caches.keys();
+                await Promise.all(names.filter((name) => name.startsWith(cachePrefix)).map((name) => caches.delete(name)));
+              }
+            } catch { /* Restricted storage still allows a fresh HTTP download. */ }
+            const queue = [...new Set(urls)];
+            await Promise.all(Array.from({ length: Math.min(3, queue.length) }, async () => {
+              while (queue.length) {
+                const url = queue.shift(), timer = setTimeout(() => abort.abort(), 30000);
+                try {
+                  // Browsers do not expose HTTP-cache deletion: reload replaces each game entry from the network.
+                  const response = await fetch(url, { cache: 'reload', signal: abort.signal });
+                  const retiredBundle = response.status === 404 && /-[\w-]{8,}\.(js|css)$/.test(new URL(url).pathname);
+                  if (!response.ok && !retiredBundle) throw new Error(`Resource refresh failed (${response.status})`);
+                  // After a deployment, the refreshed HTML may reference new bundle names.
+                  await response.arrayBuffer(); ticket.progress(++completed / urls.length);
+                } finally { clearTimeout(timer); }
+              }
+            }));
+            if (ticket.active) location.reload();
+          } catch (error) { abort.abort(); fail(error); }
+        }
+        retry.onclick = () => { if (recovery.attempts < 2) location.reload(); else refreshAssets(); };
+        window.puzzleLoading = {
+          begin, fail, track,
+          get visible() { return !screen.hidden; },
+          get failed() { return failed; },
+          get retryAssets() { return recovery.urls.filter((url) => assetURL(url) && /\.(webp|png)$/.test(new URL(url).pathname)); },
+        };
+        window.addEventListener('error', (event) => {
+          const target = event.target;
+          if (target?.tagName === 'SCRIPT' || (target?.tagName === 'LINK' && target.rel === 'stylesheet')) {
+            track(target.src || target.href); fail(event);
+          }
+        }, true);
+        begin();
+      })();
+    </script>
+    <script type="module" src="/src/boot.js"></script>
+  </body>
+</html>
