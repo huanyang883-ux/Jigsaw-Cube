@@ -90,6 +90,7 @@ Windows 双击 start-game.cmd，浏览器自动打开。构建版 dist/ 已包�
 - 恢复控制代码内置在 HTML 中，主模块未下载也能使用；普通局域网 HTTP 无 Cache Storage 时也能强制下载。恢复计数只使用独立的 sessionStorage 键，完全不清除玩家 localStorage：通关、未完成拼图位置、道具、声音设置和引导记录均保留，也不删除其他应用的缓存。
 - 当前场景就绪后，低优先级、串行预取当前章节贴图和邻近 2 关；不一次性下载 90 张图片。已预取的图片由浏览器 HTTP 缓存复用，避免进关重新传输。预加载减少游戏中的等待，外网首开速度仍取决于网络和隧道质量。
 - 拼片共享一张 GPU 纹理，以独立 UV 连续取样。手机画布按实际显示尺寸与像素比设置，减少过度渲染。
+- 首页三套背景保持静态配色，以合成层透明度完成 0.8 秒渐变，避免切换时逐帧重绘大面积模糊、渐变和网格；各层裁剪到视口。魔方外壳采用实例化绘制，加载时预先准备主题牌背纹理和着色器；静止的装饰画布只在尺寸变化或播放粒子时刷新。
 - 图片 URL 带内容版本，支持长期缓存；更新图片后版本自动变化。正式服务为文本资源提供 gzip、ETag 与 304。
 - 原始 PNG 在 art-source/images/，保留用于后续修改，不进入 dist/。游戏 WebP 在 public/assets/，旧公共目录 PNG 副本及独立缩略图目录已移除。旧缩略图备份在 .local/unused-thumbnails/，不参与构建。
 - 新增 85 张图通过内置 imagegen 生成，完整提示词在 art-source/catalog.json；初版 5 张图的提示词在 art-source/initial-prompts.txt。压缩统计在 art-source/optimization-report.json。

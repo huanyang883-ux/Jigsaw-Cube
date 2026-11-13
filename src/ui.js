@@ -1,11 +1,11 @@
 import { icon } from './icons.js';
 export function mountUI() {
   document.querySelector('#app').innerHTML = `
-    <div class="viewport" data-theme="0"><div class="scene-background" aria-hidden="true">
+    <div class="viewport" data-theme="0"><div class="scene-background" aria-hidden="true">${[0, 1, 2].map(theme => `<div class="scene-layer" data-scene="${theme}"><div class="scene-art">
       <div class="ambient ambient-mint" aria-hidden="true"></div><div class="ambient ambient-peach" aria-hidden="true"></div>
       <div class="cloud cloud-one" aria-hidden="true"></div><div class="cloud cloud-two" aria-hidden="true"></div><div class="floor-pattern" aria-hidden="true"></div>
       <div class="background-doodle doodle-one" aria-hidden="true">${icon('spark')}</div><div class="background-doodle doodle-two" aria-hidden="true">${icon('flower')}</div>
-    </div><div class="stage-shell"><main class="game-stage" id="game" data-mode="home" aria-label="魔方拼图">
+    </div></div>`).join('')}</div><div class="stage-shell"><main class="game-stage" id="game" data-mode="home" aria-label="魔方拼图">
       <header class="top-bar"><div class="home-actions"><button id="sound" class="icon-button" aria-label="开启音效">${icon('mute')}</button><button id="reset-account" class="icon-button" aria-label="Reset account" disabled>${icon('reset')}</button></div><div class="top-emblem" aria-hidden="true">${icon('candy')}</div><button id="back" class="icon-button" aria-label="返回" hidden>${icon('back')}</button></header>
       <section id="menu-screen" class="screen" aria-label="魔方与章节选择">
         <div class="theme-medallion" id="theme-medallion" aria-hidden="true">${icon('candy')}</div><div class="medallion-stars" aria-hidden="true">${icon('spark')}${icon('spark')}</div>

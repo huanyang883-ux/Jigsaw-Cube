@@ -9,7 +9,14 @@ await fs.mkdir('test-results', { recursive: true });
 const errors = [];
 const idle = (p) => p.waitForFunction(() => window.__game?.idle());
 const state = (p) => p.evaluate(() => window.__game.state());
-const color = (p) => p.locator('.scene-background').evaluate((el) => getComputedStyle(el).backgroundColor);
+const color = (p) => p.locator('.scene-background').evaluate((el) => {
+  let rgb = [0, 0, 0];
+  for (const layer of el.querySelectorAll('.scene-layer')) {
+    const style = getComputedStyle(layer), alpha = Number(style.opacity), next = style.backgroundColor.match(/[\d.]+/g).map(Number);
+    rgb = rgb.map((value, i) => value * (1 - alpha) + next[i] * alpha);
+  }
+  return rgb.map(Math.round).join(',');
+});
 const stored = (p) => p.evaluate(() => Object.fromEntries(Object.keys(localStorage).map((key) => [key, localStorage.getItem(key)])));
 try {
   const seeded = freshProgress();
@@ -30,6 +37,11 @@ try {
   const p = await context.newPage(); p.on('pageerror', (e) => errors.push(e.message));
   await p.goto(base); await idle(p);
   assert.equal(await p.locator('body').innerText(), '', 'home remains free of text');
+  const scenePalettes = await p.locator('.scene-layer').evaluateAll((layers) => layers.map((el) => {
+    const style = getComputedStyle(el);
+    return { color: style.backgroundColor, transition: style.transitionProperty };
+  }));
+  assert.ok(scenePalettes.every(({ transition }) => transition === 'opacity'), 'large backgrounds only animate compositor opacity');
   const cream = await color(p);
   const creamArrows = await p.evaluate(() => window.__game.arrowColors());
   await p.tap('#next'); await p.waitForTimeout(200);
@@ -45,6 +57,7 @@ try {
   await p.screenshot({ path: 'test-results/home-sage.png' });
   await p.tap('#next'); await idle(p); await p.waitForTimeout(200);
   const lilac = await color(p); assert.notEqual(lilac, cream); assert.notEqual(lilac, sage);
+  assert.deepEqual(await p.locator('.scene-layer').evaluateAll((layers) => layers.map((el) => ({ color: getComputedStyle(el).backgroundColor, transition: getComputedStyle(el).transitionProperty }))), scenePalettes, 'theme palettes stay painted instead of recoloring every frame');
   await p.screenshot({ path: 'test-results/home-lilac.png' });
   await p.tap('[data-theme="0"]'); await idle(p); await p.waitForTimeout(200);
   assert.equal(await color(p), cream, 'theme tabs also update the background');
@@ -57,7 +70,7 @@ try {
         const { left, top, right, bottom } = document.querySelector(selector).getBoundingClientRect();
         return { left, top, right, bottom };
       };
-      return { width: innerWidth, height: innerHeight, background: rect('.scene-background'), stage: rect('#game'), sound: rect('#sound'), reset: rect('#reset-account'), emblem: rect('.top-emblem'), scrollWidth: document.documentElement.scrollWidth };
+      return { width: innerWidth, height: innerHeight, background: rect('.scene-art'), stage: rect('#game'), sound: rect('#sound'), reset: rect('#reset-account'), emblem: rect('.top-emblem'), scrollWidth: document.documentElement.scrollWidth };
     });
     const { background, stage, sound, reset, emblem } = layout;
     assert.ok(background.left < 0 && background.top < 0 && background.right > layout.width && background.bottom > layout.height, `background covers ${width}×${height}`);
@@ -106,7 +119,7 @@ try {
   assert.equal(await p.locator('#chapter-pages button:disabled').count(), 5);
   await p.tap('#back'); await idle(p);
   await p.emulateMedia({ reducedMotion: 'reduce' });
-  assert.ok(await p.locator('.scene-background').evaluate((el) => parseFloat(getComputedStyle(el).transitionDuration) < .01));
+  assert.ok(await p.locator('.scene-layer').first().evaluate((el) => parseFloat(getComputedStyle(el).transitionDuration) < .01));
   assert.deepEqual(errors, []);
   console.log('PASS: full background coverage at 10 viewport sizes, interpolated theme colors, icon-only buttons, English confirmation, cancel/focus handling, account reset and isolated persistence across all 3 save slots.');
 } finally { await browser.close(); }

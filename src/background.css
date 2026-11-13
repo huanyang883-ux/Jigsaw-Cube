@@ -1,5 +1,6 @@
 /* The scenery covers the viewport independently of the portrait game layout. */
-.viewport {
+.viewport { background: #fbf1e3; }
+.scene-layer {
   --scene-base: #fbf1e3;
   --scene-mint: #e0e8cc;
   --scene-peach: #f1cbb6;
@@ -8,9 +9,15 @@
   --scene-spark: #c7a771;
   --scene-flower: #9eaf82;
   background: var(--scene-base);
-  transition: background-color .8s ease;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  contain: paint;
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity .8s ease;
 }
-.viewport[data-theme="1"] {
+.scene-layer[data-scene="1"] {
   --scene-base: #e9f0e4;
   --scene-mint: #c7dfc5;
   --scene-peach: #d5e7dd;
@@ -19,7 +26,7 @@
   --scene-spark: #9eb788;
   --scene-flower: #8cae9b;
 }
-.viewport[data-theme="2"] {
+.scene-layer[data-scene="2"] {
   --scene-base: #eeeaf4;
   --scene-mint: #d7d0e8;
   --scene-peach: #e7cfdb;
@@ -29,6 +36,17 @@
   --scene-flower: #a39fbe;
 }
 .scene-background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+/* Keep the cream base opaque while the two tinted scenes crossfade above it.
+   Only opacity changes: gradients, grid and blurred colors are painted once. */
+.scene-layer[data-scene="0"],
+.viewport[data-theme="1"] .scene-layer[data-scene="1"],
+.viewport[data-theme="2"] .scene-layer[data-scene="2"] { opacity: 1; }
+.scene-art {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -40,24 +58,20 @@
   pointer-events: none;
   background-color: var(--scene-base);
   background-image: radial-gradient(ellipse at 50% 45%, #fffdf699 0, transparent 65%);
-  transition: background-color .8s ease;
 }
 .stage-shell { z-index: 1; }
 .game-stage { background: transparent; box-shadow: none; }
 .ambient-mint { background-color: var(--scene-mint); }
 .ambient-peach { background-color: var(--scene-peach); }
 .cloud { background-color: var(--scene-cloud); }
-.ambient, .cloud { transition: background-color .8s ease; }
 .floor-pattern {
   color: var(--scene-grid);
   background: repeating-linear-gradient(0deg, transparent 0 90px, currentColor 90px 92px),
     repeating-linear-gradient(90deg, transparent 0 90px, currentColor 90px 92px);
   opacity: .3;
-  transition: color .8s ease;
 }
 .doodle-one { color: var(--scene-spark); }
 .doodle-two { color: var(--scene-flower); }
-.background-doodle { transition: color .8s ease; }
 
 .theme-medallion {
   background: var(--theme-panel, #fae7cf);

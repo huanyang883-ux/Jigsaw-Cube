@@ -63,6 +63,9 @@ export class CubeScene {
     this.current = this.models[0]; this.current.scale.setScalar(460); this.current.position.set(0, 35, 0);
     this.current.rotation.set(.34, -.55, -.10);
     this.makeArrows();
+    // Prepare every theme during loading, before a switch can reveal it.
+    for (const texture of this.themeBacks) this.renderer.initTexture(texture);
+    await this.renderer.compileAsync(this.scene, this.camera);
     this.pixi = new Application();
     await this.pixi.init({ width: 1080, height: 1920, backgroundAlpha: 0, antialias: true, resolution: 1, autoStart: false, preference: 'webgl' });
     this.pixi.canvas.className = 'cube-effects'; this.pixi.canvas.setAttribute('aria-hidden', 'true'); this.host.appendChild(this.pixi.canvas);
@@ -77,6 +80,7 @@ export class CubeScene {
     const resolution = Math.min(devicePixelRatio, 2) * Math.min(innerWidth / 1080, innerHeight / 1920, 1);
     this.renderer.setPixelRatio(resolution); this.renderer.setSize(1080, 1920, false);
     if (this.pixi?.renderer) { this.pixi.renderer.resolution = resolution; this.pixi.renderer.resize(1080, 1920); }
+    this.effectsDirty = true;
   }
 
   async loadFaceArt(theme, face) {
@@ -118,12 +122,14 @@ export class CubeScene {
     const cube = new THREE.Group(), n = THEMES[theme].order, unit = 1 / n;
     const bodyGeo = new RoundedBoxGeometry(unit * .972, unit * .972, unit * .972, 3, unit * .075);
     const bodyMaterial = new THREE.MeshStandardMaterial({ color: THEME_ART[theme].body, roughness: .65, metalness: 0 });
+    // All shell blocks share one geometry/material and one draw submission.
+    const body = new THREE.InstancedMesh(bodyGeo, bodyMaterial, n ** 3 - Math.max(0, n - 2) ** 3);
+    const matrix = new THREE.Matrix4(); let instance = 0;
     for (let x = 0; x < n; x++) for (let y = 0; y < n; y++) for (let z = 0; z < n; z++) {
       if (x && x < n - 1 && y && y < n - 1 && z && z < n - 1) continue;
-      const body = new THREE.Mesh(bodyGeo, bodyMaterial);
-      body.position.set((x + .5) / n - .5, (y + .5) / n - .5, (z + .5) / n - .5);
-      cube.add(body);
+      body.setMatrixAt(instance++, matrix.makeTranslation((x + .5) / n - .5, (y + .5) / n - .5, (z + .5) / n - .5));
     }
+    body.instanceMatrix.needsUpdate = true; cube.add(body);
     const stickerGeo = stickerGeometry(unit * .899);
     const tileList = [];
     for (let face = 0; face < 6; face++) {
@@ -334,18 +340,21 @@ export class CubeScene {
       arrow.position.y = 35 + (this.reducedMotion ? 0 : Math.cos(time * .0015) * 5);
       arrow.material.color.copy(this.arrowColor);
     });
+    const renderEffects = this.effectsDirty || this.particles.length > 0;
     for (let i = this.particles.length - 1; i >= 0; i--) {
       const p = this.particles[i]; p.life -= dt; p.vy += 110 * dt; p.g.x += p.vx * dt; p.g.y += p.vy * dt; p.g.rotation += dt; p.g.alpha = Math.min(1, p.life);
       if (p.life <= 0) { p.g.destroy(); this.particles.splice(i, 1); }
     }
-    this.renderer.render(this.scene, this.camera); this.pixi.render();
+    this.renderer.render(this.scene, this.camera);
+    // The decorative canvas stays on screen without redrawing when it is static.
+    if (renderEffects) { this.pixi.render(); this.effectsDirty = false; }
   };
 
   destroy() {
     this.disposed = true;
     cancelAnimationFrame(this.frame); this.abort.abort(); this.motion?.resolve();
     const geometries = new Set(), materials = new Set(), textures = new Set([...this.themeBacks, ...this.art.values()]);
-    this.scene.traverse((o) => { if (o.geometry) geometries.add(o.geometry); if (o.material) materials.add(o.material); if (o.userData.picture) textures.add(o.userData.picture); });
+    this.scene.traverse((o) => { if (o.isInstancedMesh) o.dispose(); if (o.geometry) geometries.add(o.geometry); if (o.material) materials.add(o.material); if (o.userData.picture) textures.add(o.userData.picture); });
     for (const g of geometries) g.dispose(); for (const m of materials) m.dispose(); for (const t of textures) t.dispose();
     this.renderer.dispose(); this.renderer.forceContextLoss(); this.renderer.domElement.remove(); this.pixi.destroy(true, { children: true });
   }
