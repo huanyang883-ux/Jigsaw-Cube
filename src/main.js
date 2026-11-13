@@ -5,13 +5,13 @@ import { CubeScene } from './cube-scene.js';
 import { PuzzleRenderer } from './renderer.js';
 import { GameAudio } from './audio.js';
 import { photoLayout } from './piece-geometry.js';
-import { levelAspect, useProp, nextPlayableLevel } from './progress.js';
+import { levelAspect, useProp, nextPlayableLevel, levelConfig, freshStats } from './progress.js';
 import { IdleGuide } from './idle-guide.js';
 import { learnGuide, guideMove } from './guide-state.js';
 import { loading } from './loading.js';
 import { preloadAssets, isPreloaded, warmAssets } from './preload.js';
 import { moveGroup, solved, connectionCount, groupFor } from './puzzle.js';
-import { SAVE_KEY, THEMES, freshProgress, restoreProgress, faceSize, puzzleSize, levelKey, levelArt, initialLayout, isComplete, faceComplete, themeUnlocked, unlockedFaces, currentFace, markComplete } from './progress.js';
+import { SAVE_KEY, THEMES, freshProgress, restoreProgress, faceSize, levelKey, levelArt, initialLayout, isComplete, faceComplete, themeUnlocked, unlockedFaces, currentFace, markComplete } from './progress.js';
 
 mountUI();
 const $ = (s) => document.querySelector(s);
@@ -21,8 +21,16 @@ try { progress = restoreProgress(JSON.parse(localStorage.getItem(SAVE_KEY))); } 
 const audio = new GameAudio(progress.sound);
 let cube, puzzle, guide, mode = 'home', theme = 0, face = 0, session = null, ready = false, busy = true;
 let hintWorker, hintVersion = 0, hintDelay, winDelay, overlayFocus;
+let playClock = null;
 const save = () => { try { localStorage.setItem(SAVE_KEY, JSON.stringify(progress)); } catch { /* Private browsing remains playable. */ } };
 const guarded = (fn) => (...args) => Promise.resolve(fn(...args)).catch(showError);
+
+function syncPlayTime() {
+  const now = performance.now();
+  if (session && playClock !== null) session.stats.activeMs += now - playClock;
+  playClock = session && mode === 'puzzle' && !busy && !session.completed && !document.hidden && overlay.hidden ? now : null;
+}
+document.addEventListener('visibilitychange', syncPlayTime);
 
 function remember(action) {
   if (learnGuide(progress, action)) { save(); guide?.hide(); }
@@ -76,6 +84,7 @@ function resize() {
 window.addEventListener('resize', resize); resize();
 
 function refresh() {
+  syncPlayTime();
   if (busy) guide?.hide();
   game.dataset.mode = mode;
   game.classList.toggle('is-busy', busy);
@@ -85,7 +94,7 @@ function refresh() {
   $('#sound').setAttribute('aria-label', audio.enabled ? '关闭音效' : '开启音效');
   $('#sound').setAttribute('aria-pressed', String(audio.enabled));
   if (mode === 'puzzle') {
-    const size = puzzleSize(theme), value = connectionCount(session.positions) / (2 * size * (size - 1));
+    const size = Math.sqrt(session.positions.length), value = connectionCount(session.positions) / (2 * size * (size - 1));
     $('#puzzle-fill').style.width = `${value * 100}%`;
     $('.puzzle-progress').setAttribute('aria-valuenow', Math.round(value * 100));
     for (const [type, selector] of [['hint', '#hint'], ['preview', '#picture-peek']]) {
@@ -159,14 +168,20 @@ async function back() {
 
 function savePuzzle() {
   if (!session || session.completed) return;
-  progress.puzzles[levelKey(theme, face, session.level)] = { positions: [...session.positions] }; save();
+  syncPlayTime();
+  progress.puzzles[levelKey(theme, face, session.level)] = {
+    positions: [...session.positions], gridSize: Math.sqrt(session.positions.length),
+    layoutVersion: session.layoutVersion, stats: { ...session.stats, activeMs: Math.round(session.stats.activeMs) },
+  }; save();
 }
 async function enterLevel(level) {
   if (busy || mode !== 'chapters' || face >= unlockedFaces(progress, theme) || level < 0 || level >= faceSize(theme)) return;
   remember('enterLevel');
   busy = true; mode = 'puzzle'; cube.active = false;
   const saved = progress.puzzles[levelKey(theme, face, level)];
-  session = { level, art: levelArt(theme, face, level), positions: saved?.positions ?? initialLayout(theme, face, level), completed: false, unlock: null };
+  session = { level, art: levelArt(theme, face, level), positions: saved?.positions ?? initialLayout(theme, face, level),
+    layoutVersion: saved?.layoutVersion ?? levelConfig(theme, face, level).layoutVersion,
+    stats: saved?.stats ? { ...saved.stats } : freshStats(), completed: false, unlock: null };
   $('#puzzle-board').replaceChildren();
   const aspect = levelAspect(theme, face, level), layout = photoLayout(aspect);
   for (const [key, value] of Object.entries(layout)) $('.puzzle-frame').style[key] = `${value}px`;
@@ -188,9 +203,15 @@ async function applyMove(id, dx, dy, fromHint = false) {
   // Commit a hint only when it actually changes the board, together with its save.
   if (fromHint && !useProp(progress, 'hint')) { busy = false; puzzle.setBlocked(false); refresh(); return; }
   busy = true; puzzle.setBlocked(true);
+  syncPlayTime(); session.stats.moves++; if (fromHint) session.stats.hints++;
   const previousConnections = connectionCount(session.positions);
   session.positions = next; session.completed = solved(next);
-  if (session.completed) { session.unlock = markComplete(progress, theme, face, session.level); save(); }
+  if (session.completed) {
+    session.unlock = markComplete(progress, theme, face, session.level);
+    progress.records[levelKey(theme, face, session.level)] = { ...session.stats, activeMs: Math.round(session.stats.activeMs),
+      gridSize: Math.sqrt(next.length), layoutVersion: session.layoutVersion, completedAt: Date.now() };
+    save();
+  }
   else savePuzzle();
   refresh(); await puzzle.setPositions(next);
   if (connectionCount(next) > previousConnections) { puzzle.burst(groupFor(next, id)); audio.play('merge'); }
@@ -225,10 +246,12 @@ function showOverlay(html, name) {
   overlayFocus = document.activeElement; $('#overlay-content').innerHTML = html; overlay.hidden = false;
   overlay.setAttribute('aria-label', name); $('#puzzle-screen').inert = true; $('.top-bar').inert = true;
   puzzle?.setBlocked(true); overlay.querySelector('button')?.focus({ preventScroll: true });
+  syncPlayTime();
 }
 function closeOverlay() {
   overlay.hidden = true; $('#puzzle-screen').inert = false; $('.top-bar').inert = false;
   if (puzzle) puzzle.setBlocked(busy || session?.completed); overlayFocus?.focus?.({ preventScroll: true });
+  syncPlayTime();
 }
 function showWin() {
   if (!session?.completed || mode !== 'puzzle') return;
@@ -250,13 +273,30 @@ $('#chapter-pages').addEventListener('click', guarded((e) => { const b = e.targe
 $('#chapter-targets').addEventListener('click', guarded((e) => { const b = e.target.closest('[data-level]'); if (b) return enterLevel(Number(b.dataset.level)); }));
 $('#picture-peek').addEventListener('click', () => {
   if (busy || !session || session.completed || !overlay.hidden || !useProp(progress, 'preview')) return;
-  save(); refresh();
+  session.stats.previews++; savePuzzle(); refresh();
   showOverlay(`<div class="overlay-card"><button id="close-picture" class="icon-button overlay-close" aria-label="关闭原图">${icon('close')}</button><img src="${session.art}" alt="完整原图"/></div>`, '原图');
 });
-$('#overlay-content').addEventListener('click', guarded((e) => {
-  if (e.target.closest('#continue')) return leavePuzzle();
-  if (e.target.closest('#close-picture')) closeOverlay();
+function activateOverlayButton(button) {
+  if (overlay.hidden || busy || !button) return;
+  if (button.id === 'continue') return leavePuzzle();
+  if (button.id === 'close-picture') closeOverlay();
+}
+const overlayContent = $('#overlay-content');
+let overlayPress = null;
+overlayContent.addEventListener('pointerdown', (e) => {
+  const button = e.target.closest('button');
+  overlayPress = e.pointerType !== 'mouse' && button ? { button, id: e.pointerId, x: e.clientX, y: e.clientY } : null;
+});
+overlayContent.addEventListener('pointercancel', () => { overlayPress = null; });
+overlayContent.addEventListener('pointerup', guarded((e) => {
+  const press = overlayPress; overlayPress = null;
+  if (!press || press.id !== e.pointerId || press.button !== e.target.closest('button') || Math.hypot(e.clientX - press.x, e.clientY - press.y) > 12) return;
+  // Some mobile browsers omit the compatibility click after captured canvas
+  // drags. A complete touch/pen tap activates directly; hidden/busy guards keep
+  // any subsequent click from activating the same action a second time.
+  return activateOverlayButton(press.button);
 }));
+overlayContent.addEventListener('click', guarded((e) => activateOverlayButton(e.target.closest('button'))));
 overlay.addEventListener('keydown', (e) => {
   if (e.key === 'Tab') { e.preventDefault(); overlay.querySelector('button')?.focus(); }
   if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); if (!session?.completed) closeOverlay(); }

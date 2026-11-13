@@ -1,6 +1,6 @@
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
-import { freshProgress, SAVE_KEY } from '../src/progress.js';
+import { freshProgress, SAVE_KEY, legacyInitialLayout } from '../src/progress.js';
 import { findHint, moveGroup, xy, groups, linked, clampDelta } from '../src/puzzle.js';
 import * as THREE from 'three';
 
@@ -47,6 +47,8 @@ try {
   await fresh.c.close();
 
   const progress = freshProgress(); progress.completed[0].fill(true, 0, 4);
+  // Keep a known edge-blocked group fixture independent of curriculum tuning.
+  progress.puzzles['0:1:2'] = { positions: legacyInitialLayout(0, 1, 2) };
   const { c, p } = await makePage(progress); await p.goto(base); await idle(p);
   await p.tap('#enter'); await idle(p); await open(p, 2);
   const geo = await p.evaluate(() => window.__game.puzzleGeometry());

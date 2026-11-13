@@ -122,33 +122,19 @@ export function moveGroup(positions, id, dx, dy) {
   return next;
 }
 
-// Breadth-first hints use legal group moves: hints never teleport or split the
-// selected group. A bounded search is affordable for the first 3×3 level.
+// A group can always be translated to its own home cells. Those targets cannot
+// contain another correctly placed piece, so this strictly increases the number
+// of correct pieces and cannot cycle, even on a fully shuffled 4×4 board.
 export function findHint(positions) {
   if (solved(positions)) return null;
-  const size = boardSize(positions);
-  const key = (state) => state.join(',');
-  const visited = new Set([key(positions)]);
-  const queue = [{ state: positions, first: null }];
   let best = null, bestScore = -Infinity;
-  for (let head = 0; head < queue.length && head < (size === 3 ? 16000 : 160); head++) {
-    const entry = queue[head];
-    for (const group of groups(entry.state)) {
-      const id = group[0];
-      for (let dy = 1 - size; dy < size; dy++) for (let dx = 1 - size; dx < size; dx++) {
-        if (!dx && !dy) continue;
-        const d = clampDelta(entry.state, group, dx, dy);
-        if (d.x !== dx || d.y !== dy) continue;
-        const state = moveGroup(entry.state, id, dx, dy), signature = key(state);
-        if (visited.has(signature)) continue;
-        visited.add(signature);
-        const first = entry.first ?? { id, dx, dy };
-        if (solved(state)) return first;
-        const score = connectionCount(state) * 4 + state.filter((p, i) => p === i).length;
-        if (score > bestScore) { bestScore = score; best = first; }
-        queue.push({ state, first });
-      }
-    }
+  for (const ids of groups(positions)) {
+    const id = ids[0], offset = translation(positions, id);
+    if (!offset.x && !offset.y) continue;
+    const move = { id, dx: -offset.x, dy: -offset.y };
+    const next = moveGroup(positions, id, move.dx, move.dy);
+    const score = next.filter((cell, piece) => cell === piece).length * 100 + connectionCount(next);
+    if (score > bestScore) { bestScore = score; best = move; }
   }
   return best;
 }

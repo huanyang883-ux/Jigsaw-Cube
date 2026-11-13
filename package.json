@@ -10,11 +10,16 @@
     "test": "node --test tests/*.test.js",
     "test:browser": "node scripts/browser-check.mjs",
     "art:optimize": "node scripts/optimize-art.mjs",
+    "levels:generate": "node scripts/generate-levels.mjs",
+    "levels:generate:first12": "node scripts/generate-first12.mjs",
     "test:photos": "node scripts/photo-check.mjs",
     "test:entrance": "node scripts/entrance-check.mjs",
     "test:guides": "node scripts/guide-check.mjs",
     "test:loading": "node scripts/loading-check.mjs",
-    "test:recovery": "node scripts/recovery-check.mjs"
+    "test:recovery": "node scripts/recovery-check.mjs",
+    "test:first12": "node scripts/first12-check.mjs",
+    "test:all78": "node scripts/all-levels-check.mjs",
+    "test:overlay": "node scripts/overlay-check.mjs"
   },
   "dependencies": {
     "pixi.js": "^8.17.1",

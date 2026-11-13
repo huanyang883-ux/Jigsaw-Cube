@@ -1,0 +1,890 @@
+[
+  {
+    "number": 1,
+    "chapter": "cake",
+    "artId": "cake-01",
+    "gridSize": 3,
+    "difficulty": "intro",
+    "layoutVersion": 2,
+    "seed": 20282050,
+    "imageDifficulty": "medium",
+    "imageNotes": "Layered strawberry cake; clear plate and fruit anchors.",
+    "positions": [
+      0,
+      7,
+      8,
+      3,
+      6,
+      2,
+      1,
+      4,
+      5
+    ],
+    "solution": [
+      {
+        "id": 4,
+        "dx": 1,
+        "dy": -2
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        2,
+        2,
+        1,
+        3,
+        1
+      ],
+      "initialLinks": 4,
+      "provenMinimum": 2,
+      "solutionMoves": 2,
+      "exact": true,
+      "hintMoves": 3,
+      "groupMoves": 1,
+      "peakGroup": 9,
+      "checkedNodes": 1
+    }
+  },
+  {
+    "number": 2,
+    "chapter": "cake",
+    "artId": "cake-02",
+    "gridSize": 3,
+    "difficulty": "intro",
+    "layoutVersion": 2,
+    "seed": 20361116,
+    "imageDifficulty": "medium",
+    "imageNotes": "Cupcakes and flowers; establish local matching before moving groups.",
+    "positions": [
+      6,
+      4,
+      3,
+      5,
+      0,
+      7,
+      8,
+      1,
+      2
+    ],
+    "solution": [
+      {
+        "id": 7,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 4,
+        "dx": 1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        2
+      ],
+      "initialLinks": 2,
+      "provenMinimum": 3,
+      "solutionMoves": 3,
+      "exact": true,
+      "hintMoves": 4,
+      "groupMoves": 3,
+      "peakGroup": 9,
+      "checkedNodes": 41
+    }
+  },
+  {
+    "number": 3,
+    "chapter": "cake",
+    "artId": "cake-03",
+    "gridSize": 3,
+    "difficulty": "normal",
+    "layoutVersion": 2,
+    "seed": 20464110,
+    "imageDifficulty": "easy",
+    "imageNotes": "Peach mousse silhouette and contrasting plate support a harder layout.",
+    "positions": [
+      5,
+      2,
+      6,
+      4,
+      7,
+      3,
+      8,
+      0,
+      1
+    ],
+    "solution": [
+      {
+        "id": 7,
+        "dx": 1,
+        "dy": 2
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": -2
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "initialLinks": 1,
+      "provenMinimum": 4,
+      "solutionMoves": 4,
+      "exact": true,
+      "hintMoves": 6,
+      "groupMoves": 2,
+      "peakGroup": 9,
+      "checkedNodes": 1584
+    }
+  },
+  {
+    "number": 4,
+    "chapter": "cake",
+    "artId": "cake-04",
+    "gridSize": 3,
+    "difficulty": "challenge",
+    "layoutVersion": 2,
+    "seed": 20636894,
+    "imageDifficulty": "easy",
+    "imageNotes": "Chocolate roll spiral and green tablecloth supply strong visual anchors.",
+    "positions": [
+      8,
+      0,
+      3,
+      6,
+      4,
+      7,
+      5,
+      2,
+      1
+    ],
+    "solution": [
+      {
+        "id": 6,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 6,
+        "dx": -1,
+        "dy": 2
+      },
+      {
+        "id": 5,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 3,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 5,
+      "solutionMoves": 5,
+      "exact": true,
+      "hintMoves": 6,
+      "groupMoves": 3,
+      "peakGroup": 9,
+      "checkedNodes": 24498
+    }
+  },
+  {
+    "number": 5,
+    "chapter": "candy",
+    "artId": "candy-01",
+    "gridSize": 3,
+    "difficulty": "normal",
+    "layoutVersion": 2,
+    "seed": 20664116,
+    "imageDifficulty": "medium",
+    "imageNotes": "Lollipop bouquet; repeated circles balanced by jug and window.",
+    "positions": [
+      8,
+      7,
+      1,
+      4,
+      2,
+      0,
+      6,
+      3,
+      5
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 3,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 4,
+      "exact": true,
+      "hintMoves": 5,
+      "groupMoves": 1,
+      "peakGroup": 9,
+      "checkedNodes": 1383
+    }
+  },
+  {
+    "number": 6,
+    "chapter": "candy",
+    "artId": "candy-02",
+    "gridSize": 3,
+    "difficulty": "normal",
+    "layoutVersion": 2,
+    "seed": 20847867,
+    "imageDifficulty": "medium",
+    "imageNotes": "Candy jar, ribbon and scoop create identifiable regions.",
+    "positions": [
+      8,
+      3,
+      0,
+      4,
+      1,
+      6,
+      5,
+      2,
+      7
+    ],
+    "solution": [
+      {
+        "id": 3,
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "id": 3,
+        "dx": -2,
+        "dy": 1
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 8,
+        "dx": 1,
+        "dy": 2
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 5,
+      "solutionMoves": 5,
+      "exact": true,
+      "hintMoves": 6,
+      "groupMoves": 3,
+      "peakGroup": 9,
+      "checkedNodes": 24080
+    }
+  },
+  {
+    "number": 7,
+    "chapter": "candy",
+    "artId": "candy-03",
+    "gridSize": 3,
+    "difficulty": "challenge",
+    "layoutVersion": 2,
+    "seed": 20861131,
+    "imageDifficulty": "hard",
+    "imageNotes": "Repeated rainbow ribbons and gummies pair with the chapter challenge.",
+    "positions": [
+      8,
+      2,
+      4,
+      7,
+      1,
+      6,
+      5,
+      3,
+      0
+    ],
+    "solution": [
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": -2
+      },
+      {
+        "id": 3,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 5,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 1,
+        "dx": -1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 5,
+      "solutionMoves": 5,
+      "exact": true,
+      "hintMoves": 5,
+      "groupMoves": 0,
+      "peakGroup": 9,
+      "checkedNodes": 24086
+    }
+  },
+  {
+    "number": 8,
+    "chapter": "candy",
+    "artId": "candy-04",
+    "gridSize": 3,
+    "difficulty": "relief",
+    "layoutVersion": 2,
+    "seed": 20962131,
+    "imageDifficulty": "medium",
+    "imageNotes": "Glass cloche and pastel marshmallows; a shorter layout ends the chapter.",
+    "positions": [
+      4,
+      6,
+      0,
+      5,
+      8,
+      7,
+      2,
+      3,
+      1
+    ],
+    "solution": [
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": -2
+      },
+      {
+        "id": 6,
+        "dx": -1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 4,
+      "exact": true,
+      "hintMoves": 4,
+      "groupMoves": 3,
+      "peakGroup": 9,
+      "checkedNodes": 1377
+    }
+  },
+  {
+    "number": 9,
+    "chapter": "jelly",
+    "artId": "jelly-01",
+    "gridSize": 4,
+    "difficulty": "intro",
+    "layoutVersion": 2,
+    "seed": 21121954,
+    "imageDifficulty": "easy",
+    "imageNotes": "Red strawberry jelly is easy to locate when introducing 16 pieces.",
+    "positions": [
+      5,
+      9,
+      12,
+      2,
+      4,
+      13,
+      11,
+      10,
+      3,
+      7,
+      15,
+      14,
+      8,
+      6,
+      0,
+      1
+    ],
+    "solution": [
+      {
+        "id": 7,
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": -3
+      },
+      {
+        "id": 3,
+        "dx": 3,
+        "dy": -3
+      },
+      {
+        "id": 8,
+        "dx": 0,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        2,
+        1,
+        1,
+        1,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "initialLinks": 4,
+      "provenMinimum": 5,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 10,
+      "groupMoves": 3,
+      "peakGroup": 16,
+      "checkedNodes": 1320096
+    }
+  },
+  {
+    "number": 10,
+    "chapter": "jelly",
+    "artId": "jelly-02",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 2,
+    "seed": 21162137,
+    "imageDifficulty": "medium",
+    "imageNotes": "Three parfait glasses and the character give distinct local landmarks.",
+    "positions": [
+      8,
+      5,
+      2,
+      15,
+      14,
+      9,
+      3,
+      6,
+      13,
+      12,
+      4,
+      7,
+      0,
+      1,
+      11,
+      10
+    ],
+    "solution": [
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": 1
+      },
+      {
+        "id": 4,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -2
+      },
+      {
+        "id": 12,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 11,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 6,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 3,
+        "dx": 0,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1
+      ],
+      "initialLinks": 2,
+      "provenMinimum": 5,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 10,
+      "groupMoves": 5,
+      "peakGroup": 16,
+      "checkedNodes": 1242648
+    }
+  },
+  {
+    "number": 11,
+    "chapter": "jelly",
+    "artId": "jelly-03",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 2,
+    "seed": 21264134,
+    "imageDifficulty": "easy",
+    "imageNotes": "Blue-purple dome provides visual clues while the layout carries difficulty.",
+    "positions": [
+      9,
+      6,
+      1,
+      13,
+      10,
+      14,
+      0,
+      11,
+      12,
+      5,
+      7,
+      2,
+      8,
+      15,
+      4,
+      3
+    ],
+    "solution": [
+      {
+        "id": 0,
+        "dx": 2,
+        "dy": 1
+      },
+      {
+        "id": 9,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 2,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 3,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 11,
+        "dx": 2,
+        "dy": 2
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 10,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 4,
+        "dx": -3,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 5,
+      "solutionMoves": 8,
+      "exact": false,
+      "hintMoves": 10,
+      "groupMoves": 3,
+      "peakGroup": 16,
+      "checkedNodes": 878606
+    }
+  },
+  {
+    "number": 12,
+    "chapter": "jelly",
+    "artId": "jelly-04",
+    "gridSize": 4,
+    "difficulty": "relief",
+    "layoutVersion": 2,
+    "seed": 21387068,
+    "imageDifficulty": "medium",
+    "imageNotes": "Citrus ring and fruit; a shorter route before revealing the full face.",
+    "positions": [
+      3,
+      9,
+      4,
+      1,
+      7,
+      0,
+      10,
+      5,
+      12,
+      11,
+      8,
+      6,
+      14,
+      2,
+      15,
+      13
+    ],
+    "solution": [
+      {
+        "id": 8,
+        "dx": 3,
+        "dy": 0
+      },
+      {
+        "id": 10,
+        "dx": 2,
+        "dy": 0
+      },
+      {
+        "id": 3,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 9,
+        "dx": -2,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        2,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 2,
+      "provenMinimum": 5,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 11,
+      "groupMoves": 4,
+      "peakGroup": 16,
+      "checkedNodes": 1210423
+    }
+  }
+]

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import sharp from 'sharp';
 import { freshGuides, learnGuide, chooseGuide, guideMove } from '../src/guide-state.js';
-import { freshProgress, restoreProgress, nextPlayableLevel, initialLayout, markComplete } from '../src/progress.js';
+import { freshProgress, restoreProgress, nextPlayableLevel, initialLayout, legacyInitialLayout, markComplete } from '../src/progress.js';
 import { moveGroup, valid, groupFor, clampDelta } from '../src/puzzle.js';
 
 test('home reminders use 3s / 5s independently and never point at a locked entry', () => {
@@ -47,7 +47,7 @@ test('chapter target is the first unfinished level on an unlocked face; finished
 test('old saves infer only demonstrated skills; automatic hint moves in new saves do not prove manual dragging', () => {
   const p = freshProgress(); delete p.guides;
   assert.deepEqual(restoreProgress(p).guides, freshGuides());
-  p.puzzles['0:0:0'] = { positions: initialLayout(0, 0, 0) };
+  p.puzzles['0:0:0'] = { positions: legacyInitialLayout(0, 0, 0) };
   assert.deepEqual(restoreProgress(p).guides, { rotateCube: false, enterChapter: true, enterLevel: true, dragPuzzle: false });
   const h = guideMove(p.puzzles['0:0:0'].positions);
   p.puzzles['0:0:0'].positions = moveGroup(p.puzzles['0:0:0'].positions, h.id, h.dx, h.dy);

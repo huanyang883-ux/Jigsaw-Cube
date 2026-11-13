@@ -1,7 +1,7 @@
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
 import http from 'node:http';
-import { SAVE_KEY, freshProgress, initialLayout, levelArt } from '../src/progress.js';
+import { SAVE_KEY, freshProgress, freshStats, initialLayout, levelArt } from '../src/progress.js';
 import { guideMove } from '../src/guide-state.js';
 import { moveGroup } from '../src/puzzle.js';
 
@@ -35,7 +35,7 @@ try {
   progress.props = { hint: 7, preview: 11 }; progress.sound = true;
   for (const action of Object.keys(progress.guides)) progress.guides[action] = true;
   const positions = initialLayout(0, 1, 0), move = guideMove(positions);
-  progress.puzzles['0:1:0'] = { positions: moveGroup(positions, move.id, move.dx, move.dy) };
+  progress.puzzles['0:1:0'] = { positions: moveGroup(positions, move.id, move.dx, move.dy), gridSize: 3, layoutVersion: 2, stats: freshStats() };
   const context = await browser.newContext(settings), p = await context.newPage(), errors = [];
   p.on('pageerror', (error) => errors.push(error.message));
   await context.addInitScript(({ key, progress }) => {

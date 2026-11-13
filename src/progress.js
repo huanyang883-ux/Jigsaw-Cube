@@ -1,8 +1,14 @@
 import { valid, INITIAL_POSITIONS } from './puzzle.js';
 import artManifest from './art-manifest.json' with { type: 'json' };
 import { freshGuides, GUIDE_ACTIONS } from './guide-state.js';
+import first12 from './first12-layouts.json' with { type: 'json' };
+import laterLayouts from './later-layouts.json' with { type: 'json' };
 
-export const SAVE_KEY = 'sweet-cube:progress:v2';
+export const saveSlot = (search = '') => {
+  const trial = new URLSearchParams(search).get('trial');
+  return ['first12', 'all78'].includes(trial) ? `sweet-cube:trial:${trial}:v1` : 'sweet-cube:progress:v2';
+};
+export const SAVE_KEY = saveSlot(typeof location === 'undefined' ? '' : location.search);
 export const WHITE_ART = '/assets/white.svg';
 export const DESSERT_CHAPTERS = [
   { id: 'cake', name: '蛋糕' }, { id: 'candy', name: '糖果' }, { id: 'jelly', name: '果冻' },
@@ -26,14 +32,22 @@ export function levelAspect(theme, face, level) {
   return asset ? asset.width / asset.height : theme === 0 && face === 0 ? 1 : .75;
 }
 export const INITIAL_PROPS = Object.freeze({ hint: 28, preview: 28 });
-export const freshProgress = () => ({ version: 2, completed: [Array(24).fill(false), Array(54).fill(false)], puzzles: {}, sound: false, props: { ...INITIAL_PROPS }, guides: freshGuides() });
+export const freshProgress = () => ({ version: 2, completed: [Array(24).fill(false), Array(54).fill(false)], puzzles: {}, sound: false, props: { ...INITIAL_PROPS }, guides: freshGuides(), records: {} });
+export const freshStats = () => ({ moves: 0, hints: 0, previews: 0, activeMs: 0 });
+export function restoreStats(raw) {
+  return Object.fromEntries(Object.keys(freshStats()).map((key) => [key, Number.isFinite(raw?.[key]) ? Math.max(0, Math.floor(raw[key])) : 0]));
+}
 export function useProp(progress, type) {
   if (!Object.hasOwn(INITIAL_PROPS, type) || !Number.isInteger(progress.props?.[type]) || progress.props[type] <= 0) return false;
   progress.props[type]--;
   return true;
 }
 export const faceSize = (theme) => THEMES[theme].order ** 2;
-export const puzzleSize = (theme) => THEMES[theme].order + 1;
+export const LEVEL_CONFIGS = [...first12, ...laterLayouts];
+export const levelConfig = (theme, face = 0, level = 0) => theme < 2
+  ? LEVEL_CONFIGS[(theme === 0 ? 0 : 24) + face * faceSize(theme) + level]
+  : { gridSize: THEMES[theme].order + 1, layoutVersion: 1 };
+export const puzzleSize = (theme, face = 0, level = 0) => levelConfig(theme, face, level).gridSize;
 export const levelKey = (theme, face, level) => `${theme}:${face}:${level}`;
 export const isComplete = (progress, theme, face, level) => !!progress.completed[theme]?.[face * faceSize(theme) + level];
 export const faceComplete = (progress, theme, face) => Array.from({ length: faceSize(theme) }, (_, i) => isComplete(progress, theme, face, i)).every(Boolean);
@@ -62,7 +76,11 @@ export function markComplete(progress, theme, face, level) {
 }
 export function levelArt(theme, face, level) { return artUrl(levelArtId(theme, face, level)); }
 export function initialLayout(theme, face, level) {
-  const size = puzzleSize(theme);
+  const config = levelConfig(theme, face, level);
+  return config.positions ? [...config.positions] : legacyInitialLayout(theme, face, level);
+}
+export function legacyInitialLayout(theme, face, level) {
+  const size = THEMES[theme].order + 1;
   if (size === 3) {
     // Rotate both identities and destinations: four distinct, equally solvable starts.
     const rotate = (i) => (i % 3) * 3 + 2 - Math.floor(i / 3);
@@ -73,7 +91,7 @@ export function initialLayout(theme, face, level) {
     return positions;
   }
   const p = Array.from({ length: size ** 2 }, (_, i) => i);
-  // Placeholder chapters still have real, non-solved puzzle state.
+  // Preserve the original 4x4 layout solely for unfinished legacy saves.
   [[0, 5], [3, 10], [8, 15], [6, 12]].forEach(([a, b]) => { [p[a], p[b]] = [p[b], p[a]]; });
   return p;
 }
@@ -97,7 +115,20 @@ export function restoreProgress(raw) {
     if (!/^([01]):([0-5]):([0-8])$/.test(key)) continue;
     const [theme, face, level] = key.split(':').map(Number);
     if (face >= unlockedFaces(result, theme) || level >= faceSize(theme) || isComplete(result, theme, face, level)) continue;
-    if (valid(value.positions) && value.positions.length === puzzleSize(theme) ** 2) result.puzzles[key] = { positions: [...value.positions] };
+    if (!value || typeof value !== 'object') continue;
+    const config = levelConfig(theme, face, level), layoutVersion = value.layoutVersion ?? 1;
+    const gridSize = layoutVersion === 1 ? THEMES[theme].order + 1 : layoutVersion === config.layoutVersion ? config.gridSize : 0;
+    if (valid(value.positions) && value.positions.length === gridSize ** 2) {
+      result.puzzles[key] = { positions: [...value.positions], gridSize, layoutVersion, stats: restoreStats(value.stats) };
+    }
+  }
+  for (const [key, value] of Object.entries(raw.records ?? {})) {
+    if (!/^([01]):([0-5]):([0-8])$/.test(key) || !value || typeof value !== 'object') continue;
+    const [theme, face, level] = key.split(':').map(Number);
+    if (level >= faceSize(theme) || !isComplete(result, theme, face, level)) continue;
+    const config = levelConfig(theme, face, level), version = value.layoutVersion ?? 1;
+    const gridSize = version === 1 ? THEMES[theme].order + 1 : version === config.layoutVersion ? config.gridSize : 0;
+    if (gridSize) result.records[key] = { ...restoreStats(value), gridSize, layoutVersion: version, completedAt: Number.isFinite(value.completedAt) ? value.completedAt : 0 };
   }
   for (const action of GUIDE_ACTIONS) result.guides[action] = raw.guides?.[action] === true;
   // Older saves can prove entry / play experience, but never prove manual orbit.
@@ -105,7 +136,7 @@ export function restoreProgress(raw) {
   const savedPuzzles = Object.entries(result.puzzles);
   if (hasCompletion || savedPuzzles.length) { result.guides.enterChapter = true; result.guides.enterLevel = true; }
   if (!raw.guides && (hasCompletion || savedPuzzles.some(([key, value]) => {
-    const initial = initialLayout(...key.split(':').map(Number));
+    const initial = (value.layoutVersion === 1 ? legacyInitialLayout : initialLayout)(...key.split(':').map(Number));
     return value.positions.some((cell, id) => cell !== initial[id]);
   }))) result.guides.dragPuzzle = true;
   return result;
