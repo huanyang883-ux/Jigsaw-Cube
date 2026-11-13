@@ -1,9 +1,11 @@
 import './style.css';
+import './background.css';
 import { mountUI } from './ui.js';
 import { icon, gridIcon } from './icons.js';
 import { CubeScene } from './cube-scene.js';
 import { PuzzleRenderer } from './renderer.js';
 import { GameAudio } from './audio.js';
+import { THEME_ART } from './theme-art.js';
 import { photoLayout } from './piece-geometry.js';
 import { levelAspect, useProp, nextPlayableLevel, levelConfig, freshStats } from './progress.js';
 import { IdleGuide } from './idle-guide.js';
@@ -21,6 +23,7 @@ try { progress = restoreProgress(JSON.parse(localStorage.getItem(SAVE_KEY))); } 
 const audio = new GameAudio(progress.sound);
 let cube, puzzle, guide, mode = 'home', theme = 0, face = 0, session = null, ready = false, busy = true;
 let hintWorker, hintVersion = 0, hintDelay, winDelay, overlayFocus;
+let winAnimations = [];
 let playClock = null;
 const save = () => { try { localStorage.setItem(SAVE_KEY, JSON.stringify(progress)); } catch { /* Private browsing remains playable. */ } };
 const guarded = (fn) => (...args) => Promise.resolve(fn(...args)).catch(showError);
@@ -77,6 +80,8 @@ function resize() {
   if (cube) cube.gesture = null;
   const scale = Math.min(innerWidth / 1080, innerHeight / 1920);
   document.documentElement.style.setProperty('--stage-scale', scale);
+  // Cover the entire viewport with a little overscan; keep gameplay fully visible.
+  document.documentElement.style.setProperty('--background-scale', Math.max(innerWidth / 1080, innerHeight / 1920) * 1.08);
   $('.stage-shell').style.width = `${1080 * scale}px`;
   $('.stage-shell').style.height = `${1920 * scale}px`;
   cube?.resizeRenderers(); puzzle?.resize();
@@ -87,8 +92,10 @@ function refresh() {
   syncPlayTime();
   if (busy) guide?.hide();
   game.dataset.mode = mode;
+  $('.viewport').dataset.theme = theme;
   game.classList.toggle('is-busy', busy);
   $('#back').hidden = mode === 'home'; $('#back').disabled = busy;
+  $('#reset-account').hidden = mode !== 'home'; $('#reset-account').disabled = busy || !ready;
   $('#menu-screen').hidden = mode === 'puzzle'; $('#puzzle-screen').hidden = mode !== 'puzzle';
   $('#sound').innerHTML = icon(audio.enabled ? 'sound' : 'mute');
   $('#sound').setAttribute('aria-label', audio.enabled ? '关闭音效' : '开启音效');
@@ -109,9 +116,13 @@ function refresh() {
   const chapters = mode === 'chapters', unlocked = themeUnlocked(progress, theme), count = unlockedFaces(progress, theme);
   $('#cube-host').setAttribute('aria-label', chapters ? '点击图块进入关卡，使用左右箭头翻面' : '拖动旋转魔方，点击进入章节');
   $('#theme-medallion').hidden = chapters; $('.medallion-stars').hidden = chapters;
-  $('#theme-medallion').innerHTML = icon(theme === 2 ? 'cube' : THEMES[theme].icon);
-  $('.top-emblem').innerHTML = icon(theme === 2 ? 'cube' : THEMES[theme].icon);
-  $('#theme-medallion').style.background = theme === 1 ? '#e6efdd' : theme === 2 ? '#ecede7' : '#fff0d8';
+  const art = THEME_ART[theme];
+  $('#theme-medallion').innerHTML = icon(art.icon);
+  $('.top-emblem').innerHTML = icon(art.icon);
+  game.style.setProperty('--theme-panel', art.panel);
+  game.style.setProperty('--theme-border', art.border);
+  game.style.setProperty('--theme-ink', art.ink);
+  game.style.setProperty('--theme-shadow', art.stripe);
   $('#face-progress').hidden = theme === 2;
   $('#enter').hidden = chapters; $('#enter').disabled = busy;
   $('#enter').classList.toggle('locked', !unlocked);
@@ -191,7 +202,7 @@ async function enterLevel(level) {
   puzzle = new PuzzleRenderer($('#puzzle-board'), session.positions, {
     onGrab: () => audio.unlock(), onDrag: () => remember('dragPuzzle'), onDrop: guarded(applyMove),
     onReady: () => { ticket.progress(1); ticket.finish(); },
-  });
+  }, theme);
   await puzzle.init(session.art); busy = false; refresh();
   warmChapter(theme, face, level);
 }
@@ -204,7 +215,7 @@ async function applyMove(id, dx, dy, fromHint = false) {
   if (fromHint && !useProp(progress, 'hint')) { busy = false; puzzle.setBlocked(false); refresh(); return; }
   busy = true; puzzle.setBlocked(true);
   syncPlayTime(); session.stats.moves++; if (fromHint) session.stats.hints++;
-  const previousConnections = connectionCount(session.positions);
+  const previousGroup = groupFor(session.positions, id), connectedGroup = groupFor(next, id);
   session.positions = next; session.completed = solved(next);
   if (session.completed) {
     session.unlock = markComplete(progress, theme, face, session.level);
@@ -214,12 +225,12 @@ async function applyMove(id, dx, dy, fromHint = false) {
   }
   else savePuzzle();
   refresh(); await puzzle.setPositions(next);
-  if (connectionCount(next) > previousConnections) { puzzle.burst(groupFor(next, id)); audio.play('merge'); }
+  if (connectedGroup.some((piece) => !previousGroup.includes(piece))) { puzzle.flashGroup(connectedGroup); audio.play('merge'); }
   else audio.play('move');
   busy = false; puzzle.setBlocked(session.completed); refresh();
   if (session.completed) {
-    audio.play('win'); puzzle.burst([0], true);
-    winDelay = setTimeout(() => showWin(), 650);
+    audio.play('win'); puzzle.celebrate();
+    winDelay = setTimeout(guarded(showWin), 2000);
   }
 }
 
@@ -243,19 +254,39 @@ async function leavePuzzle() {
 
 function showOverlay(html, name) {
   guide?.hide();
+  if (cube) cube.gesture = null;
   overlayFocus = document.activeElement; $('#overlay-content').innerHTML = html; overlay.hidden = false;
-  overlay.setAttribute('aria-label', name); $('#puzzle-screen').inert = true; $('.top-bar').inert = true;
+  overlay.setAttribute('aria-label', name); $('#menu-screen').inert = true; $('#puzzle-screen').inert = true; $('.top-bar').inert = true;
   puzzle?.setBlocked(true); overlay.querySelector('button')?.focus({ preventScroll: true });
   syncPlayTime();
 }
 function closeOverlay() {
-  overlay.hidden = true; $('#puzzle-screen').inert = false; $('.top-bar').inert = false;
+  winAnimations.forEach((animation) => animation.cancel()); winAnimations = [];
+  overlay.removeAttribute('aria-busy');
+  overlay.hidden = true; $('#menu-screen').inert = false; $('#puzzle-screen').inert = false; $('.top-bar').inert = false;
   if (puzzle) puzzle.setBlocked(busy || session?.completed); overlayFocus?.focus?.({ preventScroll: true });
   syncPlayTime();
 }
-function showWin() {
+async function showWin() {
   if (!session?.completed || mode !== 'puzzle') return;
-  showOverlay(`<div class="overlay-card win-card"><div class="win-mark">${icon('check')}</div><img src="${levelArt(theme, face, session.level)}" alt="已完成的拼图"/><div class="star-row">${icon('spark')}${icon('spark')}${icon('spark')}</div><button id="continue" class="icon-button next-level" aria-label="返回魔方并揭开图块">${icon('arrow')}</button></div>`, '拼图完成');
+  const finishedSession = session;
+  busy = true; refresh();
+  showOverlay(`<div class="overlay-card win-card"><div class="win-mark">${icon('check')}</div><img src="${levelArt(theme, face, session.level)}" alt="已完成的拼图"/><div class="star-row">${icon('spark')}${icon('spark')}${icon('spark')}</div><button id="continue" class="icon-button next-level" aria-label="返回魔方并揭开图块" disabled>${icon('arrow')}</button></div>`, '拼图完成');
+  overlay.setAttribute('aria-busy', 'true');
+  const timing = { duration: 1000, easing: 'cubic-bezier(.22, 1, .36, 1)' };
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  winAnimations = [
+    overlay.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 1000, easing: 'ease-out' }),
+    $('.win-card').animate(reduced ? [{ opacity: 0 }, { opacity: 1 }] : [
+      { opacity: 0, transform: 'translateY(38px) scale(.92)' },
+      { opacity: 1, transform: 'translateY(0) scale(1)' },
+    ], timing),
+  ];
+  await Promise.all(winAnimations.map((animation) => animation.finished.catch(() => {})));
+  if (session !== finishedSession || overlay.hidden) return;
+  winAnimations = []; overlay.removeAttribute('aria-busy');
+  busy = false; refresh(); $('#continue').disabled = false;
+  $('#continue').focus({ preventScroll: true });
 }
 function showError(error) {
   if (error?.code === 'RESOURCE_RESET') return;
@@ -263,7 +294,25 @@ function showError(error) {
   loading.fail(error);
 }
 
+function confirmAccountReset() {
+  if (!ready || busy || cube.busy || mode !== 'home' || !overlay.hidden) return;
+  showOverlay(`<div class="overlay-card reset-card"><div class="reset-mark" aria-hidden="true">${icon('reset')}</div><h2>Reset account?</h2><p>All progress and records will be lost.<br>Items, sound and guides will reset.<br>This cannot be undone.</p><div class="reset-actions"><button id="cancel-reset" class="icon-button reset-action" aria-label="Cancel reset">${icon('close')}</button><button id="confirm-reset" class="icon-button reset-action reset-confirm" aria-label="Confirm account reset">${icon('check')}</button></div></div>`, 'Reset account confirmation');
+}
+async function resetAccount() {
+  if (!ready || busy || mode !== 'home') return;
+  busy = true;
+  progress = freshProgress(); audio.enabled = progress.sound;
+  // Replace the in-memory save too, so pagehide cannot write old progress back.
+  save(); cube.resetProgress(progress);
+  const previousTheme = theme; theme = 0; face = 0;
+  closeOverlay(); refresh();
+  if (previousTheme !== 0) await cube.switchTheme(0, -1);
+  busy = false; refresh(); $('#reset-account').focus({ preventScroll: true });
+  warmChapter(0, 0);
+}
+
 $('#sound').addEventListener('click', () => { audio.enabled = !audio.enabled; audio.unlock(); progress.sound = audio.enabled; save(); audio.play('move'); refresh(); });
+$('#reset-account').addEventListener('click', confirmAccountReset);
 $('#previous').addEventListener('click', guarded(() => navigate(-1)));
 $('#next').addEventListener('click', guarded(() => navigate(1)));
 $('#back').addEventListener('click', guarded(back));
@@ -279,7 +328,8 @@ $('#picture-peek').addEventListener('click', () => {
 function activateOverlayButton(button) {
   if (overlay.hidden || busy || !button) return;
   if (button.id === 'continue') return leavePuzzle();
-  if (button.id === 'close-picture') closeOverlay();
+  if (button.id === 'confirm-reset') return resetAccount();
+  if (button.id === 'close-picture' || button.id === 'cancel-reset') closeOverlay();
 }
 const overlayContent = $('#overlay-content');
 let overlayPress = null;
@@ -298,7 +348,11 @@ overlayContent.addEventListener('pointerup', guarded((e) => {
 }));
 overlayContent.addEventListener('click', guarded((e) => activateOverlayButton(e.target.closest('button'))));
 overlay.addEventListener('keydown', (e) => {
-  if (e.key === 'Tab') { e.preventDefault(); overlay.querySelector('button')?.focus(); }
+  if (e.key === 'Tab') {
+    const buttons = [...overlay.querySelectorAll('button:not(:disabled)')];
+    const index = buttons.indexOf(document.activeElement);
+    e.preventDefault(); buttons[(index + (e.shiftKey ? -1 : 1) + buttons.length) % buttons.length]?.focus();
+  }
   if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); if (!session?.completed) closeOverlay(); }
 });
 window.addEventListener('keydown', guarded((e) => {
@@ -334,6 +388,8 @@ async function init() {
     state: () => structuredClone({ mode, theme, face, busy, ready, progress, session }),
     idle: () => ready && !busy && !cube.busy && (!puzzle || !puzzle.busy),
     cubePose: () => ({ quaternion: cube.current.quaternion.toArray(), scale: cube.current.scale.x, mode: cube.mode }),
+    arrowColors: () => cube.arrows.map((arrow) => arrow.material.color.getHexString()),
+    celebration: () => puzzle?.particles.length ?? 0,
     tileCenter: (level) => cube.tileScreen(face, level),
     pieceCenter: (id) => {
       const r = $('#puzzle-board').getBoundingClientRect(), p = puzzle.screen(puzzle.world(session.positions[id]));
@@ -344,9 +400,9 @@ async function init() {
       return { x: r.left + p.x * r.width / puzzle.width, y: r.top + p.y * r.height / puzzle.height };
     },
     revealed: () => cube.tiles[theme].filter((t) => t.userData.complete).map((t) => ({ face: t.userData.face, level: t.userData.level })),
-    puzzleGeometry: () => puzzle && ({ aspect: puzzle.aspect, width: puzzle.width, height: puzzle.height, cards: puzzle.cards.map((c) => ({ position: c.mesh.position.toArray(), rotation: c.mesh.rotation.toArray().slice(0, 3), vertices: [...c.picture.geometry.attributes.position.array], uv: [...c.picture.geometry.attributes.uv.array] })) }),
+    puzzleGeometry: () => puzzle && ({ aspect: puzzle.aspect, width: puzzle.width, height: puzzle.height, cards: puzzle.cards.map((c) => ({ position: c.mesh.position.toArray(), scale: c.mesh.scale.toArray(), rotation: c.mesh.rotation.toArray().slice(0, 3), vertices: [...c.picture.geometry.attributes.position.array], uv: [...c.picture.geometry.attributes.uv.array], flash: c.flash.material.opacity })) }),
     entrance: () => puzzle?.animation?.intro ? { elapsed: performance.now() - puzzle.animation.start, duration: puzzle.animation.duration, cards: structuredClone(puzzle.animation.introPlan) } : null,
   };
 }
-if (import.meta.hot) import.meta.hot.dispose(() => { clearTimeout(winDelay); clearTimeout(hintDelay); hintWorker?.terminate(); guide?.destroy(); puzzle?.destroy(); cube?.destroy(); audio.destroy(); });
+if (import.meta.hot) import.meta.hot.dispose(() => { clearTimeout(winDelay); clearTimeout(hintDelay); closeOverlay(); hintWorker?.terminate(); guide?.destroy(); puzzle?.destroy(); cube?.destroy(); audio.destroy(); });
 export async function startGame() { await init(); }

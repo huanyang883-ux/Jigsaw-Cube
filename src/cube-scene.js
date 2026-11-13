@@ -3,6 +3,7 @@ import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.j
 import { Application, Graphics, Container } from 'pixi.js';
 import { THEMES, isComplete, faceSize, themeUnlocked } from './progress.js';
 import { createBackTexture } from './card-back.js';
+import { THEME_ART } from './theme-art.js';
 
 const FACE_ROTATIONS = [[0, 0, 0], [0, Math.PI / 2, 0], [0, Math.PI, 0], [0, -Math.PI / 2, 0], [-Math.PI / 2, 0, 0], [Math.PI / 2, 0, 0]];
 export const faceQuaternion = (face) => new THREE.Quaternion().setFromEuler(new THREE.Euler(...FACE_ROTATIONS[face])).invert();
@@ -54,7 +55,7 @@ export class CubeScene {
     this.scene.add(new THREE.HemisphereLight(0xfffcf4, 0xc3bcad, 1.15));
     const key = new THREE.DirectionalLight(0xfff8ed, 1.8); key.position.set(-900, 1400, 1800); this.scene.add(key);
     const fill = new THREE.DirectionalLight(0xd5e9ed, .65); fill.position.set(1000, -300, 800); this.scene.add(fill);
-    this.commonBack = createBackTexture();
+    this.themeBacks = THEMES.map((_, theme) => createBackTexture(1, theme));
     this.art = new Map(); this.artLoads = new Map();
     for (let i = 0; i < THEMES.length; i++) this.models.push(this.buildCube(i));
     await this.ensureThemeArt(0);
@@ -105,10 +106,18 @@ export class CubeScene {
     await Promise.all(revealedFaces.map((face) => this.loadFaceArt(theme, face)));
   }
 
+  resetProgress(progress) {
+    this.progress = progress; this.face = 0; this.gesture = null;
+    for (const tile of this.tiles.flat()) {
+      tile.userData.complete = false;
+      tile.material.map = this.themeBacks[tile.userData.theme]; tile.material.needsUpdate = true;
+    }
+  }
+
   buildCube(theme) {
     const cube = new THREE.Group(), n = THEMES[theme].order, unit = 1 / n;
     const bodyGeo = new RoundedBoxGeometry(unit * .972, unit * .972, unit * .972, 3, unit * .075);
-    const bodyMaterial = new THREE.MeshStandardMaterial({ color: theme === 2 ? 0xe7e8e7 : 0xfff9ef, roughness: .65, metalness: 0 });
+    const bodyMaterial = new THREE.MeshStandardMaterial({ color: THEME_ART[theme].body, roughness: .65, metalness: 0 });
     for (let x = 0; x < n; x++) for (let y = 0; y < n; y++) for (let z = 0; z < n; z++) {
       if (x && x < n - 1 && y && y < n - 1 && z && z < n - 1) continue;
       const body = new THREE.Mesh(bodyGeo, bodyMaterial);
@@ -124,7 +133,7 @@ export class CubeScene {
       for (let row = 0; row < n; row++) for (let col = 0; col < n; col++) {
         const index = row * n + col;
         const complete = theme < 2 && isComplete(this.progress, theme, face, index);
-        const mat = new THREE.MeshStandardMaterial({ map: this.commonBack, color: theme === 2 ? 0xdbe0df : 0xffffff, roughness: .64, metalness: 0 });
+        const mat = new THREE.MeshStandardMaterial({ map: this.themeBacks[theme], color: 0xffffff, roughness: .64, metalness: 0 });
         const tile = new THREE.Mesh(stickerGeo, mat);
         tile.position.set((col + .5) / n - .5, .5 - (row + .5) / n, 0);
         tile.userData = { theme, face, level: index, picture: null, complete };
@@ -136,7 +145,10 @@ export class CubeScene {
   }
 
   makeArrows() {
-    const geo = arrowGeometry(), material = new THREE.MeshStandardMaterial({ color: 0xe9b9a2, roughness: .43, metalness: .04 });
+    this.arrowTheme = this.theme; this.arrowPalette = THEME_ART[this.theme].fill;
+    this.arrowColor = new THREE.Color(this.arrowPalette);
+    this.arrowFrom = this.arrowColor.clone(); this.arrowTarget = this.arrowColor.clone(); this.arrowColorStarted = 0;
+    const geo = arrowGeometry(), material = new THREE.MeshStandardMaterial({ color: this.arrowColor, roughness: .43, metalness: .04 });
     this.arrows = [-1, 1].map((dir) => {
       const arrow = new THREE.Mesh(geo, material.clone()); arrow.position.set(dir * 447, 35, 90);
       arrow.rotation.y = dir * -.22; arrow.rotation.z = dir === -1 ? Math.PI : 0;
@@ -202,6 +214,8 @@ export class CubeScene {
   }
 
   async switchTheme(theme, direction) {
+    // Begin recoloring with the background, including while face art is loading.
+    this.arrowTheme = theme;
     this.busy = true; await this.ensureThemeArt(theme);
     const old = this.current, next = this.models[theme], startQuaternion = new THREE.Quaternion().setFromEuler(new THREE.Euler(.34, -.55, -.10));
     this.theme = theme; next.visible = true; next.scale.setScalar(460); next.position.set(direction * 1350, 35, 0); next.quaternion.copy(startQuaternion);
@@ -306,12 +320,19 @@ export class CubeScene {
       if (speed > .00001) this.current.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(this.spin.clone().normalize(), speed * dt));
       this.current.position.y = 35 + Math.sin(time * .00065) * 11;
     }
+    const art = THEME_ART[this.arrowTheme];
+    const palette = this.mode === 'home' && !themeUnlocked(this.progress, this.arrowTheme) ? art.border : art.fill;
+    if (palette !== this.arrowPalette) {
+      this.arrowPalette = palette; this.arrowFrom.copy(this.arrowColor); this.arrowTarget.set(palette); this.arrowColorStarted = time;
+    }
+    const colorTime = this.reducedMotion ? 1 : Math.max(0, Math.min(1, (time - this.arrowColorStarted) / 800));
+    this.arrowColor.lerpColors(this.arrowFrom, this.arrowTarget, smooth(colorTime));
     this.arrows.forEach((arrow, i) => {
       const dir = i ? 1 : -1;
       arrow.visible = this.active;
       arrow.position.x = dir * (447 + (this.reducedMotion ? 0 : Math.sin(time * .0018) * 8));
       arrow.position.y = 35 + (this.reducedMotion ? 0 : Math.cos(time * .0015) * 5);
-      arrow.material.color.set(this.mode === 'home' && !themeUnlocked(this.progress, this.theme) ? 0xbac5c6 : 0xe9b9a2);
+      arrow.material.color.copy(this.arrowColor);
     });
     for (let i = this.particles.length - 1; i >= 0; i--) {
       const p = this.particles[i]; p.life -= dt; p.vy += 110 * dt; p.g.x += p.vx * dt; p.g.y += p.vy * dt; p.g.rotation += dt; p.g.alpha = Math.min(1, p.life);
@@ -323,7 +344,7 @@ export class CubeScene {
   destroy() {
     this.disposed = true;
     cancelAnimationFrame(this.frame); this.abort.abort(); this.motion?.resolve();
-    const geometries = new Set(), materials = new Set(), textures = new Set([this.commonBack, ...this.art.values()]);
+    const geometries = new Set(), materials = new Set(), textures = new Set([...this.themeBacks, ...this.art.values()]);
     this.scene.traverse((o) => { if (o.geometry) geometries.add(o.geometry); if (o.material) materials.add(o.material); if (o.userData.picture) textures.add(o.userData.picture); });
     for (const g of geometries) g.dispose(); for (const m of materials) m.dispose(); for (const t of textures) t.dispose();
     this.renderer.dispose(); this.renderer.forceContextLoss(); this.renderer.domElement.remove(); this.pixi.destroy(true, { children: true });

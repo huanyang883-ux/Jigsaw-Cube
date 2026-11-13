@@ -1,9 +1,11 @@
 const paths = {
+  candy: '<g transform="rotate(-20 12 12)"><path d="m6 12-4-4q-2 4 0 8Zm12 0 4-4q2 4 0 8Z"/><rect x="6" y="7" width="12" height="10" rx="4"/><path d="M10 9q-2 3 0 6"/></g>',
   cake: '<path d="M4 13h16v8H4Zm1 0V9h14v4M3 21h18M8 9V6m8 3V6m-4 3V4M4 16c2 3 4-3 6 0s4-3 6 0 4 0 4 0"/><path d="M12 1v1M8 3v1m8-1v1"/>',
   paw: '<ellipse cx="5" cy="8" rx="2.1" ry="3" transform="rotate(-24 5 8)"/><ellipse cx="10" cy="5" rx="2.1" ry="3"/><ellipse cx="15.5" cy="5.5" rx="2.1" ry="3"/><ellipse cx="20" cy="9" rx="2" ry="2.8" transform="rotate(24 20 9)"/><path d="M7 14c2-5 6-5 9 0 5 4 2 8-2 6-2-1-3-1-5 0-5 2-7-3-2-6Z"/>',
   sound: '<path d="m11 5-6 5H2v4h3l6 5Z"/><path d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/>',
   mute: '<path d="m11 5-6 5H2v4h3l6 5Z"/><path d="m16 9 6 6m0-6-6 6"/>',
   back: '<path d="m10 4-7 7 7 7M3 11h11c6 0 7 6 4 10"/>',
+  reset: '<path d="M4 10a8 8 0 1 1 1 7M4 4v6h6"/>',
   play: '<path d="M8 4q-2-1-2 2v12q0 3 2 2l13-8Z" fill="currentColor" stroke="none"/>',
   lock: '<rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/>',
   hourglass: '<path d="M6 2h12M6 22h12M7 2v5c0 3 10 7 10 10v5M17 2v5c0 3-10 7-10 10v5M9 18h6M9 6h6"/>',

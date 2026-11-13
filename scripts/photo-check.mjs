@@ -15,14 +15,14 @@ function assertSeamless(positions, geo) {
     const next = id + direction;
     if (next >= positions.length || direction === 1 && id % n === n - 1 || !linked(positions, id, next)) continue;
     const a = geo.cards[id], b = geo.cards[next];
-    if (direction === 1) assert.ok(a.position[0] + a.vertices[3] >= b.position[0] + b.vertices[0] - 1e-6, 'joined horizontal edges meet');
-    else assert.ok(a.position[1] + a.vertices[7] <= b.position[1] + b.vertices[1] + 1e-6, 'joined vertical edges meet');
+    if (direction === 1) assert.ok(a.position[0] + a.vertices[3] * a.scale[0] >= b.position[0] + b.vertices[0] * b.scale[0] - 1e-6, 'joined horizontal edges meet');
+    else assert.ok(a.position[1] + a.vertices[7] * a.scale[1] <= b.position[1] + b.vertices[1] * b.scale[1] + 1e-6, 'joined vertical edges meet');
     assert.ok(a.rotation.every((v) => Math.abs(v) < 1e-10), 'individual pieces do not rotate apart during a group drag');
   }
 }
 function assertRigidJoins(positions, geo) {
   const n = Math.sqrt(positions.length), height = 1 / geo.aspect;
-  const point = (card, p) => new THREE.Vector3(...p).applyEuler(new THREE.Euler(...card.rotation)).add(new THREE.Vector3(...card.position));
+  const point = (card, p) => new THREE.Vector3(...p).multiply(new THREE.Vector3(...card.scale)).applyEuler(new THREE.Euler(...card.rotation)).add(new THREE.Vector3(...card.position));
   for (let id = 0; id < positions.length; id++) for (const step of [1, n]) {
     const next = id + step;
     if (next >= positions.length || step === 1 && id % n === n - 1 || !linked(positions, id, next)) continue;

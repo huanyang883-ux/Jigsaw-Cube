@@ -3,6 +3,7 @@ import artManifest from './art-manifest.json' with { type: 'json' };
 import { freshGuides, GUIDE_ACTIONS } from './guide-state.js';
 import first12 from './first12-layouts.json' with { type: 'json' };
 import laterLayouts from './later-layouts.json' with { type: 'json' };
+import { THEME_ART } from './theme-art.js';
 
 export const saveSlot = (search = '') => {
   const trial = new URLSearchParams(search).get('trial');
@@ -21,9 +22,9 @@ export const ANIMAL_CHAPTERS = [
 const artVersion = (id) => artManifest[id] ? `?v=${artManifest[id].hash.slice(0, 12)}` : '';
 export const artUrl = (id) => `/assets/${id}.webp${artVersion(id)}`;
 export const THEMES = [
-  { order: 2, icon: 'cake', color: '#eaa99c', chapters: DESSERT_CHAPTERS, faceArt: DESSERT_CHAPTERS.map((c) => artUrl(`${c.id}-face`)) },
-  { order: 3, icon: 'paw', color: '#a6c7ad', chapters: ANIMAL_CHAPTERS, faceArt: ANIMAL_CHAPTERS.map((c) => artUrl(`${c.id}-face`)) },
-  { order: 4, icon: 'hourglass', color: '#bdc6cc', faceArt: Array(6).fill(WHITE_ART), comingSoon: true },
+  { order: 2, icon: THEME_ART[0].icon, color: '#eaa99c', chapters: DESSERT_CHAPTERS, faceArt: DESSERT_CHAPTERS.map((c) => artUrl(`${c.id}-face`)) },
+  { order: 3, icon: THEME_ART[1].icon, color: '#a6c7ad', chapters: ANIMAL_CHAPTERS, faceArt: ANIMAL_CHAPTERS.map((c) => artUrl(`${c.id}-face`)) },
+  { order: 4, icon: THEME_ART[2].icon, color: '#b59bcf', faceArt: Array(6).fill(WHITE_ART), comingSoon: true },
 ];
 const levelArtId = (theme, face, level) => `${THEMES[theme].chapters[face].id}-${String(level + 1).padStart(2, '0')}`;
 export const LEVEL_ART = Array.from({ length: 4 }, (_, i) => artUrl(`cake-0${i + 1}`));

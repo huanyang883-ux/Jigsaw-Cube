@@ -22,6 +22,7 @@ async function open(p, level) {
 }
 async function continueLevel(p) {
   await p.waitForFunction(() => document.querySelector('.win-card img')?.complete);
+  await p.waitForFunction(() => document.querySelector('#continue')?.disabled === false);
   const box = await p.locator('#continue').boundingBox(), cdp = await p.context().newCDPSession(p);
   // Use a held finger contact, just as in the raw CDP drags, rather than mixing
   // those drags with a zero-duration Playwright tap in the mobile input stream.

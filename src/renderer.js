@@ -5,18 +5,22 @@ import { boardSize, xy, groupFor, groups, linked, clampDelta } from './puzzle.js
 import { pieceBounds } from './piece-geometry.js';
 import { createIntroPlan, introPose, INTRO_DURATION } from './intro.js';
 import { createBackTexture } from './card-back.js';
+import { THEME_ART } from './theme-art.js';
+import { createMergeFlashMaterial, mergeFlashEnvelope, MERGE_FLASH_DURATION } from './merge-flash.js';
 
 const easeOut = (t) => 1 - (1 - t) ** 3;
 
 export class PuzzleRenderer {
-  constructor(host, positions, callbacks) {
+  constructor(host, positions, callbacks, theme = 0) {
     this.host = host;
     this.positions = [...positions];
     this.size = boardSize(positions);
     this.worldSize = this.size + .18;
     this.aspect = 1; this.cellHeight = 1; this.worldHeight = this.worldSize;
     this.callbacks = callbacks;
+    this.theme = theme;
     this.cards = [];
+    this.mergePulse = null;
     this.particles = [];
     this.busy = true;
     this.blocked = false;
@@ -61,8 +65,8 @@ export class PuzzleRenderer {
     this.camera.updateProjectionMatrix();
     const box = new RoundedBoxGeometry(.995, .995 * this.cellHeight, .055, 3, .018);
     const face = new THREE.PlaneGeometry(.978, .978 * this.cellHeight);
-    const edge = new THREE.MeshBasicMaterial({ color: 0xfff9e5 });
-    const back = new THREE.MeshBasicMaterial({ map: createBackTexture(this.aspect) });
+    const edge = new THREE.MeshBasicMaterial({ color: THEME_ART[this.theme].body });
+    const back = new THREE.MeshBasicMaterial({ map: createBackTexture(this.aspect, this.theme) });
     const shadowMat = new THREE.MeshBasicMaterial({ color: 0x53613e, transparent: true, opacity: .12, depthWrite: false });
     const shadowGeo = new THREE.PlaneGeometry(.99, .99 * this.cellHeight);
     for (let id = 0; id < this.positions.length; id++) {
@@ -71,6 +75,9 @@ export class PuzzleRenderer {
       const picture = new THREE.Mesh(new THREE.PlaneGeometry(1, this.cellHeight), new THREE.MeshBasicMaterial({ map: base }));
       picture.position.z = .031;
       mesh.add(picture);
+      // Share the photo geometry so a joined group's white wash has no seams.
+      const flash = new THREE.Mesh(picture.geometry, createMergeFlashMaterial(this.reducedMotion));
+      flash.position.z = .001; flash.visible = false; picture.add(flash);
       const reverse = new THREE.Mesh(face, back);
       reverse.rotation.y = Math.PI;
       reverse.position.z = -.031;
@@ -79,7 +86,7 @@ export class PuzzleRenderer {
       const p = this.world(this.positions[id]);
       mesh.position.set(p.x, p.y, 0);
       shadow.position.set(p.x + .018, p.y - .026, -.065);
-      this.cards.push({ mesh, shadow, picture });
+      this.cards.push({ mesh, shadow, picture, flash, flashStart: null });
       this.scene.add(shadow, mesh);
     }
     this.updateJoinedEdges();
@@ -89,8 +96,7 @@ export class PuzzleRenderer {
     this.events();
     this.callbacks.onReady?.();
     const entrance = this.setPositions(this.positions, { intro: true });
-    this.lastFrame = performance.now();
-    this.animate(this.lastFrame);
+    this.lastFrame = performance.now(); this.animate(this.lastFrame);
     await entrance;
   }
 
@@ -179,6 +185,7 @@ export class PuzzleRenderer {
   }
 
   startDrag(id, start, pointerId) {
+    this.clearMergeFeedback();
     this.hint = null;
     this.drag = { id, ids: groupFor(this.positions, id), start, pointerId, delta: { x: 0, y: 0 } };
     this.three.domElement.style.cursor = 'grabbing';
@@ -228,6 +235,7 @@ export class PuzzleRenderer {
   setBlocked(value) { this.blocked = value; if (value) this.cancelDrag(); }
 
   setPositions(positions, { intro = false, instant = false } = {}) {
+    this.clearMergeFeedback();
     this.releaseCapture();
     this.hint = null;
     const tiltedGroups = groups(this.positions).filter((ids) => this.cards[ids[0]].mesh.quaternion.angleTo(new THREE.Quaternion()) > .00001);
@@ -257,22 +265,54 @@ export class PuzzleRenderer {
     });
   }
 
-  showHint(hint) { this.hint = hint; }
+  showHint(hint) { this.clearMergeFeedback(); this.hint = hint; }
 
-  burst(ids, celebration = false) {
+  clearMergeFeedback() {
+    if (this.mergePulse) for (const id of this.mergePulse.ids) {
+      const card = this.cards[id], p = this.world(this.positions[id]);
+      card.mesh.scale.set(1, 1, 1); card.mesh.position.set(p.x, p.y, 0);
+      card.shadow.scale.set(1, 1, 1); card.shadow.position.set(p.x + .018, p.y - .026, -.065);
+    }
+    this.mergePulse = null;
+    for (const card of this.cards) {
+      if (card.flashStart === null) continue;
+      card.flashStart = null; card.flash.material.opacity = 0; card.flash.material.uniforms.uStrength.value = 0; card.flash.visible = false;
+    }
+  }
+
+  flashGroup(ids) {
+    this.clearMergeFeedback();
+    const start = performance.now();
+    const center = new THREE.Vector2();
+    const min = new THREE.Vector2(Infinity, Infinity), max = new THREE.Vector2(-Infinity, -Infinity);
+    for (const id of ids) {
+      const p = this.world(this.positions[id]); center.x += p.x; center.y += p.y;
+      const uv = this.cards[id].picture.geometry.attributes.uv;
+      for (let i = 0; i < uv.count; i++) {
+        min.x = Math.min(min.x, uv.getX(i)); min.y = Math.min(min.y, uv.getY(i));
+        max.x = Math.max(max.x, uv.getX(i)); max.y = Math.max(max.y, uv.getY(i));
+      }
+    }
+    this.mergePulse = { ids: [...ids], center: center.divideScalar(ids.length), start };
+    for (const id of ids) {
+      const card = this.cards[id];
+      const uniforms = card.flash.material.uniforms;
+      uniforms.uMin.value.copy(min); uniforms.uSize.value.copy(max).sub(min);
+      uniforms.uStrength.value = 0; uniforms.uPhase.value = 0;
+      card.flashStart = start; card.flash.material.opacity = 0; card.flash.visible = true;
+    }
+  }
+
+  celebrate() {
     if (this.reducedMotion) return;
     const palette = [0xa4bd7b, 0xf1c275, 0xe8ab90, 0xa6c9d2, 0xd8ca87];
-    const count = celebration ? 90 : 22;
-    const center = this.screen(this.world(this.positions[ids[0]]));
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < 90; i++) {
       const g = new Graphics();
-      if (i % 3 === 0) g.star(0, 0, 4, celebration ? 5 : 4, 2).fill(palette[i % palette.length]);
+      if (i % 3 === 0) g.star(0, 0, 4, 5, 2).fill(palette[i % palette.length]);
       else g.roundRect(-2.5, -4, 5, 8, 2).fill(palette[i % palette.length]);
-      g.x = celebration ? Math.random() * this.width : center.x;
-      g.y = celebration ? -12 - Math.random() * 80 : center.y;
+      g.x = Math.random() * this.width; g.y = -12 - Math.random() * 80;
       this.particleLayer.addChild(g);
-      const angle = Math.random() * Math.PI * 2;
-      this.particles.push({ g, vx: celebration ? (Math.random() - .5) * 65 : Math.cos(angle) * (45 + Math.random() * 85), vy: celebration ? 35 + Math.random() * 80 : Math.sin(angle) * (45 + Math.random() * 85), life: celebration ? 4 : .9, max: celebration ? 4 : .9, spin: (Math.random() - .5) * 5, gravity: celebration ? 22 : 70 });
+      this.particles.push({ g, vx: (Math.random() - .5) * 65, vy: 35 + Math.random() * 80, life: 4, spin: (Math.random() - .5) * 5 });
     }
   }
 
@@ -294,7 +334,7 @@ export class PuzzleRenderer {
         ];
         for (const edge of segments) {
           if (group.includes(edge.id) && linked(this.positions, id, edge.id)) continue;
-          const project = ([x, y]) => this.screen(new THREE.Vector3(x, -y, .031).applyQuaternion(card.mesh.quaternion).add(card.mesh.position));
+          const project = ([x, y]) => this.screen(new THREE.Vector3(x, -y, .031).multiply(card.mesh.scale).applyQuaternion(card.mesh.quaternion).add(card.mesh.position));
           const a = project(edge.a), b = project(edge.b);
           g.moveTo(a.x, a.y).lineTo(b.x, b.y);
         }
@@ -338,8 +378,7 @@ export class PuzzleRenderer {
 
   animate = (time) => {
     this.frame = requestAnimationFrame(this.animate);
-    const dt = Math.min((time - this.lastFrame) / 1000, .05);
-    this.lastFrame = time;
+    const dt = Math.min((time - this.lastFrame) / 1000, .05); this.lastFrame = time;
     if (document.hidden) return;
     if (this.animation) {
       const animation = this.animation;
@@ -370,11 +409,33 @@ export class PuzzleRenderer {
         this.busy = false; this.animation = null; animation.resolve();
       }
     }
+    for (const card of this.cards) {
+      if (card.flashStart === null) continue;
+      const t = Math.max(0, Math.min(1, (time - card.flashStart) / MERGE_FLASH_DURATION));
+      card.flash.material.opacity = (this.reducedMotion ? .12 : .24) * mergeFlashEnvelope(t);
+      card.flash.material.uniforms.uStrength.value = card.flash.material.opacity;
+      card.flash.material.uniforms.uPhase.value = t;
+      if (t === 1) { card.flashStart = null; card.flash.material.opacity = 0; card.flash.visible = false; }
+    }
+    if (this.mergePulse) {
+      const { ids, center, start } = this.mergePulse;
+      const t = Math.max(0, Math.min(1, (time - start) / MERGE_FLASH_DURATION));
+      const pulse = this.reducedMotion ? 0 : mergeFlashEnvelope(t), scale = 1 + .03 * pulse;
+      // Scale around one shared center, including spacing between tile centers,
+      // so the connected photo and its outline remain a continuous surface.
+      for (const id of ids) {
+        const card = this.cards[id], p = this.world(this.positions[id]);
+        card.mesh.scale.set(scale, scale, 1);
+        card.mesh.position.set(center.x + (p.x - center.x) * scale, center.y + (p.y - center.y) * scale, .04 * pulse);
+        card.shadow.scale.set(scale, scale, 1);
+        card.shadow.position.set(card.mesh.position.x + .018, card.mesh.position.y - .026, -.065);
+      }
+      if (t === 1) this.clearMergeFeedback();
+    }
     for (let i = this.particles.length - 1; i >= 0; i--) {
-      const p = this.particles[i];
-      p.life -= dt; p.vy += p.gravity * dt;
+      const p = this.particles[i]; p.life -= dt; p.vy += 22 * dt;
       p.g.x += p.vx * dt; p.g.y += p.vy * dt; p.g.rotation += p.spin * dt;
-      p.g.alpha = Math.min(1, p.life / (p.max * .35));
+      p.g.alpha = Math.min(1, p.life / 1.4);
       if (p.life <= 0) { this.particleLayer.removeChild(p.g); p.g.destroy(); this.particles.splice(i, 1); }
     }
     this.drawOverlay(time);
