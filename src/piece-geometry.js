@@ -26,7 +26,8 @@ export function pieceBounds(positions, id, aspect = 1) {
 
 export function photoLayout(aspect) {
   const ratio = Math.max(.35, Math.min(3, aspect));
-  const maxWidth = 936, maxHeight = 1240;
+  // The compact top toolbar leaves this entire region available for cards.
+  const maxWidth = 1008, maxHeight = 1548, frame = 36, top = 260, bottom = 1844;
   const width = Math.min(maxWidth, maxHeight * ratio), height = width / ratio;
-  return { width: width + 50, height: height + 50, left: (1080 - width - 50) / 2, top: 1553 - height - 50 };
+  return { width: width + frame, height: height + frame, left: (1080 - width - frame) / 2, top: top + (bottom - top - height - frame) / 2 };
 }

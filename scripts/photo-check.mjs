@@ -55,8 +55,8 @@ try {
   assert.ok(Math.abs(geo.aspect - .75) < .002);
   assert.ok(Math.abs(geo.width / geo.height - geo.aspect) < .003, 'board keeps the source photo ratio');
   const frame = await p.locator('.puzzle-frame').boundingBox(), preview = await p.locator('#picture-peek').boundingBox();
-  assert.ok(frame.y + frame.height < preview.y, 'preview sits below the larger board');
-  assert.ok(frame.width > 350, 'portrait board uses the newly available space');
+  assert.ok(preview.y + preview.height < frame.y, 'compact preview button sits above the larger board');
+  assert.ok(frame.width > 375, 'portrait board uses the newly available space');
   await p.screenshot({ path: 'test-results/portrait-dessert.png' });
   const initial = (await state(p)).session.positions, hint = findHint(initial), at = xy(initial[hint.id]);
   const from = await p.evaluate((id) => window.__game.pieceCenter(id), hint.id);

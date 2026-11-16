@@ -40,8 +40,10 @@ test('only correct connections close their gaps, including after a merge or rest
 test('portrait layout preserves image proportions inside the 1080×1920 game', () => {
   for (const aspect of [.5, 2 / 3, .75, 1, 1.5, 2]) {
     const box = photoLayout(aspect);
-    assert.ok(Math.abs((box.width - 50) / (box.height - 50) - aspect) < 1e-12);
-    assert.ok(box.left >= 47 && box.left + box.width <= 1033);
-    assert.ok(box.top >= 263 && box.top + box.height <= 1553);
+    assert.ok(Math.abs((box.width - 36) / (box.height - 36) - aspect) < 1e-12);
+    assert.ok(box.left >= 18 && box.left + box.width <= 1062);
+    assert.ok(box.top >= 260 && box.top + box.height <= 1844);
+    const oldWidth = Math.min(936, 1240 * aspect);
+    assert.ok(box.width - 36 > oldWidth, 'all supported photo shapes gain usable card space');
   }
 });

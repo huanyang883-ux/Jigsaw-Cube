@@ -81,7 +81,7 @@ try {
   assert.deepEqual((await state(p)).session.positions, moveGroup(before, h.id, h.dx, h.dy));
   await p.reload(); await idle(p); await enter(p); await open(p);
   await counts(p, { hint: 27, preview: 27 });
-  await p.tap('#back'); await idle(p); await open(p, 1); await counts(p, { hint: 27, preview: 27 });
+  await p.tap('#settings'); await p.tap('#back'); await idle(p); await open(p, 1); await counts(p, { hint: 27, preview: 27 });
   await c.close();
   console.log('PASS: 0.5s backs, 1s quake, 2s scattered reveal; input lock; old-save migration; rapid-click protection; shared, persistent inventory.');
 

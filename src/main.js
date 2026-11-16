@@ -24,6 +24,7 @@ const audio = new GameAudio(progress.sound);
 let cube, puzzle, guide, mode = 'home', theme = 0, face = 0, session = null, ready = false, busy = true;
 let hintWorker, hintVersion = 0, hintDelay, winDelay, overlayFocus;
 let winAnimations = [];
+let settingsOpen = false;
 let playClock = null;
 const save = () => { try { localStorage.setItem(SAVE_KEY, JSON.stringify(progress)); } catch { /* Private browsing remains playable. */ } };
 const guarded = (fn) => (...args) => Promise.resolve(fn(...args)).catch(showError);
@@ -31,7 +32,7 @@ const guarded = (fn) => (...args) => Promise.resolve(fn(...args)).catch(showErro
 function syncPlayTime() {
   const now = performance.now();
   if (session && playClock !== null) session.stats.activeMs += now - playClock;
-  playClock = session && mode === 'puzzle' && !busy && !session.completed && !document.hidden && overlay.hidden ? now : null;
+  playClock = session && mode === 'puzzle' && !busy && !settingsOpen && !session.completed && !document.hidden && overlay.hidden ? now : null;
 }
 document.addEventListener('visibilitychange', syncPlayTime);
 
@@ -51,7 +52,7 @@ function guideContext() {
   return {
     key: `${mode}:${theme}:${face}:${session?.level ?? ''}`,
     mode, learned: progress.guides,
-    blocked: !ready || busy || cube?.busy || puzzle?.busy || loading.visible || !overlay.hidden || session?.completed,
+    blocked: !ready || busy || settingsOpen || cube?.busy || puzzle?.busy || loading.visible || !overlay.hidden || session?.completed,
     canEnter: themeUnlocked(progress, theme),
     hasLevel: mode === 'chapters' && nextPlayableLevel(progress, theme, face) !== null,
     canDrag: mode === 'puzzle' && session && !session.completed,
@@ -88,17 +89,42 @@ function resize() {
 }
 window.addEventListener('resize', resize); resize();
 
+function setSettingsOpen(open, restoreFocus = false) {
+  if (open && (mode !== 'puzzle' || busy || !overlay.hidden)) return;
+  if (settingsOpen === open) return;
+  settingsOpen = open;
+  $('.puzzle-settings').classList.toggle('is-open', open);
+  $('#settings').setAttribute('aria-expanded', String(open));
+  $('#settings-menu').setAttribute('aria-hidden', String(!open));
+  $('#settings-menu').inert = !open;
+  puzzle?.setBlocked(open || busy || session?.completed || !overlay.hidden);
+  guide?.hide(); syncPlayTime();
+  if (open) $('#back').focus({ preventScroll: true });
+  else if (restoreFocus) $('#settings').focus({ preventScroll: true });
+}
+
 function refresh() {
   syncPlayTime();
   if (busy) guide?.hide();
   game.dataset.mode = mode;
   $('.viewport').dataset.theme = theme;
   game.classList.toggle('is-busy', busy);
+  const inPuzzle = mode === 'puzzle';
+  if (!inPuzzle || busy) setSettingsOpen(false);
+  // Reuse the same controls and listeners in the dropdown and on the home bar.
+  const soundParent = inPuzzle ? $('#settings-menu') : $('.home-actions');
+  if ($('#sound').parentElement !== soundParent) {
+    if (inPuzzle) soundParent.append($('#back'), $('#sound'));
+    else { soundParent.prepend($('#sound')); $('.top-bar').insertBefore($('#back'), $('.puzzle-settings')); }
+  }
+  $('.home-actions').hidden = inPuzzle;
+  $('.puzzle-tools').hidden = !inPuzzle; $('.puzzle-progress').hidden = !inPuzzle;
+  $('.puzzle-settings').hidden = !inPuzzle; $('#settings').disabled = busy || !ready;
   $('#back').hidden = mode === 'home'; $('#back').disabled = busy;
   $('#reset-account').hidden = mode !== 'home'; $('#reset-account').disabled = busy || !ready;
   $('#menu-screen').hidden = mode === 'puzzle'; $('#puzzle-screen').hidden = mode !== 'puzzle';
   $('#sound').innerHTML = icon(audio.enabled ? 'sound' : 'mute');
-  $('#sound').setAttribute('aria-label', audio.enabled ? '关闭音效' : '开启音效');
+  $('#sound').setAttribute('aria-label', audio.enabled ? 'Sound off' : 'Sound on');
   $('#sound').setAttribute('aria-pressed', String(audio.enabled));
   if (mode === 'puzzle') {
     const size = Math.sqrt(session.positions.length), value = connectionCount(session.positions) / (2 * size * (size - 1));
@@ -107,10 +133,9 @@ function refresh() {
     for (const [type, selector] of [['hint', '#hint'], ['preview', '#picture-peek']]) {
       const count = progress.props[type], button = $(selector);
       button.disabled = busy || session.completed || count === 0;
-      button.setAttribute('aria-label', `${type === 'hint' ? '提示一步' : '查看原图'}，剩余 ${count} 次`);
+      button.setAttribute('aria-label', `${type === 'hint' ? 'Hint' : 'Preview'}, ${count} left`);
       $(`#${type}-count`).textContent = count;
     }
-    $('#level-progress').innerHTML = Array.from({ length: faceSize(theme) }, (_, i) => `<span class="level-dot ${i === session.level ? 'active' : ''} ${isComplete(progress, theme, face, i) ? 'done' : ''}"></span>`).join('');
     return;
   }
   const chapters = mode === 'chapters', unlocked = themeUnlocked(progress, theme), count = unlockedFaces(progress, theme);
@@ -170,6 +195,7 @@ async function enterCube() {
 }
 async function back() {
   if (busy || !ready) return;
+  setSettingsOpen(false);
   if (!overlay.hidden) { if (session?.completed) await leavePuzzle(); else closeOverlay(); return; }
   if (mode === 'puzzle') return leavePuzzle();
   if (mode === 'chapters') {
@@ -253,6 +279,7 @@ async function leavePuzzle() {
 }
 
 function showOverlay(html, name) {
+  setSettingsOpen(false, true);
   guide?.hide();
   if (cube) cube.gesture = null;
   overlayFocus = document.activeElement; $('#overlay-content').innerHTML = html; overlay.hidden = false;
@@ -316,6 +343,19 @@ $('#reset-account').addEventListener('click', confirmAccountReset);
 $('#previous').addEventListener('click', guarded(() => navigate(-1)));
 $('#next').addEventListener('click', guarded(() => navigate(1)));
 $('#back').addEventListener('click', guarded(back));
+$('#settings').addEventListener('click', () => setSettingsOpen(!settingsOpen, settingsOpen));
+document.addEventListener('pointerdown', (e) => {
+  if (!settingsOpen || e.target.closest('.puzzle-settings')) return;
+  setSettingsOpen(false, true);
+  // A dismissing touch must not also pick up the card underneath it.
+  e.preventDefault(); e.stopImmediatePropagation();
+}, true);
+document.addEventListener('focusin', (e) => {
+  if (settingsOpen && !e.target.closest('.puzzle-settings')) setSettingsOpen(false);
+});
+document.addEventListener('keydown', (e) => {
+  if (settingsOpen && e.key === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); setSettingsOpen(false, true); }
+}, true);
 $('#enter').addEventListener('click', guarded(enterCube));
 $('#theme-pages').addEventListener('click', guarded((e) => { const b = e.target.closest('[data-theme]'); if (b) return selectTheme(Number(b.dataset.theme), Number(b.dataset.theme) > theme ? 1 : -1); }));
 $('#chapter-pages').addEventListener('click', guarded((e) => { const b = e.target.closest('[data-face]'); if (b && !b.disabled) return selectFace(Number(b.dataset.face)); }));

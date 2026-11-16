@@ -6,6 +6,7 @@ const paths = {
   mute: '<path d="m11 5-6 5H2v4h3l6 5Z"/><path d="m16 9 6 6m0-6-6 6"/>',
   back: '<path d="m10 4-7 7 7 7M3 11h11c6 0 7 6 4 10"/>',
   reset: '<path d="M4 10a8 8 0 1 1 1 7M4 4v6h6"/>',
+  gear: '<path d="m10 2-.6 2.5-2 .9L5 4.7 2.7 8.3l1.8 1.8v3.8l-1.8 1.8L5 19.3l2.4-.7 2 .9L10 22h4l.6-2.5 2-.9 2.4.7 2.3-3.6-1.8-1.8v-3.8l1.8-1.8L19 4.7l-2.4.7-2-.9L14 2Z"/><circle cx="12" cy="12" r="3.5"/>',
   play: '<path d="M8 4q-2-1-2 2v12q0 3 2 2l13-8Z" fill="currentColor" stroke="none"/>',
   lock: '<rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/>',
   hourglass: '<path d="M6 2h12M6 22h12M7 2v5c0 3 10 7 10 10v5M17 2v5c0 3-10 7-10 10v5M9 18h6M9 6h6"/>',

@@ -61,7 +61,7 @@ try {
   await p.click('#hint'); await idle(p); assert.deepEqual((await state(p)).session.positions, moveGroup(before, h.id, h.dx, h.dy));
   assert.deepEqual((await state(p)).progress.props, { hint: 27, preview: 27 });
   const partial = (await state(p)).session.positions;
-  await p.click('#back'); await idle(p); await p.reload(); await idle(p);
+  await p.click('#settings'); await p.click('#back'); await idle(p); await p.reload(); await idle(p);
   await p.click('#enter'); await idle(p); await openLevel(p, 0);
   assert.deepEqual((await state(p)).session.positions, partial);
   await finish(p); assert.equal((await state(p)).face, 0);
@@ -94,7 +94,7 @@ try {
   await openLevel(late, 0); assert.equal((await state(late)).session.positions.length, 16);
   const four = (await state(late)).session.positions, suggestion = findHint(four); assert.ok(suggestion);
   await drag(late, suggestion); assert.equal(new Set((await state(late)).session.positions).size, 16);
-  await late.click('#back'); await idle(late);
+  await late.click('#settings'); await late.click('#back'); await idle(late);
   console.log('PASS: all six face directions, final-level showcase, unlock next cube, 3×3 chapter grid and 4×4 puzzle.');
 
   const mobileContext = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });

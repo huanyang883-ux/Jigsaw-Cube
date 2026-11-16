@@ -40,7 +40,7 @@ try {
   const fetched = await q.evaluate(() => performance.getEntriesByType('resource').filter((e) => e.name.includes('.webp')).map((e) => e.name));
   assert.ok(fetched.length < 16, 'startup and first play do not download the whole 90-image catalog');
   assert.ok(fetched.every((url) => url.includes('/cake-') || url.includes('/ui/guide-hand.webp')), 'only the current chapter is warmed');
-  await q.tap('#back'); await idle(q);
+  await q.tap('#settings'); await q.tap('#back'); await idle(q);
   await q.route('**/assets/cake-04.webp?*', (route) => route.abort('failed'));
   const box = await q.locator('[data-level="3"]').boundingBox();
   await q.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);

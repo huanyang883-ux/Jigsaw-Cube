@@ -140,7 +140,7 @@ try {
   // Finish the raw CDP drag gesture before switching to a synthesized tap.
   await q.waitForTimeout(250);
   assert.ok((await q.evaluate(() => window.__game.puzzleGeometry())).cards.every((card) => card.scale.every((v) => v === 1)), 'reduced motion keeps the white flash without scaling');
-  await q.tap('#back'); await q.waitForFunction(() => window.__game.state().mode === 'chapters'); await idle(q); await q.waitForTimeout(3300);
+  await q.tap('#settings'); await q.tap('#back'); await q.waitForFunction(() => window.__game.state().mode === 'chapters'); await idle(q); await q.waitForTimeout(3300);
   assert.equal((await state(q)).mode, 'chapters'); assert.ok(await q.locator('#overlay').isHidden(), 'leaving cancels the pending settlement');
   assert.equal((await state(q)).progress.completed[0][0], true);
   assert.deepEqual(errors, []);
