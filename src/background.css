@@ -1,5 +1,11 @@
 /* The scenery covers the viewport independently of the portrait game layout. */
-.viewport { background: #fbf1e3; }
+.viewport {
+  background: #fbf1e3;
+  padding: var(--game-safe-top, env(safe-area-inset-top, 0px))
+    var(--game-safe-right, env(safe-area-inset-right, 0px))
+    var(--game-safe-bottom, env(safe-area-inset-bottom, 0px))
+    var(--game-safe-left, env(safe-area-inset-left, 0px));
+}
 .scene-layer {
   --scene-base: #fbf1e3;
   --scene-mint: #e0e8cc;

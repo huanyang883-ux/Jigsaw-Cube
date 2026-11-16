@@ -6,6 +6,7 @@ import { icon, gridIcon } from './icons.js';
 import { CubeScene } from './cube-scene.js';
 import { PuzzleRenderer } from './renderer.js';
 import { GameAudio } from './audio.js';
+import { bindNativeApp } from './native-app.js';
 import { THEME_ART } from './theme-art.js';
 import { photoLayout } from './piece-geometry.js';
 import { levelAspect, useProp, nextPlayableLevel, levelConfig, freshStats, completeAllLevels } from './progress.js';
@@ -29,15 +30,25 @@ let settingsOpen = false;
 let settingsMode = null;
 let requestedTheme = null;
 let playClock = null;
+let nativeActive = true, disposeNative = () => {};
 const save = () => { try { localStorage.setItem(SAVE_KEY, JSON.stringify(progress)); } catch { /* Private browsing remains playable. */ } };
 const guarded = (fn) => (...args) => Promise.resolve(fn(...args)).catch(showError);
 
 function syncPlayTime() {
   const now = performance.now();
   if (session && playClock !== null) session.stats.activeMs += now - playClock;
-  playClock = session && mode === 'puzzle' && !busy && !settingsOpen && !session.completed && !document.hidden && overlay.hidden ? now : null;
+  playClock = session && mode === 'puzzle' && !busy && !settingsOpen && !session.completed && nativeActive && !document.hidden && overlay.hidden ? now : null;
 }
-document.addEventListener('visibilitychange', syncPlayTime);
+function syncAppActivity() {
+  syncPlayTime();
+  const active = nativeActive && !document.hidden;
+  audio.setActive(active);
+  if (!active) {
+    savePuzzle(); save(); guide?.hide(); puzzle?.cancelDrag();
+    cube?.cancelGesture();
+  }
+}
+document.addEventListener('visibilitychange', syncAppActivity);
 
 function remember(action) {
   if (learnGuide(progress, action)) { save(); guide?.hide(); }
@@ -76,7 +87,9 @@ function guideTarget(kind) {
 let resizeFrame, viewportWidth, viewportHeight;
 function resize() {
   resizeFrame = null;
-  const width = innerWidth, height = innerHeight;
+  const viewport = $('.viewport'), style = getComputedStyle(viewport);
+  const width = viewport.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+  const height = viewport.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
   if (!width || !height || document.hidden) return;
   if (width !== viewportWidth || height !== viewportHeight) {
     puzzle?.cancelDrag(); cube?.cancelGesture();
@@ -84,7 +97,7 @@ function resize() {
     const scale = Math.min(width / 1080, height / 1920);
     document.documentElement.style.setProperty('--stage-scale', scale);
     // Cover the entire viewport with a little overscan; keep gameplay fully visible.
-    document.documentElement.style.setProperty('--background-scale', Math.max(width / 1080, height / 1920) * 1.08);
+    document.documentElement.style.setProperty('--background-scale', Math.max(innerWidth / 1080, innerHeight / 1920) * 1.08);
     $('.stage-shell').style.width = `${1080 * scale}px`;
     $('.stage-shell').style.height = `${1920 * scale}px`;
   }
@@ -93,6 +106,8 @@ function resize() {
 const queueResize = () => { if (resizeFrame == null) resizeFrame = requestAnimationFrame(resize); };
 window.addEventListener('resize', queueResize); resize();
 document.addEventListener('visibilitychange', queueResize);
+const viewportObserver = new ResizeObserver(queueResize);
+viewportObserver.observe($('.viewport'));
 
 function setSettingsOpen(open, restoreFocus = false) {
   if (open && (!ready || busy || cube?.busy || !overlay.hidden)) return;
@@ -485,6 +500,16 @@ export async function startGame(onFaceProgress) {
   await cube.init(onFaceProgress);
   guide = new IdleGuide($('#hand-guide'), guideContext, guideTarget);
   ready = true; busy = false; refresh();
+  disposeNative = await bindNativeApp({
+    onBack: async () => {
+      // Swallow navigation while a move/transition is committing.
+      if (!ready || busy || cube.busy) return true;
+      if (settingsOpen) { setSettingsOpen(false, true); return true; }
+      if (mode === 'home' && overlay.hidden) { save(); return false; }
+      await back(); return true;
+    },
+    onActive: active => { nativeActive = active; syncAppActivity(); },
+  });
   if (import.meta.env.DEV) window.__game = {
     state: () => structuredClone({ mode, theme, face, busy, ready, progress, session }),
     idle: () => ready && !busy && !cube.busy && (!puzzle || !puzzle.busy),
@@ -505,4 +530,4 @@ export async function startGame(onFaceProgress) {
     entrance: () => puzzle?.animation?.intro ? { elapsed: performance.now() - puzzle.animation.start, duration: puzzle.animation.duration, cards: structuredClone(puzzle.animation.introPlan) } : null,
   };
 }
-if (import.meta.hot) import.meta.hot.dispose(() => { window.removeEventListener('resize', queueResize); document.removeEventListener('visibilitychange', queueResize); cancelAnimationFrame(resizeFrame); clearTimeout(winDelay); clearTimeout(hintDelay); closeOverlay(); hintWorker?.terminate(); guide?.destroy(); puzzle?.destroy(); cube?.destroy(); audio.destroy(); });
+if (import.meta.hot) import.meta.hot.dispose(() => { disposeNative(); viewportObserver.disconnect(); document.removeEventListener('visibilitychange', syncAppActivity); window.removeEventListener('resize', queueResize); document.removeEventListener('visibilitychange', queueResize); cancelAnimationFrame(resizeFrame); clearTimeout(winDelay); clearTimeout(hintDelay); closeOverlay(); hintWorker?.terminate(); guide?.destroy(); puzzle?.destroy(); cube?.destroy(); audio.destroy(); });

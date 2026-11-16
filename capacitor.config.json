@@ -1,0 +1,17 @@
+{
+  "appId": "com.huanyang.jigsawcube",
+  "appName": "JigsawCube",
+  "webDir": "dist",
+  "backgroundColor": "#fbf1e3",
+  "android": {
+    "backgroundColor": "#fbf1e3"
+  },
+  "plugins": {
+    "SystemBars": {
+      "insetsHandling": "native",
+      "initialViewportFitValueHint": "cover",
+      "hidden": true,
+      "style": "DARK"
+    }
+  }
+}

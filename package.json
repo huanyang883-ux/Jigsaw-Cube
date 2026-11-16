@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "android:build": "node scripts/build-android.mjs",
+    "android:sync": "npm run build && cap sync android",
+    "android:icons": "node scripts/android-icons.mjs",
+    "test:android": "node scripts/android-check.mjs",
     "dev": "vite --host 0.0.0.0 --port 5173",
     "build": "vite build",
     "build:test": "vite build --mode test",
@@ -43,10 +47,14 @@
     "test:rhythm": "node scripts/continent-order-check.mjs"
   },
   "dependencies": {
+    "@capacitor/android": "8.6.2",
+    "@capacitor/app": "8.1.2",
+    "@capacitor/core": "8.6.2",
     "pixi.js": "^8.17.1",
     "three": "^0.183.2"
   },
   "devDependencies": {
+    "@capacitor/cli": "8.6.2",
     "playwright": "^1.58.2",
     "sharp": "^0.35.5",
     "vite": "^6.4.1"

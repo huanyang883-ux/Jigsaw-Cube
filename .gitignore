@@ -4,7 +4,9 @@ dist/
 .local/
 test-results/
 *.log
-android/
+builds/
+*.keystore
+*.jks
 
 # Source artwork stays local; ship optimized public/assets/ files instead.
 art-source/**/*.[pP][nN][gG]

@@ -18,6 +18,50 @@ Windows 安装 Node.js 22+ 后，双击 `start-game.cmd` 启动普通版，或�
 
 全 78 关独立试玩：使用 `http://192.168.25.4:4173/?trial=all78`，从第 1 关开始体验整套新节奏，存档为 `sweet-cube:trial:all78:v1`。普通存档、前 12 关试玩存档和全关试玩存档互不覆盖。之前的试玩入口也可以继续向后玩新版关卡；更换入口不会删除其他入口的进度。外网测试时，在原外网地址后添加相同查询参数即可。
 
+## Android 测试 APK
+
+应用名 **JigsawCube**，包名 **com.huanyang.jigsawcube**。使用 Capacitor 8.6.2，`compileSdk = 36`、`targetSdk = 36`、`minSdk = 24`。APK 内置游戏代码、90 张章节/关卡 WebP 和引导手套，可离线游玩，不需要运行电脑上的服务；`art-source` 原图不参与打包。旧 Android 手机还需要兼容当前游戏的 WebView / WebGL，最低 SDK 不等于所有旧设备均已通过实测。
+
+在 Windows 双击根目录的 **build-apk.cmd**，输入版本号（例如 `2.0.1`）并回车。脚本会构建网页、同步原生工程、编译调试 APK，并检查签名、包名、版本号和 SDK 版本。成功后输出到：
+
+    builds/android/JigsawCube-2.0.1-debug.apk
+
+同目录的 `.apk.sha256` 是校验值，`.apk.json` 记录包信息。构建失败时窗口会保留错误信息，进程返回非零退出码。重复构建同一版本会替换该版本的输出文件；不同版本的 APK 会分别保留。
+
+命令行也可运行（省略版本号会提示输入，留空使用 package.json 中的版本）：
+
+    node scripts/build-android.mjs 2.0.1
+
+版本采用 `主版本.次版本.修订号`，自动转换为 Android 内部版本码 `主版本 × 1000000 + 次版本 × 1000 + 修订号`。次版本和修订号分别为 0–999，内部版本码不超过 Android 的 2100000000 上限。打包参数只影响 APK 的版本，不修改网页工程 package.json。安装更新时使用相同包名、相同签名和不低于已安装包的版本码，可保留应用存档；APK 存档与浏览器试玩存档彼此独立。
+
+### 构建环境
+
+- Node.js 22+、JDK 21、Android SDK Platform 36、Build-Tools 36.0.0；Gradle / Capacitor 子工程还会使用 Build-Tools 35.0.0。
+- 当前制作机复用 `D:\Unity\2022.3.62f3\Editor\Data\PlaybackEngines\AndroidPlayer\SDK`；在其中补装 Build-Tools 35/36，原有 Unity 工具保留。
+- Unity 自带的 JDK 11 不适用。本工程使用 `.local/android-toolchain/` 中单独下载并校验过 SHA-256 的 Eclipse Temurin JDK 21。脚本只为构建子进程设置环境，不修改系统 JAVA_HOME 或 Unity 配置。
+- Gradle Wrapper 会自动下载所需版本；首次构建需要联网下载 npm / Gradle / Maven 依赖。生成的 APK 可以离线运行。
+- 当前机器可直接使用 CMD，不依赖打开 Android Studio。若需使用 IDE 编辑原生工程，应使用支持 Capacitor 8 的新版 Android Studio。
+
+机器路径保存在忽略提交的 `.local/android-build.json`，换机器后安装工具链并配置，例如：
+
+```json
+{
+  "sdkPath": "D:/Unity/2022.3.62f3/Editor/Data/PlaybackEngines/AndroidPlayer/SDK",
+  "javaHome": "D:/AI/Puzzle/.local/android-toolchain/jdk-21.0.13+9"
+}
+```
+
+没有配置文件时，脚本会检查 ANDROID_HOME、ANDROID_SDK_ROOT、JAVA_HOME、Android 默认 SDK 位置和项目内 JDK。JDK 21 可以从 [Eclipse Adoptium](https://adoptium.net/temurin/releases/?version=21&os=windows&arch=x64) 获取。SDK、JDK、Gradle 缓存及 APK 不提交到 Git。
+
+调试 APK 由 Android 工具自动签名，适合本地安装测试，不作为商店发布包。保留本机用户目录 `.android/debug.keystore`，后续测试更新可沿用同一签名；密钥文件不会提交到仓库。
+
+### 图标与手机行为
+
+- 图标采用二阶主题的 `#fbf1e3` 奶油色背景、三阶立体魔方和跨九格拼成的巧克力曲奇。源文件在 `resources/android/`；`npm run android:icons` 可重新生成各密度桌面图标和自适应图标。生成说明与提示词记录在 `resources/android/icon.prompt.txt`。
+- 手机使用竖屏和沉浸显示，并为刘海/系统手势区域预留安全空间。系统返回先关闭弹窗，再从拼图返回章节、从章节返回首页；首页返回会将应用放入后台。
+- 进入后台时保存进度、暂停音效并停止累计游玩时间，回到前台后恢复。桌面浏览器仍可按原方式运行。
+- `npm test` 验证玩法和版本码；`npm run test:android` 在开发服务器上模拟原生桥，检查安全区域、返回导航、音效和存档。该浏览器检查不代替 Android 真机测试。
+
 ## 游戏内容
 
 - 首页魔方缓慢随机旋转，拖动可自由旋转查看，松手后恢复慢转。左右立体箭头切换二、三、四、五阶，拖动不会切换主题。

@@ -1,14 +1,19 @@
 export class GameAudio {
-  constructor(enabled = false) { this.enabled = enabled; }
+  constructor(enabled = false) { this.enabled = enabled; this.active = true; }
+  setActive(active) {
+    this.active = active;
+    if (!active) this.context?.suspend().catch(() => {});
+    else this.unlock();
+  }
   unlock() {
-    if (!this.enabled) return;
+    if (!this.enabled || !this.active) return;
     try {
       this.context ??= new (window.AudioContext || window.webkitAudioContext)();
       if (this.context.state === 'suspended') this.context.resume().catch(() => {});
     } catch { this.enabled = false; }
   }
   play(kind) {
-    if (!this.enabled) return;
+    if (!this.enabled || !this.active) return;
     this.unlock();
     if (!this.context) return;
     const notes = kind === 'win' ? [523.25, 659.25, 783.99, 1046.5] : kind === 'merge' ? [659.25, 880] : [440];
