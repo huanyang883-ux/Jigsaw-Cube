@@ -16,8 +16,27 @@ export function pieceBounds(positions, id, aspect = 1) {
   const right = .5 - (joins.right ? -overlap : gap);
   const top = (.5 - (joins.top ? -overlap : gap)) * height;
   const bottom = (-.5 + (joins.bottom ? -overlap : gap)) * height;
+  const placed = xy(positions[id], n);
+  const present = (x, y) => {
+    if (x < 0 || x >= n || y < 0 || y >= n) return false;
+    const p = xy(positions[y * n + x], n);
+    return p.x - x === placed.x - home.x && p.y - y === placed.y - home.y;
+  };
+  // Three occupied quadrants share ONE concave arc, including the tile
+  // diagonally opposite the missing quadrant (which has no exposed edge).
+  const corners = [[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([sx, sy]) => {
+    const vx = home.x + (sx + 1) / 2, vy = home.y + (1 - sy) / 2;
+    const missing = [[-1, -1], [1, -1], [-1, 1], [1, 1]].filter(([qx, qy]) => !present(vx + (qx - 1) / 2, vy - (qy + 1) / 2));
+    return missing.length === 1 ? missing[0] : null;
+  });
+  const diagonals = [
+    (joins.left || joins.bottom) && present(home.x - 1, home.y + 1),
+    (joins.right || joins.bottom) && present(home.x + 1, home.y + 1),
+    (joins.left || joins.top) && present(home.x - 1, home.y - 1),
+    (joins.right || joins.top) && present(home.x + 1, home.y - 1),
+  ];
   return {
-    left, right, top, bottom, joins,
+    left, right, top, bottom, joins, corners, diagonals, height,
     u0: (home.x + .5 + left) / n, u1: (home.x + .5 + right) / n,
     v0: 1 - (home.y + .5 - bottom / height) / n,
     v1: 1 - (home.y + .5 - top / height) / n,

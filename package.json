@@ -16,6 +16,7 @@
     "levels:generate": "node scripts/generate-levels.mjs",
     "levels:generate:first12": "node scripts/generate-first12.mjs",
     "test:photos": "node scripts/photo-check.mjs",
+    "test:card-edges": "node scripts/card-edges-check.mjs",
     "test:entrance": "node scripts/entrance-check.mjs",
     "test:guides": "node scripts/guide-check.mjs",
     "test:loading": "node scripts/loading-check.mjs",

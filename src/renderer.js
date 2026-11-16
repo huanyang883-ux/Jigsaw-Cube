@@ -1,11 +1,10 @@
 import * as THREE from 'three';
-import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { Application, Graphics, Container } from 'pixi.js';
 import { boardSize, xy, groupFor, groups, linked, clampDelta } from './puzzle.js';
 import { pieceBounds } from './piece-geometry.js';
 import { createIntroPlan, introPose, INTRO_DURATION } from './intro.js';
 import { createBackTexture } from './card-back.js';
-import { THEME_ART } from './theme-art.js';
+import { cardShapeUniforms, updateCardShape, createCardFaceMaterial, createCardShadowMaterial, createCardBodyGeometry, SHADOW_REACH } from './card-surface.js';
 import { createMergeFlashMaterial, mergeFlashEnvelope, MERGE_FLASH_DURATION } from './merge-flash.js';
 
 const easeOut = (t) => 1 - (1 - t) ** 3;
@@ -50,10 +49,9 @@ export class PuzzleRenderer {
     this.pixi.canvas.className = 'effects-canvas';
     this.pixi.canvas.setAttribute('aria-hidden', 'true');
     this.host.appendChild(this.pixi.canvas);
-    this.lines = new Graphics();
     this.guides = new Graphics();
     this.particleLayer = new Container();
-    this.pixi.stage.addChild(this.lines, this.guides, this.particleLayer);
+    this.pixi.stage.addChild(this.guides, this.particleLayer);
 
     const base = await new THREE.TextureLoader().loadAsync(art);
     base.colorSpace = THREE.SRGBColorSpace;
@@ -63,30 +61,32 @@ export class PuzzleRenderer {
     this.cellHeight = 1 / this.aspect; this.worldHeight = this.worldSize * this.cellHeight;
     this.camera.top = this.worldHeight / 2; this.camera.bottom = -this.worldHeight / 2;
     this.camera.updateProjectionMatrix();
-    const box = new RoundedBoxGeometry(.995, .995 * this.cellHeight, .055, 3, .018);
+    const box = createCardBodyGeometry(this.cellHeight);
     const face = new THREE.PlaneGeometry(.978, .978 * this.cellHeight);
-    const edge = new THREE.MeshBasicMaterial({ color: THEME_ART[this.theme].body });
-    const back = new THREE.MeshBasicMaterial({ map: createBackTexture(this.aspect, this.theme) });
-    const shadowMat = new THREE.MeshBasicMaterial({ color: 0x53613e, transparent: true, opacity: .12, depthWrite: false });
-    const shadowGeo = new THREE.PlaneGeometry(.99, .99 * this.cellHeight);
+    const edge = new THREE.MeshBasicMaterial({ vertexColors: true });
+    const backShape = cardShapeUniforms();
+    updateCardShape(backShape, { left: -.489, right: .489, bottom: -.489 * this.cellHeight, top: .489 * this.cellHeight, joins: {} });
+    const back = createCardFaceMaterial(createBackTexture(this.aspect, this.theme), backShape);
     for (let id = 0; id < this.positions.length; id++) {
       const mesh = new THREE.Mesh(box, edge);
       mesh.userData.piece = id;
-      const picture = new THREE.Mesh(new THREE.PlaneGeometry(1, this.cellHeight), new THREE.MeshBasicMaterial({ map: base }));
+      const shape = cardShapeUniforms();
+      const picture = new THREE.Mesh(new THREE.PlaneGeometry(1, this.cellHeight), createCardFaceMaterial(base, shape));
+      picture.userData.piece = id;
       picture.position.z = .031;
       mesh.add(picture);
       // Share the photo geometry so a joined group's white wash has no seams.
-      const flash = new THREE.Mesh(picture.geometry, createMergeFlashMaterial(this.reducedMotion));
+      const flash = new THREE.Mesh(picture.geometry, createMergeFlashMaterial(this.reducedMotion, shape));
       flash.position.z = .001; flash.visible = false; picture.add(flash);
       const reverse = new THREE.Mesh(face, back);
       reverse.rotation.y = Math.PI;
       reverse.position.z = -.031;
       mesh.add(reverse);
-      const shadow = new THREE.Mesh(shadowGeo, shadowMat.clone());
+      const shadow = new THREE.Mesh(new THREE.PlaneGeometry(1, this.cellHeight), createCardShadowMaterial(shape));
       const p = this.world(this.positions[id]);
       mesh.position.set(p.x, p.y, 0);
       shadow.position.set(p.x + .018, p.y - .026, -.065);
-      this.cards.push({ mesh, shadow, picture, flash, flashStart: null });
+      this.cards.push({ mesh, shadow, picture, flash, shape, flashStart: null });
       this.scene.add(shadow, mesh);
     }
     this.updateJoinedEdges();
@@ -101,14 +101,29 @@ export class PuzzleRenderer {
   }
 
   updateJoinedEdges() {
-    this.cards.forEach(({ picture }, id) => {
+    this.cards.forEach(({ picture, shadow, shape }, id) => {
       const b = pieceBounds(this.positions, id, this.aspect), p = picture.geometry.attributes.position, uv = picture.geometry.attributes.uv;
-      p.setXYZ(0, b.left, b.top, 0); p.setXYZ(1, b.right, b.top, 0);
-      p.setXYZ(2, b.left, b.bottom, 0); p.setXYZ(3, b.right, b.bottom, 0);
-      uv.setXY(0, b.u0, b.v1); uv.setXY(1, b.u1, b.v1);
-      uv.setXY(2, b.u0, b.v0); uv.setXY(3, b.u1, b.v0);
+      updateCardShape(shape, b);
+      // The concave arc crosses the old straight-edge crop. Cover the cell
+      // and let the shared contour mask trim it, retaining exact photo UVs.
+      const concave = b.corners.some(Boolean), home = xy(id, this.size);
+      const left = concave ? Math.min(b.left, -.5) : b.left, right = concave ? Math.max(b.right, .5) : b.right;
+      const top = concave ? Math.max(b.top, .5 * this.cellHeight) : b.top, bottom = concave ? Math.min(b.bottom, -.5 * this.cellHeight) : b.bottom;
+      p.setXYZ(0, left, top, 0); p.setXYZ(1, right, top, 0);
+      p.setXYZ(2, left, bottom, 0); p.setXYZ(3, right, bottom, 0);
+      const u0 = (home.x + .5 + left) / this.size, u1 = (home.x + .5 + right) / this.size;
+      const v0 = 1 - (home.y + .5 - bottom / this.cellHeight) / this.size, v1 = 1 - (home.y + .5 - top / this.cellHeight) / this.size;
+      uv.setXY(0, u0, v1); uv.setXY(1, u1, v1);
+      uv.setXY(2, u0, v0); uv.setXY(3, u1, v0);
       p.needsUpdate = true; uv.needsUpdate = true;
       picture.geometry.computeBoundingSphere();
+      // Cut shadows exactly at shared edges; only outside edges need a blur
+      // margin. Adjacent pieces then form one shadow without darker seams.
+      const s = shadow.geometry.attributes.position;
+      const shadowLeft = b.joins.left ? -.5 : b.left - SHADOW_REACH, shadowRight = b.joins.right ? .5 : b.right + SHADOW_REACH;
+      const shadowTop = b.joins.top ? .5 * this.cellHeight : b.top + SHADOW_REACH, shadowBottom = b.joins.bottom ? -.5 * this.cellHeight : b.bottom - SHADOW_REACH;
+      s.setXYZ(0, shadowLeft, shadowTop, 0); s.setXYZ(1, shadowRight, shadowTop, 0); s.setXYZ(2, shadowLeft, shadowBottom, 0); s.setXYZ(3, shadowRight, shadowBottom, 0);
+      s.needsUpdate = true; shadow.geometry.computeBoundingSphere();
     });
   }
   world(cell) { const p = xy(cell, this.size), half = (this.size - 1) / 2; return { x: p.x - half, y: (half - p.y) * this.cellHeight }; }
@@ -131,7 +146,8 @@ export class PuzzleRenderer {
     const rect = this.three.domElement.getBoundingClientRect();
     this.pointer.set(((event.clientX - rect.left) / rect.width) * 2 - 1, -((event.clientY - rect.top) / rect.height) * 2 + 1);
     this.raycaster.setFromCamera(this.pointer, this.camera);
-    return this.raycaster.intersectObjects(this.cards.map((c) => c.mesh), false)[0]?.object.userData.piece;
+    // The joined photo extends over the small gaps between rounded card bodies.
+    return this.raycaster.intersectObjects(this.cards.flatMap((c) => [c.mesh, c.picture]), false)[0]?.object.userData.piece;
   }
 
   events() {
@@ -317,30 +333,8 @@ export class PuzzleRenderer {
   }
 
   drawOverlay(time) {
-    const g = this.lines.clear(), guide = this.guides.clear(), unit = this.width / this.worldSize, unitY = this.height / this.worldHeight * this.cellHeight;
+    const guide = this.guides.clear(), unit = this.width / this.worldSize, unitY = this.height / this.worldHeight * this.cellHeight;
     if (this.animation?.intro) return;
-    const activeIds = this.drag?.ids ?? [];
-    for (const group of groups(this.positions)) {
-      if (group.length < 2 && !activeIds.includes(group[0])) continue;
-      const isActive = activeIds.includes(group[0]);
-      for (const id of group) {
-        const card = this.cards[id], half = .495, halfY = this.cellHeight * .495;
-        const home = xy(id, this.size);
-        const segments = [
-          { id: home.x > 0 ? id - 1 : -1, a: [-half, -halfY], b: [-half, halfY] },
-          { id: home.x < this.size - 1 ? id + 1 : -1, a: [half, -halfY], b: [half, halfY] },
-          { id: home.y > 0 ? id - this.size : -1, a: [-half, -halfY], b: [half, -halfY] },
-          { id: home.y < this.size - 1 ? id + this.size : -1, a: [-half, halfY], b: [half, halfY] },
-        ];
-        for (const edge of segments) {
-          if (group.includes(edge.id) && linked(this.positions, id, edge.id)) continue;
-          const project = ([x, y]) => this.screen(new THREE.Vector3(x, -y, .031).multiply(card.mesh.scale).applyQuaternion(card.mesh.quaternion).add(card.mesh.position));
-          const a = project(edge.a), b = project(edge.b);
-          g.moveTo(a.x, a.y).lineTo(b.x, b.y);
-        }
-      }
-      g.stroke({ width: isActive ? 2.5 : 1.6, color: isActive ? 0xf8efc4 : 0x819b60, alpha: isActive ? 1 : .85, cap: 'round', join: 'round' });
-    }
     const hint = this.hint;
     const active = this.drag ?? (hint ? { id: hint.id, ids: groupFor(this.positions, hint.id), delta: { x: hint.dx, y: hint.dy } } : null);
     if (active) {
