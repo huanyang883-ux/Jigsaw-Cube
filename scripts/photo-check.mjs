@@ -52,7 +52,7 @@ try {
   const { c, p } = await makePage(progress); await p.goto(base); await idle(p);
   await p.tap('#enter'); await idle(p); await open(p, 2);
   const geo = await p.evaluate(() => window.__game.puzzleGeometry());
-  assert.ok(Math.abs(geo.aspect - .75) < .002);
+  assert.ok(Math.abs(geo.aspect - 2 / 3) < .002);
   assert.ok(Math.abs(geo.width / geo.height - geo.aspect) < .003, 'board keeps the source photo ratio');
   const frame = await p.locator('.puzzle-frame').boundingBox(), preview = await p.locator('#picture-peek').boundingBox();
   assert.ok(preview.y + preview.height < frame.y, 'compact preview button sits above the larger board');
@@ -104,7 +104,8 @@ try {
 
   const animals = freshProgress(); animals.completed[0].fill(true);
   const second = await makePage(animals); await second.p.goto(base); await idle(second.p);
-  await second.p.tap('#next'); await idle(second.p); await second.p.tap('#enter'); await idle(second.p); await open(second.p);
+  assert.equal((await state(second.p)).theme, 1, 'animal progress selects the animal cube at startup');
+  await second.p.tap('#enter'); await idle(second.p); await open(second.p);
   assert.equal((await state(second.p)).session.positions.length, 16);
   assert.ok((await state(second.p)).session.art.includes('ocean-01.webp'));
   await second.p.screenshot({ path: 'test-results/portrait-wildlife.png' });

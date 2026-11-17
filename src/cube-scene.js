@@ -1,12 +1,13 @@
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { Application, Graphics, Container } from 'pixi.js';
-import { THEMES, isComplete, faceSize, themeUnlocked } from './progress.js';
+import { THEMES, isComplete, faceSize, themeUnlocked, currentTheme, currentFace } from './progress.js';
 import { createBackTexture } from './card-back.js';
 import { THEME_ART } from './theme-art.js';
 
 const FACE_ROTATIONS = [[0, 0, 0], [0, Math.PI / 2, 0], [0, Math.PI, 0], [0, -Math.PI / 2, 0], [-Math.PI / 2, 0, 0], [Math.PI / 2, 0, 0]];
 export const faceQuaternion = (face) => new THREE.Quaternion().setFromEuler(new THREE.Euler(...FACE_ROTATIONS[face])).invert();
+export const homeQuaternion = (face) => new THREE.Quaternion().setFromEuler(new THREE.Euler(.34, -.55, -.10)).multiply(faceQuaternion(face));
 const smooth = (t) => t * t * (3 - 2 * t);
 
 function stickerGeometry(size) {
@@ -33,7 +34,7 @@ function arrowGeometry() {
 export class CubeScene {
   constructor(host, progress, callbacks) {
     this.host = host; this.progress = progress; this.callbacks = callbacks;
-    this.mode = 'home'; this.theme = 0; this.face = 0; this.active = true;
+    this.mode = 'home'; this.theme = currentTheme(progress); this.face = currentFace(progress, this.theme); this.active = true;
     this.busy = true; this.particles = []; this.models = []; this.tiles = [];
     this.reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.abort = new AbortController(); this.raycaster = new THREE.Raycaster();
@@ -58,10 +59,10 @@ export class CubeScene {
     this.themeBacks = THEMES.map((_, theme) => createBackTexture(1, theme));
     this.art = new Map(); this.artLoads = new Map();
     for (let i = 0; i < THEMES.length; i++) this.models.push(this.buildCube(i));
-    await this.ensureThemeArt(0);
-    this.models.forEach((cube, i) => { cube.visible = i === 0; this.scene.add(cube); });
-    this.current = this.models[0]; this.current.scale.setScalar(460); this.current.position.set(0, 35, 0);
-    this.current.rotation.set(.34, -.55, -.10);
+    await this.ensureThemeArt(this.theme);
+    this.models.forEach((cube, i) => { cube.visible = i === this.theme; this.scene.add(cube); });
+    this.current = this.models[this.theme]; this.current.scale.setScalar(460); this.current.position.set(0, 35, 0);
+    this.current.quaternion.copy(homeQuaternion(this.face));
     this.makeArrows();
     // Prepare every theme during loading, before a switch can reveal it.
     for (const texture of this.themeBacks) this.renderer.initTexture(texture);
@@ -111,11 +112,14 @@ export class CubeScene {
   }
 
   resetProgress(progress) {
-    this.progress = progress; this.face = 0; this.gesture = null;
+    this.progress = progress; this.face = currentFace(progress, this.theme); this.gesture = null;
     for (const tile of this.tiles.flat()) {
-      tile.userData.complete = false;
-      tile.material.map = this.themeBacks[tile.userData.theme]; tile.material.needsUpdate = true;
+      const { theme, face, level } = tile.userData;
+      tile.userData.complete = isComplete(progress, theme, face, level);
+      tile.material.map = tile.userData.complete && tile.userData.picture ? tile.userData.picture : this.themeBacks[theme];
+      tile.material.needsUpdate = true;
     }
+    if (this.mode === 'home') this.current.quaternion.copy(homeQuaternion(this.face));
   }
 
   buildCube(theme) {
@@ -139,7 +143,9 @@ export class CubeScene {
       for (let row = 0; row < n; row++) for (let col = 0; col < n; col++) {
         const index = row * n + col;
         const complete = theme < 2 && isComplete(this.progress, theme, face, index);
-        const mat = new THREE.MeshStandardMaterial({ map: this.themeBacks[theme], color: 0xffffff, roughness: .64, metalness: 0 });
+        // Printed artwork keeps the same sRGB colors as the puzzle cards.
+        // Lighting and exposure belong to the shell, not to the photograph.
+        const mat = new THREE.MeshBasicMaterial({ map: this.themeBacks[theme], toneMapped: false });
         const tile = new THREE.Mesh(stickerGeo, mat);
         tile.position.set((col + .5) / n - .5, .5 - (row + .5) / n, 0);
         tile.userData = { theme, face, level: index, picture: null, complete };
@@ -223,7 +229,8 @@ export class CubeScene {
     // Begin recoloring with the background, including while face art is loading.
     this.arrowTheme = theme;
     this.busy = true; await this.ensureThemeArt(theme);
-    const old = this.current, next = this.models[theme], startQuaternion = new THREE.Quaternion().setFromEuler(new THREE.Euler(.34, -.55, -.10));
+    this.face = currentFace(this.progress, theme);
+    const old = this.current, next = this.models[theme], startQuaternion = homeQuaternion(this.face);
     this.theme = theme; next.visible = true; next.scale.setScalar(460); next.position.set(direction * 1350, 35, 0); next.quaternion.copy(startQuaternion);
     await this.tween(680, (t) => {
       const e = smooth(t); old.position.x = -direction * 1350 * e; next.position.x = direction * 1350 * (1 - e);

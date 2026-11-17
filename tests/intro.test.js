@@ -4,8 +4,8 @@ import { createIntroPlan, introPose, INTRO_DURATION } from '../src/intro.js';
 
 function random(seed) { return () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 2 ** 32; }; }
 
-test('3×3 and 4×4 entrances shuffle every piece, vary the intervals and finish within 3.5 seconds', () => {
-  for (const count of [9, 16]) {
+test('3×3, 4×4 and 5×5 entrances shuffle every piece, vary the intervals and finish within 3.5 seconds', () => {
+  for (const count of [9, 16, 25]) {
     const plan = createIntroPlan(count, random(27)), other = createIntroPlan(count, random(74));
     const starts = plan.map((c) => c.start), sorted = [...starts].sort((a, b) => a - b);
     assert.equal(new Set(starts).size, count);

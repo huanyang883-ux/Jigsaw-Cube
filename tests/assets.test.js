@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import sharp from 'sharp';
 import { THEMES, faceSize, levelArt, ANIMAL_CHAPTERS } from '../src/progress.js';
 import manifest from '../src/art-manifest.json' with { type: 'json' };
 
@@ -18,9 +19,11 @@ test('all 90 chapter and level images and source versions are present', async ()
     const file = path.resolve('public', `.${parsed.pathname}`), data = await fs.readFile(file);
     assert.equal(data.toString('ascii', 0, 4), 'RIFF'); assert.equal(data.toString('ascii', 8, 12), 'WEBP');
     const id = path.basename(file, '.webp'), asset = manifest[id];
+    const metadata = await sharp(data).metadata();
+    assert.equal(metadata.width, asset.width); assert.equal(metadata.height, asset.height);
     assert.ok(asset, id); assert.ok(asset.bytes < asset.sourceBytes * .5, `${id} should be meaningfully compressed`);
     if (id.endsWith('-face')) assert.equal(asset.width, asset.height, `${id} cover must be square`);
-    else if (!id.startsWith('cake-')) assert.ok(Math.abs(asset.width / asset.height - .75) < .003, `${id} keeps portrait proportions`);
+    else { assert.equal(asset.width, 960, `${id} level width`); assert.equal(asset.height, 1440, `${id} level height`); }
   }
   const publicFiles = await fs.readdir('public/assets');
   assert.equal(publicFiles.filter((f) => f.endsWith('.png')).length, 0, 'original PNGs stay out of the H5 package');

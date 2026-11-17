@@ -1,19 +1,20 @@
 import './style.css';
 import './background.css';
 import { mountUI } from './ui.js';
+import { TEST_CONTROLS } from './build-flags.js';
 import { icon, gridIcon } from './icons.js';
 import { CubeScene } from './cube-scene.js';
 import { PuzzleRenderer } from './renderer.js';
 import { GameAudio } from './audio.js';
 import { THEME_ART } from './theme-art.js';
 import { photoLayout } from './piece-geometry.js';
-import { levelAspect, useProp, nextPlayableLevel, levelConfig, freshStats } from './progress.js';
+import { levelAspect, useProp, nextPlayableLevel, levelConfig, freshStats, completeAllLevels } from './progress.js';
 import { IdleGuide } from './idle-guide.js';
 import { learnGuide, guideMove } from './guide-state.js';
 import { loading } from './loading.js';
 import { preloadAssets, isPreloaded, warmAssets } from './preload.js';
 import { moveGroup, solved, connectionCount, groupFor } from './puzzle.js';
-import { SAVE_KEY, THEMES, freshProgress, restoreProgress, faceSize, levelKey, levelArt, initialLayout, isComplete, faceComplete, themeUnlocked, unlockedFaces, currentFace, markComplete } from './progress.js';
+import { SAVE_KEY, THEMES, freshProgress, restoreProgress, faceSize, levelKey, levelArt, initialLayout, isComplete, faceComplete, themeUnlocked, unlockedFaces, currentTheme, currentFace, markComplete } from './progress.js';
 
 mountUI();
 const $ = (s) => document.querySelector(s);
@@ -21,10 +22,11 @@ const game = $('#game'), overlay = $('#overlay');
 let progress = freshProgress();
 try { progress = restoreProgress(JSON.parse(localStorage.getItem(SAVE_KEY))); } catch { /* Storage is optional. */ }
 const audio = new GameAudio(progress.sound);
-let cube, puzzle, guide, mode = 'home', theme = 0, face = 0, session = null, ready = false, busy = true;
+let cube, puzzle, guide, mode = 'home', theme = currentTheme(progress), face = currentFace(progress, theme), session = null, ready = false, busy = true;
 let hintWorker, hintVersion = 0, hintDelay, winDelay, overlayFocus;
 let winAnimations = [];
 let settingsOpen = false;
+let settingsMode = null;
 let playClock = null;
 const save = () => { try { localStorage.setItem(SAVE_KEY, JSON.stringify(progress)); } catch { /* Private browsing remains playable. */ } };
 const guarded = (fn) => (...args) => Promise.resolve(fn(...args)).catch(showError);
@@ -90,16 +92,18 @@ function resize() {
 window.addEventListener('resize', resize); resize();
 
 function setSettingsOpen(open, restoreFocus = false) {
-  if (open && (mode !== 'puzzle' || busy || !overlay.hidden)) return;
+  if (open && (!['home', 'puzzle'].includes(mode) || !ready || busy || cube?.busy || !overlay.hidden)) return;
   if (settingsOpen === open) return;
   settingsOpen = open;
+  settingsMode = open ? mode : null;
   $('.puzzle-settings').classList.toggle('is-open', open);
   $('#settings').setAttribute('aria-expanded', String(open));
   $('#settings-menu').setAttribute('aria-hidden', String(!open));
   $('#settings-menu').inert = !open;
+  $('#menu-screen').inert = open || !overlay.hidden;
   puzzle?.setBlocked(open || busy || session?.completed || !overlay.hidden);
   guide?.hide(); syncPlayTime();
-  if (open) $('#back').focus({ preventScroll: true });
+  if (open) $(mode === 'home' ? '#sound' : '#back').focus({ preventScroll: true });
   else if (restoreFocus) $('#settings').focus({ preventScroll: true });
 }
 
@@ -110,18 +114,26 @@ function refresh() {
   $('.viewport').dataset.theme = theme;
   game.classList.toggle('is-busy', busy);
   const inPuzzle = mode === 'puzzle';
-  if (!inPuzzle || busy) setSettingsOpen(false);
+  if (busy || settingsOpen && settingsMode !== mode) setSettingsOpen(false);
   // Reuse the same controls and listeners in the dropdown and on the home bar.
-  const soundParent = inPuzzle ? $('#settings-menu') : $('.home-actions');
+  const soundParent = mode === 'chapters' ? $('.home-actions') : $('#settings-menu');
   if ($('#sound').parentElement !== soundParent) {
-    if (inPuzzle) soundParent.append($('#back'), $('#sound'));
-    else { soundParent.prepend($('#sound')); $('.top-bar').insertBefore($('#back'), $('.puzzle-settings')); }
+    soundParent.prepend($('#sound'));
   }
-  $('.home-actions').hidden = inPuzzle;
+  const backParent = inPuzzle ? $('#settings-menu') : $('.top-bar');
+  if ($('#back').parentElement !== backParent) {
+    if (inPuzzle) backParent.prepend($('#back'));
+    else backParent.insertBefore($('#back'), $('.puzzle-settings'));
+  }
+  $('.home-actions').hidden = mode !== 'chapters';
   $('.puzzle-tools').hidden = !inPuzzle; $('.puzzle-progress').hidden = !inPuzzle;
-  $('.puzzle-settings').hidden = !inPuzzle; $('#settings').disabled = busy || !ready;
+  $('.puzzle-settings').hidden = mode === 'chapters';
+  $('.puzzle-settings').classList.toggle('is-home', mode === 'home');
+  $('#settings').disabled = busy || !ready;
   $('#back').hidden = mode === 'home'; $('#back').disabled = busy;
-  $('#reset-account').hidden = mode !== 'home'; $('#reset-account').disabled = busy || !ready;
+  if (TEST_CONTROLS) for (const selector of ['#reset-account', '#complete-all']) {
+    $(selector).hidden = mode !== 'home'; $(selector).disabled = busy || !ready;
+  }
   $('#menu-screen').hidden = mode === 'puzzle'; $('#puzzle-screen').hidden = mode !== 'puzzle';
   $('#sound').innerHTML = icon(audio.enabled ? 'sound' : 'mute');
   $('#sound').setAttribute('aria-label', audio.enabled ? 'Sound off' : 'Sound on');
@@ -170,7 +182,7 @@ function lockedFeedback() {
 
 async function selectTheme(next, direction = 1) {
   if (!ready || busy || mode !== 'home' || next === theme) return;
-  busy = true; theme = next; face = 0; refresh(); audio.play('move');
+  busy = true; theme = next; face = currentFace(progress, theme); refresh(); audio.play('move');
   await cube.switchTheme(theme, direction); busy = false; refresh();
 }
 async function navigate(direction) {
@@ -322,11 +334,11 @@ function showError(error) {
 }
 
 function confirmAccountReset() {
-  if (!ready || busy || cube.busy || mode !== 'home' || !overlay.hidden) return;
+  if (!TEST_CONTROLS || !ready || busy || cube.busy || mode !== 'home' || !overlay.hidden) return;
   showOverlay(`<div class="overlay-card reset-card"><div class="reset-mark" aria-hidden="true">${icon('reset')}</div><h2>Reset account?</h2><p>All progress and records will be lost.<br>Items, sound and guides will reset.<br>This cannot be undone.</p><div class="reset-actions"><button id="cancel-reset" class="icon-button reset-action" aria-label="Cancel reset">${icon('close')}</button><button id="confirm-reset" class="icon-button reset-action reset-confirm" aria-label="Confirm account reset">${icon('check')}</button></div></div>`, 'Reset account confirmation');
 }
 async function resetAccount() {
-  if (!ready || busy || mode !== 'home') return;
+  if (!TEST_CONTROLS || !ready || busy || mode !== 'home') return;
   busy = true;
   progress = freshProgress(); audio.enabled = progress.sound;
   // Replace the in-memory save too, so pagehide cannot write old progress back.
@@ -334,12 +346,29 @@ async function resetAccount() {
   const previousTheme = theme; theme = 0; face = 0;
   closeOverlay(); refresh();
   if (previousTheme !== 0) await cube.switchTheme(0, -1);
-  busy = false; refresh(); $('#reset-account').focus({ preventScroll: true });
+  busy = false; refresh(); $('#settings').focus({ preventScroll: true });
   warmChapter(0, 0);
 }
 
+async function completeAccount() {
+  if (!TEST_CONTROLS || !ready || busy || cube.busy || mode !== 'home' || !overlay.hidden) return;
+  setSettingsOpen(false);
+  busy = true;
+  completeAllLevels(progress);
+  // Keep genuine play records and preferences; no synthetic completion metrics.
+  save(); cube.resetProgress(progress);
+  const previousTheme = theme;
+  theme = currentTheme(progress); face = currentFace(progress, theme); refresh();
+  if (previousTheme !== theme) await cube.switchTheme(theme, 1);
+  else await cube.ensureThemeArt(theme);
+  busy = false; refresh(); $('#settings').focus({ preventScroll: true });
+}
+
 $('#sound').addEventListener('click', () => { audio.enabled = !audio.enabled; audio.unlock(); progress.sound = audio.enabled; save(); audio.play('move'); refresh(); });
-$('#reset-account').addEventListener('click', confirmAccountReset);
+if (TEST_CONTROLS) {
+  $('#reset-account').addEventListener('click', confirmAccountReset);
+  $('#complete-all').addEventListener('click', guarded(completeAccount));
+}
 $('#previous').addEventListener('click', guarded(() => navigate(-1)));
 $('#next').addEventListener('click', guarded(() => navigate(1)));
 $('#back').addEventListener('click', guarded(back));
@@ -368,7 +397,7 @@ $('#picture-peek').addEventListener('click', () => {
 function activateOverlayButton(button) {
   if (overlay.hidden || busy || !button) return;
   if (button.id === 'continue') return leavePuzzle();
-  if (button.id === 'confirm-reset') return resetAccount();
+  if (TEST_CONTROLS && button.id === 'confirm-reset') return resetAccount();
   if (button.id === 'close-picture' || button.id === 'cancel-reset') closeOverlay();
 }
 const overlayContent = $('#overlay-content');
@@ -423,7 +452,7 @@ async function init() {
   await cube.init();
   guide = new IdleGuide($('#hand-guide'), guideContext, guideTarget);
   ready = true; busy = false; refresh();
-  warmChapter(0, currentFace(progress, 0), (nextPlayableLevel(progress, 0, currentFace(progress, 0)) ?? 0));
+  warmChapter(theme, face, nextPlayableLevel(progress, theme, face) ?? 0);
   if (import.meta.env.DEV) window.__game = {
     state: () => structuredClone({ mode, theme, face, busy, ready, progress, session }),
     idle: () => ready && !busy && !cube.busy && (!puzzle || !puzzle.busy),

@@ -30,10 +30,16 @@ const levelArtId = (theme, face, level) => `${THEMES[theme].chapters[face].id}-$
 export const LEVEL_ART = Array.from({ length: 4 }, (_, i) => artUrl(`cake-0${i + 1}`));
 export function levelAspect(theme, face, level) {
   const asset = artManifest[levelArtId(theme, face, level)];
-  return asset ? asset.width / asset.height : theme === 0 && face === 0 ? 1 : .75;
+  return asset ? asset.width / asset.height : 2 / 3;
 }
 export const INITIAL_PROPS = Object.freeze({ hint: 28, preview: 28 });
 export const freshProgress = () => ({ version: 2, completed: [Array(24).fill(false), Array(54).fill(false)], puzzles: {}, sound: false, props: { ...INITIAL_PROPS }, guides: freshGuides(), records: {} });
+export function completeAllLevels(progress) {
+  for (const levels of progress.completed) levels.fill(true);
+  // Replaying a completed test level should start from its current initial layout.
+  progress.puzzles = {};
+  return progress;
+}
 export const freshStats = () => ({ moves: 0, hints: 0, previews: 0, activeMs: 0 });
 export function restoreStats(raw) {
   return Object.fromEntries(Object.keys(freshStats()).map((key) => [key, Number.isFinite(raw?.[key]) ? Math.max(0, Math.floor(raw[key])) : 0]));
@@ -54,6 +60,12 @@ export const isComplete = (progress, theme, face, level) => !!progress.completed
 export const faceComplete = (progress, theme, face) => Array.from({ length: faceSize(theme) }, (_, i) => isComplete(progress, theme, face, i)).every(Boolean);
 export const themeComplete = (progress, theme) => !!progress.completed[theme]?.every(Boolean);
 export const themeUnlocked = (progress, theme) => theme === 0 || (theme === 1 && themeComplete(progress, 0));
+export function currentTheme(progress) {
+  for (let theme = THEMES.length - 1; theme >= 0; theme--) {
+    if (!THEMES[theme].comingSoon && themeUnlocked(progress, theme)) return theme;
+  }
+  return 0;
+}
 export function unlockedFaces(progress, theme) {
   if (!themeUnlocked(progress, theme)) return 0;
   let count = 1;
@@ -96,6 +108,12 @@ export function legacyInitialLayout(theme, face, level) {
   [[0, 5], [3, 10], [8, 15], [6, 12]].forEach(([a, b]) => { [p[a], p[b]] = [p[b], p[a]]; });
   return p;
 }
+// An old completed record or in-progress game keeps the grid used when it was played.
+function savedGridSize(theme, config, version) {
+  if (version === 1) return THEMES[theme].order + 1;
+  if (version === config.layoutVersion || version === 3 && config.layoutVersion === 4) return config.gridSize;
+  return config.previousLayouts?.find(layout => layout.layoutVersion === version)?.gridSize ?? 0;
+}
 export function restoreProgress(raw) {
   const result = freshProgress();
   if (!raw || raw.version !== 2) return result;
@@ -118,7 +136,7 @@ export function restoreProgress(raw) {
     if (face >= unlockedFaces(result, theme) || level >= faceSize(theme) || isComplete(result, theme, face, level)) continue;
     if (!value || typeof value !== 'object') continue;
     const config = levelConfig(theme, face, level), layoutVersion = value.layoutVersion ?? 1;
-    const gridSize = layoutVersion === 1 ? THEMES[theme].order + 1 : layoutVersion === config.layoutVersion ? config.gridSize : 0;
+    const gridSize = savedGridSize(theme, config, layoutVersion);
     if (valid(value.positions) && value.positions.length === gridSize ** 2) {
       result.puzzles[key] = { positions: [...value.positions], gridSize, layoutVersion, stats: restoreStats(value.stats) };
     }
@@ -128,7 +146,7 @@ export function restoreProgress(raw) {
     const [theme, face, level] = key.split(':').map(Number);
     if (level >= faceSize(theme) || !isComplete(result, theme, face, level)) continue;
     const config = levelConfig(theme, face, level), version = value.layoutVersion ?? 1;
-    const gridSize = version === 1 ? THEMES[theme].order + 1 : version === config.layoutVersion ? config.gridSize : 0;
+    const gridSize = savedGridSize(theme, config, version);
     if (gridSize) result.records[key] = { ...restoreStats(value), gridSize, layoutVersion: version, completedAt: Number.isFinite(value.completedAt) ? value.completedAt : 0 };
   }
   for (const action of GUIDE_ACTIONS) result.guides[action] = raw.guides?.[action] === true;

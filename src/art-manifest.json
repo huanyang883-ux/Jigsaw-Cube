@@ -1,632 +1,632 @@
 {
   "amphibians-01": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 354780,
-    "sourceBytes": 3119609,
-    "hash": "d9e2c75c1d7135df418b8a24476e0a36263941aad114c9257d91be453d262c27"
+    "bytes": 158816,
+    "sourceBytes": 2254645,
+    "hash": "5b2edf88f6666c39b45764cb5a877dcbfb1e5e7fb10bac51079e561688e44ab6"
   },
   "amphibians-02": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 449982,
-    "sourceBytes": 3492480,
-    "hash": "0dc9aab55b35ba15907900a53275df050dbf35759c5d9246b91aec92ec7e4694"
+    "bytes": 325854,
+    "sourceBytes": 3036408,
+    "hash": "30423136f6b309c653c5462b766bfd2caeccf1489f4fd6c086b3cef061bf4216"
   },
   "amphibians-03": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 344080,
-    "sourceBytes": 3030959,
-    "hash": "049f96242aba7c5fe4d8f062c19b1ad07df2c3fe754149118384c693fea5e8dc"
+    "bytes": 176632,
+    "sourceBytes": 2301395,
+    "hash": "1e3e4e9f3dfa2633a51c5f8347eaf559c7496cc182fe7ec9cef71e0899d6ac1a"
   },
   "amphibians-04": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 369386,
-    "sourceBytes": 3191850,
-    "hash": "1e7b60dea31f67f4295c3ad028994622fd2e98e36f349345df8f3654ccf4ef35"
+    "bytes": 199004,
+    "sourceBytes": 2396500,
+    "hash": "777a9540778dd2f321fc266c666d7996d82879e03209e5b4736a23fe965acc89"
   },
   "amphibians-05": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 380674,
-    "sourceBytes": 3198914,
-    "hash": "c8b8d941e84df7cc8c069b2fa7e4a7fba4c84149cbf64d59d803a0b388217e54"
+    "bytes": 182252,
+    "sourceBytes": 2311531,
+    "hash": "89ac3829f20c05ef505eaaba93e974569156450f2ea33597cd13b6d03678b734"
   },
   "amphibians-06": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 447666,
-    "sourceBytes": 3493901,
-    "hash": "5adb7f11e3ea721552c715fa22f48e7906559b0eeab0cd684d5529a5e9de368e"
+    "bytes": 191786,
+    "sourceBytes": 2524823,
+    "hash": "2da5286c1f86d29bb690628cc4a6c0fb7b73df10ad4aa76b754626cde8190360"
   },
   "amphibians-07": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 358438,
-    "sourceBytes": 3125990,
-    "hash": "67b6d2f054c4293e7ed0cb1ae9260c217e2bf30a01d9c0c9e84f912f98d882e3"
+    "bytes": 156048,
+    "sourceBytes": 2259417,
+    "hash": "05126ac8a660ae1498377b21edf44613b5065a7a90de6d2c4482317c3031a5b1"
   },
   "amphibians-08": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 319366,
-    "sourceBytes": 2923133,
-    "hash": "436e95fbe9ccb8601f39c9ffbca20b6096e540629d1b3fb8140f6a49944047a0"
+    "bytes": 431298,
+    "sourceBytes": 3633840,
+    "hash": "b3fb22e0bc3365b58341975705bd1a74b39569d8278635062d43bf178b933237"
   },
   "amphibians-09": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 357786,
-    "sourceBytes": 3068433,
-    "hash": "ca7d06804644a8f2c5e242af99e582d4d48ad25ecae09ca5d1f2e2f686ec0bc8"
+    "bytes": 228792,
+    "sourceBytes": 2638027,
+    "hash": "fd5e26ee68a9bce2166faa426cadf0f91a8e94e3c39d5151840202559bdba748"
   },
   "amphibians-face": {
-    "width": 768,
-    "height": 768,
-    "bytes": 189102,
+    "width": 1254,
+    "height": 1254,
+    "bytes": 464832,
     "sourceBytes": 3155783,
-    "hash": "1a24f55eee86ca87df2c3b922de4ed86f64ec9616ee601030773a4fd97700d84"
+    "hash": "696ed83fbb54cde3bcab01c3feef2e4b00813df93179710213e6ea1f7233255f"
   },
   "ancient-01": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 523766,
-    "sourceBytes": 3752109,
-    "hash": "3f171d1d3b5ee97b00cd02c6af848b8830e3462b29290124cb76fc7596528cf3"
+    "bytes": 469622,
+    "sourceBytes": 3691369,
+    "hash": "bda8dc55ab694098c01f319dfead5e22c8d07acf9eb3ab8bef95d612ff0dfd5f"
   },
   "ancient-02": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 481348,
-    "sourceBytes": 3709415,
-    "hash": "3bd26b7311c1ed4ce44a58e8cad4da41f459a643c1cce2bbd12706475f148a9f"
+    "bytes": 416534,
+    "sourceBytes": 3627943,
+    "hash": "566fb095706a8c22cb86493ddc9bd26b65f4235bc966e5dbb192be63ef369798"
   },
   "ancient-03": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 599592,
-    "sourceBytes": 4108817,
-    "hash": "ffba10611234964c02dabda679f0660931136e018ff85f45ae82e44ca0ae9bd8"
+    "bytes": 447452,
+    "sourceBytes": 3768908,
+    "hash": "e7189a7268c63a0e7ba828120570098fa03615dab575e56832aea6c7ef232d81"
   },
   "ancient-04": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 446842,
-    "sourceBytes": 3535993,
-    "hash": "c827aa77bd947665e2663675b7e88b2ca12d07320d489683fb8cbfb6d4f2416c"
+    "bytes": 250830,
+    "sourceBytes": 2799817,
+    "hash": "fced32831c43326be1578cb879234b21db20618d1f0ded99d90ca25ab3d92bc1"
   },
   "ancient-05": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 437968,
-    "sourceBytes": 3607525,
-    "hash": "038dfe25d44ce6fe3bead44975e753f27a8649f3d716b67dbcbc72a38a78c0bf"
+    "bytes": 372630,
+    "sourceBytes": 3457012,
+    "hash": "e7733c2c64811f69e95831c5bc90d0cc8770d524321602554ee42b01307b60b4"
   },
   "ancient-06": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 534564,
-    "sourceBytes": 3846631,
-    "hash": "31ca6fbe3ad04958aa85f38957ab99e6ab63ac4bfb7adcc101d4c23dfb9d23eb"
+    "bytes": 264730,
+    "sourceBytes": 2970559,
+    "hash": "132d1a632616a9645bfdb5cd7c621d24ec577cfab36784a9ad08f38fb36d1f10"
   },
   "ancient-07": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 390864,
-    "sourceBytes": 3335679,
-    "hash": "a60144b2c1fa63d219e66764b919d05d282a713af2194e31f67d50ddbd88ecba"
+    "bytes": 338752,
+    "sourceBytes": 3211005,
+    "hash": "39f5184604be0b57753ba264da36aeace73b7cba17112c1610983d0a4ac57ecd"
   },
   "ancient-08": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 404668,
-    "sourceBytes": 3422875,
-    "hash": "26f108155e741a920f85541d2d97aac48be0ee5fedf99b6125ce0b3b03e3264b"
+    "bytes": 201934,
+    "sourceBytes": 2642491,
+    "hash": "094ae3a8db84b71b9faf90a1cefa6bb4963ec21722010bae94a33c8cab579b38"
   },
   "ancient-09": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 474922,
-    "sourceBytes": 3656015,
-    "hash": "098550f1c621a3756bf84896fd9da7af0d59e5f503c5674ada765f0f677e6505"
+    "bytes": 232876,
+    "sourceBytes": 2711107,
+    "hash": "e44509c4e9915b30631a79052221c3c9bb61be1fa729dd7209276297efd69f55"
   },
   "ancient-face": {
-    "width": 768,
-    "height": 768,
-    "bytes": 226148,
+    "width": 1254,
+    "height": 1254,
+    "bytes": 623802,
     "sourceBytes": 3769055,
-    "hash": "5556bc7a8b82d11a9c090fb31f788e1acdbb80a7e3156c6c8f2fe3775df7c184"
+    "hash": "df50f546de64fe468ba59c9e700ceb0ca21590e50c8a10b651804ac1cfb36116"
   },
   "birds-01": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 446772,
-    "sourceBytes": 3358685,
-    "hash": "a6742dbf4a94b48570fa70dcf0843a92769346438a607316bdd301fb7a85d56d"
+    "bytes": 153564,
+    "sourceBytes": 2238064,
+    "hash": "a0fff61fd6d52bb9d2c9c05ef836e5894f462b8373846b62a92a576d7b741686"
   },
   "birds-02": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 369252,
-    "sourceBytes": 3171289,
-    "hash": "0e1e16667c6c77aa7cbdcd21495ca3d578fc5e7cedbea51db4c747b9a2ff2a0f"
+    "bytes": 339962,
+    "sourceBytes": 3156735,
+    "hash": "9111934d3c3ed54e732e18526634e7d57714fe2dc0a9dcec8da280432bf8ad31"
   },
   "birds-03": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 486684,
-    "sourceBytes": 3813804,
-    "hash": "d61e1d777fb169492a638e059c102d0ccadf8cd798c31e68e963c1c7b83277ba"
+    "bytes": 434966,
+    "sourceBytes": 3703091,
+    "hash": "493c6a53b527d6c2b464cf8478aed2003ab2e5afe9c2dd3b9fce626e38c32c51"
   },
   "birds-04": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 320854,
-    "sourceBytes": 2941653,
-    "hash": "9ca987f27189063812257bbe41c23b2bc084056883c2d74b063a7b90d6963bcf"
+    "bytes": 274394,
+    "sourceBytes": 2786592,
+    "hash": "a8324419548c73ee9282ce5385a494178b683294ffb7a223e13c5d44e40f1786"
   },
   "birds-05": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 301046,
-    "sourceBytes": 2964646,
-    "hash": "45ce1d5d051819691534d3ec43d2bf3613892294bce480fc61945ffe27d41ea6"
+    "bytes": 303814,
+    "sourceBytes": 3012680,
+    "hash": "d3444d200c8c0a71366a838e047205f2368b392e05a67ec1cd15d7464657c190"
   },
   "birds-06": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 415196,
-    "sourceBytes": 3451650,
-    "hash": "a70404f1f5553fe4f14c1d71e1f3ee75d1640aac57403defb050ab4b13eb39b5"
+    "bytes": 187964,
+    "sourceBytes": 2625114,
+    "hash": "10b4b94bf44825f5788e402a180f0a36610a85c3cdc9f8930f032aa64efc0b67"
   },
   "birds-07": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 579798,
-    "sourceBytes": 4014055,
-    "hash": "5f54d961849f2f0b669ec469da6f6dd75f6e360030e22348a062189fdebba5d7"
+    "bytes": 539632,
+    "sourceBytes": 4062517,
+    "hash": "4c83bbc704124c886115a94452fb2deb91b76413d21d4c39a29c25f6a3a41e0e"
   },
   "birds-08": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 233504,
-    "sourceBytes": 2696276,
-    "hash": "d17718d3031765469e99939d1ed7aafc3c6bccc73e2348f94796f5352e53d23e"
+    "bytes": 197926,
+    "sourceBytes": 2528239,
+    "hash": "dbb6ce225242bb7b7fbd08d0daa67e76abf0606c89d2251e9da0dc1b71b101af"
   },
   "birds-09": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 507242,
-    "sourceBytes": 3714709,
-    "hash": "a527d3014f24cb5b16835676686314b2031109303972e125dc1e8402587df31e"
+    "bytes": 234120,
+    "sourceBytes": 2548109,
+    "hash": "328af51eaa0aa4420bd7fffc22ed819a3b23512ce005a85fa0c0f662051783d3"
   },
   "birds-face": {
-    "width": 768,
-    "height": 768,
-    "bytes": 260484,
+    "width": 1254,
+    "height": 1254,
+    "bytes": 678394,
     "sourceBytes": 3738765,
-    "hash": "7d50ecf9960dca7d929c07b1e3ba3e493f08444b528bcc58158f6d6b16d94208"
+    "hash": "305d5fb47204e46c8308790d296b1ec77828dbcc88ad7e5e2d8b8242331c4d6b"
   },
   "cake-01": {
-    "width": 1080,
-    "height": 1080,
-    "bytes": 115580,
-    "sourceBytes": 2160566,
-    "hash": "3f17cd51af1778b11483727030adda9fbb64dc5abecfe78048229f930d43bdde"
+    "width": 960,
+    "height": 1440,
+    "bytes": 94884,
+    "sourceBytes": 1951485,
+    "hash": "6916c97ddb4363f8f5bd56d57f4a679a8379afd4abca602e57e9dc32403808ca"
   },
   "cake-02": {
-    "width": 1080,
-    "height": 1080,
-    "bytes": 155862,
-    "sourceBytes": 2415682,
-    "hash": "20797a008e215297e80929df91f3cf0f0bdb1520704fb64188840015a3a69cdf"
+    "width": 960,
+    "height": 1440,
+    "bytes": 165334,
+    "sourceBytes": 2305046,
+    "hash": "50277edbf916ed6036a925e2fbc20020377f30b92ace75b87070f8ad7315d3e8"
   },
   "cake-03": {
-    "width": 1080,
-    "height": 1080,
-    "bytes": 81112,
-    "sourceBytes": 2068961,
-    "hash": "b6550dcb2087884a67b671594617dcdda1260d4aba2aeeb8ede65ae9bdfd5ea0"
+    "width": 960,
+    "height": 1440,
+    "bytes": 81486,
+    "sourceBytes": 1988236,
+    "hash": "5ca8105ef242db96043f8383d9a16282bf2a837dd501b15838b02ec0fb6c973e"
   },
   "cake-04": {
-    "width": 1080,
-    "height": 1080,
-    "bytes": 148366,
-    "sourceBytes": 2511165,
-    "hash": "a7a4400fb0c16efdf6628e481bb7af091850a91492b1c7f511f1999cb0804985"
+    "width": 960,
+    "height": 1440,
+    "bytes": 147028,
+    "sourceBytes": 2338872,
+    "hash": "9959d104b5334a9bf20619055da9d5db090d341b4c2a4848e166f0be650aad7c"
   },
   "cake-face": {
-    "width": 768,
-    "height": 768,
-    "bytes": 85644,
+    "width": 1254,
+    "height": 1254,
+    "bytes": 214852,
     "sourceBytes": 2212364,
-    "hash": "51b9cac8f45031a6738a49c1cd7261b796aa7e0710b80b11062588bccbedd1f0"
+    "hash": "22544e9c50aa29d3eea086fe52a8c5bf1fa27be7bc6dd2ba740936b71e5b131d"
   },
   "candy-01": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 215070,
-    "sourceBytes": 2468448,
-    "hash": "26915ea6a969fd5f54e50493b3802ab3ab215f8f1f7290551592846839d191e7"
+    "bytes": 198712,
+    "sourceBytes": 2394967,
+    "hash": "8bc4f3e1ae608f8eb5d101488978235631134ee64289cdfa6f411bad0271e9e5"
   },
   "candy-02": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 275930,
-    "sourceBytes": 2755003,
-    "hash": "934108e14d14e4ab45a917f9d5c845ab96025ef5bc2667deb90fda6e02b52796"
+    "bytes": 242474,
+    "sourceBytes": 2656759,
+    "hash": "d8d1dd259307da6d6c509da1bc4418e60a73e0c8d34133fe6d8a82782325a39d"
   },
   "candy-03": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 251424,
-    "sourceBytes": 2512146,
-    "hash": "dc060a2c891d225940dfc35e1099e003e49d1147fd65377a53daa9248966d9f8"
+    "bytes": 219146,
+    "sourceBytes": 2367627,
+    "hash": "d1f045bdd1412f38c5fff6f06510a5a738f30f2e1e6f263f4ee63fac938bd5bd"
   },
   "candy-04": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 236938,
-    "sourceBytes": 2551509,
-    "hash": "bec49385b28d534e55b0e198a80d9b68baa99a0875b9372ae9dce2fc4ee79978"
+    "bytes": 215924,
+    "sourceBytes": 2479152,
+    "hash": "b3fd1df873929e68cc5c840b125aa34ea42d36a4ba5f6f2b323d09390131ca4a"
   },
   "candy-face": {
-    "width": 768,
-    "height": 768,
-    "bytes": 125348,
+    "width": 1254,
+    "height": 1254,
+    "bytes": 314566,
     "sourceBytes": 2489344,
-    "hash": "fc975ef485e028c4b0b126b82a0924b2b7d944bb06784f4718c76cc06977b61c"
+    "hash": "8183cbc7a49f05fe79ac7224008600a03f58c6a3354a967d641e3887a109361b"
   },
   "chocolate-01": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 224916,
-    "sourceBytes": 2425772,
-    "hash": "67f30042dcbefecd0f00bcd5dc6b7bd2e680e14ffb8560c30fab3ee6fe74fc6e"
+    "bytes": 201508,
+    "sourceBytes": 2345513,
+    "hash": "a288169d5ecc8475a77d45f09607436012244fcc6db7fd6fed4a2b6cc835de24"
   },
   "chocolate-02": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 258650,
-    "sourceBytes": 2638166,
-    "hash": "a53c414af0147b5759322d7c574176a2c2052652e403742183829364e744f199"
+    "bytes": 244004,
+    "sourceBytes": 2582945,
+    "hash": "57bfc6439faef9579873be81c65d263f2e71badd73c51f40fe4fe3b63520249b"
   },
   "chocolate-03": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 260876,
-    "sourceBytes": 2568094,
-    "hash": "f7c027e44c951276ab2c4f0bad63cce0d9261312a779e608b62c82cb637b6fd2"
+    "bytes": 238166,
+    "sourceBytes": 2504957,
+    "hash": "3752efb1329c8ac60fd1a613f4751f6cbf955a12a99d3ed3a83499dfd80e7136"
   },
   "chocolate-04": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 243014,
-    "sourceBytes": 2575073,
-    "hash": "afdf8ca1652427a135b7e744120785fe63787d29d7d17d7c61b56620e29b5df8"
+    "bytes": 224204,
+    "sourceBytes": 2487715,
+    "hash": "7bf69e808fab44d6cee3438e410f8fdd007fffd7e68c10b5ea5b534142751234"
   },
   "chocolate-face": {
-    "width": 768,
-    "height": 768,
-    "bytes": 142150,
+    "width": 1254,
+    "height": 1254,
+    "bytes": 341262,
     "sourceBytes": 2652524,
-    "hash": "cc8000c5ba9fd50a64e88ef768590f2c6010ea7dbc59df8ed59c9ae3f29c45c6"
+    "hash": "484adc884f97bf59bf6e029066b54aff1df6babeb900333e675fca0fa2531f26"
   },
   "cream-01": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 243082,
-    "sourceBytes": 2547032,
-    "hash": "b4dc1d7810596232a81ae1ee0b4d7e3275b296fd5f6b07648a16d7579d0349ce"
+    "bytes": 245354,
+    "sourceBytes": 2620131,
+    "hash": "41e2363d231e0e38be9836e535c16f0bb62bc003093a3c827f0025983d1dabad"
   },
   "cream-02": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 305886,
-    "sourceBytes": 2852643,
-    "hash": "ae61a33d21d0fd334fa51ac01f9da11676575adf2f73f41f2e971966536eaf65"
+    "bytes": 281664,
+    "sourceBytes": 2801784,
+    "hash": "65ffb14df3a7cb75e19c4602ff0106606b205041013da953e352fab85fcf7992"
   },
   "cream-03": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 237714,
-    "sourceBytes": 2547547,
-    "hash": "036478e19fb46a696c7b8e1f4db5d3557d3fdac0690c2a52f16b4eb028b13f0c"
+    "bytes": 245058,
+    "sourceBytes": 2621647,
+    "hash": "6af372e590e5537deeacd6af3ca62d89fb7bed3f61f7b9c9d6835c3dd0fb542a"
   },
   "cream-04": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 268246,
-    "sourceBytes": 2657081,
-    "hash": "8ace07afa60d9eb09b6e7c80c45663bf1b7a0c41f2f9675da04f39b28c9aea8b"
+    "bytes": 238064,
+    "sourceBytes": 2572644,
+    "hash": "8394de1abbf036c8325658c0eba3a18cbe02815575583888b5b18e21e0b95f4e"
   },
   "cream-face": {
-    "width": 768,
-    "height": 768,
-    "bytes": 145026,
+    "width": 1254,
+    "height": 1254,
+    "bytes": 324220,
     "sourceBytes": 2548687,
-    "hash": "6931b7b579550505fe62ef7a479470f0f6d097ef5e3ff388cc7ceae5ac0c659b"
+    "hash": "1845b881e32a9357ee02847b72a70a8c61cf9cacc3885e4e391395c67488879c"
   },
   "icecream-01": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 276534,
-    "sourceBytes": 2725686,
-    "hash": "fb8388439e8106dd9869631932f62d7e58626a80d2283c20812f65f5054cddfd"
+    "bytes": 254800,
+    "sourceBytes": 2666563,
+    "hash": "2da35a7fda4d31c522059ed369f8ba33f8b9103c0c69a726fe5e41d105c04a77"
   },
   "icecream-02": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 254498,
-    "sourceBytes": 2549886,
-    "hash": "bb18e64d28e77b9ad1a7dab735e3363cdacc5b0c81d72e847eabd2afb1fe3323"
+    "bytes": 223668,
+    "sourceBytes": 2420416,
+    "hash": "35281f79d796c8e87c27f3470decc877b025c67102b9e50ca2e6e5b1c37bf319"
   },
   "icecream-03": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 289466,
-    "sourceBytes": 2718149,
-    "hash": "2c60fa43a928b8d87abe6951c213678febd7a35cf384469b2f624f325a59238f"
+    "bytes": 238254,
+    "sourceBytes": 2578261,
+    "hash": "3bf930b5e677328b5aeac812c9a878677247bf18c1588409fd59c9edb906a16f"
   },
   "icecream-04": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 263752,
-    "sourceBytes": 2677380,
-    "hash": "486579f5c69c0dc28579c039960b440d097362bf56c2bc3251a56ff1656f0560"
+    "bytes": 243500,
+    "sourceBytes": 2641239,
+    "hash": "bcc2510d12b9a7b6daa9db49e9c2d9a2ce83723115408b8ad5965901cba86c72"
   },
   "icecream-face": {
-    "width": 768,
-    "height": 768,
-    "bytes": 133080,
+    "width": 1254,
+    "height": 1254,
+    "bytes": 312282,
     "sourceBytes": 2508490,
-    "hash": "93410651456cf84e9ef2e8e82ef27187a24cb3f09d377c858aa873f1c0c62922"
+    "hash": "4a3dbe6eee6f9effc2ae90b4795f7a8d8749c2e193732805cf106428f1cdc7aa"
   },
   "insects-01": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 404434,
-    "sourceBytes": 3258038,
-    "hash": "c71cc16dc3751edfe07769309020e3e4d28db9280b59d8561a50cb798ef9c0f2"
+    "bytes": 390374,
+    "sourceBytes": 3251320,
+    "hash": "e1dad92ca5fe118e8828f05f4aa9d31283881b58c8ffb92c8324fe7932c4c23b"
   },
   "insects-02": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 337072,
-    "sourceBytes": 3041422,
-    "hash": "b24a21500ae5658434e68c781608361f515c56e07105ea07acc8285006149e30"
+    "bytes": 335772,
+    "sourceBytes": 3166322,
+    "hash": "c0b51e0123ef050936cc4785cd5374bb2eb3206d086924a908ede6a536e7f5e9"
   },
   "insects-03": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 303688,
-    "sourceBytes": 2925025,
-    "hash": "b488d196998393fdb9fcb7b1c32b2eba3bac4446d8e66e40ac770bab042c23ad"
+    "bytes": 289522,
+    "sourceBytes": 2875398,
+    "hash": "308fdeb2829e6cda90b1345f03da8b40b1d4c1f5a089bab941018f40c95d3f4a"
   },
   "insects-04": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 367852,
-    "sourceBytes": 3080564,
-    "hash": "5661cdd3977e28879f416b3272c95ed0717b937687c72c8dec41f08b92228c41"
+    "bytes": 104492,
+    "sourceBytes": 2098736,
+    "hash": "555f7e854dacd1bad2108500455d182776d427fab7070dcd0ac21db7f4b68775"
   },
   "insects-05": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 352110,
-    "sourceBytes": 3230595,
-    "hash": "541003054c7ddfe27d54c88577dd2a3691e6446991d18c10c4cc38421f96d6d3"
+    "bytes": 85344,
+    "sourceBytes": 2027029,
+    "hash": "8d09de2255b21285f92eaf352a19fc5eb28bce033eb6861de357a9a0a6ce176b"
   },
   "insects-06": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 371052,
-    "sourceBytes": 3169248,
-    "hash": "d37841131e63c0edda690a2a426ab2b971e5934f5ea4f88723c795c9aa3a39dd"
+    "bytes": 140068,
+    "sourceBytes": 2311519,
+    "hash": "5f528f0ba534e7eeaa065f0c1110c83b508128e1fb15ff01b466e9b136a23dfa"
   },
   "insects-07": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 387994,
-    "sourceBytes": 3207507,
-    "hash": "42739b3f25dda1dc2e749120910fc6dc685f898be47e2730d744fb3fd44b6f4b"
+    "bytes": 471672,
+    "sourceBytes": 3835452,
+    "hash": "c17f33758d052575ae0cab66618f8082667e5c2004ea3f48d1d9765d0798c297"
   },
   "insects-08": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 408458,
-    "sourceBytes": 3377867,
-    "hash": "0a83f84d80360e838479de3e905b98c1e5bb010686385623f1ce2ddec4077a84"
+    "bytes": 371046,
+    "sourceBytes": 3302525,
+    "hash": "00e1f5662ba9381919e4e9e0c8e80f287ba020ef42f00d5e3c92e8512666ff06"
   },
   "insects-09": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 356080,
-    "sourceBytes": 3166203,
-    "hash": "6c8b4fa1eba25e8419bf532b497dea4114da0788a2bc96cd34245d362ca0c19d"
+    "bytes": 65016,
+    "sourceBytes": 1789549,
+    "hash": "b3638d16cddbfddc8e8d9e8cea026d4c6aef4fa6a623caf76c7bb29e09ed87a1"
   },
   "insects-face": {
-    "width": 768,
-    "height": 768,
-    "bytes": 204684,
+    "width": 1254,
+    "height": 1254,
+    "bytes": 474462,
     "sourceBytes": 3179393,
-    "hash": "1c74dfa7e0cae281ffd6c77fc2083645ed1590a78ebbe06aad1005686c8de1e2"
+    "hash": "c49f6f91e743a7769a37dc754e5aed074898f20dfae141b913677866a10bb8f7"
   },
   "jelly-01": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 271718,
-    "sourceBytes": 2534288,
-    "hash": "5963d0994e89adcb7678720b5b444e89bc87f26b41df9aa6fb300d66ccbf6be6"
+    "bytes": 248306,
+    "sourceBytes": 2457620,
+    "hash": "c7571604be4826bc0d45c839e8df3e1bebfb4815b84c4770b3debf0a7d92457f"
   },
   "jelly-02": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 218974,
-    "sourceBytes": 2396144,
-    "hash": "5086f70fb88e47256de1752e6e26d7b5d29e4eff125b12b6572542eacc4cdba8"
+    "bytes": 184162,
+    "sourceBytes": 2276885,
+    "hash": "600646b5c8ddaa12aa45869a31b627cc8b6743656494e097c9632109e07adc43"
   },
   "jelly-03": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 260936,
-    "sourceBytes": 2543980,
-    "hash": "1c561fdaa10e37b5f05903ce7637127fef2c4138dc83fa222f5ea3d5e0a2eb96"
+    "bytes": 254214,
+    "sourceBytes": 2576485,
+    "hash": "bfcbc7a8f000df412854214a992f6196454dd16cb00f6e708dee85677f9e29c0"
   },
   "jelly-04": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 279012,
-    "sourceBytes": 2760098,
-    "hash": "4458b1e507988f1b00a9778b91ecc94b0f8d75cff888df5428ede014f4ba96bc"
+    "bytes": 245616,
+    "sourceBytes": 2650778,
+    "hash": "0d43c9af4a0acd78d13ce47f06a92c21e02f0d40ed3b13c7a8273727f5ccfa35"
   },
   "jelly-face": {
-    "width": 768,
-    "height": 768,
-    "bytes": 147544,
+    "width": 1254,
+    "height": 1254,
+    "bytes": 344782,
     "sourceBytes": 2671482,
-    "hash": "7bdc4dc8f72040c920dce64b8a28f971d689b5545b2796de825da33f9b13843f"
+    "hash": "649ea9f58d73d116ad556bc4ff35965c215886c8ba87c20e927c8e35f90d4245"
   },
   "land-01": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 473030,
-    "sourceBytes": 3575184,
-    "hash": "9e97bf74b6e43a3f5108cae99cb1e187d278f9c93028e57e2b48290b8102cfcf"
+    "bytes": 409662,
+    "sourceBytes": 3443390,
+    "hash": "a33e1a4c5a66ba693056a20901b8dddde5e3f4b2eec37dcb2077c5266a40ffec"
   },
   "land-02": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 512154,
-    "sourceBytes": 3785282,
-    "hash": "f2c28e3f7eeb9c0af9d3c008aebdd964a8e915881028551324c264ba8b8c3e92"
+    "bytes": 181800,
+    "sourceBytes": 2579531,
+    "hash": "0a2b2eb37453f7915321e4b497e700442eefe3aed53cc71aed5d567c4513be59"
   },
   "land-03": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 462942,
-    "sourceBytes": 3643018,
-    "hash": "a410abbc65927bc8306a3d2ecaa4da6d066a7c37f3d4183baf656317597c79d0"
+    "bytes": 422496,
+    "sourceBytes": 3541925,
+    "hash": "721fb2cadc398147372540543f397710efc7633f6f2cf93c3594991f43837d8b"
   },
   "land-04": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 470078,
-    "sourceBytes": 3638424,
-    "hash": "e45a2754e2fe3e4a5c3633d1a6fdec4bbe01b73687f7970ad98815dd2863b47e"
+    "bytes": 206450,
+    "sourceBytes": 2506232,
+    "hash": "5d5df8b44164ffabf41feee8bc744875f03a875a63a8d8a2798016e5ec615aab"
   },
   "land-05": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 473910,
-    "sourceBytes": 3743001,
-    "hash": "3dfc049404194450c162e0603509b60a4224ef1ace458764daa5ceebde62aa7e"
+    "bytes": 399220,
+    "sourceBytes": 3587907,
+    "hash": "643d99ed068e3f27640bdf4ef5a2763377d6a5e1c635257d4adf4e7c762e76f8"
   },
   "land-06": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 487724,
-    "sourceBytes": 3627970,
-    "hash": "ea6863fca503393ae79cdc397570bc407933652225e9c8b20abe478d8f670d28"
+    "bytes": 438934,
+    "sourceBytes": 3575586,
+    "hash": "5530e3a6def0ba9208225eecba9b3031d9851565de5521f09cbbe2f2e97b5079"
   },
   "land-07": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 388534,
-    "sourceBytes": 3424860,
-    "hash": "41636f47041f964a6e0d8604578396502abd292e76d0935eead07d93fc3bdd15"
+    "bytes": 234918,
+    "sourceBytes": 2952369,
+    "hash": "ffcfb1a1c16197cc5d517194a8aaa8c74010eef220d830b086429f58a08fcca1"
   },
   "land-08": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 559678,
-    "sourceBytes": 3973791,
-    "hash": "d791be8ae85f8c159ab1f6df93406569df8fa3949bd3a53677ccdf0db247f818"
+    "bytes": 244810,
+    "sourceBytes": 2637862,
+    "hash": "e13703150f2f815397111dbd53b4e912b0a0f8854c5c1ef832b1a707e266a09c"
   },
   "land-09": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 536402,
-    "sourceBytes": 3951120,
-    "hash": "beda9327ba89a74d2f8688109c0a8e31cb9ab0228a668261ff876d6f7f32e823"
+    "bytes": 454596,
+    "sourceBytes": 3765294,
+    "hash": "ff8c540b348d14ccec2c5b4167b9e900317e1b6ff1f918f247a2437de5146367"
   },
   "land-face": {
-    "width": 768,
-    "height": 768,
-    "bytes": 205408,
+    "width": 1254,
+    "height": 1254,
+    "bytes": 580414,
     "sourceBytes": 3525543,
-    "hash": "bd81dc4e2d48037f1e400087a1838daca17d8750667a221cf0ee0ba493f74081"
+    "hash": "ff57c0116fd3b3604af589172880d2fbe09baf81bd05055372b2e03186319d28"
   },
   "ocean-01": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 442614,
-    "sourceBytes": 3391560,
-    "hash": "f3f6b44a79fb2bc3dbb8b0f45c03f5af1bdb1dc5064905a8ca0d3fe1c905485e"
+    "bytes": 293930,
+    "sourceBytes": 2925736,
+    "hash": "ee28039f1b49e3fd0f9778d6c99d4ea2bfc864bc2ecac1a03212d8926ded2f63"
   },
   "ocean-02": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 333186,
-    "sourceBytes": 2991374,
-    "hash": "600ee6737d32c7bccf0d6b0982dee5153a1a2a8d430a87671dab4e9883d09d19"
+    "bytes": 293572,
+    "sourceBytes": 2867381,
+    "hash": "b16e474de5ecc831907f4eb1472c6c8e3f4134cddfffab31c7a5cf11c7ab4e80"
   },
   "ocean-03": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 410606,
-    "sourceBytes": 3251655,
-    "hash": "cb78fc742afe1910c2d17ee1aa4d232272d3cb84594273c7276cc243e08725e7"
+    "bytes": 180768,
+    "sourceBytes": 2515166,
+    "hash": "9457cb54a4897854fbfdbbcd61a91638d27c1ae1baf3314b03a94c024cc952ff"
   },
   "ocean-04": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 336718,
-    "sourceBytes": 3062529,
-    "hash": "a0850739677bb7ee952ac93e1d09296ee3406773d1018b3ef6c14f1d1f3af76a"
+    "bytes": 325056,
+    "sourceBytes": 3034743,
+    "hash": "5aa16cce314fd5d433391d300fe970019e0b96b2c2a04a8535b115696d53b57a"
   },
   "ocean-05": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 404072,
-    "sourceBytes": 3378048,
-    "hash": "d48f21487ad502004c314feeb76125f147c02400d1de222a5b2f21db01020f3f"
+    "bytes": 371100,
+    "sourceBytes": 3291407,
+    "hash": "5263bc51785830cfc4bced460ba2ecbac41825d9b1ed0b93a725cd2248977dff"
   },
   "ocean-06": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 406336,
-    "sourceBytes": 3258154,
-    "hash": "988d9f8dc041abc20718deb34306c467f48759cbab30ab59e07678a6d3bd3a06"
+    "bytes": 279542,
+    "sourceBytes": 2974623,
+    "hash": "589a51598ffad0472384e7ccf7528b2c82cc2ae43e198a2e6ba4c1167d83c4ef"
   },
   "ocean-07": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 402936,
-    "sourceBytes": 3295668,
-    "hash": "75e230f626283242d757ac0c2e943ed6c3da627b535745f1b542e12ddb8e73b6"
+    "bytes": 200490,
+    "sourceBytes": 2502095,
+    "hash": "d62537dde37dca650093d8612a267198b554da9c715ceff9f0ddc8aeeffc6cf0"
   },
   "ocean-08": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 338430,
-    "sourceBytes": 2995606,
-    "hash": "64f19ed252b071e16e0d5b7da020a913989cb539d2883d3336d2893dd029cc3c"
+    "bytes": 331548,
+    "sourceBytes": 3052748,
+    "hash": "d82507d9458ffde398c2cec5f6ce08a805a018d02cca0761024d92c9a2a3805d"
   },
   "ocean-09": {
-    "width": 1080,
+    "width": 960,
     "height": 1440,
-    "bytes": 263846,
-    "sourceBytes": 2703767,
-    "hash": "951f5cf845ad702816b8fe36e4c00df113292208f272212e5267d07e5aacd014"
+    "bytes": 130998,
+    "sourceBytes": 2101844,
+    "hash": "e2a584840dfcc778478c11fa2176123f61c79fc8ab479979a311f76badfce999"
   },
   "ocean-face": {
-    "width": 768,
-    "height": 768,
-    "bytes": 215272,
+    "width": 1254,
+    "height": 1254,
+    "bytes": 526470,
     "sourceBytes": 3390486,
-    "hash": "6f0a811fd5cdb225b53257d6908c89cda02f01298f511efffa96c3a8dbfcf6c1"
+    "hash": "6027b9bc685a584c7f78a737617fd60c6f3f30cd51bc187f93ead4f95968c615"
   }
 }

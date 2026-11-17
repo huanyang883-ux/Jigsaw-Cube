@@ -1,7 +1,29 @@
+# Dependencies, builds and local test output.
 node_modules/
 dist/
 .local/
 test-results/
 *.log
-art-source/**/*.png
 android/
+
+# Source artwork stays local; ship optimized public/assets/ files instead.
+art-source/**/*.[pP][nN][gG]
+art-source/**/*.[jJ][pP][gG]
+art-source/**/*.[jJ][pP][eE][gG]
+art-source/**/*.[wW][eE][bB][pP]
+art-source/**/*.[aA][vV][iI][fF]
+art-source/**/*.[gG][iI][fF]
+art-source/**/*.[pP][sS][dD]
+
+# Experiments, backups and generated reports are local working files.
+# Keep only the regression baselines read by scripts/ so a fresh clone works.
+art-source/experiments/**
+!art-source/experiments/**/
+!art-source/experiments/all-levels-2x3-v1/before/asset-hashes.json
+!art-source/experiments/amphibians-chapter-v3/before/first12-layouts.json
+!art-source/experiments/amphibians-chapter-v3/before/later-layouts.json
+!art-source/experiments/amphibians-level41-v4/before/later-layouts.json
+!art-source/experiments/birds-chapter-v2/before/later-layouts.json
+!art-source/experiments/insects-unjoined-v3/before/later-layouts.json
+!art-source/experiments/remaining-animals-v2/before/first12-layouts.json
+!art-source/experiments/remaining-animals-v2/before/later-layouts.json

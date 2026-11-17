@@ -8,21 +8,40 @@ const sources = path.join(root, 'art-source/images');
 const output = path.join(root, 'public/assets');
 await fs.mkdir(output, { recursive: true });
 const manifestPath = path.join(root, 'src/art-manifest.json');
+const faceExport = { size: 1280, quality: 88 };
+const levelExport = { width: 960, height: 1440, quality: 83 };
+const files = (await fs.readdir(sources)).filter(f => f.endsWith('.png')).sort();
+// Validate the complete source set before overwriting any runtime asset.
+for (const file of files) {
+  const meta = await sharp(path.join(sources, file)).metadata();
+  const rotated = meta.orientation >= 5 && meta.orientation <= 8;
+  const width = rotated ? meta.height : meta.width, height = rotated ? meta.width : meta.height;
+  if (file.endsWith('-face.png')) {
+    if (width !== height) throw new Error(`${file}: cube-face artwork must remain square (1:1).`);
+  } else if (width * 3 !== height * 2 || width < levelExport.width || height < levelExport.height) {
+    throw new Error(`${file}: level artwork must be 2:3 portrait and at least 960x1440; received ${width}x${height}. Generate or edit the source image before exporting.`);
+  }
+}
 let previous = {};
 try { previous = JSON.parse(await fs.readFile(manifestPath, 'utf8')); } catch { /* First conversion. */ }
 const manifest = {};
-for (const file of (await fs.readdir(sources)).filter((f) => f.endsWith('.png')).sort()) {
+for (const file of files) {
   const id = path.basename(file, '.png'), input = await fs.readFile(path.join(sources, file));
-  const hash = createHash('sha256').update(input).digest('hex');
+  const cover = id.endsWith('-face');
+  // Include the face export recipe in its version, so both this cache and
+  // browser caches refresh when resolution/quality changes without new art.
+  const digest = createHash('sha256').update(input);
+  if (cover) digest.update(`face:webp:${faceExport.size}x${faceExport.size}:q${faceExport.quality}:smartSubsample:v2`);
+  const hash = digest.digest('hex');
   const target = path.join(output, `${id}.webp`);
   const cached = previous[id];
-  if (cached?.hash === hash && await fs.stat(target).catch(() => null)) {
+  const cachedSizeValid = cover ? cached?.width === cached?.height : cached?.width === levelExport.width && cached?.height === levelExport.height;
+  if (cached?.hash === hash && cachedSizeValid && await fs.stat(target).catch(() => null)) {
     const { width, height, bytes, sourceBytes } = cached;
     manifest[id] = { width, height, bytes, sourceBytes, hash }; continue;
   }
-  const cover = id.endsWith('-face');
   const pipeline = sharp(input).rotate().toColourspace('srgb');
-  const result = await pipeline.resize({ width: cover ? 768 : 1080, height: cover ? 768 : 1440, fit: 'inside', withoutEnlargement: true }).webp({ quality: 83, effort: 6, smartSubsample: true }).toFile(target);
+  const result = await pipeline.resize({ width: cover ? faceExport.size : levelExport.width, height: cover ? faceExport.size : levelExport.height, fit: 'inside', withoutEnlargement: true }).webp({ quality: cover ? faceExport.quality : levelExport.quality, effort: 6, smartSubsample: true }).toFile(target);
   manifest[id] = { width: result.width, height: result.height, bytes: result.size, sourceBytes: input.length, hash };
   console.log(`${id}: ${Math.round(input.length / 1024)} KB -> ${Math.round(result.size / 1024)} KB (${result.width}x${result.height})`);
 }

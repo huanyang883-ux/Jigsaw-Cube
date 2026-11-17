@@ -29,12 +29,13 @@ for (const spec of levelPlan) {
   const { target, ...config } = spec, gentle = ['easy', 'relief'].includes(spec.difficulty), hard = spec.difficulty === 'challenge';
   let chosen;
   for (let attempt = 0; attempt < 3000 && !chosen; attempt++) {
-    const seed = 261113 + spec.number * 100003 + attempt * 997, positions = candidate(spec.gridSize, seed, gentle);
+    const seed = 261113 + spec.number * 100003 + attempt * 997, positions = candidate(spec.gridSize, seed, gentle && spec.maxInitialLinks !== 0);
     const sizes = groups(positions).map((g) => g.length), links = connectionCount(positions), fixed = positions.filter((p, id) => p === id).length;
     if (Math.max(...sizes) > (gentle ? 4 : 2) || fixed > (gentle ? 3 : hard ? 1 : 2)) continue;
-    if (gentle && spec.gridSize === 4 && links < 3 || hard && links > 1 || used.has(shapeKey(positions))) continue;
+    if (spec.maxInitialLinks !== undefined && links > spec.maxInitialLinks) continue;
+    if (gentle && spec.gridSize === 4 && spec.maxInitialLinks === undefined && links < 3 || hard && links > 1 || used.has(shapeKey(positions))) continue;
     const hints = hintSolution(positions);
-    if (hints.length < target || hints.length > (gentle ? target + 2 : hard ? 12 : 10)) continue;
+    if (hints.length < target || hints.length > (spec.maxInitialLinks === 0 ? target + 5 : gentle ? target + 2 : hard ? 12 : 10)) continue;
     const solution = improveSolution(positions, spec.gridSize === 3 ? 20 : 32);
     if (solution.length !== target) continue;
     let cursor = positions, groupMoves = 0;
@@ -43,7 +44,7 @@ for (const spec of levelPlan) {
       cursor = moveGroup(cursor, move.id, move.dx, move.dy);
     }
     if (!solved(cursor) || groupMoves < (hard ? 2 : 1)) continue;
-    const checkedDepth = spec.gridSize === 3 ? target - 1 : hard ? 4 : 3;
+    const checkedDepth = spec.gridSize === 3 ? target - 1 : spec.gridSize === 5 ? 3 : hard ? 4 : 3;
     const check = searchWithin(positions, checkedDepth, 2500000);
     if (check.solution || check.exhausted) continue;
     chosen = { ...config, seed, positions, solution, audit: {

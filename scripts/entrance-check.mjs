@@ -87,7 +87,8 @@ try {
 
   const scarce = freshProgress(); scarce.completed[0].fill(true); scarce.props = { hint: 1, preview: 1 };
   const second = await page(scarce); const q = second.p;
-  await q.tap('#next'); await idle(q); await enter(q); await open(q, 0, false);
+  assert.equal((await q.evaluate(()=>window.__game.state())).theme, 1);
+  await enter(q); await open(q, 0, false);
   await q.waitForFunction(() => window.__game.entrance()?.cards.length === 16);
   await q.waitForFunction(() => window.__game.entrance()?.elapsed >= 2350);
   await q.screenshot({ path: 'test-results/entrance-animal-flips.png' }); await idle(q);
@@ -98,7 +99,7 @@ try {
   await q.evaluate(() => { for (const selector of ['#hint', '#picture-peek']) document.querySelector(selector).dispatchEvent(new Event('click')); });
   await counts(q, { hint: 0, preview: 0 }); assert.deepEqual((await state(q)).session.positions, exhausted);
   assert.ok(await q.locator('#overlay').isHidden());
-  await q.reload(); await idle(q); await q.tap('#next'); await idle(q); await enter(q); await open(q);
+  await q.reload(); await idle(q); await enter(q); await open(q);
   await counts(q, { hint: 0, preview: 0 });
   await q.screenshot({ path: 'test-results/props-empty.png' }); await second.c.close();
 

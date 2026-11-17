@@ -40,3 +40,5 @@
 
 .hand-guide{position:absolute;width:240px;height:240px;transform:translate(-96px,-17px);z-index:25;pointer-events:none!important;user-select:none}
 .hand-guide img{position:absolute;left:0;top:0;width:240px;height:240px;max-width:none;transform-origin:96px 17px;filter:drop-shadow(0 5px 4px #6b624a38);pointer-events:none;user-select:none;-webkit-user-drag:none;will-change:transform,opacity}
+
+.puzzle-settings.is-home{margin-left:0}.puzzle-settings.is-home .settings-menu{left:-15px;right:auto}.puzzle-settings.is-home .settings-menu:before{left:58px;right:auto}

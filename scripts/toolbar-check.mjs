@@ -14,7 +14,7 @@ try {
   const p = await context.newPage(), errors = [];
   p.on('pageerror', (e) => errors.push(e.message));
   await p.goto(base); await idle(p);
-  const original = await p.locator('#sound').boundingBox();
+  const original = await p.locator('#settings').boundingBox();
   await p.tap('#enter'); await idle(p);
   const point = await p.evaluate(() => window.__game.tileCenter(0));
   await p.touchscreen.tap(point.x, point.y); await idle(p);
@@ -30,14 +30,14 @@ try {
       return { hint:box('#hint'), preview:box('#picture-peek'), progress:box('.puzzle-progress'), settings:box('#settings'), board:box('.puzzle-frame'), scroll:document.documentElement.scrollWidth };
     });
     assert.ok(layout.hint.right < layout.preview.x && layout.preview.right < layout.progress.x && layout.progress.right < layout.settings.x, 'header controls never overlap');
-    assert.ok(layout.board.y > layout.settings.bottom && layout.board.x >= 0 && layout.board.right <= width + 1 && layout.board.bottom < height, 'larger cards remain inside the usable viewport');
+    assert.ok(layout.board.y > layout.settings.bottom && layout.board.x >= 0 && layout.board.right <= width + 1 && layout.board.bottom < height, `larger cards remain inside the usable viewport: ${JSON.stringify({ width, height, ...layout })}`);
     assert.equal(layout.scroll, width);
   }
   await p.setViewportSize({ width:390, height:844 }); await p.waitForTimeout(100);
   await p.screenshot({ path:'test-results/puzzle-toolbar.png' });
   await p.tap('#settings'); await p.waitForTimeout(240);
   assert.equal(await p.locator('#settings').getAttribute('aria-expanded'), 'true');
-  assert.equal(await p.locator('#settings-menu button').count(), 2);
+  assert.equal(await p.locator('#settings-menu button:not([hidden])').count(), 2);
   const before = await state(p), menu = await p.locator('#settings-menu').boundingBox(), gear = await p.locator('#settings').boundingBox();
   assert.ok(menu.y > gear.y + gear.height && menu.x >= 0 && menu.x + menu.width <= 390, 'dropdown opens below the gear and stays on screen');
   await p.screenshot({ path:'test-results/puzzle-settings-open.png' });

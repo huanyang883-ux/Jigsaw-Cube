@@ -45,7 +45,8 @@ try {
   await shown(p, 'rotateCube'); await p.waitForTimeout(500);
   await p.screenshot({ path: 'test-results/guide-orbit.png' });
   assert.ok(Object.values((await state(p)).progress.guides).every((value) => value === false), 'showing a guide does not complete it');
-  await p.tap('#sound'); assert.ok(await p.locator('#hand-guide').isHidden());
+  await p.tap('#settings'); await p.tap('#sound'); await p.tap('#settings');
+  assert.ok(await p.locator('#hand-guide').isHidden());
   await p.waitForTimeout(1700); assert.ok(await p.locator('#hand-guide').isHidden(), 'any real input restarts the idle timer');
   await drag(ctx, { x: 180, y: 410 }, { x: 250, y: 450 });
   assert.ok((await state(p)).progress.guides.rotateCube);

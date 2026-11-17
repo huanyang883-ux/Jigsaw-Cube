@@ -1,0 +1,6427 @@
+[
+  {
+    "number": 13,
+    "theme": 0,
+    "face": 3,
+    "level": 0,
+    "chapter": "icecream",
+    "artId": "icecream-01",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Tall cone, fruit and shop window separate the picture into clear regions.",
+    "seed": 1570125,
+    "positions": [
+      13,
+      0,
+      10,
+      9,
+      15,
+      4,
+      14,
+      6,
+      2,
+      3,
+      1,
+      8,
+      12,
+      5,
+      7,
+      11
+    ],
+    "solution": [
+      {
+        "id": 8,
+        "dx": -2,
+        "dy": 2
+      },
+      {
+        "id": 2,
+        "dx": -1,
+        "dy": -2
+      },
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 0,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 0,
+        "dx": -3,
+        "dy": -2
+      },
+      {
+        "id": 13,
+        "dx": -1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        2,
+        2,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 3,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 7,
+      "groupMoves": 5,
+      "checkedNodes": 18603
+    }
+  },
+  {
+    "number": 14,
+    "theme": 0,
+    "face": 3,
+    "level": 1,
+    "chapter": "icecream",
+    "artId": "icecream-02",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Three sundae scoops repeat; glass dish and banana define the outline.",
+    "seed": 1669131,
+    "positions": [
+      15,
+      7,
+      14,
+      3,
+      9,
+      2,
+      4,
+      5,
+      13,
+      6,
+      0,
+      12,
+      10,
+      8,
+      11,
+      1
+    ],
+    "solution": [
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": 2
+      },
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": -1
+      },
+      {
+        "id": 4,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 2,
+        "dx": 0,
+        "dy": -3
+      },
+      {
+        "id": 8,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 10,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 11,
+        "dx": 3,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 3,
+      "provenMinimum": 4,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 2,
+      "checkedNodes": 18587
+    }
+  },
+  {
+    "number": 15,
+    "theme": 0,
+    "face": 3,
+    "level": 2,
+    "chapter": "icecream",
+    "artId": "icecream-03",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 3,
+    "imageDifficulty": "easy",
+    "imageNotes": "Pink and orange fruit ice pops contrast with the mint bowl.",
+    "seed": 1761158,
+    "positions": [
+      7,
+      8,
+      15,
+      5,
+      0,
+      2,
+      13,
+      1,
+      11,
+      10,
+      6,
+      9,
+      4,
+      3,
+      14,
+      12
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": -3,
+        "dy": -2
+      },
+      {
+        "id": 8,
+        "dx": -3,
+        "dy": 0
+      },
+      {
+        "id": 2,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": 0
+      },
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 10,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 6,
+        "dx": 1,
+        "dy": -2
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 5,
+      "solutionMoves": 8,
+      "exact": false,
+      "hintMoves": 10,
+      "groupMoves": 4,
+      "checkedNodes": 877264
+    }
+  },
+  {
+    "number": 16,
+    "theme": 0,
+    "face": 3,
+    "level": 3,
+    "chapter": "icecream",
+    "artId": "icecream-04",
+    "gridSize": 4,
+    "difficulty": "relief",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Purple parfait layers repeat; retain small connected groups for relief.",
+    "seed": 1888080,
+    "positions": [
+      1,
+      5,
+      2,
+      9,
+      4,
+      0,
+      8,
+      14,
+      10,
+      7,
+      12,
+      13,
+      6,
+      11,
+      3,
+      15
+    ],
+    "solution": [
+      {
+        "id": 3,
+        "dx": 1,
+        "dy": 1
+      },
+      {
+        "id": 6,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 3,
+        "dx": 1,
+        "dy": -3
+      },
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 3,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        3,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 3,
+      "provenMinimum": 4,
+      "solutionMoves": 5,
+      "exact": false,
+      "hintMoves": 7,
+      "groupMoves": 1,
+      "checkedNodes": 16768
+    }
+  },
+  {
+    "number": 17,
+    "theme": 0,
+    "face": 4,
+    "level": 0,
+    "chapter": "chocolate",
+    "artId": "chocolate-01",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Fountain has repeated brown tiers, anchored by strawberries and saucer.",
+    "seed": 1968143,
+    "positions": [
+      12,
+      1,
+      9,
+      7,
+      0,
+      4,
+      11,
+      10,
+      6,
+      13,
+      5,
+      14,
+      2,
+      8,
+      3,
+      15
+    ],
+    "solution": [
+      {
+        "id": 0,
+        "dx": 2,
+        "dy": -3
+      },
+      {
+        "id": 7,
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "id": 2,
+        "dx": 1,
+        "dy": -2
+      },
+      {
+        "id": 10,
+        "dx": 1,
+        "dy": 1
+      },
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 1,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 7,
+      "groupMoves": 5,
+      "checkedNodes": 16940
+    }
+  },
+  {
+    "number": 18,
+    "theme": 0,
+    "face": 4,
+    "level": 1,
+    "chapter": "chocolate",
+    "artId": "chocolate-02",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 3,
+    "imageDifficulty": "hard",
+    "imageNotes": "Assorted truffles repeat within a box; shorten the challenge route.",
+    "seed": 2119990,
+    "positions": [
+      1,
+      0,
+      15,
+      10,
+      8,
+      3,
+      9,
+      4,
+      6,
+      14,
+      11,
+      2,
+      12,
+      7,
+      5,
+      13
+    ],
+    "solution": [
+      {
+        "id": 4,
+        "dx": 2,
+        "dy": -2
+      },
+      {
+        "id": 4,
+        "dx": -2,
+        "dy": 1
+      },
+      {
+        "id": 9,
+        "dx": 1,
+        "dy": -3
+      },
+      {
+        "id": 9,
+        "dx": -2,
+        "dy": 2
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 3,
+        "dx": 1,
+        "dy": -2
+      },
+      {
+        "id": 7,
+        "dx": 1,
+        "dy": 1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 5,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 10,
+      "groupMoves": 3,
+      "checkedNodes": 877725
+    }
+  },
+  {
+    "number": 19,
+    "theme": 0,
+    "face": 4,
+    "level": 2,
+    "chapter": "chocolate",
+    "artId": "chocolate-03",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Stacked brownies and pale green mug provide separate landmarks.",
+    "seed": 2164161,
+    "positions": [
+      5,
+      13,
+      9,
+      4,
+      6,
+      14,
+      2,
+      7,
+      1,
+      11,
+      3,
+      8,
+      0,
+      10,
+      12,
+      15
+    ],
+    "solution": [
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 8,
+        "dx": 1,
+        "dy": 2
+      },
+      {
+        "id": 4,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 3,
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "id": 6,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 1,
+        "dx": 0,
+        "dy": -3
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 3,
+      "checkedNodes": 14818
+    }
+  },
+  {
+    "number": 20,
+    "theme": 0,
+    "face": 4,
+    "level": 3,
+    "chapter": "chocolate",
+    "artId": "chocolate-04",
+    "gridSize": 3,
+    "difficulty": "relief",
+    "layoutVersion": 3,
+    "imageDifficulty": "easy",
+    "imageNotes": "Hot chocolate mug and tall cream silhouette; a 3x3 chapter finish.",
+    "seed": 2266158,
+    "positions": [
+      5,
+      0,
+      8,
+      7,
+      1,
+      3,
+      6,
+      2,
+      4
+    ],
+    "solution": [
+      {
+        "id": 5,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 7,
+        "dx": 1,
+        "dy": 1
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 4,
+      "exact": true,
+      "hintMoves": 5,
+      "groupMoves": 3,
+      "checkedNodes": 1377
+    }
+  },
+  {
+    "number": 21,
+    "theme": 0,
+    "face": 5,
+    "level": 0,
+    "chapter": "cream",
+    "artId": "cream-01",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Cream puff tower repeats; plates and window keep orientation readable.",
+    "seed": 2370149,
+    "positions": [
+      2,
+      13,
+      4,
+      14,
+      9,
+      7,
+      0,
+      1,
+      5,
+      3,
+      11,
+      8,
+      15,
+      6,
+      10,
+      12
+    ],
+    "solution": [
+      {
+        "id": 11,
+        "dx": 3,
+        "dy": 0
+      },
+      {
+        "id": 6,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": 0
+      },
+      {
+        "id": 3,
+        "dx": 1,
+        "dy": -3
+      },
+      {
+        "id": 1,
+        "dx": 0,
+        "dy": -3
+      },
+      {
+        "id": 4,
+        "dx": -1,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 2,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 8,
+      "groupMoves": 4,
+      "checkedNodes": 18297
+    }
+  },
+  {
+    "number": 22,
+    "theme": 0,
+    "face": 5,
+    "level": 1,
+    "chapter": "cream",
+    "artId": "cream-02",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "White pavlova layers and berries; pink pedestal anchors the base.",
+    "seed": 2467161,
+    "positions": [
+      8,
+      15,
+      10,
+      2,
+      3,
+      9,
+      14,
+      13,
+      4,
+      12,
+      7,
+      11,
+      0,
+      5,
+      1,
+      6
+    ],
+    "solution": [
+      {
+        "id": 3,
+        "dx": -1,
+        "dy": 2
+      },
+      {
+        "id": 3,
+        "dx": 2,
+        "dy": -2
+      },
+      {
+        "id": 2,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 9,
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 1,
+        "dx": -2,
+        "dy": -3
+      },
+      {
+        "id": 14,
+        "dx": -1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 1,
+      "provenMinimum": 4,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 4,
+      "checkedNodes": 16883
+    }
+  },
+  {
+    "number": 23,
+    "theme": 0,
+    "face": 5,
+    "level": 2,
+    "chapter": "cream",
+    "artId": "cream-03",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 3,
+    "imageDifficulty": "easy",
+    "imageNotes": "Two peach eclairs on a blue handled dish have strong boundaries.",
+    "seed": 2567164,
+    "positions": [
+      1,
+      12,
+      13,
+      11,
+      8,
+      7,
+      15,
+      5,
+      4,
+      14,
+      0,
+      6,
+      9,
+      3,
+      10,
+      2
+    ],
+    "solution": [
+      {
+        "id": 1,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 1,
+        "dx": -1,
+        "dy": -2
+      },
+      {
+        "id": 5,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": -2
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 3,
+        "dx": 2,
+        "dy": -3
+      },
+      {
+        "id": 9,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 12,
+        "dx": -2,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 1,
+      "provenMinimum": 5,
+      "solutionMoves": 8,
+      "exact": false,
+      "hintMoves": 10,
+      "groupMoves": 2,
+      "checkedNodes": 1082215
+    }
+  },
+  {
+    "number": 24,
+    "theme": 0,
+    "face": 5,
+    "level": 3,
+    "chapter": "cream",
+    "artId": "cream-04",
+    "gridSize": 4,
+    "difficulty": "relief",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Berry mille-feuille repeats horizontally; end dessert cube with relief.",
+    "seed": 2756897,
+    "positions": [
+      14,
+      15,
+      9,
+      7,
+      6,
+      4,
+      1,
+      11,
+      8,
+      0,
+      5,
+      2,
+      12,
+      13,
+      3,
+      10
+    ],
+    "solution": [
+      {
+        "id": 5,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": 1
+      },
+      {
+        "id": 3,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 2,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": -3
+      }
+    ],
+    "audit": {
+      "initialCorrect": 3,
+      "initialGroups": [
+        2,
+        1,
+        2,
+        1,
+        1,
+        2,
+        3,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 5,
+      "provenMinimum": 4,
+      "solutionMoves": 5,
+      "exact": false,
+      "hintMoves": 7,
+      "groupMoves": 4,
+      "checkedNodes": 15741
+    }
+  },
+  {
+    "number": 25,
+    "theme": 1,
+    "face": 0,
+    "level": 0,
+    "chapter": "ocean",
+    "artId": "ocean-01",
+    "gridSize": 4,
+    "difficulty": "easy",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Turtle above coral; gentle introduction to photographic images.",
+    "seed": 2766173,
+    "positions": [
+      1,
+      9,
+      6,
+      7,
+      5,
+      13,
+      0,
+      11,
+      10,
+      3,
+      2,
+      12,
+      14,
+      15,
+      8,
+      4
+    ],
+    "solution": [
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": 2
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 8,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 2,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 9,
+        "dx": -2,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        2,
+        2,
+        3,
+        1,
+        3,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 6,
+      "provenMinimum": 4,
+      "solutionMoves": 5,
+      "exact": false,
+      "hintMoves": 7,
+      "groupMoves": 4,
+      "checkedNodes": 13286
+    }
+  },
+  {
+    "number": 26,
+    "theme": 1,
+    "face": 0,
+    "level": 1,
+    "chapter": "ocean",
+    "artId": "ocean-02",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "easy",
+    "imageNotes": "Dolphins, pale sand and a rock arch give strong regional clues.",
+    "seed": 2861191,
+    "positions": [
+      14,
+      11,
+      8,
+      9,
+      0,
+      3,
+      4,
+      5,
+      10,
+      6,
+      2,
+      12,
+      7,
+      13,
+      15,
+      1
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": -2
+      },
+      {
+        "id": 6,
+        "dx": 2,
+        "dy": 0
+      },
+      {
+        "id": 8,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 1,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": -3
+      },
+      {
+        "id": 11,
+        "dx": 1,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        2,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 2,
+      "provenMinimum": 4,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 4,
+      "checkedNodes": 18068
+    }
+  },
+  {
+    "number": 27,
+    "theme": 1,
+    "face": 0,
+    "level": 2,
+    "chapter": "ocean",
+    "artId": "ocean-03",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "hard",
+    "imageNotes": "Anemone tentacles and coral repeat around the clownfish; lighter layout.",
+    "seed": 2965182,
+    "positions": [
+      10,
+      0,
+      11,
+      7,
+      2,
+      13,
+      9,
+      3,
+      8,
+      5,
+      4,
+      1,
+      12,
+      14,
+      15,
+      6
+    ],
+    "solution": [
+      {
+        "id": 13,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 9,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": -2
+      },
+      {
+        "id": 1,
+        "dx": -1,
+        "dy": -2
+      },
+      {
+        "id": 4,
+        "dx": -2,
+        "dy": -1
+      },
+      {
+        "id": 3,
+        "dx": 0,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        2,
+        1
+      ],
+      "initialLinks": 2,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 8,
+      "groupMoves": 3,
+      "checkedNodes": 18280
+    }
+  },
+  {
+    "number": 28,
+    "theme": 1,
+    "face": 0,
+    "level": 3,
+    "chapter": "ocean",
+    "artId": "ocean-04",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 3,
+    "imageDifficulty": "easy",
+    "imageNotes": "Manta silhouette and pale seabed support a layout challenge.",
+    "seed": 3063191,
+    "positions": [
+      4,
+      15,
+      14,
+      5,
+      7,
+      13,
+      2,
+      8,
+      10,
+      1,
+      12,
+      9,
+      11,
+      0,
+      3,
+      6
+    ],
+    "solution": [
+      {
+        "id": 3,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 14,
+        "dx": -1,
+        "dy": 2
+      },
+      {
+        "id": 11,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 6,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 4,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 9,
+        "dx": 0,
+        "dy": 2
+      },
+      {
+        "id": 1,
+        "dx": -2,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 5,
+      "solutionMoves": 8,
+      "exact": false,
+      "hintMoves": 11,
+      "groupMoves": 4,
+      "checkedNodes": 878520
+    }
+  },
+  {
+    "number": 29,
+    "theme": 1,
+    "face": 0,
+    "level": 4,
+    "chapter": "ocean",
+    "artId": "ocean-05",
+    "gridSize": 5,
+    "difficulty": "challenge",
+    "layoutVersion": 5,
+    "imageDifficulty": "hard",
+    "imageNotes": "Camouflaged octopus and rocks; a 5x5 observation challenge.",
+    "maxInitialLinks": 0,
+    "previousLayouts": [
+      {
+        "layoutVersion": 3,
+        "gridSize": 3
+      }
+    ],
+    "seed": 23187125,
+    "positions": [
+      10,
+      12,
+      9,
+      24,
+      4,
+      13,
+      8,
+      6,
+      5,
+      7,
+      22,
+      0,
+      3,
+      14,
+      1,
+      18,
+      20,
+      15,
+      21,
+      23,
+      17,
+      16,
+      2,
+      19,
+      11
+    ],
+    "solution": [
+      {
+        "id": 19,
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "id": 3,
+        "dx": -3,
+        "dy": -2
+      },
+      {
+        "id": 3,
+        "dx": 2,
+        "dy": -2
+      },
+      {
+        "id": 7,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 8,
+        "dx": 3,
+        "dy": 0
+      },
+      {
+        "id": 17,
+        "dx": 2,
+        "dy": 0
+      },
+      {
+        "id": 20,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 6,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 13,
+        "dx": 3,
+        "dy": 0
+      },
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 22,
+        "dx": 2,
+        "dy": 3
+      },
+      {
+        "id": 5,
+        "dx": 0,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 13,
+      "exact": false,
+      "hintMoves": 16,
+      "groupMoves": 6,
+      "checkedNodes": 91421
+    }
+  },
+  {
+    "number": 30,
+    "theme": 1,
+    "face": 0,
+    "level": 5,
+    "chapter": "ocean",
+    "artId": "ocean-06",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "hard",
+    "imageNotes": "Seahorse, seaweed and fine coral share similar textures.",
+    "seed": 3297095,
+    "positions": [
+      10,
+      12,
+      13,
+      9,
+      6,
+      2,
+      7,
+      5,
+      8,
+      14,
+      4,
+      11,
+      1,
+      15,
+      3,
+      0
+    ],
+    "solution": [
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": -3
+      },
+      {
+        "id": 6,
+        "dx": -1,
+        "dy": 2
+      },
+      {
+        "id": 5,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": -2
+      },
+      {
+        "id": 3,
+        "dx": 2,
+        "dy": -2
+      },
+      {
+        "id": 14,
+        "dx": 1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 1,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 5,
+      "checkedNodes": 16940
+    }
+  },
+  {
+    "number": 31,
+    "theme": 1,
+    "face": 0,
+    "level": 6,
+    "chapter": "ocean",
+    "artId": "ocean-07",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 3,
+    "imageDifficulty": "easy",
+    "imageNotes": "Whale shark silhouette separates blue water from textured coral.",
+    "seed": 3363200,
+    "positions": [
+      3,
+      4,
+      6,
+      7,
+      13,
+      5,
+      15,
+      12,
+      14,
+      0,
+      11,
+      8,
+      1,
+      9,
+      2,
+      10
+    ],
+    "solution": [
+      {
+        "id": 6,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 2,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 4,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 0,
+        "dx": -3,
+        "dy": -1
+      },
+      {
+        "id": 13,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 8,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 1,
+        "dx": -2,
+        "dy": -1
+      },
+      {
+        "id": 7,
+        "dx": 3,
+        "dy": -2
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 1,
+      "provenMinimum": 5,
+      "solutionMoves": 8,
+      "exact": false,
+      "hintMoves": 11,
+      "groupMoves": 4,
+      "checkedNodes": 1082882
+    }
+  },
+  {
+    "number": 32,
+    "theme": 1,
+    "face": 0,
+    "level": 7,
+    "chapter": "ocean",
+    "artId": "ocean-08",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Sea otter, kelp and distant shore create three depth bands.",
+    "seed": 3477161,
+    "positions": [
+      2,
+      3,
+      0,
+      12,
+      4,
+      9,
+      1,
+      11,
+      8,
+      5,
+      7,
+      14,
+      6,
+      10,
+      15,
+      13
+    ],
+    "solution": [
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 6,
+        "dx": -1,
+        "dy": 2
+      },
+      {
+        "id": 5,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 3,
+        "dx": 3,
+        "dy": -3
+      },
+      {
+        "id": 12,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 13,
+        "dx": -1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        2,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 2,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 7,
+      "groupMoves": 4,
+      "checkedNodes": 18243
+    }
+  },
+  {
+    "number": 33,
+    "theme": 1,
+    "face": 0,
+    "level": 8,
+    "chapter": "ocean",
+    "artId": "ocean-09",
+    "gridSize": 4,
+    "difficulty": "relief",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Jellyfish outline in blue water; connected clues soften the finish.",
+    "seed": 3567194,
+    "positions": [
+      4,
+      5,
+      2,
+      7,
+      6,
+      1,
+      10,
+      15,
+      8,
+      13,
+      14,
+      9,
+      12,
+      3,
+      0,
+      11
+    ],
+    "solution": [
+      {
+        "id": 5,
+        "dx": 0,
+        "dy": 2
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 13,
+        "dx": -2,
+        "dy": 3
+      },
+      {
+        "id": 3,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 11,
+        "dx": 0,
+        "dy": 1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 3,
+      "initialGroups": [
+        2,
+        1,
+        1,
+        1,
+        1,
+        3,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 4,
+      "provenMinimum": 4,
+      "solutionMoves": 5,
+      "exact": false,
+      "hintMoves": 6,
+      "groupMoves": 2,
+      "checkedNodes": 16740
+    }
+  },
+  {
+    "number": 34,
+    "theme": 1,
+    "face": 1,
+    "level": 0,
+    "chapter": "amphibians",
+    "artId": "amphibians-01",
+    "gridSize": 4,
+    "difficulty": "easy",
+    "layoutVersion": 4,
+    "imageDifficulty": "easy",
+    "imageNotes": "Approved red-eyed frog close-up: orange toes, eye and broad leaf contours.",
+    "seed": 25679146,
+    "positions": [
+      12,
+      0,
+      10,
+      3,
+      11,
+      6,
+      13,
+      5,
+      9,
+      2,
+      1,
+      8,
+      15,
+      14,
+      7,
+      4
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 4,
+        "dx": -2,
+        "dy": -1
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 1,
+        "dx": -1,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 5,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 3,
+      "checkedNodes": 14827
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 35,
+    "theme": 1,
+    "face": 1,
+    "level": 1,
+    "chapter": "amphibians",
+    "artId": "amphibians-02",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 4,
+    "imageDifficulty": "medium",
+    "imageNotes": "Approved black-and-yellow salamander on warm autumn leaves; follow body and leaf veins.",
+    "seed": 23971588,
+    "positions": [
+      6,
+      10,
+      3,
+      2,
+      12,
+      15,
+      1,
+      0,
+      14,
+      4,
+      13,
+      11,
+      9,
+      5,
+      8,
+      7
+    ],
+    "solution": [
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": 1
+      },
+      {
+        "id": 13,
+        "dx": 0,
+        "dy": 2
+      },
+      {
+        "id": 5,
+        "dx": -3,
+        "dy": -1
+      },
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 2,
+        "dx": -1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 8,
+      "groupMoves": 3,
+      "checkedNodes": 14849
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 36,
+    "theme": 1,
+    "face": 1,
+    "level": 2,
+    "chapter": "amphibians",
+    "artId": "amphibians-03",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 4,
+    "imageDifficulty": "hard",
+    "imageNotes": "Overhead pond frog and four lily pads: distinguish notches, radial veins and ripples.",
+    "seed": 23875182,
+    "positions": [
+      15,
+      12,
+      6,
+      11,
+      10,
+      1,
+      0,
+      7,
+      2,
+      14,
+      13,
+      9,
+      8,
+      5,
+      4,
+      3
+    ],
+    "solution": [
+      {
+        "id": 9,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 10,
+        "dx": -1,
+        "dy": -2
+      },
+      {
+        "id": 6,
+        "dx": 2,
+        "dy": 1
+      },
+      {
+        "id": 3,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 0,
+        "dx": -3,
+        "dy": -3
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 5,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 12,
+      "groupMoves": 4,
+      "checkedNodes": 887420
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 37,
+    "theme": 1,
+    "face": 1,
+    "level": 3,
+    "chapter": "amphibians",
+    "artId": "amphibians-04",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 4,
+    "imageDifficulty": "easy",
+    "imageNotes": "Large blue dart frog against one copper leaf; curved rim and veins provide anchors.",
+    "seed": 24488640,
+    "positions": [
+      8,
+      12,
+      4,
+      3,
+      11,
+      5,
+      10,
+      15,
+      6,
+      0,
+      9,
+      7,
+      14,
+      2,
+      1,
+      13
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 9,
+        "dx": 3,
+        "dy": 1
+      },
+      {
+        "id": 8,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 8,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 1,
+        "dx": -1,
+        "dy": -3
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 8,
+      "groupMoves": 3,
+      "checkedNodes": 14905
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 38,
+    "theme": 1,
+    "face": 1,
+    "level": 4,
+    "chapter": "amphibians",
+    "artId": "amphibians-05",
+    "gridSize": 5,
+    "difficulty": "challenge",
+    "layoutVersion": 5,
+    "imageDifficulty": "easy",
+    "imageNotes": "Swimming newt, orange belly and curved grass in aqua water; clear contours anchor the 5x5 challenge.",
+    "maxInitialLinks": 0,
+    "previousLayouts": [
+      {
+        "layoutVersion": 3,
+        "gridSize": 3
+      },
+      {
+        "layoutVersion": 4,
+        "gridSize": 3
+      }
+    ],
+    "seed": 24076185,
+    "positions": [
+      1,
+      8,
+      10,
+      17,
+      5,
+      9,
+      23,
+      18,
+      7,
+      13,
+      4,
+      24,
+      14,
+      3,
+      20,
+      16,
+      2,
+      22,
+      12,
+      15,
+      6,
+      11,
+      19,
+      21,
+      0
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": 3,
+        "dy": 0
+      },
+      {
+        "id": 4,
+        "dx": 4,
+        "dy": -1
+      },
+      {
+        "id": 8,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 16,
+        "dx": 1,
+        "dy": 2
+      },
+      {
+        "id": 16,
+        "dx": -2,
+        "dy": 1
+      },
+      {
+        "id": 3,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 12,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 17,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 13,
+        "dx": 2,
+        "dy": 0
+      },
+      {
+        "id": 1,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 11,
+        "dx": -3,
+        "dy": -2
+      },
+      {
+        "id": 0,
+        "dx": -4,
+        "dy": -4
+      },
+      {
+        "id": 15,
+        "dx": -4,
+        "dy": 1
+      },
+      {
+        "id": 14,
+        "dx": 0,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 14,
+      "exact": false,
+      "hintMoves": 19,
+      "groupMoves": 6,
+      "checkedNodes": 91392
+    }
+  },
+  {
+    "number": 39,
+    "theme": 1,
+    "face": 1,
+    "level": 5,
+    "chapter": "amphibians",
+    "artId": "amphibians-06",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 4,
+    "imageDifficulty": "medium",
+    "imageNotes": "Tawny toad on cool slate; body silhouette, bent grass and reflection replace forest clutter.",
+    "seed": 4175188,
+    "positions": [
+      10,
+      2,
+      7,
+      11,
+      1,
+      13,
+      15,
+      6,
+      4,
+      9,
+      0,
+      3,
+      12,
+      14,
+      8,
+      5
+    ],
+    "solution": [
+      {
+        "id": 8,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 10,
+        "dx": 2,
+        "dy": 2
+      },
+      {
+        "id": 2,
+        "dx": -2,
+        "dy": -1
+      },
+      {
+        "id": 2,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 3,
+        "dx": 0,
+        "dy": -2
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 2,
+      "checkedNodes": 14837
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 40,
+    "theme": 1,
+    "face": 1,
+    "level": 6,
+    "chapter": "amphibians",
+    "artId": "amphibians-07",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 4,
+    "imageDifficulty": "hard",
+    "imageNotes": "Backlit glass frog between two leaves; similar greens require tracing limbs and branching veins.",
+    "seed": 24302113,
+    "positions": [
+      4,
+      3,
+      6,
+      12,
+      2,
+      14,
+      13,
+      9,
+      15,
+      5,
+      10,
+      0,
+      1,
+      11,
+      7,
+      8
+    ],
+    "solution": [
+      {
+        "id": 1,
+        "dx": -2,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 11,
+        "dx": 3,
+        "dy": 1
+      },
+      {
+        "id": 4,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 12,
+        "dx": -1,
+        "dy": 2
+      },
+      {
+        "id": 3,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 5,
+        "dx": -1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 5,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 4,
+      "checkedNodes": 877444
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 41,
+    "theme": 1,
+    "face": 1,
+    "level": 7,
+    "chapter": "amphibians",
+    "artId": "amphibians-08",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 4,
+    "imageDifficulty": "hard",
+    "imageNotes": "Giant salamander in a rocky stream: mottled skin, similar wet stones, moss edges and water trails require close comparison.",
+    "seed": 24459942,
+    "positions": [
+      6,
+      3,
+      14,
+      13,
+      0,
+      15,
+      2,
+      1,
+      5,
+      11,
+      4,
+      8,
+      12,
+      7,
+      10,
+      9
+    ],
+    "solution": [
+      {
+        "id": 8,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 5,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 1,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 6,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 10,
+        "dx": 2,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 8,
+      "groupMoves": 2,
+      "checkedNodes": 14787
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 42,
+    "theme": 1,
+    "face": 1,
+    "level": 8,
+    "chapter": "amphibians",
+    "artId": "amphibians-09",
+    "gridSize": 4,
+    "difficulty": "relief",
+    "layoutVersion": 4,
+    "imageDifficulty": "easy",
+    "imageNotes": "Approved axolotl close-up: pink gills, blue water and broad stones finish the chapter.",
+    "seed": 24470215,
+    "positions": [
+      12,
+      5,
+      10,
+      3,
+      11,
+      6,
+      13,
+      0,
+      9,
+      2,
+      1,
+      7,
+      15,
+      14,
+      8,
+      4
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 4,
+        "dx": -2,
+        "dy": -1
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 1,
+        "dx": -1,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 5,
+      "exact": false,
+      "hintMoves": 8,
+      "groupMoves": 3,
+      "checkedNodes": 14857
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 43,
+    "theme": 1,
+    "face": 2,
+    "level": 0,
+    "chapter": "land",
+    "artId": "land-01",
+    "gridSize": 4,
+    "difficulty": "easy",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Elephants, water reflection and savanna sky; an easy opening layout.",
+    "seed": 4564233,
+    "positions": [
+      11,
+      14,
+      15,
+      3,
+      0,
+      10,
+      6,
+      9,
+      4,
+      7,
+      2,
+      13,
+      8,
+      12,
+      5,
+      1
+    ],
+    "solution": [
+      {
+        "id": 1,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 1,
+        "dx": -1,
+        "dy": -2
+      },
+      {
+        "id": 7,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 13,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        1,
+        2,
+        1,
+        3,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 4,
+      "provenMinimum": 4,
+      "solutionMoves": 5,
+      "exact": false,
+      "hintMoves": 6,
+      "groupMoves": 5,
+      "checkedNodes": 16561
+    }
+  },
+  {
+    "number": 44,
+    "theme": 1,
+    "face": 2,
+    "level": 1,
+    "chapter": "land",
+    "artId": "land-02",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "easy",
+    "imageNotes": "Orange fox against pale birches and green meadow.",
+    "seed": 4661245,
+    "positions": [
+      2,
+      9,
+      7,
+      4,
+      6,
+      13,
+      8,
+      3,
+      12,
+      5,
+      1,
+      10,
+      0,
+      14,
+      15,
+      11
+    ],
+    "solution": [
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": 2
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 13,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 10,
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "id": 8,
+        "dx": -2,
+        "dy": 2
+      },
+      {
+        "id": 2,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 3,
+        "dx": 0,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1
+      ],
+      "initialLinks": 3,
+      "provenMinimum": 4,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 4,
+      "checkedNodes": 18560
+    }
+  },
+  {
+    "number": 45,
+    "theme": 1,
+    "face": 2,
+    "level": 2,
+    "chapter": "land",
+    "artId": "land-03",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Panda silhouette is clear, surrounding bamboo is repetitive.",
+    "seed": 4832035,
+    "positions": [
+      11,
+      9,
+      13,
+      1,
+      5,
+      12,
+      4,
+      6,
+      10,
+      3,
+      7,
+      8,
+      15,
+      2,
+      0,
+      14
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": -1,
+        "dy": -3
+      },
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": 0
+      },
+      {
+        "id": 7,
+        "dx": 2,
+        "dy": 1
+      },
+      {
+        "id": 9,
+        "dx": 0,
+        "dy": 2
+      },
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 0,
+        "dx": -3,
+        "dy": -2
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 3,
+      "checkedNodes": 14808
+    }
+  },
+  {
+    "number": 46,
+    "theme": 1,
+    "face": 2,
+    "level": 3,
+    "chapter": "land",
+    "artId": "land-04",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 3,
+    "imageDifficulty": "easy",
+    "imageNotes": "Tall giraffe between tree canopy and grass has distinct boundaries.",
+    "seed": 4862248,
+    "positions": [
+      11,
+      8,
+      10,
+      0,
+      1,
+      6,
+      15,
+      12,
+      4,
+      2,
+      13,
+      14,
+      5,
+      3,
+      7,
+      9
+    ],
+    "solution": [
+      {
+        "id": 4,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 13,
+        "dx": -2,
+        "dy": 3
+      },
+      {
+        "id": 8,
+        "dx": -1,
+        "dy": 2
+      },
+      {
+        "id": 5,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 6,
+        "dx": -1,
+        "dy": -2
+      },
+      {
+        "id": 1,
+        "dx": -2,
+        "dy": -3
+      },
+      {
+        "id": 0,
+        "dx": -3,
+        "dy": -2
+      },
+      {
+        "id": 3,
+        "dx": 0,
+        "dy": -2
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 1,
+      "provenMinimum": 5,
+      "solutionMoves": 8,
+      "exact": false,
+      "hintMoves": 10,
+      "groupMoves": 2,
+      "checkedNodes": 1064633
+    }
+  },
+  {
+    "number": 47,
+    "theme": 1,
+    "face": 2,
+    "level": 4,
+    "chapter": "land",
+    "artId": "land-05",
+    "gridSize": 5,
+    "difficulty": "challenge",
+    "layoutVersion": 5,
+    "imageDifficulty": "medium",
+    "imageNotes": "Snow leopard and mountain bands; a 5x5 challenge with repeated pale textures.",
+    "maxInitialLinks": 0,
+    "previousLayouts": [
+      {
+        "layoutVersion": 3,
+        "gridSize": 3
+      }
+    ],
+    "seed": 24965245,
+    "positions": [
+      3,
+      17,
+      10,
+      18,
+      20,
+      22,
+      2,
+      21,
+      1,
+      19,
+      5,
+      0,
+      9,
+      15,
+      11,
+      4,
+      7,
+      24,
+      8,
+      12,
+      16,
+      6,
+      13,
+      23,
+      14
+    ],
+    "solution": [
+      {
+        "id": 12,
+        "dx": -2,
+        "dy": 1
+      },
+      {
+        "id": 18,
+        "dx": -3,
+        "dy": 1
+      },
+      {
+        "id": 18,
+        "dx": 3,
+        "dy": 1
+      },
+      {
+        "id": 13,
+        "dx": 3,
+        "dy": -1
+      },
+      {
+        "id": 17,
+        "dx": 2,
+        "dy": 1
+      },
+      {
+        "id": 15,
+        "dx": -3,
+        "dy": 1
+      },
+      {
+        "id": 15,
+        "dx": -1,
+        "dy": 2
+      },
+      {
+        "id": 1,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 3,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 7,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 2,
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "id": 5,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -2
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 13,
+      "exact": false,
+      "hintMoves": 17,
+      "groupMoves": 8,
+      "checkedNodes": 91366
+    }
+  },
+  {
+    "number": 48,
+    "theme": 1,
+    "face": 2,
+    "level": 5,
+    "chapter": "land",
+    "artId": "land-06",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "hard",
+    "imageNotes": "Deer and autumn forest share browns and repeated leaves.",
+    "seed": 5079203,
+    "positions": [
+      8,
+      13,
+      5,
+      6,
+      12,
+      2,
+      0,
+      7,
+      4,
+      10,
+      15,
+      9,
+      3,
+      14,
+      1,
+      11
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "id": 12,
+        "dx": -1,
+        "dy": 2
+      },
+      {
+        "id": 4,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 10,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 11,
+        "dx": 0,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        2,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 3,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 8,
+      "groupMoves": 3,
+      "checkedNodes": 18619
+    }
+  },
+  {
+    "number": 49,
+    "theme": 1,
+    "face": 2,
+    "level": 6,
+    "chapter": "land",
+    "artId": "land-07",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 3,
+    "imageDifficulty": "hard",
+    "imageNotes": "Lemur, striped tail and intertwined branches; lower route target.",
+    "seed": 5165248,
+    "positions": [
+      3,
+      9,
+      12,
+      15,
+      6,
+      1,
+      13,
+      2,
+      8,
+      5,
+      7,
+      14,
+      4,
+      11,
+      10,
+      0
+    ],
+    "solution": [
+      {
+        "id": 4,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 5,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 6,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 0,
+        "dx": -3,
+        "dy": 0
+      },
+      {
+        "id": 7,
+        "dx": 1,
+        "dy": 1
+      },
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": -3
+      },
+      {
+        "id": 3,
+        "dx": 0,
+        "dy": -3
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 1,
+      "provenMinimum": 5,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 10,
+      "groupMoves": 3,
+      "checkedNodes": 1064982
+    }
+  },
+  {
+    "number": 50,
+    "theme": 1,
+    "face": 2,
+    "level": 7,
+    "chapter": "land",
+    "artId": "land-08",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Kangaroo and eucalyptus frame a warm sunset clearing.",
+    "seed": 5263257,
+    "positions": [
+      11,
+      12,
+      3,
+      8,
+      9,
+      2,
+      13,
+      14,
+      1,
+      10,
+      15,
+      6,
+      4,
+      5,
+      7,
+      0
+    ],
+    "solution": [
+      {
+        "id": 12,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 8,
+        "dx": -1,
+        "dy": 2
+      },
+      {
+        "id": 4,
+        "dx": 2,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": -3,
+        "dy": -2
+      },
+      {
+        "id": 3,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 3,
+        "dx": 1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1
+      ],
+      "initialLinks": 2,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 10,
+      "groupMoves": 4,
+      "checkedNodes": 18101
+    }
+  },
+  {
+    "number": 51,
+    "theme": 1,
+    "face": 2,
+    "level": 8,
+    "chapter": "land",
+    "artId": "land-09",
+    "gridSize": 4,
+    "difficulty": "relief",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Bear and waterfall; retain connected groups at chapter end.",
+    "seed": 5372233,
+    "positions": [
+      7,
+      14,
+      12,
+      3,
+      0,
+      4,
+      1,
+      5,
+      9,
+      8,
+      6,
+      15,
+      13,
+      2,
+      10,
+      11
+    ],
+    "solution": [
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 10,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 4,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 2,
+        "dx": 1,
+        "dy": -3
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        2,
+        3,
+        1,
+        1
+      ],
+      "initialLinks": 4,
+      "provenMinimum": 4,
+      "solutionMoves": 5,
+      "exact": false,
+      "hintMoves": 7,
+      "groupMoves": 3,
+      "checkedNodes": 16553
+    }
+  },
+  {
+    "number": 52,
+    "theme": 1,
+    "face": 3,
+    "level": 0,
+    "chapter": "insects",
+    "artId": "insects-01",
+    "gridSize": 4,
+    "difficulty": "easy",
+    "layoutVersion": 4,
+    "imageDifficulty": "medium",
+    "imageNotes": "Orange butterfly and purple flower stand out from the meadow.",
+    "seed": 25498161,
+    "positions": [
+      12,
+      5,
+      10,
+      3,
+      11,
+      6,
+      13,
+      0,
+      9,
+      2,
+      1,
+      8,
+      15,
+      14,
+      7,
+      4
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 4,
+        "dx": -2,
+        "dy": -1
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 1,
+        "dx": -1,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 5,
+      "exact": false,
+      "hintMoves": 10,
+      "groupMoves": 3,
+      "checkedNodes": 14812
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 53,
+    "theme": 1,
+    "face": 3,
+    "level": 1,
+    "chapter": "insects",
+    "artId": "insects-02",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 4,
+    "imageDifficulty": "hard",
+    "imageNotes": "Honeybee workers on amber comb: repeated cells and similar bodies require comparing wings, capped wax and irregular edges.",
+    "seed": 25562272,
+    "positions": [
+      1,
+      0,
+      15,
+      10,
+      8,
+      3,
+      9,
+      4,
+      6,
+      13,
+      11,
+      2,
+      12,
+      7,
+      5,
+      14
+    ],
+    "solution": [
+      {
+        "id": 9,
+        "dx": 2,
+        "dy": -2
+      },
+      {
+        "id": 5,
+        "dx": -2,
+        "dy": 1
+      },
+      {
+        "id": 2,
+        "dx": 0,
+        "dy": -3
+      },
+      {
+        "id": 2,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 4,
+        "dx": -3,
+        "dy": 0
+      },
+      {
+        "id": 3,
+        "dx": 0,
+        "dy": -2
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 2,
+      "checkedNodes": 14798
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 54,
+    "theme": 1,
+    "face": 3,
+    "level": 2,
+    "chapter": "insects",
+    "artId": "insects-03",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 4,
+    "imageDifficulty": "medium",
+    "imageNotes": "Original dragonfly and pond retained: transparent wings, reeds and water reflections add environmental variety.",
+    "seed": 25662275,
+    "positions": [
+      1,
+      0,
+      15,
+      2,
+      8,
+      3,
+      9,
+      4,
+      6,
+      14,
+      11,
+      10,
+      12,
+      7,
+      5,
+      13
+    ],
+    "solution": [
+      {
+        "id": 9,
+        "dx": 1,
+        "dy": -2
+      },
+      {
+        "id": 5,
+        "dx": -2,
+        "dy": 1
+      },
+      {
+        "id": 4,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 3,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 2,
+        "dx": -1,
+        "dy": -3
+      },
+      {
+        "id": 13,
+        "dx": -1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 5,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 11,
+      "groupMoves": 3,
+      "checkedNodes": 881137
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 55,
+    "theme": 1,
+    "face": 3,
+    "level": 3,
+    "chapter": "insects",
+    "artId": "insects-04",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 4,
+    "imageDifficulty": "easy",
+    "imageNotes": "One red ladybird on a curled green leaf: large silhouette, vein and leaf edge provide clear matching clues.",
+    "seed": 25837053,
+    "positions": [
+      10,
+      2,
+      7,
+      11,
+      6,
+      13,
+      15,
+      1,
+      4,
+      9,
+      0,
+      3,
+      12,
+      14,
+      8,
+      5
+    ],
+    "solution": [
+      {
+        "id": 8,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 10,
+        "dx": 2,
+        "dy": 2
+      },
+      {
+        "id": 5,
+        "dx": 2,
+        "dy": 0
+      },
+      {
+        "id": 1,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 3,
+        "dx": 0,
+        "dy": -2
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 8,
+      "groupMoves": 3,
+      "checkedNodes": 14851
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 56,
+    "theme": 1,
+    "face": 3,
+    "level": 4,
+    "chapter": "insects",
+    "artId": "insects-05",
+    "gridSize": 5,
+    "difficulty": "challenge",
+    "layoutVersion": 5,
+    "imageDifficulty": "easy",
+    "imageNotes": "Pale pink orchid mantis on a white orchid: follow body and flower contours across 25 pieces.",
+    "maxInitialLinks": 0,
+    "previousLayouts": [
+      {
+        "layoutVersion": 3,
+        "gridSize": 3
+      },
+      {
+        "layoutVersion": 4,
+        "gridSize": 3
+      }
+    ],
+    "seed": 25885212,
+    "positions": [
+      6,
+      10,
+      12,
+      1,
+      21,
+      7,
+      20,
+      4,
+      8,
+      24,
+      14,
+      16,
+      23,
+      22,
+      17,
+      0,
+      9,
+      19,
+      5,
+      18,
+      15,
+      3,
+      13,
+      11,
+      2
+    ],
+    "solution": [
+      {
+        "id": 13,
+        "dx": 1,
+        "dy": -2
+      },
+      {
+        "id": 2,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 23,
+        "dx": 2,
+        "dy": 2
+      },
+      {
+        "id": 9,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 5,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 11,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 18,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 3,
+        "dx": 2,
+        "dy": 0
+      },
+      {
+        "id": 4,
+        "dx": 3,
+        "dy": -4
+      },
+      {
+        "id": 6,
+        "dx": 1,
+        "dy": -3
+      },
+      {
+        "id": 15,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 12,
+        "dx": 1,
+        "dy": -2
+      },
+      {
+        "id": 1,
+        "dx": 0,
+        "dy": -4
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 14,
+      "exact": false,
+      "hintMoves": 16,
+      "groupMoves": 7,
+      "checkedNodes": 91457
+    }
+  },
+  {
+    "number": 57,
+    "theme": 1,
+    "face": 3,
+    "level": 5,
+    "chapter": "insects",
+    "artId": "insects-06",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 4,
+    "imageDifficulty": "hard",
+    "imageNotes": "A twig-mimicking stick insect among similar forked branches: distinguish joints, twig scars, leaf stems and overlapping lines.",
+    "seed": 25965275,
+    "positions": [
+      7,
+      5,
+      12,
+      6,
+      13,
+      11,
+      9,
+      14,
+      0,
+      4,
+      8,
+      3,
+      2,
+      15,
+      10,
+      1
+    ],
+    "solution": [
+      {
+        "id": 5,
+        "dx": -2,
+        "dy": -2
+      },
+      {
+        "id": 14,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 3,
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "id": 10,
+        "dx": 2,
+        "dy": 0
+      },
+      {
+        "id": 9,
+        "dx": 1,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": -3
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 8,
+      "groupMoves": 5,
+      "checkedNodes": 14841
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 58,
+    "theme": 1,
+    "face": 3,
+    "level": 6,
+    "chapter": "insects",
+    "artId": "insects-07",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 4,
+    "imageDifficulty": "hard",
+    "imageNotes": "Leafcutter ant traffic viewed from above: similar green fragments, ant bodies and crossing roots make a group-observation challenge.",
+    "seed": 26064281,
+    "positions": [
+      4,
+      3,
+      6,
+      12,
+      2,
+      14,
+      13,
+      9,
+      0,
+      5,
+      10,
+      15,
+      1,
+      11,
+      7,
+      8
+    ],
+    "solution": [
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": -2
+      },
+      {
+        "id": 0,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 2,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 8,
+        "dx": -2,
+        "dy": 1
+      },
+      {
+        "id": 7,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 3,
+        "dx": 3,
+        "dy": -3
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 5,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 10,
+      "groupMoves": 3,
+      "checkedNodes": 881860
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 59,
+    "theme": 1,
+    "face": 3,
+    "level": 7,
+    "chapter": "insects",
+    "artId": "insects-08",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 4,
+    "imageDifficulty": "hard",
+    "imageNotes": "Stag beetle, bark and brown leaves share textures; moderate layout.",
+    "seed": 26166278,
+    "positions": [
+      13,
+      3,
+      14,
+      6,
+      0,
+      15,
+      2,
+      1,
+      5,
+      11,
+      4,
+      8,
+      12,
+      7,
+      10,
+      9
+    ],
+    "solution": [
+      {
+        "id": 8,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 7,
+        "dx": 2,
+        "dy": 0
+      },
+      {
+        "id": 6,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 3,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 13,
+        "dx": 1,
+        "dy": 2
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 2,
+      "checkedNodes": 14777
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 60,
+    "theme": 1,
+    "face": 3,
+    "level": 8,
+    "chapter": "insects",
+    "artId": "insects-09",
+    "gridSize": 4,
+    "difficulty": "relief",
+    "layoutVersion": 4,
+    "imageDifficulty": "easy",
+    "imageNotes": "A single firefly on a curved grass blade at blue hour: subtle amber glow and distinct plant contours close the chapter.",
+    "seed": 26275254,
+    "positions": [
+      12,
+      5,
+      10,
+      3,
+      7,
+      6,
+      13,
+      0,
+      9,
+      2,
+      1,
+      11,
+      15,
+      14,
+      8,
+      4
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 4,
+        "dx": -2,
+        "dy": -1
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 1,
+        "dx": -1,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 5,
+      "exact": false,
+      "hintMoves": 8,
+      "groupMoves": 3,
+      "checkedNodes": 14840
+    },
+    "maxInitialLinks": 0
+  },
+  {
+    "number": 61,
+    "theme": 1,
+    "face": 4,
+    "level": 0,
+    "chapter": "birds",
+    "artId": "birds-01",
+    "gridSize": 4,
+    "difficulty": "easy",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Kingfisher and willow-framed river; gentle chapter entry.",
+    "seed": 6418125,
+    "positions": [
+      2,
+      3,
+      15,
+      0,
+      14,
+      10,
+      11,
+      6,
+      7,
+      8,
+      12,
+      13,
+      4,
+      5,
+      1,
+      9
+    ],
+    "solution": [
+      {
+        "id": 4,
+        "dx": -1,
+        "dy": -3
+      },
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 12,
+        "dx": 0,
+        "dy": 2
+      },
+      {
+        "id": 10,
+        "dx": 2,
+        "dy": 1
+      },
+      {
+        "id": 3,
+        "dx": 1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        2,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        2,
+        2,
+        1,
+        1
+      ],
+      "initialLinks": 4,
+      "provenMinimum": 4,
+      "solutionMoves": 5,
+      "exact": false,
+      "hintMoves": 6,
+      "groupMoves": 4,
+      "checkedNodes": 17160
+    }
+  },
+  {
+    "number": 62,
+    "theme": 1,
+    "face": 4,
+    "level": 1,
+    "chapter": "birds",
+    "artId": "birds-02",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "easy",
+    "imageNotes": "Red-yellow-blue macaw has strong color landmarks in green foliage.",
+    "seed": 6469275,
+    "positions": [
+      1,
+      8,
+      3,
+      2,
+      5,
+      15,
+      7,
+      11,
+      0,
+      4,
+      14,
+      10,
+      9,
+      12,
+      13,
+      6
+    ],
+    "solution": [
+      {
+        "id": 5,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 2,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 7,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 13,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": -2
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 9,
+        "dx": 1,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        2,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1
+      ],
+      "initialLinks": 3,
+      "provenMinimum": 4,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 5,
+      "checkedNodes": 18561
+    }
+  },
+  {
+    "number": 63,
+    "theme": 1,
+    "face": 4,
+    "level": 2,
+    "chapter": "birds",
+    "artId": "birds-03",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 3,
+    "imageDifficulty": "hard",
+    "imageNotes": "White owl, birches and frost repeat pale textures; shorter challenge.",
+    "seed": 6565290,
+    "positions": [
+      0,
+      13,
+      6,
+      14,
+      5,
+      1,
+      8,
+      11,
+      9,
+      4,
+      3,
+      7,
+      15,
+      2,
+      12,
+      10
+    ],
+    "solution": [
+      {
+        "id": 4,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 5,
+        "dx": 0,
+        "dy": 2
+      },
+      {
+        "id": 1,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 12,
+        "dx": -3,
+        "dy": 0
+      },
+      {
+        "id": 7,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 10,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 7,
+        "dx": 0,
+        "dy": 1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 1,
+      "provenMinimum": 5,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 5,
+      "checkedNodes": 1077060
+    }
+  },
+  {
+    "number": 64,
+    "theme": 1,
+    "face": 4,
+    "level": 3,
+    "chapter": "birds",
+    "artId": "birds-04",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Flamingos repeat but sunset mountains and shore separate regions.",
+    "seed": 6661305,
+    "positions": [
+      0,
+      5,
+      15,
+      7,
+      2,
+      9,
+      3,
+      1,
+      14,
+      11,
+      8,
+      4,
+      12,
+      6,
+      10,
+      13
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": -1,
+        "dy": -2
+      },
+      {
+        "id": 1,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 8,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 4,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 10,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 6,
+        "dx": -1,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 1,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 2,
+      "checkedNodes": 16892
+    }
+  },
+  {
+    "number": 65,
+    "theme": 1,
+    "face": 4,
+    "level": 4,
+    "chapter": "birds",
+    "artId": "birds-05",
+    "gridSize": 5,
+    "difficulty": "challenge",
+    "layoutVersion": 5,
+    "imageDifficulty": "hard",
+    "imageNotes": "Small hummingbird among flowers and leaves; a 5x5 observation challenge.",
+    "maxInitialLinks": 0,
+    "previousLayouts": [
+      {
+        "layoutVersion": 3,
+        "gridSize": 3
+      }
+    ],
+    "seed": 26769287,
+    "positions": [
+      10,
+      23,
+      16,
+      0,
+      22,
+      2,
+      7,
+      20,
+      24,
+      14,
+      4,
+      11,
+      5,
+      17,
+      13,
+      12,
+      15,
+      3,
+      6,
+      21,
+      19,
+      8,
+      1,
+      9,
+      18
+    ],
+    "solution": [
+      {
+        "id": 6,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 5,
+        "dx": -2,
+        "dy": 1
+      },
+      {
+        "id": 6,
+        "dx": -3,
+        "dy": 1
+      },
+      {
+        "id": 16,
+        "dx": -1,
+        "dy": 3
+      },
+      {
+        "id": 12,
+        "dx": 2,
+        "dy": 2
+      },
+      {
+        "id": 20,
+        "dx": -2,
+        "dy": 3
+      },
+      {
+        "id": 8,
+        "dx": 0,
+        "dy": -4
+      },
+      {
+        "id": 8,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 9,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 12,
+        "dx": -2,
+        "dy": -1
+      },
+      {
+        "id": 22,
+        "dx": 1,
+        "dy": 4
+      },
+      {
+        "id": 3,
+        "dx": 3,
+        "dy": 0
+      },
+      {
+        "id": 0,
+        "dx": -4,
+        "dy": -3
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 13,
+      "exact": false,
+      "hintMoves": 18,
+      "groupMoves": 5,
+      "checkedNodes": 91349
+    }
+  },
+  {
+    "number": 66,
+    "theme": 1,
+    "face": 4,
+    "level": 5,
+    "chapter": "birds",
+    "artId": "birds-06",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "easy",
+    "imageNotes": "Puffin silhouette, cliffs and sea form clear visual bands.",
+    "seed": 6866296,
+    "positions": [
+      15,
+      5,
+      7,
+      10,
+      3,
+      14,
+      13,
+      9,
+      0,
+      1,
+      8,
+      11,
+      12,
+      6,
+      2,
+      4
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": -2,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": -3,
+        "dy": -2
+      },
+      {
+        "id": 2,
+        "dx": 1,
+        "dy": -2
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 8,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 4,
+        "dx": -2,
+        "dy": -1
+      },
+      {
+        "id": 5,
+        "dx": -1,
+        "dy": -2
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 1,
+      "provenMinimum": 4,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 3,
+      "checkedNodes": 16876
+    }
+  },
+  {
+    "number": 67,
+    "theme": 1,
+    "face": 4,
+    "level": 6,
+    "chapter": "birds",
+    "artId": "birds-07",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 3,
+    "imageDifficulty": "hard",
+    "imageNotes": "Peacock tail blends with the garden; photo carries the challenge.",
+    "seed": 6961314,
+    "positions": [
+      7,
+      5,
+      14,
+      6,
+      13,
+      11,
+      9,
+      12,
+      0,
+      4,
+      8,
+      3,
+      2,
+      15,
+      10,
+      1
+    ],
+    "solution": [
+      {
+        "id": 7,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 3,
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "id": 10,
+        "dx": 2,
+        "dy": 0
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": -3
+      },
+      {
+        "id": 13,
+        "dx": -2,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 5,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 11,
+      "groupMoves": 4,
+      "checkedNodes": 874975
+    }
+  },
+  {
+    "number": 68,
+    "theme": 1,
+    "face": 4,
+    "level": 7,
+    "chapter": "birds",
+    "artId": "birds-08",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Penguin and chick stand apart from similar snow and ice textures.",
+    "seed": 7081257,
+    "positions": [
+      11,
+      8,
+      5,
+      6,
+      15,
+      10,
+      7,
+      12,
+      1,
+      3,
+      4,
+      2,
+      13,
+      0,
+      14,
+      9
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": -2
+      },
+      {
+        "id": 0,
+        "dx": -3,
+        "dy": -2
+      },
+      {
+        "id": 5,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 7,
+        "dx": 2,
+        "dy": -2
+      },
+      {
+        "id": 13,
+        "dx": -2,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        2,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 2,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 8,
+      "groupMoves": 4,
+      "checkedNodes": 18320
+    }
+  },
+  {
+    "number": 69,
+    "theme": 1,
+    "face": 4,
+    "level": 8,
+    "chapter": "birds",
+    "artId": "birds-09",
+    "gridSize": 4,
+    "difficulty": "relief",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Eagle, branch and mountain lake; a short connected finish.",
+    "seed": 7199206,
+    "positions": [
+      13,
+      14,
+      6,
+      9,
+      11,
+      3,
+      0,
+      8,
+      15,
+      7,
+      10,
+      12,
+      1,
+      2,
+      5,
+      4
+    ],
+    "solution": [
+      {
+        "id": 5,
+        "dx": -2,
+        "dy": 1
+      },
+      {
+        "id": 12,
+        "dx": -1,
+        "dy": 3
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 4,
+        "dx": -3,
+        "dy": -1
+      },
+      {
+        "id": 2,
+        "dx": 0,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        2,
+        1,
+        1,
+        2,
+        2,
+        1,
+        2,
+        1,
+        2,
+        1,
+        1
+      ],
+      "initialLinks": 5,
+      "provenMinimum": 4,
+      "solutionMoves": 5,
+      "exact": false,
+      "hintMoves": 6,
+      "groupMoves": 5,
+      "checkedNodes": 16327
+    }
+  },
+  {
+    "number": 70,
+    "theme": 1,
+    "face": 5,
+    "level": 0,
+    "chapter": "ancient",
+    "artId": "ancient-01",
+    "gridSize": 4,
+    "difficulty": "easy",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Triceratops beside water; ease into the final existing chapter.",
+    "seed": 7453744,
+    "positions": [
+      5,
+      4,
+      8,
+      9,
+      1,
+      11,
+      12,
+      7,
+      6,
+      10,
+      0,
+      3,
+      2,
+      14,
+      13,
+      15
+    ],
+    "solution": [
+      {
+        "id": 5,
+        "dx": -3,
+        "dy": -2
+      },
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": -2
+      },
+      {
+        "id": 8,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        1,
+        1,
+        3,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 3,
+      "provenMinimum": 4,
+      "solutionMoves": 5,
+      "exact": false,
+      "hintMoves": 6,
+      "groupMoves": 2,
+      "checkedNodes": 16753
+    }
+  },
+  {
+    "number": 71,
+    "theme": 1,
+    "face": 5,
+    "level": 1,
+    "chapter": "ancient",
+    "artId": "ancient-02",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "hard",
+    "imageNotes": "Feathered dinosaurs and dusty canyon share warm browns.",
+    "seed": 7379272,
+    "positions": [
+      11,
+      3,
+      10,
+      15,
+      14,
+      7,
+      9,
+      12,
+      4,
+      8,
+      13,
+      2,
+      6,
+      5,
+      0,
+      1
+    ],
+    "solution": [
+      {
+        "id": 6,
+        "dx": 0,
+        "dy": -1
+      },
+      {
+        "id": 6,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 14,
+        "dx": 2,
+        "dy": 3
+      },
+      {
+        "id": 4,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -2
+      },
+      {
+        "id": 0,
+        "dx": -2,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        2,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "initialLinks": 3,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 5,
+      "checkedNodes": 18640
+    }
+  },
+  {
+    "number": 72,
+    "theme": 1,
+    "face": 5,
+    "level": 2,
+    "chapter": "ancient",
+    "artId": "ancient-03",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 3,
+    "imageDifficulty": "hard",
+    "imageNotes": "Stegosaurus and fern forest share textures; shorter challenge.",
+    "seed": 7474290,
+    "positions": [
+      13,
+      6,
+      4,
+      3,
+      2,
+      8,
+      12,
+      15,
+      10,
+      1,
+      11,
+      5,
+      9,
+      0,
+      7,
+      14
+    ],
+    "solution": [
+      {
+        "id": 12,
+        "dx": 1,
+        "dy": 1
+      },
+      {
+        "id": 8,
+        "dx": -2,
+        "dy": 0
+      },
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 6,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 0,
+        "dx": -1,
+        "dy": -3
+      },
+      {
+        "id": 10,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 5,
+        "dx": -2,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 5,
+      "solutionMoves": 7,
+      "exact": false,
+      "hintMoves": 9,
+      "groupMoves": 5,
+      "checkedNodes": 884092
+    }
+  },
+  {
+    "number": 73,
+    "theme": 1,
+    "face": 5,
+    "level": 3,
+    "chapter": "ancient",
+    "artId": "ancient-04",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Sauropod silhouette and reflection give a tall continuous landmark.",
+    "seed": 7602209,
+    "positions": [
+      15,
+      5,
+      1,
+      14,
+      4,
+      6,
+      0,
+      11,
+      8,
+      12,
+      9,
+      13,
+      10,
+      2,
+      3,
+      7
+    ],
+    "solution": [
+      {
+        "id": 13,
+        "dx": -1,
+        "dy": 3
+      },
+      {
+        "id": 1,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 9,
+        "dx": 1,
+        "dy": -1
+      },
+      {
+        "id": 0,
+        "dx": -3,
+        "dy": -3
+      },
+      {
+        "id": 7,
+        "dx": 0,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1
+      ],
+      "initialLinks": 2,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 8,
+      "groupMoves": 3,
+      "checkedNodes": 18308
+    }
+  },
+  {
+    "number": 74,
+    "theme": 1,
+    "face": 5,
+    "level": 4,
+    "chapter": "ancient",
+    "artId": "ancient-05",
+    "gridSize": 5,
+    "difficulty": "challenge",
+    "layoutVersion": 5,
+    "imageDifficulty": "medium",
+    "imageNotes": "Mammoth against open snowy plains; a 5x5 challenge with subtle snow and fur textures.",
+    "maxInitialLinks": 0,
+    "previousLayouts": [
+      {
+        "layoutVersion": 3,
+        "gridSize": 3
+      }
+    ],
+    "seed": 27721158,
+    "positions": [
+      24,
+      9,
+      6,
+      19,
+      18,
+      13,
+      3,
+      12,
+      20,
+      8,
+      10,
+      7,
+      21,
+      23,
+      2,
+      5,
+      1,
+      11,
+      22,
+      14,
+      17,
+      4,
+      0,
+      16,
+      15
+    ],
+    "solution": [
+      {
+        "id": 9,
+        "dx": -2,
+        "dy": 3
+      },
+      {
+        "id": 11,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 8,
+        "dx": 3,
+        "dy": -3
+      },
+      {
+        "id": 17,
+        "dx": 2,
+        "dy": -1
+      },
+      {
+        "id": 16,
+        "dx": 0,
+        "dy": 3
+      },
+      {
+        "id": 22,
+        "dx": 2,
+        "dy": 4
+      },
+      {
+        "id": 13,
+        "dx": 2,
+        "dy": 2
+      },
+      {
+        "id": 5,
+        "dx": -2,
+        "dy": 1
+      },
+      {
+        "id": 18,
+        "dx": 3,
+        "dy": 3
+      },
+      {
+        "id": 15,
+        "dx": -3,
+        "dy": 3
+      },
+      {
+        "id": 21,
+        "dx": -3,
+        "dy": 4
+      },
+      {
+        "id": 24,
+        "dx": 1,
+        "dy": 4
+      },
+      {
+        "id": 0,
+        "dx": -3,
+        "dy": 0
+      }
+    ],
+    "audit": {
+      "initialCorrect": 1,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 4,
+      "solutionMoves": 13,
+      "exact": false,
+      "hintMoves": 16,
+      "groupMoves": 7,
+      "checkedNodes": 91422
+    }
+  },
+  {
+    "number": 75,
+    "theme": 1,
+    "face": 5,
+    "level": 5,
+    "chapter": "ancient",
+    "artId": "ancient-06",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "hard",
+    "imageNotes": "Saber-toothed cat blends into golden foliage; moderate route.",
+    "seed": 7764329,
+    "positions": [
+      7,
+      9,
+      10,
+      14,
+      3,
+      0,
+      4,
+      13,
+      15,
+      6,
+      12,
+      8,
+      11,
+      1,
+      2,
+      5
+    ],
+    "solution": [
+      {
+        "id": 1,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": -3
+      },
+      {
+        "id": 6,
+        "dx": 2,
+        "dy": 0
+      },
+      {
+        "id": 5,
+        "dx": 1,
+        "dy": 1
+      },
+      {
+        "id": 4,
+        "dx": 3,
+        "dy": -1
+      },
+      {
+        "id": 0,
+        "dx": -3,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1
+      ],
+      "initialLinks": 2,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 10,
+      "groupMoves": 4,
+      "checkedNodes": 18088
+    }
+  },
+  {
+    "number": 76,
+    "theme": 1,
+    "face": 5,
+    "level": 6,
+    "chapter": "ancient",
+    "artId": "ancient-07",
+    "gridSize": 4,
+    "difficulty": "challenge",
+    "layoutVersion": 3,
+    "imageDifficulty": "easy",
+    "imageNotes": "Large ammonite spiral contrasts with turquoise water and pale seabed.",
+    "seed": 7865329,
+    "positions": [
+      11,
+      8,
+      5,
+      2,
+      12,
+      1,
+      10,
+      14,
+      0,
+      4,
+      6,
+      13,
+      15,
+      9,
+      3,
+      7
+    ],
+    "solution": [
+      {
+        "id": 3,
+        "dx": 0,
+        "dy": 2
+      },
+      {
+        "id": 3,
+        "dx": 1,
+        "dy": -2
+      },
+      {
+        "id": 5,
+        "dx": 0,
+        "dy": 1
+      },
+      {
+        "id": 9,
+        "dx": 1,
+        "dy": 1
+      },
+      {
+        "id": 2,
+        "dx": 1,
+        "dy": 0
+      },
+      {
+        "id": 1,
+        "dx": 1,
+        "dy": -2
+      },
+      {
+        "id": 11,
+        "dx": 3,
+        "dy": 1
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -2
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "initialLinks": 0,
+      "provenMinimum": 5,
+      "solutionMoves": 8,
+      "exact": false,
+      "hintMoves": 11,
+      "groupMoves": 4,
+      "checkedNodes": 874423
+    }
+  },
+  {
+    "number": 77,
+    "theme": 1,
+    "face": 5,
+    "level": 7,
+    "chapter": "ancient",
+    "artId": "ancient-08",
+    "gridSize": 4,
+    "difficulty": "normal",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Pterosaur wings, coastline and rocks define large shape boundaries.",
+    "seed": 7971314,
+    "positions": [
+      10,
+      13,
+      0,
+      1,
+      12,
+      11,
+      3,
+      4,
+      5,
+      15,
+      14,
+      2,
+      9,
+      6,
+      7,
+      8
+    ],
+    "solution": [
+      {
+        "id": 8,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 5,
+        "dx": -2,
+        "dy": -1
+      },
+      {
+        "id": 13,
+        "dx": -1,
+        "dy": 2
+      },
+      {
+        "id": 6,
+        "dx": -1,
+        "dy": 1
+      },
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": 0
+      },
+      {
+        "id": 0,
+        "dx": -3,
+        "dy": -1
+      }
+    ],
+    "audit": {
+      "initialCorrect": 0,
+      "initialGroups": [
+        1,
+        1,
+        2,
+        1,
+        2,
+        1,
+        1,
+        2,
+        1,
+        1,
+        2,
+        1
+      ],
+      "initialLinks": 4,
+      "provenMinimum": 4,
+      "solutionMoves": 6,
+      "exact": false,
+      "hintMoves": 8,
+      "groupMoves": 6,
+      "checkedNodes": 18081
+    }
+  },
+  {
+    "number": 78,
+    "theme": 1,
+    "face": 5,
+    "level": 8,
+    "chapter": "ancient",
+    "artId": "ancient-09",
+    "gridSize": 4,
+    "difficulty": "relief",
+    "layoutVersion": 3,
+    "imageDifficulty": "medium",
+    "imageNotes": "Crested dinosaurs beside a stream; relief before completing the cube.",
+    "seed": 8097239,
+    "positions": [
+      12,
+      3,
+      8,
+      9,
+      6,
+      7,
+      14,
+      13,
+      1,
+      10,
+      2,
+      11,
+      0,
+      4,
+      5,
+      15
+    ],
+    "solution": [
+      {
+        "id": 2,
+        "dx": 2,
+        "dy": -2
+      },
+      {
+        "id": 1,
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "id": 4,
+        "dx": -1,
+        "dy": -1
+      },
+      {
+        "id": 9,
+        "dx": -1,
+        "dy": 0
+      },
+      {
+        "id": 0,
+        "dx": 0,
+        "dy": -3
+      }
+    ],
+    "audit": {
+      "initialCorrect": 2,
+      "initialGroups": [
+        1,
+        3,
+        3,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        2
+      ],
+      "initialLinks": 6,
+      "provenMinimum": 4,
+      "solutionMoves": 5,
+      "exact": false,
+      "hintMoves": 5,
+      "groupMoves": 3,
+      "checkedNodes": 13373
+    }
+  }
+]

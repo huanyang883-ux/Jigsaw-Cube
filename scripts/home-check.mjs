@@ -36,6 +36,9 @@ try {
   }, entries);
   const p = await context.newPage(); p.on('pageerror', (e) => errors.push(e.message));
   await p.goto(base); await idle(p);
+  assert.equal((await state(p)).theme, 1, 'returning animal players start on their current cube');
+  assert.deepEqual(await p.evaluate(()=>window.__game.revealed()), [{face:0,level:0}], 'the initial cube already displays saved reveals');
+  await p.tap('[data-theme="0"]'); await idle(p); await p.waitForTimeout(200);
   assert.equal(await p.locator('body').innerText(), '', 'home remains free of text');
   const scenePalettes = await p.locator('.scene-layer').evaluateAll((layers) => layers.map((el) => {
     const style = getComputedStyle(el);
@@ -70,12 +73,13 @@ try {
         const { left, top, right, bottom } = document.querySelector(selector).getBoundingClientRect();
         return { left, top, right, bottom };
       };
-      return { width: innerWidth, height: innerHeight, background: rect('.scene-art'), stage: rect('#game'), sound: rect('#sound'), reset: rect('#reset-account'), emblem: rect('.top-emblem'), scrollWidth: document.documentElement.scrollWidth };
+      return { width: innerWidth, height: innerHeight, background: rect('.scene-art'), stage: rect('#game'), settings: rect('#settings'), emblem: rect('.top-emblem'), scrollWidth: document.documentElement.scrollWidth };
     });
-    const { background, stage, sound, reset, emblem } = layout;
+    const { background, stage, settings, emblem } = layout;
     assert.ok(background.left < 0 && background.top < 0 && background.right > layout.width && background.bottom > layout.height, `background covers ${width}×${height}`);
     assert.ok(stage.left >= -1 && stage.top >= -1 && stage.right <= layout.width + 1 && stage.bottom <= layout.height + 1, `game fits ${width}×${height}`);
-    assert.ok(reset.left > sound.right && reset.right < emblem.left, 'reset sits beside sound without overlap');
+    assert.ok(settings.left >= 0 && settings.right < emblem.left, 'home settings stay at the left without overlapping the emblem');
+    assert.ok(await p.locator('#sound').isHidden() && await p.locator('#reset-account').isHidden() && await p.locator('#complete-all').isHidden(), 'home controls stay in the collapsed menu');
     assert.equal(layout.scrollWidth, layout.width);
     if (width === 390 || width === 768 || width === 1920) await p.screenshot({ path: `test-results/home-${width}x${height}.png` });
   }
@@ -84,7 +88,7 @@ try {
   await p.tap('#previous'); await idle(p); await p.waitForTimeout(200);
   assert.equal(await color(p), lilac, 'left arrow wraps and recolors');
   const beforeCancel = (await state(p)).progress;
-  await p.tap('#reset-account');
+  await p.tap('#settings'); await p.tap('#reset-account');
   assert.equal(await p.locator('#cancel-reset').evaluate((el) => el === document.activeElement), true);
   assert.equal(await p.locator('.reset-actions').innerText(), '', 'confirmation buttons use symbols');
   assert.doesNotMatch(await p.locator('.reset-card').innerText(), /[\u3400-\u9fff]/, 'confirmation text is English');
@@ -96,13 +100,13 @@ try {
   await p.screenshot({ path: 'test-results/home-reset-confirm.png' });
   await p.keyboard.press('Escape'); assert.ok(await p.locator('#overlay').isHidden());
   assert.deepEqual((await state(p)).progress, beforeCancel);
-  await p.tap('#reset-account'); await p.tap('#cancel-reset');
+  await p.tap('#settings'); await p.tap('#reset-account'); await p.tap('#cancel-reset');
   assert.deepEqual((await state(p)).progress, beforeCancel, 'cancel preserves progress');
 
   for (const search of searches) {
     if (search) { await p.goto(`${base}/${search}`); await idle(p); }
     const before = await stored(p), key = saveSlot(search);
-    await p.tap('#reset-account'); await p.tap('#confirm-reset'); await idle(p);
+    await p.tap('#settings'); await p.tap('#reset-account'); await p.tap('#confirm-reset'); await idle(p);
     const reset = await state(p), after = await stored(p);
     assert.deepEqual(reset.progress, freshProgress(), 'reset clears completions, inventory usage, guides, records and sound');
     assert.equal(reset.theme, 0); assert.equal(reset.face, 0); assert.equal(reset.mode, 'home');

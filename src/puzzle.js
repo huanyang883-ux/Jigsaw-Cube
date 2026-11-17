@@ -100,7 +100,8 @@ export function moveGroup(positions, id, dx, dy) {
   }
 
   if (!pack(0, new Set(holes))) {
-    // Bitmask assignment is bounded O(k * 2^k), avoiding factorial searches on 4×4 boards.
+    // At most floor(n² / 2) blockers: k <= 12 even on 5×5 boards.
+    // Bitmask assignment is bounded O(k * 2^k), avoiding factorial searches.
     const memo = new Map();
     function assign(index, mask) {
       if (index === blockers.length) return { cost: 0, cells: [] };
@@ -124,7 +125,7 @@ export function moveGroup(positions, id, dx, dy) {
 
 // A group can always be translated to its own home cells. Those targets cannot
 // contain another correctly placed piece, so this strictly increases the number
-// of correct pieces and cannot cycle, even on a fully shuffled 4×4 board.
+// of correct pieces and cannot cycle, including on fully shuffled 5×5 boards.
 export function findHint(positions) {
   if (solved(positions)) return null;
   let best = null, bestScore = -Infinity;
