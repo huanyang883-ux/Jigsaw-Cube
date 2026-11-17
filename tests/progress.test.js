@@ -18,10 +18,11 @@ test('complete-all unlocks every playable level, clears resumptions and preserve
   p.puzzles['0:0:1'] = { positions: initialLayout(0, 0, 1) };
   const before = structuredClone(p);
   completeAllLevels(p);
-  assert.equal(p.completed.flat().length, 78); assert.ok(p.completed.flat().every(Boolean));
+  assert.equal(p.completed.flat().length, 174); assert.ok(p.completed.flat().every(Boolean));
   assert.deepEqual(p.puzzles, {}); assert.deepEqual(p.records, before.records);
   assert.deepEqual(p.props, before.props); assert.deepEqual(p.guides, before.guides); assert.equal(p.sound, true);
-  assert.equal(themeUnlocked(p, 2), false, 'the future cube stays unavailable');
+  assert.equal(themeUnlocked(p, 2), true);
+  assert.equal(themeUnlocked(p, 3), false, 'the fifth cube stays unavailable');
   const once = structuredClone(p); completeAllLevels(p); assert.deepEqual(p, once);
   assert.deepEqual(restoreProgress(p).records, before.records);
 });
@@ -49,7 +50,9 @@ test('startup follows unlocked progress, including all-complete saves without se
   p.completed[1].fill(true, 0, 27);
   assert.equal(currentTheme(p), 1); assert.equal(currentFace(p, currentTheme(p)), 3);
   p.completed[1].fill(true);
-  assert.equal(currentTheme(p), 1); assert.equal(currentFace(p, currentTheme(p)), 5);
+  assert.equal(currentTheme(p), 2); assert.equal(currentFace(p, currentTheme(p)), 0);
+  p.completed[2].fill(true);
+  assert.equal(currentTheme(p), 2); assert.equal(currentFace(p, currentTheme(p)), 5);
   assert.equal(currentTheme(restoreProgress({ ...p, completed: [Array(24).fill(false), p.completed[1]] })), 0, 'invalid future progress cannot choose a locked cube');
 });
 
@@ -85,7 +88,8 @@ test('all six faces unlock sequentially, finishing the first theme unlocks the s
   }
   assert.equal(themeUnlocked(p, 1), true); assert.equal(unlockedFaces(p, 1), 1);
   for (let face = 0; face < 6; face++) for (let level = 0; level < 9; level++) markComplete(p, 1, face, level);
-  assert.equal(themeUnlocked(p, 2), false);
+  assert.equal(themeUnlocked(p, 2), true);
+  assert.equal(themeUnlocked(p, 3), false);
 });
 
 test('restore rejects fake future progress, malformed saves, and incompatible puzzle sizes', () => {

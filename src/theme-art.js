@@ -11,6 +11,11 @@ export const THEME_ART = [
     ink: '#6f8e60', fill: '#97b483', wrapper: '#b6ca9e', highlight: '#edf5df', dots: '#a6bc95',
   },
   {
+    icon: 'globe', body: '#b7d6dc', base: '#e4f1f3', stripe: '#bfd9df',
+    panel: '#c9e2e6', border: '#94b9c3', medallion: '#f1f9f8',
+    ink: '#618e9c', fill: '#8bbbc9', wrapper: '#b1d2cc', highlight: '#edf7f6', dots: '#9ebfc8',
+  },
+  {
     icon: 'cube', body: '#cfc1e3', base: '#eee5f5', stripe: '#d9cbe7',
     panel: '#d9c9e7', border: '#b6a0cb', medallion: '#f8f1fc',
     ink: '#9077ab', fill: '#b59bcf', wrapper: '#cab7df', highlight: '#f6edfb', dots: '#b8a3cc',

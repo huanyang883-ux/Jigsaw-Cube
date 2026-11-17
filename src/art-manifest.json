@@ -1,4 +1,11 @@
 {
+  "africa-face": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 480266,
+    "sourceBytes": 3343837,
+    "hash": "dc55f653e18eb82ddbb06261444ee7196dd55c8046e61d831300ff1472dc55b1"
+  },
   "amphibians-01": {
     "width": 960,
     "height": 1440,
@@ -138,6 +145,13 @@
     "bytes": 623802,
     "sourceBytes": 3769055,
     "hash": "df50f546de64fe468ba59c9e700ceb0ca21590e50c8a10b651804ac1cfb36116"
+  },
+  "asia-face": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 628722,
+    "sourceBytes": 3790123,
+    "hash": "0fa244245f3777b4cc87c21b0dd57b70acdc74a962a0348be154a0825f3e3d41"
   },
   "birds-01": {
     "width": 960,
@@ -314,6 +328,13 @@
     "sourceBytes": 2652524,
     "hash": "484adc884f97bf59bf6e029066b54aff1df6babeb900333e675fca0fa2531f26"
   },
+  "continent-placeholder": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 2520,
+    "sourceBytes": 7970,
+    "hash": "3963c06ec33afb1ace94e9a1aa56124e50bcebe398711af5fb86cf6b7d7fbd1c"
+  },
   "cream-01": {
     "width": 960,
     "height": 1440,
@@ -348,6 +369,13 @@
     "bytes": 324220,
     "sourceBytes": 2548687,
     "hash": "1845b881e32a9357ee02847b72a70a8c61cf9cacc3885e4e391395c67488879c"
+  },
+  "europe-face": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 493228,
+    "sourceBytes": 3194149,
+    "hash": "4620b11c50fab3fe106d95093b47224003c8241e6dcb73ce78132f6aeed97579"
   },
   "icecream-01": {
     "width": 960,
@@ -559,6 +587,125 @@
     "sourceBytes": 3525543,
     "hash": "ff57c0116fd3b3604af589172880d2fbe09baf81bd05055372b2e03186319d28"
   },
+  "north-america-01": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 350656,
+    "sourceBytes": 3266927,
+    "hash": "7127b782039eaaa64fcc229bdb743cff45059309a06c4c36da6e82ed88678c5f"
+  },
+  "north-america-02": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 456138,
+    "sourceBytes": 3841436,
+    "hash": "66afa0ed743da40ba63082e0e3cef8debc7fe69abd4a5a1f67125ce1d52d9659"
+  },
+  "north-america-03": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 397450,
+    "sourceBytes": 3687788,
+    "hash": "2c45640e5ae0ecb02223b21736f71d96f415d77e10e963238c5061f9e7970932"
+  },
+  "north-america-04": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 405986,
+    "sourceBytes": 3586309,
+    "hash": "e3afc337bfe7f622ca6965186a4e93859c75284fa1bb22f6fcdbe980d3658a64"
+  },
+  "north-america-05": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 456214,
+    "sourceBytes": 3796830,
+    "hash": "17e2f70cfc2a8e99a5b34238a326af897a557f356dba8c98c5580a7ce13e226a"
+  },
+  "north-america-06": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 362710,
+    "sourceBytes": 3455311,
+    "hash": "c4282d367dabac46128dfec5f3f625025106a7a8ce6ccfe85fe688b1d95dcb88"
+  },
+  "north-america-07": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 397814,
+    "sourceBytes": 3637466,
+    "hash": "d896f15b2ad0a71988d076d9ab41ad3f3d5d4926afb6db1161ee12214fcb2561"
+  },
+  "north-america-08": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 378424,
+    "sourceBytes": 3505550,
+    "hash": "4dab32be21e74fea0e4403424c8f19e26e2f00cf867704044c654f26ae4a0ebe"
+  },
+  "north-america-09": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 412268,
+    "sourceBytes": 3657148,
+    "hash": "b52daa0b45dfc92d7ffe0e6e3e05dbb6d908177c5bf6078cb8aa0e51f727bb63"
+  },
+  "north-america-10": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 368578,
+    "sourceBytes": 3667031,
+    "hash": "9e32c0da26388d4e877c857ee04f43b426e2519dd04e4df6907e5236cf41d168"
+  },
+  "north-america-11": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 568644,
+    "sourceBytes": 4258611,
+    "hash": "9f38e04d6622b1f254b0687d4543d34b4a539a9e3e56cdb7b607a5be793b9f1d"
+  },
+  "north-america-12": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 434524,
+    "sourceBytes": 3728211,
+    "hash": "52fe43fb5c436333b65950cca89b2ad7071a8553a25ccc0d5fd8900dbb347db8"
+  },
+  "north-america-13": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 302828,
+    "sourceBytes": 3199021,
+    "hash": "1ac907c4fa113eeae02d3b38e5f69982e57d634bcf6554b62cecf2bfb04ab926"
+  },
+  "north-america-14": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 482430,
+    "sourceBytes": 3929247,
+    "hash": "b7f92e3f0cb6a6c509d1adb906a91b8bbf92dfcf2e2d16a57b232c2f30b34b65"
+  },
+  "north-america-15": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 572504,
+    "sourceBytes": 4298570,
+    "hash": "e1ed9f59c430c7327140951729651c7d109be00f86185f04d3161ccf95738e0a"
+  },
+  "north-america-16": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 302130,
+    "sourceBytes": 3157510,
+    "hash": "93e1d93e7b5b69b98561a92574fadc9160273574568e6dee048ba444457e6823"
+  },
+  "north-america-face": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 686744,
+    "sourceBytes": 3892970,
+    "hash": "1eb771dbbaaac568eb7d1a956015c7688ac78edf2571bea692c72e1c32303c95"
+  },
   "ocean-01": {
     "width": 960,
     "height": 1440,
@@ -628,5 +775,19 @@
     "bytes": 526470,
     "sourceBytes": 3390486,
     "hash": "6027b9bc685a584c7f78a737617fd60c6f3f30cd51bc187f93ead4f95968c615"
+  },
+  "oceania-face": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 578350,
+    "sourceBytes": 3484048,
+    "hash": "176692f03507f534ba8f281c0d113a1fb953a8baafcc4b230590ad67339b0c31"
+  },
+  "south-america-face": {
+    "width": 1254,
+    "height": 1254,
+    "bytes": 613890,
+    "sourceBytes": 3781878,
+    "hash": "9573a1b07a409124a87809a26d30245f7fbf99cf2dcbfee9bce94e4f8272f1cc"
   }
 }

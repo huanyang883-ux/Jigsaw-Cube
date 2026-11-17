@@ -35,7 +35,9 @@
     "test:recovery": "node scripts/recovery-check.mjs",
     "test:first12": "node scripts/first12-check.mjs",
     "test:all78": "node scripts/all-levels-check.mjs",
-    "test:overlay": "node scripts/overlay-check.mjs"
+    "test:overlay": "node scripts/overlay-check.mjs",
+    "levels:generate:continents": "node scripts/generate-continents.mjs",
+    "test:continents": "node scripts/continents-check.mjs"
   },
   "dependencies": {
     "pixi.js": "^8.17.1",

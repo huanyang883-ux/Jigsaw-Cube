@@ -160,12 +160,12 @@ function refresh() {
   game.style.setProperty('--theme-border', art.border);
   game.style.setProperty('--theme-ink', art.ink);
   game.style.setProperty('--theme-shadow', art.stripe);
-  $('#face-progress').hidden = theme === 2;
+  $('#face-progress').hidden = !!THEMES[theme].comingSoon;
   $('#enter').hidden = chapters; $('#enter').disabled = busy;
   $('#enter').classList.toggle('locked', !unlocked);
-  $('#enter').innerHTML = icon(unlocked ? 'play' : theme === 2 ? 'hourglass' : 'lock');
+  $('#enter').innerHTML = icon(unlocked ? 'play' : THEMES[theme].comingSoon ? 'hourglass' : 'lock');
   $('#theme-pages').hidden = chapters; $('#chapter-pages').hidden = !chapters;
-  $('#theme-pages').innerHTML = THEMES.map((t, i) => `<button class="theme-page ${i === theme ? 'active' : ''}" data-theme="${i}" aria-label="${t.order}阶魔方${i === 2 ? '，敬请期待' : !themeUnlocked(progress, i) ? '，未解锁' : ''}" aria-pressed="${i === theme}" ${busy ? 'disabled' : ''}>${gridIcon(t.order)}</button>`).join('');
+  $('#theme-pages').innerHTML = THEMES.map((t, i) => `<button class="theme-page ${i === theme ? 'active' : ''}" data-theme="${i}" aria-label="${t.order}阶魔方${t.comingSoon ? '，敬请期待' : !themeUnlocked(progress, i) ? '，未解锁' : ''}" aria-pressed="${i === theme}" ${busy ? 'disabled' : ''}>${gridIcon(t.order)}</button>`).join('');
   $('#chapter-pages').innerHTML = Array.from({ length: 6 }, (_, i) => `<button class="chapter-page ${i === face ? 'active' : ''} ${faceComplete(progress, theme, i) ? 'done' : ''}" data-face="${i}" aria-label="第${i + 1}面${i >= count ? '，未解锁' : ''}" aria-pressed="${i === face}" ${i >= count || busy ? 'disabled' : ''}>${icon(i >= count ? 'lock' : faceComplete(progress, theme, i) ? 'check' : 'cube')}</button>`).join('');
   $('#face-progress').innerHTML = Array.from({ length: 6 }, (_, i) => `<span class="face-pip ${faceComplete(progress, theme, i) ? 'done' : i === (chapters ? face : currentFace(progress, theme)) && unlocked ? 'current' : ''}">${icon(faceComplete(progress, theme, i) ? 'check' : i < count ? 'cube' : 'lock')}</span>`).join('');
   $('#previous').disabled = busy || (chapters && count < 2); $('#next').disabled = $('#previous').disabled;
@@ -187,7 +187,7 @@ async function selectTheme(next, direction = 1) {
 }
 async function navigate(direction) {
   if (!ready || busy || mode === 'puzzle') return;
-  if (mode === 'home') return selectTheme((theme + direction + 3) % 3, direction);
+  if (mode === 'home') return selectTheme((theme + direction + THEMES.length) % THEMES.length, direction);
   const count = unlockedFaces(progress, theme);
   if (count < 2) return;
   return selectFace((face + direction + count) % count);
@@ -281,9 +281,9 @@ async function leavePuzzle() {
     await cube.reveal(face, level);
     if (unlock?.newFace) {
       await cube.showcase(unlock.newTheme ? 'theme' : 'chapter');
-      if (unlock.newTheme && theme === 0) {
-        await cube.leave(); mode = 'home'; theme = 1; face = 0; refresh();
-        await cube.switchTheme(1, 1); cube.celebrate(true);
+      if (unlock.newTheme && THEMES[theme + 1] && !THEMES[theme + 1].comingSoon) {
+        await cube.leave(); mode = 'home'; theme++; face = 0; refresh();
+        await cube.switchTheme(theme, 1); cube.celebrate(true);
       } else if (face < 5) { await cube.turn(face + 1); face++; }
     }
   }

@@ -6,14 +6,14 @@ import sharp from 'sharp';
 import { THEMES, faceSize, levelArt, ANIMAL_CHAPTERS } from '../src/progress.js';
 import manifest from '../src/art-manifest.json' with { type: 'json' };
 
-test('all 90 chapter and level images and source versions are present', async () => {
+test('all 113 chapter and level images and source versions are present', async () => {
   const images = new Set();
-  for (let theme = 0; theme < 2; theme++) for (let face = 0; face < 6; face++) {
+  for (let theme = 0; theme < 3; theme++) for (let face = 0; face < 6; face++) {
     images.add(THEMES[theme].faceArt[face]);
     for (let level = 0; level < faceSize(theme); level++) images.add(levelArt(theme, face, level));
   }
-  assert.equal(images.size, 90);
-  assert.equal(Object.keys(manifest).length, 90);
+  assert.equal(images.size, 113);
+  assert.equal(Object.keys(manifest).length, 113);
   for (const url of images) {
     const parsed = new URL(url, 'http://local'); assert.match(parsed.searchParams.get('v'), /^[0-9a-f]{12}$/);
     const file = path.resolve('public', `.${parsed.pathname}`), data = await fs.readFile(file);

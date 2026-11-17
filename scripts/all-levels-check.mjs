@@ -1,10 +1,11 @@
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-import { LEVEL_CONFIGS, freshProgress, legacyInitialLayout, saveSlot } from '../src/progress.js';
+import { LEVEL_CONFIGS as ALL_LEVEL_CONFIGS, freshProgress, legacyInitialLayout, saveSlot } from '../src/progress.js';
 import { moveGroup, findHint, solved, xy, connectionCount } from '../src/puzzle.js';
 import { assertPortraitArt } from './art-check-utils.mjs';
 
+const LEVEL_CONFIGS = ALL_LEVEL_CONFIGS.filter(level => level.theme !== 2);
 const browser = await chromium.launch({ executablePath: process.env.PUZZLE_BROWSER || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', headless: true });
 const base = process.env.PUZZLE_TEST_URL || 'http://127.0.0.1:5173';
 const settings = { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, reducedMotion: 'reduce' };
@@ -139,16 +140,21 @@ try {
     console.log(`PASS: ${entry.number}/78 ${entry.artId}, ${entry.gridSize}x${entry.gridSize}, ${entry.difficulty}, ${entry.solution.length} real touch moves.`);
   }
   const final = await state(p);
-  assert.equal(final.face, 5); assert.ok(final.progress.completed.flat().every(Boolean));
+  assert.equal(final.theme, 2); assert.equal(final.face, 0);
+  assert.ok(final.progress.completed.slice(0, 2).flat().every(Boolean));
+  assert.ok(final.progress.completed[2].every(done => !done));
   assert.equal(Object.keys(final.progress.records).length, 78);
   assert.deepEqual(final.progress.props, { hint: 28, preview: 26 });
   assert.deepEqual(await p.evaluate((key) => JSON.parse(localStorage.getItem(key)), normalKey), normal);
   assert.deepEqual(await p.evaluate((key) => JSON.parse(localStorage.getItem(key)), previousKey), previous);
   await p.reload(); await idle(p);
-  assert.ok((await state(p)).progress.completed.flat().every(Boolean));
+  assert.ok((await state(p)).progress.completed.slice(0, 2).flat().every(Boolean));
   assert.equal(Object.keys((await state(p)).progress.records).length, 78);
-  await p.tap('[data-theme="2"]'); await idle(p); await p.tap('#enter'); await idle(p);
-  assert.equal((await state(p)).mode, 'home', 'future cube stays locked after all 78');
+  await p.tap('#enter'); await idle(p);
+  assert.equal((await state(p)).mode, 'chapters', 'finishing the animals unlocks continents');
+  await p.tap('#back'); await idle(p);
+  await p.tap('[data-theme="3"]'); await idle(p); await p.tap('#enter'); await idle(p);
+  assert.equal((await state(p)).mode, 'home', 'fifth cube stays unavailable');
   assert.ok(await p.evaluate((key) => !!localStorage.getItem(key), trialKey)); await context.close();
 
   for (const [theme, face, level, expectedSize] of [[0, 3, 0, 16], [1, 0, 4, 25]]) {

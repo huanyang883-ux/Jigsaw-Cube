@@ -39,6 +39,9 @@ try {
   await p.click('#next'); await idle(p); assert.equal((await state(p)).theme, 1);
   await p.click('#enter'); await idle(p); assert.equal((await state(p)).mode, 'home');
   await p.click('#next'); await idle(p); assert.equal((await state(p)).theme, 2);
+  assert.equal(await p.locator('#face-progress').isVisible(), true);
+  await p.click('#enter'); await idle(p); assert.equal((await state(p)).mode, 'home');
+  await p.click('#next'); await idle(p); assert.equal((await state(p)).theme, 3);
   assert.equal(await p.locator('#face-progress').isVisible(), false);
   assert.equal(await p.locator('#theme-status').count(), 0);
   await p.screenshot({ path: 'test-results/cube-coming-soon.png' });

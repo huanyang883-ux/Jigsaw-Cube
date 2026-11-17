@@ -27,6 +27,15 @@
   --scene-flower: #8cae9b;
 }
 .scene-layer[data-scene="2"] {
+  --scene-base: #e8f1f4;
+  --scene-mint: #c3dfdc;
+  --scene-peach: #cbdfe9;
+  --scene-cloud: #f5fbfd;
+  --scene-grid: #b4cdd7;
+  --scene-spark: #91b8c7;
+  --scene-flower: #91b9b0;
+}
+.scene-layer[data-scene="3"] {
   --scene-base: #eeeaf4;
   --scene-mint: #d7d0e8;
   --scene-peach: #e7cfdb;
@@ -41,11 +50,12 @@
   overflow: hidden;
   pointer-events: none;
 }
-/* Keep the cream base opaque while the two tinted scenes crossfade above it.
+/* Keep the cream base opaque while the tinted scenes crossfade above it.
    Only opacity changes: gradients, grid and blurred colors are painted once. */
 .scene-layer[data-scene="0"],
 .viewport[data-theme="1"] .scene-layer[data-scene="1"],
-.viewport[data-theme="2"] .scene-layer[data-scene="2"] { opacity: 1; }
+.viewport[data-theme="2"] .scene-layer[data-scene="2"],
+.viewport[data-theme="3"] .scene-layer[data-scene="3"] { opacity: 1; }
 .scene-art {
   position: absolute;
   left: 50%;

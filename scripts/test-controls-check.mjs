@@ -48,7 +48,7 @@ try {
     const before = await stored(p), key = saveSlot(search), previous = JSON.parse(before[key]);
     await p.tap('#complete-all'); await idle(p);
     let after = await stored(p), complete = JSON.parse(after[key]);
-    assert.equal(complete.completed.flat().length, 78); assert.ok(complete.completed.flat().every(Boolean));
+    assert.equal(complete.completed.flat().length, 174); assert.ok(complete.completed.flat().every(Boolean));
     assert.deepEqual(complete.puzzles, {}); assert.deepEqual(complete.records, previous.records);
     assert.deepEqual(complete.props, previous.props); assert.deepEqual(complete.guides, previous.guides); assert.equal(complete.sound, previous.sound);
     for (const name of Object.keys(before)) if (name !== key) assert.equal(after[name], before[name]);

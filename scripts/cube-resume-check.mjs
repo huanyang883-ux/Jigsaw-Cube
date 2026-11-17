@@ -17,7 +17,7 @@ try {
     {name:'fresh',search:'',progress:makeProgress(0),theme:0,face:0},
     {name:'dessert',search:'',progress:makeProgress(14),theme:0,face:3},
     {name:'animal',search:'',progress:makeProgress(24,20),theme:1,face:2},
-    {name:'complete',search:'',progress:makeProgress(24,54),theme:1,face:5},
+    {name:'continent-unlocked',search:'',progress:makeProgress(24,54),theme:2,face:0},
     {name:'trial-first12',search:'?trial=first12',progress:makeProgress(24,1),theme:1,face:0},
     {name:'trial-all78',search:'?trial=all78',progress:makeProgress(24,29),theme:1,face:3},
   ];

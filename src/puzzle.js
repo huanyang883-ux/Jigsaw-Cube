@@ -1,6 +1,8 @@
 // Pure puzzle rules. Positions are board cells indexed left-to-right, top-to-bottom.
 // Correct neighbours share a translation from their home positions, exactly as
 // runPuzzle / refreshLinks in the supplied playable reference.
+import { assignTiles } from './tile-assignment.js';
+
 export const SIZE = 3;
 export const COUNT = SIZE * SIZE;
 export const INITIAL_POSITIONS = [0, 4, 2, 6, 1, 8, 3, 7, 5];
@@ -11,7 +13,7 @@ export const cellAt = (x, y, size = SIZE) => y * size + x;
 export function valid(positions) {
   if (!Array.isArray(positions)) return false;
   const size = boardSize(positions);
-  return [3, 4, 5].includes(size) && new Set(positions).size === positions.length &&
+  return [3, 4, 5, 6, 7].includes(size) && new Set(positions).size === positions.length &&
     positions.every((p) => Number.isInteger(p) && p >= 0 && p < positions.length);
 }
 
@@ -79,7 +81,11 @@ export function moveGroup(positions, id, dx, dy) {
   const holes = ids.map((i) => positions[i]).filter((cell) => !target.has(cell));
   const units = groups(positions, blockers).sort((a, b) => b.length - a.length);
 
+  let packingNodes = 0;
   function pack(index, remaining) {
+    // Bound fragmented large-board packing on the UI thread. Existing <=5x5
+    // boards retain their exact placement order and all accepted solution routes.
+    if (size > 5 && ++packingNodes > 1500) return false;
     if (index === units.length) return true;
     const unit = units[index], anchor = xy(positions[unit[0]], size);
     const choices = [...remaining].sort((a, b) => {
@@ -100,24 +106,29 @@ export function moveGroup(positions, id, dx, dy) {
   }
 
   if (!pack(0, new Set(holes))) {
-    // At most floor(n² / 2) blockers: k <= 12 even on 5×5 boards.
-    // Bitmask assignment is bounded O(k * 2^k), avoiding factorial searches.
-    const memo = new Map();
-    function assign(index, mask) {
-      if (index === blockers.length) return { cost: 0, cells: [] };
-      if (memo.has(mask)) return memo.get(mask);
-      const p = xy(positions[blockers[index]], size);
-      let best = { cost: Infinity, cells: [] };
-      for (let i = 0; i < holes.length; i++) {
-        if (mask & (1 << i)) continue;
-        const h = xy(holes[i], size), tail = assign(index + 1, mask | (1 << i));
-        const cost = tail.cost + (p.x - h.x) ** 2 + (p.y - h.y) ** 2;
-        if (cost < best.cost) best = { cost, cells: [holes[i], ...tail.cells] };
+    if (size > 5) {
+      const cells = assignTiles(positions, blockers, holes, size);
+      blockers.forEach((piece, i) => { next[piece] = cells[i]; });
+    } else {
+      // At most floor(n² / 2) blockers: k <= 12 even on 5×5 boards.
+      // Bitmask assignment is bounded O(k * 2^k), avoiding factorial searches.
+      const memo = new Map();
+      function assign(index, mask) {
+        if (index === blockers.length) return { cost: 0, cells: [] };
+        if (memo.has(mask)) return memo.get(mask);
+        const p = xy(positions[blockers[index]], size);
+        let best = { cost: Infinity, cells: [] };
+        for (let i = 0; i < holes.length; i++) {
+          if (mask & (1 << i)) continue;
+          const h = xy(holes[i], size), tail = assign(index + 1, mask | (1 << i));
+          const cost = tail.cost + (p.x - h.x) ** 2 + (p.y - h.y) ** 2;
+          if (cost < best.cost) best = { cost, cells: [holes[i], ...tail.cells] };
+        }
+        memo.set(mask, best); return best;
       }
-      memo.set(mask, best); return best;
+      const best = assign(0, 0).cells;
+      blockers.forEach((piece, i) => { next[piece] = best[i]; });
     }
-    const best = assign(0, 0).cells;
-    blockers.forEach((piece, i) => { next[piece] = best[i]; });
   }
   if (!valid(next)) throw new Error('Placement produced an overlap');
   return next;
@@ -125,7 +136,7 @@ export function moveGroup(positions, id, dx, dy) {
 
 // A group can always be translated to its own home cells. Those targets cannot
 // contain another correctly placed piece, so this strictly increases the number
-// of correct pieces and cannot cycle, including on fully shuffled 5×5 boards.
+// of correct pieces and cannot cycle, including on fully shuffled 7×7 boards.
 export function findHint(positions) {
   if (solved(positions)) return null;
   let best = null, bestScore = -Infinity;

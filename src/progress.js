@@ -3,11 +3,12 @@ import artManifest from './art-manifest.json' with { type: 'json' };
 import { freshGuides, GUIDE_ACTIONS } from './guide-state.js';
 import first12 from './first12-layouts.json' with { type: 'json' };
 import laterLayouts from './later-layouts.json' with { type: 'json' };
+import continentLayouts from './continent-layouts.json' with { type: 'json' };
 import { THEME_ART } from './theme-art.js';
 
 export const saveSlot = (search = '') => {
   const trial = new URLSearchParams(search).get('trial');
-  return ['first12', 'all78'].includes(trial) ? `sweet-cube:trial:${trial}:v1` : 'sweet-cube:progress:v2';
+  return ['first12', 'all78', 'continents'].includes(trial) ? `sweet-cube:trial:${trial}:v1` : 'sweet-cube:progress:v2';
 };
 export const SAVE_KEY = saveSlot(typeof location === 'undefined' ? '' : location.search);
 export const WHITE_ART = '/assets/white.svg';
@@ -19,12 +20,18 @@ export const ANIMAL_CHAPTERS = [
   { id: 'ocean', name: '海洋生物' }, { id: 'amphibians', name: '两栖生物' }, { id: 'land', name: '陆地生物' },
   { id: 'insects', name: '昆虫' }, { id: 'birds', name: '鸟类' }, { id: 'ancient', name: '古生物' },
 ];
+export const CONTINENT_CHAPTERS = [
+  { id: 'north-america', name: '北美洲' }, { id: 'south-america', name: '南美洲' },
+  { id: 'europe', name: '欧洲' }, { id: 'asia', name: '亚洲' },
+  { id: 'africa', name: '非洲' }, { id: 'oceania', name: '大洋洲' },
+];
 const artVersion = (id) => artManifest[id] ? `?v=${artManifest[id].hash.slice(0, 12)}` : '';
 export const artUrl = (id) => `/assets/${id}.webp${artVersion(id)}`;
 export const THEMES = [
   { order: 2, icon: THEME_ART[0].icon, color: '#eaa99c', chapters: DESSERT_CHAPTERS, faceArt: DESSERT_CHAPTERS.map((c) => artUrl(`${c.id}-face`)) },
   { order: 3, icon: THEME_ART[1].icon, color: '#a6c7ad', chapters: ANIMAL_CHAPTERS, faceArt: ANIMAL_CHAPTERS.map((c) => artUrl(`${c.id}-face`)) },
-  { order: 4, icon: THEME_ART[2].icon, color: '#b59bcf', faceArt: Array(6).fill(WHITE_ART), comingSoon: true },
+  { order: 4, icon: THEME_ART[2].icon, color: '#8bbbc9', chapters: CONTINENT_CHAPTERS, faceArt: CONTINENT_CHAPTERS.map(c => artUrl(`${c.id}-face`)) },
+  { order: 5, icon: THEME_ART[3].icon, color: '#b59bcf', faceArt: Array(6).fill(WHITE_ART), comingSoon: true },
 ];
 const levelArtId = (theme, face, level) => `${THEMES[theme].chapters[face].id}-${String(level + 1).padStart(2, '0')}`;
 export const LEVEL_ART = Array.from({ length: 4 }, (_, i) => artUrl(`cake-0${i + 1}`));
@@ -33,7 +40,7 @@ export function levelAspect(theme, face, level) {
   return asset ? asset.width / asset.height : 2 / 3;
 }
 export const INITIAL_PROPS = Object.freeze({ hint: 28, preview: 28 });
-export const freshProgress = () => ({ version: 2, completed: [Array(24).fill(false), Array(54).fill(false)], puzzles: {}, sound: false, props: { ...INITIAL_PROPS }, guides: freshGuides(), records: {} });
+export const freshProgress = () => ({ version: 2, completed: THEMES.filter(t => !t.comingSoon).map(t => Array(6 * t.order ** 2).fill(false)), puzzles: {}, sound: false, props: { ...INITIAL_PROPS }, guides: freshGuides(), records: {} });
 export function completeAllLevels(progress) {
   for (const levels of progress.completed) levels.fill(true);
   // Replaying a completed test level should start from its current initial layout.
@@ -50,16 +57,16 @@ export function useProp(progress, type) {
   return true;
 }
 export const faceSize = (theme) => THEMES[theme].order ** 2;
-export const LEVEL_CONFIGS = [...first12, ...laterLayouts];
-export const levelConfig = (theme, face = 0, level = 0) => theme < 2
-  ? LEVEL_CONFIGS[(theme === 0 ? 0 : 24) + face * faceSize(theme) + level]
-  : { gridSize: THEMES[theme].order + 1, layoutVersion: 1 };
+export const LEVEL_CONFIGS = [...first12, ...laterLayouts, ...continentLayouts];
+const levelLookup = new Map(LEVEL_CONFIGS.map(l => [l.number <= 12 ? `0:${Math.floor((l.number - 1) / 4)}:${(l.number - 1) % 4}` : `${l.theme}:${l.face}:${l.level}`, l]));
+export const levelConfig = (theme, face = 0, level = 0) => levelLookup.get(`${theme}:${face}:${level}`);
 export const puzzleSize = (theme, face = 0, level = 0) => levelConfig(theme, face, level).gridSize;
 export const levelKey = (theme, face, level) => `${theme}:${face}:${level}`;
 export const isComplete = (progress, theme, face, level) => !!progress.completed[theme]?.[face * faceSize(theme) + level];
 export const faceComplete = (progress, theme, face) => Array.from({ length: faceSize(theme) }, (_, i) => isComplete(progress, theme, face, i)).every(Boolean);
 export const themeComplete = (progress, theme) => !!progress.completed[theme]?.every(Boolean);
-export const themeUnlocked = (progress, theme) => theme === 0 || (theme === 1 && themeComplete(progress, 0));
+export const themeUnlocked = (progress, theme) => Number.isInteger(theme) && theme >= 0 && !!THEMES[theme] && !THEMES[theme].comingSoon
+  && (theme === 0 || THEMES.slice(0, theme).every((_, i) => themeComplete(progress, i)));
 export function currentTheme(progress) {
   for (let theme = THEMES.length - 1; theme >= 0; theme--) {
     if (!THEMES[theme].comingSoon && themeUnlocked(progress, theme)) return theme;
@@ -87,7 +94,7 @@ export function markComplete(progress, theme, face, level) {
   delete progress.puzzles[levelKey(theme, face, level)];
   return { newFace: !wasFaceDone && faceComplete(progress, theme, face), newTheme: !wasThemeDone && themeComplete(progress, theme) };
 }
-export function levelArt(theme, face, level) { return artUrl(levelArtId(theme, face, level)); }
+export function levelArt(theme, face, level) { return artUrl(levelConfig(theme, face, level)?.placeholder ? 'continent-placeholder' : levelArtId(theme, face, level)); }
 export function initialLayout(theme, face, level) {
   const config = levelConfig(theme, face, level);
   return config.positions ? [...config.positions] : legacyInitialLayout(theme, face, level);
@@ -110,15 +117,15 @@ export function legacyInitialLayout(theme, face, level) {
 }
 // An old completed record or in-progress game keeps the grid used when it was played.
 function savedGridSize(theme, config, version) {
-  if (version === 1) return THEMES[theme].order + 1;
+  if (version === 1) return theme < 2 ? THEMES[theme].order + 1 : 0;
   if (version === config.layoutVersion || version === 3 && config.layoutVersion === 4) return config.gridSize;
   return config.previousLayouts?.find(layout => layout.layoutVersion === version)?.gridSize ?? 0;
 }
 export function restoreProgress(raw) {
   const result = freshProgress();
   if (!raw || raw.version !== 2) return result;
-  for (let theme = 0; theme < 2; theme++) {
-    if (theme === 1 && !themeComplete(result, 0)) break;
+  for (let theme = 0; theme < result.completed.length; theme++) {
+    if (theme && !themeComplete(result, theme - 1)) break;
     for (let face = 0; face < 6; face++) {
       if (face && !faceComplete(result, theme, face - 1)) break;
       for (let level = 0; level < faceSize(theme); level++) result.completed[theme][face * faceSize(theme) + level] = raw.completed?.[theme]?.[face * faceSize(theme) + level] === true;
@@ -131,8 +138,9 @@ export function restoreProgress(raw) {
     result.props[type] = count === undefined ? initial : Number.isFinite(count) ? Math.max(0, Math.min(initial, Math.floor(count))) : 0;
   }
   for (const [key, value] of Object.entries(raw.puzzles ?? {})) {
-    if (!/^([01]):([0-5]):([0-8])$/.test(key)) continue;
+    if (!/^\d+:[0-5]:\d+$/.test(key)) continue;
     const [theme, face, level] = key.split(':').map(Number);
+    if (!levelConfig(theme, face, level)) continue;
     if (face >= unlockedFaces(result, theme) || level >= faceSize(theme) || isComplete(result, theme, face, level)) continue;
     if (!value || typeof value !== 'object') continue;
     const config = levelConfig(theme, face, level), layoutVersion = value.layoutVersion ?? 1;
@@ -142,8 +150,9 @@ export function restoreProgress(raw) {
     }
   }
   for (const [key, value] of Object.entries(raw.records ?? {})) {
-    if (!/^([01]):([0-5]):([0-8])$/.test(key) || !value || typeof value !== 'object') continue;
+    if (!/^\d+:[0-5]:\d+$/.test(key) || !value || typeof value !== 'object') continue;
     const [theme, face, level] = key.split(':').map(Number);
+    if (!levelConfig(theme, face, level)) continue;
     if (level >= faceSize(theme) || !isComplete(result, theme, face, level)) continue;
     const config = levelConfig(theme, face, level), version = value.layoutVersion ?? 1;
     const gridSize = savedGridSize(theme, config, version);

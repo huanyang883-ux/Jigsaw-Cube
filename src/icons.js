@@ -1,4 +1,5 @@
 const paths = {
+  globe: '<circle cx="12" cy="12" r="10"/><path d="m5 4 3 1 1 3-2 2-3-1-2 3m20-2-4-2-3 1-1 3 3 2 1 5M8 13l4 1 1 3-3 4-2-4Z"/>',
   candy: '<g transform="rotate(-20 12 12)"><path d="m6 12-4-4q-2 4 0 8Zm12 0 4-4q2 4 0 8Z"/><rect x="6" y="7" width="12" height="10" rx="4"/><path d="M10 9q-2 3 0 6"/></g>',
   cake: '<path d="M4 13h16v8H4Zm1 0V9h14v4M3 21h18M8 9V6m8 3V6m-4 3V4M4 16c2 3 4-3 6 0s4-3 6 0 4 0 4 0"/><path d="M12 1v1M8 3v1m8-1v1"/>',
   paw: '<ellipse cx="5" cy="8" rx="2.1" ry="3" transform="rotate(-24 5 8)"/><ellipse cx="10" cy="5" rx="2.1" ry="3"/><ellipse cx="15.5" cy="5.5" rx="2.1" ry="3"/><ellipse cx="20" cy="9" rx="2" ry="2.8" transform="rotate(24 20 9)"/><path d="M7 14c2-5 6-5 9 0 5 4 2 8-2 6-2-1-3-1-5 0-5 2-7-3-2-6Z"/>',

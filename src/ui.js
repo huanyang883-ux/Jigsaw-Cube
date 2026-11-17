@@ -1,8 +1,9 @@
 import { icon } from './icons.js';
 import { TEST_CONTROLS } from './build-flags.js';
+import { THEMES } from './progress.js';
 export function mountUI() {
   document.querySelector('#app').innerHTML = `
-    <div class="viewport" data-theme="0"><div class="scene-background" aria-hidden="true">${[0, 1, 2].map(theme => `<div class="scene-layer" data-scene="${theme}"><div class="scene-art">
+    <div class="viewport" data-theme="0"><div class="scene-background" aria-hidden="true">${THEMES.map((_, theme) => `<div class="scene-layer" data-scene="${theme}"><div class="scene-art">
       <div class="ambient ambient-mint" aria-hidden="true"></div><div class="ambient ambient-peach" aria-hidden="true"></div>
       <div class="cloud cloud-one" aria-hidden="true"></div><div class="cloud cloud-two" aria-hidden="true"></div><div class="floor-pattern" aria-hidden="true"></div>
       <div class="background-doodle doodle-one" aria-hidden="true">${icon('spark')}</div><div class="background-doodle doodle-two" aria-hidden="true">${icon('flower')}</div>

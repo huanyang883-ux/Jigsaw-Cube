@@ -36,6 +36,16 @@ function drawCube(c, art) {
   c.stroke(new Path2D('M8 4l9 5v10M7 19V9l9-5M3 12l9 5 9-5'));
 }
 
+function drawGlobe(c, art) {
+  c.scale(10, 10); c.translate(-12, -12); c.lineWidth = 1.1;
+  c.fillStyle = art.fill; c.beginPath(); c.arc(12, 12, 10, 0, Math.PI * 2); c.fill(); c.stroke();
+  c.save(); c.clip(); c.fillStyle = art.wrapper;
+  for (const d of ['M5 4 8 5 9 8 7 10 4 9 2 12 1 5Z', 'M22 10 18 8 15 9 14 12 17 14 18 19 23 18Z', 'M8 13 12 14 13 17 10 21 8 17Z']) {
+    const land = new Path2D(d); c.fill(land); c.stroke(land);
+  }
+  c.restore();
+}
+
 // Each theme shares its emblem and palette across cube stickers and puzzle cards.
 // Portrait cards extend the frame while keeping the emblem at its natural ratio.
 export function createBackTexture(aspect = 1, theme = 0) {
@@ -56,6 +66,7 @@ export function createBackTexture(aspect = 1, theme = 0) {
   c.fillStyle = art.medallion; c.beginPath(); c.arc(0, 0, 132, 0, Math.PI * 2); c.fill();
   c.strokeStyle = art.ink; c.lineWidth = 9; c.lineCap = 'round'; c.lineJoin = 'round';
   if (art.icon === 'paw') drawPaw(c, art);
+  else if (art.icon === 'globe') drawGlobe(c, art);
   else if (art.icon === 'cube') drawCube(c, art);
   else drawCandy(c, art);
   c.restore();

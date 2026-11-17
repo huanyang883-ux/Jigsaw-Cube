@@ -1,11 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { LEVEL_CONFIGS, THEMES, levelConfig, initialLayout, levelArt, legacyInitialLayout, freshProgress, freshStats, restoreProgress, saveSlot, markComplete } from '../src/progress.js';
+import { LEVEL_CONFIGS as ALL_LEVEL_CONFIGS, THEMES, levelConfig, initialLayout, levelArt, legacyInitialLayout, freshProgress, freshStats, restoreProgress, saveSlot, markComplete } from '../src/progress.js';
 import first12 from '../src/first12-layouts.json' with { type: 'json' };
 import { levelPlan } from '../scripts/level-plan.mjs';
 import { shapeKey, moves, searchWithin, hintSolution } from '../scripts/level-search.mjs';
 import { valid, solved, moveGroup, groups, connectionCount } from '../src/puzzle.js';
 
+const LEVEL_CONFIGS = ALL_LEVEL_CONFIGS.filter(level => level.theme !== 2);
 test('all six animal chapters retain their routes and have no initial connected tiles', () => {
   for (const [id, first, lengths] of [
     ['ocean', 25, [5, 7, 6, 8, 13, 6, 8, 6, 5]],

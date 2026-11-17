@@ -4,6 +4,7 @@ import sharp from 'sharp';
 const root = path.resolve(import.meta.dirname, '..');
 const sets = [ ['desserts', ['cake', 'candy', 'jelly', 'icecream', 'chocolate', 'cream'], 4], ...['ocean', 'amphibians', 'land', 'insects', 'birds', 'ancient'].map((id) => [id, [id], 9]) ];
 await fs.mkdir(path.join(root, 'test-results/art'), { recursive: true });
+sets.push(['continents', ['north-america', 'south-america', 'europe', 'asia', 'africa', 'oceania'], 0], ['north-america', ['north-america'], 16]);
 for (const [name, chapters, count] of sets) {
   const ids = chapters.flatMap((id) => [`${id}-face`, ...Array.from({ length: count }, (_, i) => `${id}-${String(i + 1).padStart(2, '0')}`)]);
   const cells = [];

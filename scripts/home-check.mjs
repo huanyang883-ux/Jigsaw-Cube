@@ -59,6 +59,9 @@ try {
   assert.notEqual(cream, sage); assert.notEqual(intermediate, cream); assert.notEqual(intermediate, sage);
   await p.screenshot({ path: 'test-results/home-sage.png' });
   await p.tap('#next'); await idle(p); await p.waitForTimeout(200);
+  const blue = await color(p); assert.notEqual(blue, cream); assert.notEqual(blue, sage);
+  await p.screenshot({ path: 'test-results/home-earth.png' });
+  await p.tap('#next'); await idle(p); await p.waitForTimeout(200);
   const lilac = await color(p); assert.notEqual(lilac, cream); assert.notEqual(lilac, sage);
   assert.deepEqual(await p.locator('.scene-layer').evaluateAll((layers) => layers.map((el) => ({ color: getComputedStyle(el).backgroundColor, transition: getComputedStyle(el).transitionProperty }))), scenePalettes, 'theme palettes stay painted instead of recoloring every frame');
   await p.screenshot({ path: 'test-results/home-lilac.png' });
@@ -96,7 +99,7 @@ try {
   await p.keyboard.press('Tab'); assert.ok(await p.locator('#confirm-reset').evaluate((el) => el === document.activeElement));
   await p.keyboard.press('Tab'); assert.ok(await p.locator('#cancel-reset').evaluate((el) => el === document.activeElement));
   await p.keyboard.press('Shift+Tab'); assert.ok(await p.locator('#confirm-reset').evaluate((el) => el === document.activeElement));
-  await p.keyboard.press('ArrowRight'); assert.equal((await state(p)).theme, 2);
+  await p.keyboard.press('ArrowRight'); assert.equal((await state(p)).theme, 3, 'modal blocks theme navigation');
   await p.screenshot({ path: 'test-results/home-reset-confirm.png' });
   await p.keyboard.press('Escape'); assert.ok(await p.locator('#overlay').isHidden());
   assert.deepEqual((await state(p)).progress, beforeCancel);

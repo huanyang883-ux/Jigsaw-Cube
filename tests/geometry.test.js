@@ -4,7 +4,7 @@ import { pieceBounds, photoLayout } from '../src/piece-geometry.js';
 import { INITIAL_POSITIONS, moveGroup } from '../src/puzzle.js';
 
 test('correctly joined image edges meet continuously for square and portrait photos', () => {
-  for (const n of [3, 4, 5]) for (const aspect of [1, .75, 2 / 3, 1.5]) {
+  for (const n of [3, 4, 5, 6, 7]) for (const aspect of [1, .75, 2 / 3, 1.5]) {
     const solved = Array.from({ length: n * n }, (_, i) => i);
     for (let row = 0; row < n; row++) for (let col = 0; col < n; col++) {
       const id = row * n + col, a = pieceBounds(solved, id, aspect);

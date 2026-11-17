@@ -33,7 +33,7 @@ async function drag(p, cdp, move) {
   assert.deepEqual((await state(p)).session.positions, moveGroup(before, move.id, move.dx, move.dy));
 }
 try {
-  const entries = LEVEL_CONFIGS.filter(l => l.gridSize === 5);
+  const entries = LEVEL_CONFIGS.filter(l => l.theme === 1 && l.gridSize === 5);
   assert.deepEqual(entries.map(l => l.number), [29, 38, 47, 56, 65, 74]);
   for (const entry of entries) {
     const context = await browser.newContext({

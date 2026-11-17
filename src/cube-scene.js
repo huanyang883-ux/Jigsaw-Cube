@@ -106,7 +106,7 @@ export class CubeScene {
   }
 
   async ensureThemeArt(theme) {
-    if (theme > 1) return;
+    if (THEMES[theme].comingSoon) return;
     const revealedFaces = [...new Set(this.tiles[theme].filter((t) => t.userData.complete).map((t) => t.userData.face))];
     await Promise.all(revealedFaces.map((face) => this.loadFaceArt(theme, face)));
   }
@@ -142,7 +142,7 @@ export class CubeScene {
       cube.add(surface);
       for (let row = 0; row < n; row++) for (let col = 0; col < n; col++) {
         const index = row * n + col;
-        const complete = theme < 2 && isComplete(this.progress, theme, face, index);
+        const complete = !THEMES[theme].comingSoon && isComplete(this.progress, theme, face, index);
         // Printed artwork keeps the same sRGB colors as the puzzle cards.
         // Lighting and exposure belong to the shell, not to the photograph.
         const mat = new THREE.MeshBasicMaterial({ map: this.themeBacks[theme], toneMapped: false });
