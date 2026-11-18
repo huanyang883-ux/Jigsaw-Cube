@@ -284,7 +284,7 @@ export class PuzzleRenderer {
   showHint(hint) { this.clearMergeFeedback(); this.hint = hint; }
 
   clearMergeFeedback() {
-    if (this.mergePulse) for (const id of this.mergePulse.ids) {
+    if (this.mergePulse) for (const { ids } of this.mergePulse.groups) for (const id of ids) {
       const card = this.cards[id], p = this.world(this.positions[id]);
       card.mesh.scale.set(1, 1, 1); card.mesh.position.set(p.x, p.y, 0);
       card.shadow.scale.set(1, 1, 1); card.shadow.position.set(p.x + .018, p.y - .026, -.065);
@@ -296,27 +296,30 @@ export class PuzzleRenderer {
     }
   }
 
-  flashGroup(ids) {
+  flashGroups(connectedGroups) {
     this.clearMergeFeedback();
     const start = performance.now();
-    const center = new THREE.Vector2();
-    const min = new THREE.Vector2(Infinity, Infinity), max = new THREE.Vector2(-Infinity, -Infinity);
-    for (const id of ids) {
-      const p = this.world(this.positions[id]); center.x += p.x; center.y += p.y;
-      const uv = this.cards[id].picture.geometry.attributes.uv;
-      for (let i = 0; i < uv.count; i++) {
-        min.x = Math.min(min.x, uv.getX(i)); min.y = Math.min(min.y, uv.getY(i));
-        max.x = Math.max(max.x, uv.getX(i)); max.y = Math.max(max.y, uv.getY(i));
+    const pulses = connectedGroups.map((ids) => {
+      const center = new THREE.Vector2();
+      const min = new THREE.Vector2(Infinity, Infinity), max = new THREE.Vector2(-Infinity, -Infinity);
+      for (const id of ids) {
+        const p = this.world(this.positions[id]); center.x += p.x; center.y += p.y;
+        const uv = this.cards[id].picture.geometry.attributes.uv;
+        for (let i = 0; i < uv.count; i++) {
+          min.x = Math.min(min.x, uv.getX(i)); min.y = Math.min(min.y, uv.getY(i));
+          max.x = Math.max(max.x, uv.getX(i)); max.y = Math.max(max.y, uv.getY(i));
+        }
       }
-    }
-    this.mergePulse = { ids: [...ids], center: center.divideScalar(ids.length), start };
-    for (const id of ids) {
-      const card = this.cards[id];
-      const uniforms = card.flash.material.uniforms;
-      uniforms.uMin.value.copy(min); uniforms.uSize.value.copy(max).sub(min);
-      uniforms.uStrength.value = 0; uniforms.uPhase.value = 0;
-      card.flashStart = start; card.flash.material.opacity = 0; card.flash.visible = true;
-    }
+      for (const id of ids) {
+        const card = this.cards[id];
+        const uniforms = card.flash.material.uniforms;
+        uniforms.uMin.value.copy(min); uniforms.uSize.value.copy(max).sub(min);
+        uniforms.uStrength.value = 0; uniforms.uPhase.value = 0;
+        card.flashStart = start; card.flash.material.opacity = 0; card.flash.visible = true;
+      }
+      return { ids: [...ids], center: center.divideScalar(ids.length) };
+    });
+    this.mergePulse = { groups: pulses, start };
   }
 
   celebrate() {
@@ -412,12 +415,12 @@ export class PuzzleRenderer {
       if (t === 1) { card.flashStart = null; card.flash.material.opacity = 0; card.flash.visible = false; }
     }
     if (this.mergePulse) {
-      const { ids, center, start } = this.mergePulse;
+      const { groups, start } = this.mergePulse;
       const t = Math.max(0, Math.min(1, (time - start) / MERGE_FLASH_DURATION));
       const pulse = this.reducedMotion ? 0 : mergeFlashEnvelope(t), scale = 1 + .03 * pulse;
-      // Scale around one shared center, including spacing between tile centers,
+      // Scale each group around its own center, including spacing between tiles,
       // so the connected photo and its outline remain a continuous surface.
-      for (const id of ids) {
+      for (const { ids, center } of groups) for (const id of ids) {
         const card = this.cards[id], p = this.world(this.positions[id]);
         card.mesh.scale.set(scale, scale, 1);
         card.mesh.position.set(center.x + (p.x - center.x) * scale, center.y + (p.y - center.y) * scale, .04 * pulse);

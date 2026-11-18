@@ -13,7 +13,7 @@ import { IdleGuide } from './idle-guide.js';
 import { learnGuide, guideMove } from './guide-state.js';
 import { loading } from './loading.js';
 import { preloadAssets, isPreloaded, warmAssets } from './preload.js';
-import { moveGroup, solved, connectionCount, groupFor } from './puzzle.js';
+import { moveGroup, solved, connectionCount, newlyConnectedGroups } from './puzzle.js';
 import { SAVE_KEY, THEMES, freshProgress, restoreProgress, faceSize, levelKey, levelArt, initialLayout, isComplete, faceComplete, themeUnlocked, unlockedFaces, currentTheme, currentFace, markComplete } from './progress.js';
 
 mountUI();
@@ -260,7 +260,7 @@ async function applyMove(id, dx, dy, fromHint = false) {
   if (fromHint && !useProp(progress, 'hint')) { busy = false; puzzle.setBlocked(false); refresh(); return; }
   busy = true; puzzle.setBlocked(true);
   syncPlayTime(); session.stats.moves++; if (fromHint) session.stats.hints++;
-  const previousGroup = groupFor(session.positions, id), connectedGroup = groupFor(next, id);
+  const connectedGroups = newlyConnectedGroups(session.positions, next);
   session.positions = next; session.completed = solved(next);
   if (session.completed) {
     session.unlock = markComplete(progress, theme, face, session.level);
@@ -270,7 +270,7 @@ async function applyMove(id, dx, dy, fromHint = false) {
   }
   else savePuzzle();
   refresh(); await puzzle.setPositions(next);
-  if (connectedGroup.some((piece) => !previousGroup.includes(piece))) { puzzle.flashGroup(connectedGroup); audio.play('merge'); }
+  if (connectedGroups.length) { puzzle.flashGroups(connectedGroups); audio.play('merge'); }
   else audio.play('move');
   busy = false; puzzle.setBlocked(session.completed); refresh();
   if (session.completed) {

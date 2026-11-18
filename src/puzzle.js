@@ -45,6 +45,14 @@ export function groups(positions, subset = [...positions.keys()]) {
 }
 
 export const groupFor = (positions, id) => groups(positions).find((g) => g.includes(id));
+// A new connection joins pieces from previously separate groups, including
+// displaced pieces. Return each resulting group once for synchronized feedback.
+export function newlyConnectedGroups(before, after) {
+  const previousGroup = [];
+  groups(before).forEach((ids, index) => { for (const id of ids) previousGroup[id] = index; });
+  return groups(after).filter((ids) => ids.some((id) => previousGroup[id] !== previousGroup[ids[0]]));
+}
+
 export const solved = (positions) => positions.every((cell, id) => cell === id);
 export function connectionCount(positions) {
   let result = 0;

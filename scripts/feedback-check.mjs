@@ -44,7 +44,53 @@ async function capture(p) {
     requestAnimationFrame(tick);
   });
 }
+const multipleMergeBoard = [6, 4, 0, 8, 3, 7, 1, 5, 2];
+const multipleMergeMove = { id: 0, dx: 0, dy: -1 };
+function progressWithBoard(positions) {
+  const progress = freshProgress();
+  progress.puzzles['0:0:0'] = { positions, layoutVersion: 2 };
+  return progress;
+}
+
+async function checkPassiveMerge({ name, positions, move, expected, hint = false, reduced = false }) {
+  const p = await makePage(progressWithBoard(positions), reduced ? 'reduce' : 'no-preference');
+  const ids = expected.flat().sort((a, b) => a - b);
+  await capture(p);
+  if (hint) { await p.tap('#hint'); await p.waitForFunction(() => window.__game.state().session.stats.moves === 1); await idle(p); }
+  else await drag(p, move);
+  assert.deepEqual((await state(p)).session.positions, moveGroup(positions, move.id, move.dx, move.dy));
+  await p.waitForFunction(() => window.__game.puzzleGeometry().cards.some((card) => card.flash > .01));
+  await p.screenshot({ path: `test-results/merge-${name}.png` });
+  await p.waitForFunction(() => window.__game.puzzleGeometry().cards.every((card) => card.flash === 0));
+  const frames = await p.evaluate(() => { window.captureFeedback = false; return window.feedbackFrames; });
+  const flashes = frames.filter((f) => f.flash.some((alpha) => alpha > .001));
+  const settled = (await p.evaluate(() => window.__game.puzzleGeometry())).cards;
+  assert.ok(flashes.length > 4, `${name}: feedback lasts multiple frames`);
+  for (const frame of flashes) {
+    assert.deepEqual(frame.flash.flatMap((alpha, id) => alpha > .001 ? [id] : []), ids, `${name}: all and only new groups flash`);
+    for (const [id, card] of frame.cards.entries()) {
+      const group = expected.find((group) => group.includes(id));
+      const scale = reduced || !group ? 1 : 1 + .03 * frame.flash[id] / .24;
+      assert.ok(Math.abs(card.scale[0] - scale) < 1e-8 && Math.abs(card.scale[1] - scale) < 1e-8);
+      for (const axis of [0, 1]) {
+        const center = group ? group.reduce((sum, piece) => sum + settled[piece].position[axis], 0) / group.length : settled[id].position[axis];
+        assert.ok(Math.abs(card.position[axis] - (center + (settled[id].position[axis] - center) * scale)) < 1e-8, `${name}: each group scales around its own center without gaps`);
+      }
+    }
+  }
+  assert.ok(settled.every((card) => card.flash === 0 && card.scale.every((v) => v === 1)));
+  assert.equal(await p.evaluate(() => window.__game.celebration()), 0);
+  assert.equal((await state(p)).progress.props.hint, hint ? 27 : 28);
+  await p.context().close();
+}
 try {
+  for (const scenario of [
+    { name: 'passive', positions: [0, 4, 2, 6, 1, 8, 3, 7, 5], move: { id: 1, dx: 0, dy: 1 }, expected: [[4, 6, 7, 8]] },
+    { name: 'multiple', positions: multipleMergeBoard, move: multipleMergeMove, expected: [[0, 1], [4, 5]] },
+    { name: 'passive-hint', positions: [1, 8, 6, 4, 7, 5, 0, 2, 3], move: { id: 0, dx: -1, dy: 0 }, expected: [[6, 7]], hint: true },
+    { name: 'multiple-reduced', positions: multipleMergeBoard, move: multipleMergeMove, expected: [[0, 1], [4, 5]], reduced: true },
+  ]) await checkPassiveMerge(scenario);
+  console.log('PASS: passive-only merges, simultaneous separate merges, hint merges and reduced-motion feedback.');
   const p = await makePage();
   const before = (await state(p)).session.positions, move = findHint(before);
   const joined = moveGroup(before, move.id, move.dx, move.dy);
@@ -115,8 +161,8 @@ try {
   assert.equal((await state(p)).progress.completed[0][0], true);
   await p.context().close();
 
-  const interrupted = await makePage();
-  const firstMove = findHint((await state(interrupted)).session.positions);
+  const interrupted = await makePage(progressWithBoard(multipleMergeBoard));
+  const firstMove = multipleMergeMove;
   await drag(interrupted, firstMove);
   await interrupted.waitForFunction(() => window.__game.puzzleGeometry().cards.some((card) => card.scale[0] > 1.01));
   const savedPositions = (await state(interrupted)).session.positions;
