@@ -1063,5 +1063,149 @@
     "cover": false,
     "placeholder": true,
     "prompt": "Plain white 2:3 placeholder, 1024x1536. No generated content."
+  },
+  {
+    "id": "europe-01",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "瑞士采尔马特",
+    "cover": false,
+    "imageDifficulty": "medium",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A natural early-autumn view from the edge of Zermatt village in Switzerland. Weathered wooden chalets with stone roofs, red geranium window boxes and a rough grassy footpath in the foreground lead toward the unmistakable steep pyramidal summit of the Matterhorn rising behind layered green foothills. Roadside stone walls and chalet eaves provide connected diagonals. A compact band of pale sky with thin cloud, restrained ordinary daytime color, and broad clear transitions among roofs, grass and rock. A coherent eye-level landscape, with the mountain peeking over the village rather than enlarged out of scale. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-02",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "伦敦塔桥",
+    "cover": false,
+    "imageDifficulty": "medium-hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A near-bank Thames walkway photograph of London's Tower Bridge from an oblique upstream viewpoint. Two recognizable Victorian stone towers, blue steel suspension members, and the raised horizontal upper walkways are clearly distinct; keep the road deck closed and level. Frame diagonally past an iron handrail and river steps in the foreground, with small passing boats, ripples and subdued riverfront buildings. Keep a compact cloudy sky and clear shifts in masonry, cable intersections and water direction. Realistic overcast daytime, physically coherent bridge proportions, unposed activity, no legible signs. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-03",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "希腊圣托里尼",
+    "cover": false,
+    "imageDifficulty": "medium",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A ground-level view down a short staircase in Oia, Santorini, Greece, winding between weathered whitewashed houses to a single blue-domed chapel and a narrow glimpse of the blue caldera. Pale ochre stone steps, a simple blue gate and a little magenta bougainvillea mark different zones, with cast shadows, rounded parapets and continuous stair edges crossing the frame. Soft clear everyday daylight. Cropped rooftops and side walls fill most of the portrait; keep a modest sliver of sky and sea, realistic island architecture and no postcard color grading. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-04",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "法国圣米歇尔山",
+    "cover": false,
+    "imageDifficulty": "hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A tightly framed elevated oblique view inside Mont-Saint-Michel in Normandy, France, looking upward across clustered steep grey slate rooftops, dormers and weathered granite walls toward the recognizable abbey masonry above. Very little sky; staggered shingles, worn pale mortar, gutter lines, patches of lichen, buttress shadows and narrow stair routes fill the portrait. Repeated grey-brown stone and dark slate invite careful matching, with distinct roof pitches, window groupings and intersections as clues. Soft natural coastal cloud light. Plausible centuries-old architecture, with no fantasy spires or disconnected fragments. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-05",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "维也纳咖啡馆",
+    "cover": false,
+    "imageDifficulty": "medium-hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A candid view across the counter of a traditional Viennese coffeehouse in Austria during afternoon service. On the near counter sit a few sliced apple strudels with distinct layered pastry, white porcelain cups on saucers and a brushed metal tray. An adult server in a plain dark vest works behind the counter, with bentwood chairs, marble table edges, a coat stand and tall café windows in the background. Diagonal counter perspective, ordinary window light, natural hand placement, soft contrasts among warm wood, white porcelain and pastry. Recurring chair arcs and cup rims have distinct overlaps; clear details throughout, no staged studio table or readable menus. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-06",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "意大利五渔村",
+    "cover": false,
+    "imageDifficulty": "medium",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. An eye-level documentary view of Manarola in the Italian Cinque Terre, looking into the hillside harbor from the nearby coastal footpath. Tightly packed pastel peach, ochre, pink and faded cream houses follow the rocky slope above blue Ligurian water. Fill the lower corners with textured rocks, bright boat hulls on the slipway and crossing wavelets; allow only a tiny strip of sky above the village. Broad color blocks distinguish terrain, village and water, while stairways, shutters and rooflines join puzzle pieces across the scene. Clear, ordinary Mediterranean afternoon light and geographically believable architecture. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-07",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "苏格兰斯凯岛",
+    "cover": false,
+    "imageDifficulty": "hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A close oblique landscape photograph along the Quiraing escarpment on the Isle of Skye, Scotland. Stacked dark basalt crags emerge from overlapping green-gray turf folds and grassy gullies, with a winding pale footpath crossing the lower and middle slopes. Varied outcrop profiles, erosion seams and occasional russet grasses distinguish the repeated green textures; crags and slope lines continue across the picture. A narrow band of soft cloudy sky, even overcast daylight, realistic geology and local vegetation. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-08",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "阿姆斯特丹运河",
+    "cover": false,
+    "imageDifficulty": "medium-hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. An ordinary central Amsterdam canal on an autumn morning, seen at a diagonal from beside a bridge railing. Several unbranded bicycles of different shapes lean to one edge against dark iron bars; beyond them, narrow brick canal houses with varied Dutch gables, small moored boats and their rippled reflections recede along the opposite bank. Fallen leaves, a few gold-toned branches, wet stone curbs and windows with individual shutters divide the repeating brick and iron forms. Buildings, water and near railing fill the image, with a narrow window of soft sky. No readable signage. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-09",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "巴黎露天书摊",
+    "cover": false,
+    "imageDifficulty": "hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A candid oblique view along the traditional dark green bouquinistes stalls on the Seine in Paris, France. Closely spaced wooden boxes open onto stacks of worn volumes, yellowed papers and small antique prints seen from too far away or edge-on to show any words. Uneven lids, worn brass hinges, turned book spines, diagonal shelf edges and chipped green paint vary the repeating shapes. A little gray stone parapet and the river beyond anchor one side. Soft overcast afternoon light, realistic retail arrangement, no readable print. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-10",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "克罗地亚十六湖",
+    "cover": false,
+    "imageDifficulty": "medium-hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. An immersive ground-level documentary photo at Plitvice Lakes National Park, Croatia. An unrailed weathered timber boardwalk runs obliquely beside a blue-green lake; short separate white cascades tumble over uneven mossy limestone shelves in the middle distance. Young beech leaves and shaded trunks frame the upper corners, wet plank seams and mottled water reflections organize the foreground. Dense water and foliage textures are interrupted by continuous boardwalk diagonals and individually shaped cascades. Soft ordinary forest daylight, natural restrained greens and blues, no visitors or large empty sky. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-11",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "挪威罗弗敦渔村",
+    "cover": false,
+    "imageDifficulty": "medium",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. An everyday view of the small Reine fishing harbor in the Lofoten Islands, Norway, from a weathered timber jetty. Brick-red rorbuer cabins cluster against cool grey mountain ridges, with deep blue rippled water cutting between them. A mooring rope, worn wet planks and a floating boat fender occupy the lower corners. Use a small wedge of cloudy sky and distinguish the angles of ridges, roofs, quays and reflections. Soft ordinary coastal daylight, authentic simple fishing architecture, no snowstorm or added landmarks. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-12",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "伊斯坦布尔香料市场",
+    "cover": false,
+    "imageDifficulty": "hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. An everyday spice stall in the covered market of historic Eminönü on the European side of Istanbul, Turkey, seen diagonally down the passage at adult eye level. Many open burlap sacks contain distinguishable brick-red pepper flakes, turmeric, green herbs and rounded dark seeds, interrupted by copper scoops, a worn bench and woven baskets. Repeated sack rims and earthy colors make a demanding puzzle, with different folds, scoop handles and tiled floor diagonals to give orientation. Warm diffuse market light, plausible busy working stall, no readable signage or staged studio presentation. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-13",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "布拉格老城屋顶",
+    "cover": false,
+    "imageDifficulty": "medium-hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. Prague Old Town photographed from a close elevated viewpoint with overlapping pitched terracotta tile roofs, worn ochre facades, slate and oxidized metal details, and the two recognizable Gothic towers of the Church of Our Lady before Týn farther back. Tightly frame a believable cluster of roofs and chimneys, with a thin strip of pale sky. Refined natural rust, ochre and charcoal tones, visible moss and roof joints, no excessive sharpening. Give similar roofs different gables, interrupted tile lines and shadows. Soft ordinary cloudy daylight. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-14",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "冰岛玄武岩海岸",
+    "cover": false,
+    "imageDifficulty": "hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. Reynisfjara in southern Iceland, viewed obliquely from well back on dry black pebbles, below the craggy cliff of densely packed hexagonal basalt columns. The weathered vertical grey-black pillars dominate the near side, dark pebbles curve away along the foot of the cliff and a thin diagonal line of white sea foam contrasts against distant slate water. Very little sky, no people. Similar rock tones repeat, with distinct vertical fractures, broken terraces and diagonal shoreline curves for orientation. Soft overcast natural daylight renders the black textures clearly. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-15",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "葡萄牙波尔图河岸",
+    "cover": false,
+    "imageDifficulty": "medium",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. Across the Douro River toward Porto’s Ribeira hillside, Portugal, with a small traditional wooden rabelo boat in the rippled foreground water and colorful narrow row houses stacked along the quay. Warm cream, faded ochre and muted blue facades, old terracotta roofs, balcony rails and narrow streets create clear groupings. A tight shore-level portrait leaves just a narrow strip of gray-blue sky. Ordinary bright cloudy light and natural color, believable boat rigging and distinct reflections, no readable lettering or added landmarks. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "europe-16",
+    "theme": 2,
+    "chapter": "europe",
+    "label": "西班牙阿尔罕布拉宫",
+    "cover": false,
+    "imageDifficulty": "hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A close diagonal architectural photograph through one of the Nasrid palace arcades in the Alhambra, Granada, Spain. Receding narrow pillars and repeated pale carved stucco arches lead between adjoining doorway openings, with weathered blue and olive-green geometric tilework lining the lower walls and worn stone paving below. Mild daylight falls from the courtyard and casts directional shadows across the repeated forms. Interleaved carvings and similar pale tones form a challenging puzzle, with individual arch silhouettes, column spacing, tiles and thresholds to orient the pieces. Coherent historic fabric, no people or added lettering. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
   }
 ]

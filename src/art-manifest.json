@@ -370,6 +370,118 @@
     "sourceBytes": 2548687,
     "hash": "1845b881e32a9357ee02847b72a70a8c61cf9cacc3885e4e391395c67488879c"
   },
+  "europe-01": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 429510,
+    "sourceBytes": 3753581,
+    "hash": "b945d54205dfd547a8993b554333f7b122fe66b149c69cb2d898f919b41fcbdd"
+  },
+  "europe-02": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 362770,
+    "sourceBytes": 3401467,
+    "hash": "2b29a046af75426dfe82bd4ad9e590b7ce41f9497a5b5840ae20254084840d06"
+  },
+  "europe-03": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 303228,
+    "sourceBytes": 3254096,
+    "hash": "8101bb2dfeb4c42609cefefc87dfae075b896fcb6a9b41ff76655b91f84ef375"
+  },
+  "europe-04": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 464452,
+    "sourceBytes": 4056621,
+    "hash": "0eb0f6a682cd19a7969629b8d4adf1198ba998c775dfb12ae636cf1342eb77e6"
+  },
+  "europe-05": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 340298,
+    "sourceBytes": 3190734,
+    "hash": "c9ba12300748220f366009d9bfc9e2a9196b1dcb08a95b612e3c4b68bd1ba3af"
+  },
+  "europe-06": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 508394,
+    "sourceBytes": 4029729,
+    "hash": "545ba91b70f31d5075333274cb510c0e334f4378fc636ca408d0b757738034d6"
+  },
+  "europe-07": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 457208,
+    "sourceBytes": 3889704,
+    "hash": "7af958beb93ac3053d807c07288e61012e1ed6aae1f7273af33221e2ea45cef6"
+  },
+  "europe-08": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 517506,
+    "sourceBytes": 4007722,
+    "hash": "d4c480e9dc1238c9c1d0b82dce325c3d4cf4d99bb6528df93a5ddd04f1cdff3b"
+  },
+  "europe-09": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 312734,
+    "sourceBytes": 3047039,
+    "hash": "2866aef29e6a152327c4838a7d0f87b4e8e83feb357f8145b39dfcfbc99149f4"
+  },
+  "europe-10": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 486618,
+    "sourceBytes": 3904350,
+    "hash": "8ce6a17d2c7b31039d2096425e0266a802a31066935608f3c49ebf317b5909b1"
+  },
+  "europe-11": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 361298,
+    "sourceBytes": 3390398,
+    "hash": "6e7b93421ee77abbbde3219a77261185bf936a6af8bec08383ef336b8f78984a"
+  },
+  "europe-12": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 467028,
+    "sourceBytes": 3867586,
+    "hash": "89e5ffc4c114b297b5617f9254739f78e678866634613c133540b357934ca4b7"
+  },
+  "europe-13": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 352836,
+    "sourceBytes": 3430579,
+    "hash": "bfc4a9c3f9cc41ef8bd51b3c44164516a45167143f3e076b6c986eb1e7e57eeb"
+  },
+  "europe-14": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 412356,
+    "sourceBytes": 3907654,
+    "hash": "4f9175a06d7224548bef91ce2241c0c2c2df6d45840f4033c8b8e96a45276a35"
+  },
+  "europe-15": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 478674,
+    "sourceBytes": 3758771,
+    "hash": "d44c6cecb04849270c44e806ade7841fa48739d8fdd67243e4099c7ffd1dae11"
+  },
+  "europe-16": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 385532,
+    "sourceBytes": 3615843,
+    "hash": "7710d4f226deb5c06377657c9ce706dd6ce67564674d7149512c0511d3508b5f"
+  },
   "europe-face": {
     "width": 1254,
     "height": 1254,

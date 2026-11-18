@@ -1,13 +1,16 @@
 import fs from 'node:fs/promises';
 import assert from 'node:assert/strict';
-import { continents, continentContentGrids, northAmericaScenes, southAmericaScenes } from './continent-plan.mjs';
+import { continents, continentContentGrids, continentArt } from './continent-plan.mjs';
 import { valid, groups, connectionCount, moveGroup, solved } from '../src/puzzle.js';
 import { hintSolution, shapeKey } from './level-search.mjs';
 
 const old = [...JSON.parse(await fs.readFile('src/first12-layouts.json', 'utf8')), ...JSON.parse(await fs.readFile('src/later-layouts.json', 'utf8'))];
 const used = new Set(old.map(l => shapeKey(l.positions))), levels = [];
+const artById = new Map(continentArt.map(art => [art.id, art]));
 for (const [face, chapter] of continents.entries()) for (const [level, gridSize] of continentContentGrids[face].entries()) {
   const number = 79 + face * 16 + level;
+  const artId = `${chapter.id}-${String(level + 1).padStart(2, '0')}`;
+  const art = artById.get(artId);
   let chosen;
   for (let attempt = 0; !chosen && attempt < 2000; attempt++) {
     const seed = 20261117 + number * 100003 + attempt * 997;
@@ -27,13 +30,11 @@ for (const [face, chapter] of continents.entries()) for (const [level, gridSize]
     }
     if (groupMoves < 2) continue;
     assert.ok(solved(cursor));
-    const scene = [northAmericaScenes, southAmericaScenes][face]?.[level];
-    const imageDifficulty = scene?.[1] ?? 'placeholder';
     chosen = {
-      number, theme: 2, face, level, chapter: chapter.id, artId: `${chapter.id}-${String(level + 1).padStart(2, '0')}`,
+      number, theme: 2, face, level, chapter: chapter.id, artId,
       gridSize, layoutVersion: 6, difficulty: gridSize === 7 || face === 0 && gridSize === 6 ? 'challenge' : 'normal',
-      imageDifficulty, imageNotes: scene?.[0] ?? '白图占位，后续制作',
-      placeholder: !scene, maxInitialLinks: 0, seed, positions, solution,
+      imageDifficulty: art?.imageDifficulty ?? 'placeholder', imageNotes: art?.label ?? '白图占位，后续制作',
+      placeholder: !art, maxInitialLinks: 0, seed, positions, solution,
       audit: { initialCorrect: fixed, initialGroups: groups(positions).map(g => g.length), initialLinks: 0, solutionMoves: solution.length, exact: false, hintMoves: solution.length, groupMoves },
     };
   }
