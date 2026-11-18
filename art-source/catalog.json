@@ -912,6 +912,150 @@
     "prompt": "Required output: exact 2:3 portrait, 1024x1536. Several adult mariachi musicians in a Mexican town plaza, seen candidly at medium distance during a performance, wearing authentic dark charro suits with silver embroidery and broad sombreros. Trumpets, violin, guitar and guitarron overlap naturally, stone arcade behind them and patterned paving below. Repeating dark suits, hat rims and silver details increase difficulty, distinct instrument angles, hands, belts and architectural lines preserve clues. Natural daylight, accurate human anatomy, not a posed fashion portrait or costume collage. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
   },
   {
+    "id": "south-america-01",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "里约热内卢海湾",
+    "cover": false,
+    "imageDifficulty": "medium",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. Rio de Janeiro, Brazil, seen from a hillside overlook across Botafogo Bay toward the recognizable rounded granite Sugarloaf Mountain. A small wedge of pale sky, layered green hills, apartment blocks following the curved shoreline, scattered sailboats and rippled blue-green water. Nearby leafy branches and rough rock anchor the lower corners. Natural clear afternoon light, a geographically coherent view with distinct shoreline curves and useful detail throughout the water; no added landmarks or giant empty sky. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-02",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "瓦尔帕莱索彩色阶梯",
+    "cover": false,
+    "imageDifficulty": "medium",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. An ordinary steep pedestrian stairway in Valparaiso, Chile, between weathered ochre, muted turquoise and terracotta houses with corrugated metal siding. Handrails zigzag uphill, a few potted plants sit on uneven landings and one adult resident walks farther up. Eye-level view with buildings filling the portrait. Broad distinct color areas provide relief, while siding seams, steps and rail shadows remain continuous puzzle clues. No murals, writing or signs, no artificial rainbow colors. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-03",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "库斯科印加石巷",
+    "cover": false,
+    "imageDifficulty": "hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A narrow pedestrian lane in Cusco, Peru, viewed obliquely along fitted polygonal Inca stone walls beneath whitewashed colonial upper stories and dark timber balconies. Large irregular grey-brown stones with tightly fitted joints, worn paving, recessed wooden doors and a few small roof tiles fill the frame. Similar stone tones and overlapping architectural lines make a difficult puzzle, each stone edge and changing perspective remains readable. Quiet natural overcast light, almost no sky, no invented inscriptions. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-04",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "亚马孙水上森林",
+    "cover": false,
+    "imageDifficulty": "medium-hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A small unpainted wooden canoe moored among the trunks of a seasonally flooded Amazon forest in Brazil. Medium-wide view from just above the water: buttressed trunks, interlacing roots, a few broad green leaves, thin vines and dark tea-colored water reflecting broken branches. The canoe runs diagonally through the lower third; layered forest fills the upper frame. Soft cloudy daylight, varied greens and browns, visible water ripples and distinct trunk angles instead of featureless darkness or mist. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-05",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "巴西千湖沙漠",
+    "cover": false,
+    "imageDifficulty": "hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A natural aerial documentary photograph of Lencois Maranhenses National Park in northeastern Brazil during the lagoon season. A close oblique view shows interlocking white sand dunes and clear turquoise freshwater lagoons curving between them, with a thin strip of low dark-green scrub along one edge. No horizon or sky. At least six differently shaped pools, winding dune crests, fine wind-ripple textures, damp beige shore bands and subtle water-depth gradients fill the portrait. A challenging but readable maze of connected curves, with distinct lagoon silhouettes and asymmetric sand ridges. Ordinary afternoon light, restrained real colors, no people, buildings or waterfalls. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-06",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "布宜诺斯艾利斯探戈",
+    "cover": false,
+    "imageDifficulty": "medium-hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A candid afternoon street scene in San Telmo, Buenos Aires, Argentina: an adult couple dancing tango in everyday elegant clothing on worn stone paving, with a seated bandoneon player at one side and old stucco facades and iron balconies behind. Medium-wide full-body framing, believable tango posture, natural hands and feet. Muted burgundy skirt, charcoal jacket, cream walls and warm paving separate broad regions; balcony rails, instrument folds and shadows connect pieces. No stage, spotlights, crowd posing or readable signs. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-07",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "马丘比丘梯田",
+    "cover": false,
+    "imageDifficulty": "hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A close elevated architectural view within Machu Picchu, Peru, looking diagonally across stepped Inca stone terraces, narrow stairs and roofless fitted-stone buildings on the green mountain slope. Frame the masonry and grass terraces tightly with only a small glimpse of the distant ridge, a different close view from the famous wide postcard panorama. Many repeating grey stone courses and green strips create difficulty; irregular wall corners, stair routes and shadows distinguish every region. Natural cloudy daylight, deep focus. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-08",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "卡塔赫纳水果摊",
+    "cover": false,
+    "imageDifficulty": "medium-hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. An everyday fruit stall in Cartagena, Colombia, viewed at an oblique working distance under a simple canvas awning. Wooden crates of mangoes, papayas, green plantains and pineapples, a weighing scale and woven baskets sit beside a weathered warm-yellow plaster wall and a turquoise doorway. A local adult vendor in everyday clothing arranges fruit naturally. Moderate color separation, realistic varied fruit shapes, basket edges and overlapping crates provide readable clues. No staged costume, studio food styling, labels or readable writing. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-09",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "萨尔瓦多街头鼓乐",
+    "cover": false,
+    "imageDifficulty": "hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A candid street percussion rehearsal in Salvador, Bahia, Brazil. Seven adult Afro-Brazilian percussionists in ordinary red, yellow, green and white T-shirts play several large cylindrical surdo drums and smaller snare drums strapped at the waist while standing in a loose diagonal group on cobblestone paving. Medium-wide full-body environmental view, weathered colorful colonial facades and shuttered windows fill the background. This is a local everyday rehearsal, no stage or carnival costume. Repeated circular drumheads, metal rims, colored drum shells, straps and different arm angles form a dense challenging puzzle with continuous contours. Correct human anatomy, believable sticks and drumming postures, deep focus and natural cloudy daylight. No guitars, violins, trumpets, sombreros, logos or readable lettering. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-10",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "乌尤尼盐沼纹理",
+    "cover": false,
+    "imageDifficulty": "hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. The dry Salar de Uyuni salt flat in Bolivia from a low oblique viewpoint near a small rocky island edge. Interlocking irregular salt-crust polygons fill most of the portrait and recede toward low brown mountains; rough ochre rock and two tall columnar cacti enter along one side. Only a narrow band of pale blue sky. Related off-white salt and grey seams make a demanding puzzle, with changing polygon scale, branching cracks, small crust ridges and cactus shadows as clues. Everyday clear daylight, no mirror water or vast blank sky. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-11",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "的的喀喀湖芦苇船",
+    "cover": false,
+    "imageDifficulty": "medium",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A candid shore-level view on Lake Titicaca in Peru: two traditional totora reed boats with curved woven prows rest beside a low reed landing, coils of rope and bundled golden reeds in the foreground, rippled deep-blue lake and low Andean hills beyond. The boats lie at different diagonal angles with believable woven construction. Narrow sky strip, natural bright high-altitude daylight. Warm straw against blue water provides a gentler final puzzle, with reed bindings, shore contours and small ripples throughout; no staged portrait or text. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-12",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "潘塔纳尔水豚",
+    "cover": false,
+    "imageDifficulty": "medium-hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A small group of four capybaras resting and grazing beside a shallow wetland channel in the Brazilian Pantanal. Medium-wide environmental photograph: the animals overlap at different distances among bent green sedges, muddy banks, patches of floating vegetation and rippling water. One adult in profile, another turned partly away, two smaller animals closer to the reeds. Natural anatomy, ordinary soft daylight and deep focus. Related warm-brown coats and grasses add difficulty while different silhouettes, ears, reed directions and reflections preserve clues. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-13",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "欧鲁普雷图老城",
+    "cover": false,
+    "imageDifficulty": "hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A compressed uphill street view in Ouro Preto, Brazil: whitewashed colonial houses with repeated terracotta roof tiles step along a steep cobbled lane, worn ochre window frames, dark wood doors, small iron balconies and a church tower partly visible behind the roofs. Buildings fill nearly all the portrait. Repeated tile rows and pale facades create a challenging architectural puzzle; uneven rooflines, different shutters and diagonal cobblestones provide direction. Natural cloudy daytime light, believable hillside perspective, no readable signs. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-14",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "秘鲁彩虹山",
+    "cover": false,
+    "imageDifficulty": "hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A natural high-altitude documentary landscape photograph of Vinicunca, the Rainbow Mountain in Peru. A tightly framed oblique view of several adjacent bare ridges shows geologically believable diagonal bands of muted brick red, dusty rose, pale sandstone, ochre and subdued grey-green minerals. Fine scree channels, fractured rock, irregular erosion gullies and sharp ridge edges remain visible from foreground to distance. Only a tiny wedge of pale cloudy sky, no broad empty ground. Repeated mineral bands with varied widths and interrupted seams make a challenging puzzle, with asymmetric ridgelines and continuous erosion lines as directional clues. Natural overcast daylight, dry rough surfaces, realistic restrained pigmentation, no neon rainbow, no snowy glacier, no people or added landmarks. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-15",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "阿塔卡马月亮谷",
+    "cover": false,
+    "imageDifficulty": "hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. An elevated close landscape view across Valle de la Luna in the Atacama Desert of Chile: layered ochre and grey-brown rock ridges, narrow eroded gullies, pale salt crusts and a sweeping dark sand dune occupy the portrait. Very little sky, no people needed. Repeating dry earth colors and strata create a difficult puzzle, but intersecting ridge silhouettes, alternating rock and sand textures and a few clear shadow wedges give continuous orientation. Ordinary late-afternoon daylight rather than dramatic sunset, geologically coherent natural terrain. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
+    "id": "south-america-16",
+    "theme": 2,
+    "chapter": "south-america",
+    "label": "厄瓜多尔高地集市",
+    "cover": false,
+    "imageDifficulty": "medium-hard",
+    "prompt": "Required output: exact 2:3 portrait, 1024x1536. A candid produce market in the Ecuadorian Andean highlands, seen from a slightly elevated oblique angle. Several open burlap sacks and woven baskets hold differently colored potatoes, ears of maize, squash and leafy vegetables, on a worn wooden stall beside a stone-paved aisle. Two adult vendors in ordinary practical clothing work farther back under a patched canvas canopy. Related earthy colors and repeated produce forms add texture; bag rims, basket handles, maize leaves and the aisle diagonal organize the scene. Soft natural market daylight, no readable price cards or staged food display. Use case: photorealistic-natural. A natural-looking, detailed documentary travel photograph made for a challenging jigsaw puzzle. Deep focus across the entire frame; believable perspective, real materials and unforced everyday lighting. Retain moderate natural color separation and readable medium-scale detail in every region. Avoid studio staging, shallow depth of field, giant empty skies, vignette, ornamental borders, exaggerated HDR, cinematic color grading and an isolated centered hero. One coherent full-bleed scene. No text, typography, labels, watermark, logos, collage, map overlay or puzzle grid."
+  },
+  {
     "id": "continent-placeholder",
     "theme": 2,
     "chapter": "continents",

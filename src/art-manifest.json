@@ -783,6 +783,118 @@
     "sourceBytes": 3484048,
     "hash": "176692f03507f534ba8f281c0d113a1fb953a8baafcc4b230590ad67339b0c31"
   },
+  "south-america-01": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 441966,
+    "sourceBytes": 3684324,
+    "hash": "0b9116d02077107e804c7ed6462f77b9f892b48d90e111e6f845a3e2141507db"
+  },
+  "south-america-02": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 360188,
+    "sourceBytes": 3421601,
+    "hash": "f57dfcd7dfe7adda927c0c515d202aba1fdc1eab505fb5b0c9602c600c625f65"
+  },
+  "south-america-03": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 384940,
+    "sourceBytes": 3755958,
+    "hash": "54b536318379d86461ba01486b1629a3701c9fb27babbd1a4c62b84866172644"
+  },
+  "south-america-04": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 459090,
+    "sourceBytes": 3783344,
+    "hash": "9cfcc8c15fe4246621b8a4f20869084bf4166261958812074343a0f5c3afa87f"
+  },
+  "south-america-05": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 262836,
+    "sourceBytes": 3266967,
+    "hash": "235d39633ac8ccbcf5af471198d178450db759dfe63bf76364caceeed3b74e40"
+  },
+  "south-america-06": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 299504,
+    "sourceBytes": 3201268,
+    "hash": "891d6a15818625c6371a0a3b25e18cefd3fe466a8d6d6d4812408f3a91dd45da"
+  },
+  "south-america-07": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 499730,
+    "sourceBytes": 4172112,
+    "hash": "98efb538fdd8354b095f5f77fe2263fb97bd7a3564b459e70f3fe750959399e8"
+  },
+  "south-america-08": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 372458,
+    "sourceBytes": 3451962,
+    "hash": "1aece145755c446b14136bc733de17436ddadb7b80ad24c098bd1b770caad1ce"
+  },
+  "south-america-09": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 341876,
+    "sourceBytes": 3321514,
+    "hash": "b86e8f38fb9938472c65402abf1562e2b9cf11e6da5396aae8ded4970655d99d"
+  },
+  "south-america-10": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 426358,
+    "sourceBytes": 3871379,
+    "hash": "1990c4ff2127f798114572f12546069cae96951b7bf1820768872199819d88d5"
+  },
+  "south-america-11": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 529942,
+    "sourceBytes": 4166606,
+    "hash": "070891a65dec60b8a1b3814dd3bb2b9be4323379c351155c4fafe871305412d0"
+  },
+  "south-america-12": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 474558,
+    "sourceBytes": 3877999,
+    "hash": "93361d19b07d2bdc7e5d51eae601d90b58f2521da829dbad1451458ed71caa26"
+  },
+  "south-america-13": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 349938,
+    "sourceBytes": 3368955,
+    "hash": "4a675afe69fddec503d1a55185ce816e7ab8c9de7189705dfde1a155f89f0fed"
+  },
+  "south-america-14": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 434446,
+    "sourceBytes": 4062914,
+    "hash": "7bf2dbc2cd0cc29f3f14eca043b52b97468abb968e1276d863cd2ee62638a83d"
+  },
+  "south-america-15": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 493492,
+    "sourceBytes": 4110696,
+    "hash": "d47257ffbae28921632b3949b360c0f00a5f14f510b9630c6daf1bc974c20d10"
+  },
+  "south-america-16": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 458226,
+    "sourceBytes": 3927244,
+    "hash": "82ae9f24e5ae94e614aed55911bfc7403ebb768dcd5793723d9a12abfe186ffa"
+  },
   "south-america-face": {
     "width": 1254,
     "height": 1254,

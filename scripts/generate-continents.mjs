@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import assert from 'node:assert/strict';
-import { continents, continentContentGrids, northAmericaScenes } from './continent-plan.mjs';
+import { continents, continentContentGrids, northAmericaScenes, southAmericaScenes } from './continent-plan.mjs';
 import { valid, groups, connectionCount, moveGroup, solved } from '../src/puzzle.js';
 import { hintSolution, shapeKey } from './level-search.mjs';
 
@@ -27,12 +27,13 @@ for (const [face, chapter] of continents.entries()) for (const [level, gridSize]
     }
     if (groupMoves < 2) continue;
     assert.ok(solved(cursor));
-    const imageDifficulty = face === 0 ? northAmericaScenes[level][1] : 'placeholder';
+    const scene = [northAmericaScenes, southAmericaScenes][face]?.[level];
+    const imageDifficulty = scene?.[1] ?? 'placeholder';
     chosen = {
       number, theme: 2, face, level, chapter: chapter.id, artId: `${chapter.id}-${String(level + 1).padStart(2, '0')}`,
       gridSize, layoutVersion: 6, difficulty: gridSize === 7 || face === 0 && gridSize === 6 ? 'challenge' : 'normal',
-      imageDifficulty, imageNotes: face === 0 ? northAmericaScenes[level][0] : '白图占位，后续制作',
-      placeholder: face !== 0, maxInitialLinks: 0, seed, positions, solution,
+      imageDifficulty, imageNotes: scene?.[0] ?? '白图占位，后续制作',
+      placeholder: !scene, maxInitialLinks: 0, seed, positions, solution,
       audit: { initialCorrect: fixed, initialGroups: groups(positions).map(g => g.length), initialLinks: 0, solutionMoves: solution.length, exact: false, hintMoves: solution.length, groupMoves },
     };
   }
