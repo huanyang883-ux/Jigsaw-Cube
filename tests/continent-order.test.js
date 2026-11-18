@@ -23,7 +23,7 @@ test('chapter rhythm spreads easier boards and separates peaks without changing 
     for (const [level, contentLevel] of order.entries()) {
       const source = original[face * 16 + contentLevel];
       assert.deepEqual(levels[level], { ...source, number: 79 + face * 16 + level, level });
-      assert.ok(levelArt(2, face, level).includes(face <= 2 ? source.artId : 'continent-placeholder'));
+      assert.ok(levelArt(2, face, level).includes(face <= 3 ? source.artId : 'continent-placeholder'));
     }
   }
 });

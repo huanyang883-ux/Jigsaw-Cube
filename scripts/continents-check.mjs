@@ -105,6 +105,7 @@ try {
     { smallLevels: [6, 15], unlocks: 'south-america' },
     { smallLevels: [3, 11, 15], unlocks: 'europe' },
     { smallLevels: [2, 10, 15], unlocks: 'asia' },
+    { smallLevels: [1, 10, 15], unlocks: 'africa' },
   ];
   for (const [face, { smallLevels, unlocks }] of chaptersWithArt.entries()) {
     if (face > 0) {
@@ -142,7 +143,7 @@ try {
   assert.equal(await p.evaluate(key => localStorage.getItem(key), normal), '{"keep":"normal-save"}');
   assert.deepEqual(errors, []);
   await fs.writeFile(`${output}/report.json`, JSON.stringify({ levels: report, errors }, null, 2) + '\n');
-  console.log('PASS: North America 16/16, South America 16/16, Europe 16/16, three 7x7 placeholder chapters, preview, hints, resume, progression, covers, fifth cube and save isolation.');
+  console.log('PASS: North America 16/16, South America 16/16, Europe 16/16, Asia 16/16, two 7x7 placeholder chapters, preview, hints, resume, progression, covers, fifth cube and save isolation.');
 } catch (error) {
   await p.screenshot({ path: `${output}/failure.png` }).catch(() => {});
   console.error(JSON.stringify({ state: await state().catch(() => null), errors })); throw error;

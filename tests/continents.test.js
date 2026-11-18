@@ -85,8 +85,8 @@ test('fourth cube has six ordered continents and the exact requested grid distri
       assert.equal(l.number, 79 + face * 16 + i); assert.equal(l.level, i);
       assert.equal(l.chapter, CONTINENT_CHAPTERS[face].id);
       assert.equal(levelConfig(2, face, i), l);
-      assert.ok(levelArt(2, face, i).includes(face <= 2 ? l.artId : 'continent-placeholder'));
-      assert.equal(l.placeholder, face > 2);
+      assert.ok(levelArt(2, face, i).includes(face <= 3 ? l.artId : 'continent-placeholder'));
+      assert.equal(l.placeholder, face > 3);
     }
   }
   assert.equal(THEMES[2].icon, 'globe'); assert.equal(THEMES[3].order, 5);

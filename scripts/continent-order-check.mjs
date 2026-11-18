@@ -13,7 +13,7 @@ const browser = await chromium.launch({ executablePath: process.env.PUZZLE_BROWS
 const errors = [], key = saveSlot('?trial=continents');
 try {
   // Verify real legacy sessions on the small, hard and placeholder boards.
-  for (const source of [original[1], original[6], original[24], original[43], original[50]]) {
+  for (const source of [original[1], original[6], original[24], original[43], original[50], original[65]]) {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     const old = freshProgress(); delete old.continentOrderVersion;
     old.completed[0].fill(true); old.completed[1].fill(true);

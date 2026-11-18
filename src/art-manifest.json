@@ -146,6 +146,118 @@
     "sourceBytes": 3769055,
     "hash": "df50f546de64fe468ba59c9e700ceb0ca21590e50c8a10b651804ac1cfb36116"
   },
+  "asia-01": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 454106,
+    "sourceBytes": 3717433,
+    "hash": "d0e3d7cb399514607d507a84f50e56c338678ad91452402abc0cc30d1044ca64"
+  },
+  "asia-02": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 443552,
+    "sourceBytes": 3855389,
+    "hash": "f181efd945f9ea32944172c9f5da4d0bd89ddf64a61d7ab84d3b308bf3354d08"
+  },
+  "asia-03": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 276254,
+    "sourceBytes": 3039007,
+    "hash": "534c3f46fc595e60bbb2b7a129fe7c4ded8ed57d41111fb0e22ae9f577f5e5ed"
+  },
+  "asia-04": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 352450,
+    "sourceBytes": 3351950,
+    "hash": "95e8139d52c94d9915ff0eed7506dbfcdf8370f4915a2db6bda5286de17bbcd6"
+  },
+  "asia-05": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 400408,
+    "sourceBytes": 3652687,
+    "hash": "c7fd84c42504de4bc82ed65edb5f31d9171a10ca37289491b823144adaa71ffe"
+  },
+  "asia-06": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 573970,
+    "sourceBytes": 4204532,
+    "hash": "fc67ddb79219e10e50b360bd79101ed99320543e648f9cb02c09d6b8d5c2e2e4"
+  },
+  "asia-07": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 356148,
+    "sourceBytes": 3577918,
+    "hash": "a2d206b87b96d5a8bd4c449cd2a0bb17e6387171e30236fa822a0de0b6157d7c"
+  },
+  "asia-08": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 445204,
+    "sourceBytes": 3763621,
+    "hash": "363feb00198fee33fc832ee41cd4a9112de9141c9b47e03d5291bbb9e7684ac5"
+  },
+  "asia-09": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 458790,
+    "sourceBytes": 3818806,
+    "hash": "4d37cc094babd07999f21707aa6994bf3f4718e4f13886365319ce930ddf314c"
+  },
+  "asia-10": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 309730,
+    "sourceBytes": 3219318,
+    "hash": "c059ca309b6f7093107302371b41c42334fc68d5dc5ce3841032300c581530c6"
+  },
+  "asia-11": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 426364,
+    "sourceBytes": 3768773,
+    "hash": "f71439301c68be1d5c217b21f16d8e676d57103df74f09b4fc8ba946d56ca26e"
+  },
+  "asia-12": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 488206,
+    "sourceBytes": 3952940,
+    "hash": "6092ed29a2eac85643730d58597f62ce07a54f432ec8708d0856a95718f73ee2"
+  },
+  "asia-13": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 528404,
+    "sourceBytes": 3955651,
+    "hash": "28c771cfaed21c72f1793ea20846bb6589d0b84ed55786dc817ccf55fa23e46a"
+  },
+  "asia-14": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 411266,
+    "sourceBytes": 3752192,
+    "hash": "76727cedfed07f54369c134ec61583c9cfd54aad27a0b5a2e0461b51b7d8a642"
+  },
+  "asia-15": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 359592,
+    "sourceBytes": 3516255,
+    "hash": "a7783f8bf6ab219951543271edadfd8e942909a177bc1e02b492b59076814420"
+  },
+  "asia-16": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 634520,
+    "sourceBytes": 4463237,
+    "hash": "0ac70271004f579da8210ac58478d9dd06238c405fa8d47a74cb25b6144b5efb"
+  },
   "asia-face": {
     "width": 1254,
     "height": 1254,
