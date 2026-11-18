@@ -1,4 +1,5 @@
 // Art direction and fixed chapter rhythm for the fourth cube.
+import { continentOrder } from '../src/continent-order.js';
 export const continents = [
   { id: 'north-america', name: '北美洲', scene: 'The Grand Canyon in Arizona, viewed from a rocky rim with layered red and ochre mesas, a winding glimpse of the Colorado River, sparse juniper branches in the foreground, and pale blue afternoon sky. A coherent real landscape, no added landmarks.' },
   { id: 'south-america', name: '南美洲', scene: 'Machu Picchu in Peru: recognizable Inca stone terraces and roofless stone buildings step down the green mountain ridge, Huayna Picchu rises behind them, a few thin clouds thread the distant Andes. One geographically coherent view, natural stone texture and deep green grass.' },
@@ -8,7 +9,8 @@ export const continents = [
   { id: 'oceania', name: '大洋洲', scene: 'Sydney Harbour in Australia, the recognizable white tiled shells of the Sydney Opera House seen across blue harbour water, a ferry in the middle distance, curved waterfront promenade and a few trees at the edge, harbour bridge partly visible behind. Realistic coherent perspective, fresh daytime light.' },
 ];
 
-export const continentGrids = [
+// Stable content specs: used only to reproduce each existing board and image.
+export const continentContentGrids = [
   [4, 4, 5, 5, 5, 5, 6, 5, 5, 5, 6, 5, 5, 6, 5, 6],
   [5, 5, 6, 6, 6, 5, 6, 6, 7, 6, 5, 6, 6, 7, 6, 6],
   [5, 6, 6, 7, 6, 5, 7, 6, 7, 6, 6, 7, 6, 7, 6, 7],
@@ -16,6 +18,9 @@ export const continentGrids = [
   [6, 7, 6, 6, 7, 6, 6, 7, 6, 7, 6, 6, 7, 6, 6, 7],
   [6, 6, 7, 6, 7, 6, 6, 7, 6, 6, 7, 6, 6, 7, 6, 7],
 ];
+
+// Player-facing grid sequence follows the chapter rhythm, not asset filenames.
+export const continentGrids = continentOrder.map((order, face) => order.map(level => continentContentGrids[face][level]));
 
 export const northAmericaScenes = [
   ['金门大桥', 'medium', 'San Francisco Golden Gate Bridge viewed obliquely from a rocky coastal overlook. Orange-red towers, suspension cables and the diagonal bridge deck cut through blue-green bay water, low scrub and rocks in the foreground, a compact portion of distant city shoreline. Keep both towers structurally believable, varied ripples and cable intersections act as puzzle clues. Bright ordinary daylight, not a sunset postcard.'],

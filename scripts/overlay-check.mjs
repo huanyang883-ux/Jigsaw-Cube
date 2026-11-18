@@ -32,6 +32,8 @@ try {
   await p.locator('#close-picture').focus(); await p.keyboard.press('Enter'); await p.waitForFunction(() => document.querySelector('#overlay').hidden);
   await p.tap('#hint'); await p.waitForSelector('#continue');
   await p.tap('#continue'); await p.waitForFunction(() => document.querySelector('#game').dataset.mode === 'chapters'); await idle();
+  assert.equal(await p.locator('#chapter-progress .chapter-dot').count(), 4);
+  assert.equal(await p.locator('#chapter-progress .done').count(), 1, 'completed level updates its chapter dot');
   const saved = await p.evaluate((key) => JSON.parse(localStorage.getItem(key)), saveSlot('?trial=all78'));
   assert.equal(saved.completed[0][0], true); assert.deepEqual(saved.props, { hint: 27, preview: 27 });
   assert.equal(saved.records['0:0:0'].moves, 1); assert.deepEqual(errors, []);

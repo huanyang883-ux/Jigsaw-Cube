@@ -1,12 +1,12 @@
 import fs from 'node:fs/promises';
 import assert from 'node:assert/strict';
-import { continents, continentGrids, northAmericaScenes } from './continent-plan.mjs';
+import { continents, continentContentGrids, northAmericaScenes } from './continent-plan.mjs';
 import { valid, groups, connectionCount, moveGroup, solved } from '../src/puzzle.js';
 import { hintSolution, shapeKey } from './level-search.mjs';
 
 const old = [...JSON.parse(await fs.readFile('src/first12-layouts.json', 'utf8')), ...JSON.parse(await fs.readFile('src/later-layouts.json', 'utf8'))];
 const used = new Set(old.map(l => shapeKey(l.positions))), levels = [];
-for (const [face, chapter] of continents.entries()) for (const [level, gridSize] of continentGrids[face].entries()) {
+for (const [face, chapter] of continents.entries()) for (const [level, gridSize] of continentContentGrids[face].entries()) {
   const number = 79 + face * 16 + level;
   let chosen;
   for (let attempt = 0; !chosen && attempt < 2000; attempt++) {

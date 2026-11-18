@@ -6,16 +6,22 @@
 .top-bar .tool .icon{width:48px;height:48px}
 .top-bar .prop-count{right:-8px;bottom:-10px;min-width:46px;height:38px;padding:0 7px;border-width:2px;border-radius:15px;font-size:24px}
 .top-bar .puzzle-progress{position:static;flex:1;min-width:0;width:auto;height:12px;pointer-events:none}
-.puzzle-settings{position:relative;margin-left:auto;flex-shrink:0;pointer-events:auto}
+.puzzle-settings{position:relative;margin-left:0;flex-shrink:0;pointer-events:auto}
 #settings[aria-expanded=true]{background:#f2eadb;border-color:#c9b79a}
-.settings-menu{position:absolute;right:-15px;top:128px;padding:12px;display:flex;flex-direction:column;gap:18px;background:#fffaf0;border:3px solid #d2c5af;border-radius:38px;box-shadow:0 8px 0 #e0d8c245,0 16px 35px #9a8f7326;opacity:0;visibility:hidden;transform:translateY(-16px) scale(.96);transform-origin:top center;pointer-events:none;transition:opacity .16s ease,transform .2s cubic-bezier(.22,1,.36,1),visibility 0s linear .2s}
+.settings-menu{position:absolute;left:-15px;top:128px;padding:12px;display:flex;flex-direction:column;gap:18px;background:#fffaf0;border:3px solid #d2c5af;border-radius:38px;box-shadow:0 8px 0 #e0d8c245,0 16px 35px #9a8f7326;opacity:0;visibility:hidden;transform:translateY(-16px) scale(.96);transform-origin:top center;pointer-events:none;transition:opacity .16s ease,transform .2s cubic-bezier(.22,1,.36,1),visibility 0s linear .2s}
 .puzzle-settings.is-open .settings-menu{opacity:1;visibility:visible;transform:translateY(0) scale(1);pointer-events:auto;transition-delay:0s}
-.settings-menu:before{content:'';position:absolute;top:-11px;right:58px;width:17px;height:17px;background:#fffaf0;border-left:3px solid #d2c5af;border-top:3px solid #d2c5af;transform:rotate(45deg)}
+.settings-menu:before{content:'';position:absolute;top:-11px;left:58px;width:17px;height:17px;background:#fffaf0;border-left:3px solid #d2c5af;border-top:3px solid #d2c5af;transform:rotate(45deg)}
 .game-stage[data-mode=puzzle] .puzzle-frame{padding:15px;border-radius:33px 30px 36px 32px}
 .game-stage[data-mode=puzzle] .puzzle-frame:before{inset:7px;border-radius:26px}
 .game-stage[data-mode=puzzle] #puzzle-board{border-radius:18px}
 
-.home-actions{display:flex;gap:24px;align-items:center}
+.chapter-progress{position:absolute;left:235px;top:1363px;width:610px;height:28px;display:flex;align-items:center;justify-content:center;gap:13px;pointer-events:none}
+.chapter-dot{width:23px;height:23px;flex-shrink:0;border:2px solid #d6d7c2;border-radius:50%;background:#f3f3e6}
+.chapter-dot.done{background:#adbf91;border-color:#adbf91}
+.chapter-back{left:468px;top:1528px;width:144px;height:128px;border-radius:43px 39px 44px 41px;box-shadow:0 10px 0 #bdcfa7,0 18px 24px #acbd9324}
+.chapter-back .icon{width:58px;height:58px;margin-left:0}
+.chapter-back:active{box-shadow:0 5px 0 #bdcfa7}
+.game-stage[data-mode=chapters] .chapter-pages{top:1730px}
 #overlay-content{position:absolute;left:50%;top:50%;width:max-content;transform:translate(-50%,-50%) scale(var(--stage-scale));transform-origin:center}
 .reset-card{width:860px;padding:64px 50px 68px;text-align:center}
 .reset-mark{display:grid;place-items:center;width:132px;height:132px;border:3px solid #d7bfa5;border-radius:42px;background:#f7e6d4;color:#b18c70}
@@ -40,5 +46,3 @@
 
 .hand-guide{position:absolute;width:240px;height:240px;transform:translate(-96px,-17px);z-index:25;pointer-events:none!important;user-select:none}
 .hand-guide img{position:absolute;left:0;top:0;width:240px;height:240px;max-width:none;transform-origin:96px 17px;filter:drop-shadow(0 5px 4px #6b624a38);pointer-events:none;user-select:none;-webkit-user-drag:none;will-change:transform,opacity}
-
-.puzzle-settings.is-home{margin-left:0}.puzzle-settings.is-home .settings-menu{left:-15px;right:auto}.puzzle-settings.is-home .settings-menu:before{left:58px;right:auto}

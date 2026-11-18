@@ -4,6 +4,7 @@ import { freshGuides, GUIDE_ACTIONS } from './guide-state.js';
 import first12 from './first12-layouts.json' with { type: 'json' };
 import laterLayouts from './later-layouts.json' with { type: 'json' };
 import continentLayouts from './continent-layouts.json' with { type: 'json' };
+import { CONTINENT_ORDER_VERSION, orderContinentLevels, migrateContinentOrder } from './continent-order.js';
 import { THEME_ART } from './theme-art.js';
 
 export const saveSlot = (search = '') => {
@@ -33,14 +34,14 @@ export const THEMES = [
   { order: 4, icon: THEME_ART[2].icon, color: '#8bbbc9', chapters: CONTINENT_CHAPTERS, faceArt: CONTINENT_CHAPTERS.map(c => artUrl(`${c.id}-face`)) },
   { order: 5, icon: THEME_ART[3].icon, color: '#b59bcf', faceArt: Array(6).fill(WHITE_ART), comingSoon: true },
 ];
-const levelArtId = (theme, face, level) => `${THEMES[theme].chapters[face].id}-${String(level + 1).padStart(2, '0')}`;
+const levelArtId = (theme, face, level) => levelConfig(theme, face, level)?.artId ?? `${THEMES[theme].chapters[face].id}-${String(level + 1).padStart(2, '0')}`;
 export const LEVEL_ART = Array.from({ length: 4 }, (_, i) => artUrl(`cake-0${i + 1}`));
 export function levelAspect(theme, face, level) {
   const asset = artManifest[levelArtId(theme, face, level)];
   return asset ? asset.width / asset.height : 2 / 3;
 }
 export const INITIAL_PROPS = Object.freeze({ hint: 28, preview: 28 });
-export const freshProgress = () => ({ version: 2, completed: THEMES.filter(t => !t.comingSoon).map(t => Array(6 * t.order ** 2).fill(false)), puzzles: {}, sound: false, props: { ...INITIAL_PROPS }, guides: freshGuides(), records: {} });
+export const freshProgress = () => ({ version: 2, continentOrderVersion: CONTINENT_ORDER_VERSION, completed: THEMES.filter(t => !t.comingSoon).map(t => Array(6 * t.order ** 2).fill(false)), puzzles: {}, sound: false, props: { ...INITIAL_PROPS }, guides: freshGuides(), records: {} });
 export function completeAllLevels(progress) {
   for (const levels of progress.completed) levels.fill(true);
   // Replaying a completed test level should start from its current initial layout.
@@ -57,7 +58,7 @@ export function useProp(progress, type) {
   return true;
 }
 export const faceSize = (theme) => THEMES[theme].order ** 2;
-export const LEVEL_CONFIGS = [...first12, ...laterLayouts, ...continentLayouts];
+export const LEVEL_CONFIGS = [...first12, ...laterLayouts, ...orderContinentLevels(continentLayouts)];
 const levelLookup = new Map(LEVEL_CONFIGS.map(l => [l.number <= 12 ? `0:${Math.floor((l.number - 1) / 4)}:${(l.number - 1) % 4}` : `${l.theme}:${l.face}:${l.level}`, l]));
 export const levelConfig = (theme, face = 0, level = 0) => levelLookup.get(`${theme}:${face}:${level}`);
 export const puzzleSize = (theme, face = 0, level = 0) => levelConfig(theme, face, level).gridSize;
@@ -124,6 +125,7 @@ function savedGridSize(theme, config, version) {
 export function restoreProgress(raw) {
   const result = freshProgress();
   if (!raw || raw.version !== 2) return result;
+  raw = migrateContinentOrder(raw);
   for (let theme = 0; theme < result.completed.length; theme++) {
     if (theme && !themeComplete(result, theme - 1)) break;
     for (let face = 0; face < 6; face++) {

@@ -37,7 +37,8 @@
     "test:all78": "node scripts/all-levels-check.mjs",
     "test:overlay": "node scripts/overlay-check.mjs",
     "levels:generate:continents": "node scripts/generate-continents.mjs",
-    "test:continents": "node scripts/continents-check.mjs"
+    "test:continents": "node scripts/continents-check.mjs",
+    "test:rhythm": "node scripts/continent-order-check.mjs"
   },
   "dependencies": {
     "pixi.js": "^8.17.1",

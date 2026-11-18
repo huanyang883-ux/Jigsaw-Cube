@@ -18,13 +18,14 @@ test('home reminders use 3s / 5s independently and never point at a locked entry
   assert.equal(chooseGuide({ ...state, idleMs: 8000 }), null);
 });
 
-test('completed actions suppress their reminder permanently even without ever showing it', () => {
+test('learned actions persist, but only home and puzzle tutorials are permanently dismissed', () => {
   const p = freshProgress();
   for (const action of Object.keys(p.guides)) { assert.ok(learnGuide(p, action)); assert.equal(learnGuide(p, action), false); }
   assert.equal(learnGuide(p, 'unknown'), false);
   const saved = restoreProgress(JSON.parse(JSON.stringify(p)));
   assert.deepEqual(saved.guides, { rotateCube: true, enterChapter: true, enterLevel: true, dragPuzzle: true });
-  for (const mode of ['home', 'chapters', 'puzzle']) assert.equal(chooseGuide({ mode, idleMs: 60000, learned: saved.guides, canEnter: true, hasLevel: true, canDrag: true }), null);
+  for (const mode of ['home', 'puzzle']) assert.equal(chooseGuide({ mode, idleMs: 60000, learned: saved.guides, canEnter: true, hasLevel: true, canDrag: true }), null);
+  assert.equal(chooseGuide({ mode: 'chapters', idleMs: 60000, learned: saved.guides, hasLevel: true }), 'enterLevel');
   assert.deepEqual(freshProgress().guides, freshGuides());
 });
 
@@ -42,6 +43,19 @@ test('chapter target is the first unfinished level on an unlocked face; finished
   assert.equal(chooseGuide({ ...state, idleMs: 4999 }), null);
   assert.equal(chooseGuide({ ...state, idleMs: 5000 }), 'enterLevel');
   assert.equal(chooseGuide({ ...state, idleMs: 5000, hasLevel: false }), null);
+});
+
+test('chapter reminders repeat after 5s and guide completed faces to the latest unfinished face', () => {
+  const learned = { ...freshGuides(), enterLevel: true };
+  const state = { mode: 'chapters', learned, hasLevel: false, canSwitchFace: true };
+  assert.equal(chooseGuide({ ...state, idleMs: 4999 }), null);
+  assert.equal(chooseGuide({ ...state, idleMs: 5000 }), 'switchFace');
+  assert.equal(chooseGuide({ ...state, idleMs: 60000 }), 'switchFace');
+  assert.equal(chooseGuide({ ...state, idleMs: 5000, hasLevel: true }), 'enterLevel');
+  assert.equal(chooseGuide({ ...state, idleMs: 0, hasLevel: true }), null);
+  assert.equal(chooseGuide({ ...state, idleMs: 4999, hasLevel: true }), null);
+  assert.equal(chooseGuide({ ...state, idleMs: 5000, hasLevel: true }), 'enterLevel');
+  assert.equal(chooseGuide({ ...state, idleMs: 60000, canSwitchFace: false }), null);
 });
 
 test('old saves infer only demonstrated skills; automatic hint moves in new saves do not prove manual dragging', () => {

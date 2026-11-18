@@ -7,19 +7,17 @@ if errorlevel 1 (
   pause
   exit /b 1
 )
-if not exist "dist\index.html" (
-  if not exist "node_modules\vite" (
-    call npm install --no-audit --no-fund
-    if errorlevel 1 (
-      pause
-      exit /b 1
-    )
-  )
-  call npm run build
+if not exist "node_modules\vite" (
+  call npm install --no-audit --no-fund
   if errorlevel 1 (
     pause
     exit /b 1
   )
+)
+call npm run build
+if errorlevel 1 (
+  pause
+  exit /b 1
 )
 node scripts/serve.mjs --open
 if errorlevel 1 pause

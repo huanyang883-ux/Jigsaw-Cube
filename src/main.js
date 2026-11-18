@@ -51,12 +51,14 @@ function warmChapter(selectedTheme, selectedFace, afterLevel = -1) {
   warmAssets([THEMES[selectedTheme].faceArt[selectedFace], ...levels.slice(0, 2)]);
 }
 function guideContext() {
+  const latestFace = currentFace(progress, theme);
   return {
     key: `${mode}:${theme}:${face}:${session?.level ?? ''}`,
     mode, learned: progress.guides,
     blocked: !ready || busy || settingsOpen || cube?.busy || puzzle?.busy || loading.visible || !overlay.hidden || session?.completed,
     canEnter: themeUnlocked(progress, theme),
     hasLevel: mode === 'chapters' && nextPlayableLevel(progress, theme, face) !== null,
+    canSwitchFace: mode === 'chapters' && face !== latestFace && nextPlayableLevel(progress, theme, latestFace) !== null,
     canDrag: mode === 'puzzle' && session && !session.completed,
   };
 }
@@ -64,8 +66,9 @@ function guideTarget(kind) {
   const rect = game.getBoundingClientRect();
   const stagePoint = (p) => ({ x: (p.x - rect.left) * 1080 / rect.width, y: (p.y - rect.top) * 1920 / rect.height });
   if (kind === 'rotateCube') return { from: { x: 415, y: 980 }, to: { x: 675, y: 850 } };
-  if (kind === 'enterChapter') {
-    const r = $('#enter').getBoundingClientRect();
+  if (kind === 'enterChapter' || kind === 'switchFace') {
+    const button = kind === 'enterChapter' ? $('#enter') : $(`#chapter-pages [data-face="${currentFace(progress, theme)}"]`);
+    const r = button.getBoundingClientRect();
     return { from: stagePoint({ x: r.left + r.width / 2, y: r.top + r.height / 2 }) };
   }
   if (kind === 'enterLevel') {
@@ -92,7 +95,7 @@ function resize() {
 window.addEventListener('resize', resize); resize();
 
 function setSettingsOpen(open, restoreFocus = false) {
-  if (open && (!['home', 'puzzle'].includes(mode) || !ready || busy || cube?.busy || !overlay.hidden)) return;
+  if (open && (!ready || busy || cube?.busy || !overlay.hidden)) return;
   if (settingsOpen === open) return;
   settingsOpen = open;
   settingsMode = open ? mode : null;
@@ -103,7 +106,7 @@ function setSettingsOpen(open, restoreFocus = false) {
   $('#menu-screen').inert = open || !overlay.hidden;
   puzzle?.setBlocked(open || busy || session?.completed || !overlay.hidden);
   guide?.hide(); syncPlayTime();
-  if (open) $(mode === 'home' ? '#sound' : '#back').focus({ preventScroll: true });
+  if (open) $(mode === 'puzzle' ? '#back' : '#sound').focus({ preventScroll: true });
   else if (restoreFocus) $('#settings').focus({ preventScroll: true });
 }
 
@@ -115,20 +118,16 @@ function refresh() {
   game.classList.toggle('is-busy', busy);
   const inPuzzle = mode === 'puzzle';
   if (busy || settingsOpen && settingsMode !== mode) setSettingsOpen(false);
-  // Reuse the same controls and listeners in the dropdown and on the home bar.
-  const soundParent = mode === 'chapters' ? $('.home-actions') : $('#settings-menu');
-  if ($('#sound').parentElement !== soundParent) {
-    soundParent.prepend($('#sound'));
-  }
-  const backParent = inPuzzle ? $('#settings-menu') : $('.top-bar');
+  // The same back button moves between the chapter footer and puzzle settings.
+  const backParent = inPuzzle ? $('#settings-menu') : $('#menu-screen');
   if ($('#back').parentElement !== backParent) {
     if (inPuzzle) backParent.prepend($('#back'));
-    else backParent.insertBefore($('#back'), $('.puzzle-settings'));
+    else backParent.append($('#back'));
   }
-  $('.home-actions').hidden = mode !== 'chapters';
+  $('#back').classList.toggle('icon-button', mode !== 'chapters');
+  $('#back').classList.toggle('play-button', mode === 'chapters');
+  $('#back').classList.toggle('chapter-back', mode === 'chapters');
   $('.puzzle-tools').hidden = !inPuzzle; $('.puzzle-progress').hidden = !inPuzzle;
-  $('.puzzle-settings').hidden = mode === 'chapters';
-  $('.puzzle-settings').classList.toggle('is-home', mode === 'home');
   $('#settings').disabled = busy || !ready;
   $('#back').hidden = mode === 'home'; $('#back').disabled = busy;
   if (TEST_CONTROLS) for (const selector of ['#reset-account', '#complete-all']) {
@@ -160,7 +159,15 @@ function refresh() {
   game.style.setProperty('--theme-border', art.border);
   game.style.setProperty('--theme-ink', art.ink);
   game.style.setProperty('--theme-shadow', art.stripe);
-  $('#face-progress').hidden = !!THEMES[theme].comingSoon;
+  $('#face-progress').hidden = chapters || !!THEMES[theme].comingSoon;
+  $('#chapter-progress').hidden = !chapters;
+  if (chapters) {
+    const total = faceSize(theme), completed = Array.from({ length: total }, (_, i) => isComplete(progress, theme, face, i)).filter(Boolean).length;
+    $('#chapter-progress').innerHTML = Array.from({ length: total }, (_, i) => `<span class="chapter-dot ${isComplete(progress, theme, face, i) ? 'done' : ''}" aria-hidden="true"></span>`).join('');
+    $('#chapter-progress').setAttribute('aria-valuemax', total);
+    $('#chapter-progress').setAttribute('aria-valuenow', completed);
+    $('#chapter-progress').setAttribute('aria-valuetext', `${completed} / ${total}`);
+  }
   $('#enter').hidden = chapters; $('#enter').disabled = busy;
   $('#enter').classList.toggle('locked', !unlocked);
   $('#enter').innerHTML = icon(unlocked ? 'play' : THEMES[theme].comingSoon ? 'hourglass' : 'lock');
@@ -425,7 +432,7 @@ overlay.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); if (!session?.completed) closeOverlay(); }
 });
 window.addEventListener('keydown', guarded((e) => {
-  if (mode === 'puzzle' || !overlay.hidden) return;
+  if (mode === 'puzzle' || settingsOpen || !overlay.hidden) return;
   if (e.key === 'ArrowLeft') { e.preventDefault(); return navigate(-1); }
   if (e.key === 'ArrowRight') { e.preventDefault(); return navigate(1); }
   if (e.key === 'Escape') return back();

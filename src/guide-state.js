@@ -8,12 +8,16 @@ export function learnGuide(progress, action) {
   return true;
 }
 
-export function chooseGuide({ mode, idleMs, learned, canEnter, hasLevel, canDrag }) {
+export function chooseGuide({ mode, idleMs, learned, canEnter, hasLevel, canSwitchFace, canDrag }) {
   if (mode === 'home') {
     if (idleMs >= 5000 && !learned.rotateCube) return 'rotateCube';
     if (idleMs >= 3000 && canEnter && !learned.enterChapter) return 'enterChapter';
   }
-  if (mode === 'chapters' && idleMs >= 5000 && hasLevel && !learned.enterLevel) return 'enterLevel';
+  // Level selection stays helpful after the player has learned the controls.
+  if (mode === 'chapters' && idleMs >= 5000) {
+    if (hasLevel) return 'enterLevel';
+    if (canSwitchFace) return 'switchFace';
+  }
   if (mode === 'puzzle' && idleMs >= 400 && canDrag && !learned.dragPuzzle) return 'dragPuzzle';
   return null;
 }

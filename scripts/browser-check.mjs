@@ -68,12 +68,15 @@ try {
   await p.click('#enter'); await idle(p); await openLevel(p, 0);
   assert.deepEqual((await state(p)).session.positions, partial);
   await finish(p); assert.equal((await state(p)).face, 0);
+  assert.equal(await p.locator('#chapter-progress').getAttribute('aria-valuenow'), '1');
   assert.equal((await p.evaluate(() => window.__game.revealed())).length, 1);
   await p.screenshot({ path: 'test-results/cube-partial.png' });
   for (let level = 1; level < 4; level++) { await openLevel(p, level); assert.ok((await state(p)).session.art.includes(`cake-0${level + 1}`)); await finish(p); }
   assert.equal((await state(p)).face, 1, 'finishing four levels opens next face');
+  assert.equal(await p.locator('#chapter-progress').getAttribute('aria-valuenow'), '0');
   assert.equal((await state(p)).progress.completed[0].slice(0, 4).every(Boolean), true);
   await p.click('#previous'); await idle(p); assert.equal((await state(p)).face, 0);
+  assert.equal(await p.locator('#chapter-progress').getAttribute('aria-valuenow'), '4');
   await p.screenshot({ path: 'test-results/cube-face-complete.png' });
   await p.click('#previous'); await idle(p); assert.equal((await state(p)).face, 1, 'only unlocked faces wrap');
   await p.click('#back'); await idle(p); await p.reload(); await idle(p); await p.click('#enter'); await idle(p);
