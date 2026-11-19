@@ -22,7 +22,7 @@
 .chapter-back .icon{width:58px;height:58px;margin-left:0}
 .chapter-back:active{box-shadow:0 5px 0 #bdcfa7}
 .game-stage[data-mode=chapters] .chapter-pages{top:1730px}
-#overlay-content{position:absolute;left:50%;top:50%;width:max-content;transform:translate(-50%,-50%) scale(var(--stage-scale));transform-origin:center}
+#overlay-content{position:relative;width:max-content;transform:scale(var(--stage-scale));transform-origin:center}
 .reset-card{width:860px;padding:64px 50px 68px;text-align:center}
 .reset-mark{display:grid;place-items:center;width:132px;height:132px;border:3px solid #d7bfa5;border-radius:42px;background:#f7e6d4;color:#b18c70}
 .reset-mark .icon{width:70px;height:70px;stroke-width:1.5}
@@ -46,3 +46,33 @@
 
 .hand-guide{position:absolute;width:240px;height:240px;transform:translate(-96px,-17px);z-index:25;pointer-events:none!important;user-select:none}
 .hand-guide img{position:absolute;left:0;top:0;width:240px;height:240px;max-width:none;transform-origin:96px 17px;filter:drop-shadow(0 5px 4px #6b624a38);pointer-events:none;user-select:none;-webkit-user-drag:none;will-change:transform,opacity}
+
+@media (pointer: coarse) {
+  /* Convert the touch target back to stage units after fitting the portrait
+     layout. The caps leave room for the board and six adjacent chapter tabs. */
+  .viewport {
+    --touch-size: calc(48px / var(--stage-scale));
+    --toolbar-size: clamp(104px, var(--touch-size), 192px);
+  }
+  .top-bar { top: calc(146px - var(--toolbar-size) / 2); }
+  .top-bar .icon-button, .overlay-close {
+    width: var(--toolbar-size);
+    height: var(--toolbar-size);
+  }
+  .settings-menu { top: calc(100% + 24px); }
+  .settings-menu:before { left: calc(7px + var(--toolbar-size) / 2); }
+  .theme-page {
+    min-width: min(var(--touch-size), 170px);
+    min-height: min(var(--touch-size), 160px);
+  }
+  .chapter-pages {
+    left: 0;
+    width: 100%;
+    justify-content: center;
+    gap: min(28px, 2%);
+  }
+  .chapter-page {
+    width: clamp(91px, var(--touch-size), 160px);
+    height: clamp(91px, var(--touch-size), 160px);
+  }
+}

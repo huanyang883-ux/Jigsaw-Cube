@@ -94,8 +94,8 @@ async function main() {
     console.log('\n安装工程依赖…'); await run(process.execPath, [npmCli, 'ci'], { env });
   }
   console.log(`\n应用: JigsawCube / com.huanyang.jigsawcube\n版本: ${versionName} (${versionCode})\nAPI: compile 36 / target 36 / min 24\nSDK: ${sdkPath}\nJava: ${javaHome}`);
-  console.log('\n[1/5] 构建游戏资源');
-  await run(process.execPath, [npmCli, 'run', 'build'], { env });
+  console.log('\n[1/5] 构建测试版游戏资源');
+  await run(process.execPath, [npmCli, 'run', 'build:test'], { env });
   console.log('\n[2/5] 同步 Android 工程');
   // Keep the double-click flow to a single version prompt; Capacitor's
   // non-interactive mode also skips its automatic CLI telemetry opt-in.

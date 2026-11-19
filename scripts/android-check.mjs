@@ -48,8 +48,10 @@ try {
   const rect = await page.locator('#game').boundingBox();
   assert.ok(rect.y >= 47 && rect.y + rect.height <= 693, 'game fits between status/cutout and gesture areas');
   await page.screenshot({ path: 'test-results/android-safe-area.png' });
-  await page.tap('#sound');
+  await page.tap('#settings'); await page.tap('#sound');
   await page.waitForFunction(() => window.__testAudio?.state === 'running');
+  await back(); await page.waitForSelector('#settings-menu', { state: 'hidden' });
+  assert.equal(await page.evaluate(() => window.__nativeTest.minimized), 0, 'back closes settings on the home screen');
   await page.tap('#enter'); await idle();
   await back(); await idle(); assert.equal((await state()).mode, 'home');
   await page.tap('#enter'); await idle();
@@ -57,6 +59,29 @@ try {
   await page.touchscreen.tap(center.x, center.y); await idle();
   assert.equal((await state()).mode, 'puzzle');
   await page.tap('#picture-peek'); await page.waitForSelector('#close-picture');
+  for (const { width, height, top, right, bottom, left } of [
+    { width: 720, height: 360, top: 0, right: 12, bottom: 26, left: 64 },
+    { width: 320, height: 568, top: 44, right: 0, bottom: 24, left: 0 },
+  ]) {
+    await page.setViewportSize({ width, height });
+    await page.evaluate(insets => {
+      for (const [edge, px] of Object.entries(insets)) document.documentElement.style.setProperty('--game-safe-' + edge, px + 'px');
+    }, { top, right, bottom, left });
+    await page.waitForFunction(scale => Math.abs(Number(document.documentElement.style.getPropertyValue('--stage-scale')) - scale) < .00001,
+      Math.min((width - left - right) / 1080, (height - top - bottom) / 1920));
+    for (const selector of ['#game', '#puzzle-board', '#settings', '#hint', '#picture-peek', '#overlay-content', '#close-picture']) {
+      const box = await page.locator(selector).boundingBox();
+      assert.ok(box.x >= left - 1 && box.x + box.width <= width - right + 1 &&
+        box.y >= top - 1 && box.y + box.height <= height - bottom + 1, selector + ' fits the safe area');
+    }
+    const dialog = await page.locator('#overlay-content').boundingBox();
+    assert.ok(Math.abs(2 * dialog.x + dialog.width - (width + left - right)) < 2 &&
+      Math.abs(2 * dialog.y + dialog.height - (height + top - bottom)) < 2, 'preview centers inside asymmetric insets');
+    if (width === 320) {
+      const hint = await page.locator('#hint').boundingBox(), preview = await page.locator('#picture-peek').boundingBox();
+      assert.ok(hint.width >= 47.9 && hint.height >= 47.9 && hint.x + hint.width < preview.x, 'small-phone touch targets stay large and separate');
+    }
+  }
   await back(); await page.waitForSelector('#overlay', { state: 'hidden' });
   assert.equal((await state()).mode, 'puzzle', 'back dismisses the preview before leaving gameplay');
   await page.tap('#hint'); await idle();

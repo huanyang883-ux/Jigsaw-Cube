@@ -71,13 +71,20 @@ try {
   assert.ok(await page.evaluate(() => window.levelTextureDisposed && window.levelTexture.image === null));
   assert.notEqual(await page.evaluate(() => window.menuRenderer.frame), null, 'returning to the cube resumes drawing');
 
-  const tilt = await page.evaluate(async () => {
+  const { tilt, entranceEffects, dragDrawCalls } = await page.evaluate(async () => {
     const host = document.createElement('div');
     Object.assign(host.style, { width: '270px', height: '405px', position: 'absolute' });
     document.body.append(host);
     const board = new window.boardRenderer.constructor(host, Array.from({ length: 81 }, (_, id) => id), {});
+    board.reducedMotion = false;
+    let entranceEffects = 0;
+    board.callbacks.onReady = () => {
+      const render = board.pixi.render.bind(board.pixi);
+      board.pixi.render = () => { entranceEffects++; render(); };
+    };
     const art = document.createElement('canvas'); art.width = 2; art.height = 3;
     await board.init(art.toDataURL());
+    const effectsAtReady = entranceEffects;
     board.startDrag(40, { x: 0, y: 0 }, null);
     const results = [];
     for (const [dx, dy] of [[2, 2], [2, -2], [-2, 2], [-2, -2]]) {
@@ -87,9 +94,13 @@ try {
         mesh.localToWorld(mesh.position.clone().set(x, y * board.cellHeight, -.031)).z))));
       results.push({ clearance: lowest - board.cards[0].shadow.position.z, delta: board.drag.delta, tilt: board.cards[40].mesh.quaternion.w });
     }
+    await new Promise(requestAnimationFrame);
+    const dragDrawCalls = board.three.info.render.calls;
     board.destroy(); host.remove();
-    return results;
+    return { tilt: results, entranceEffects: effectsAtReady, dragDrawCalls };
   });
+  assert.equal(entranceEffects, 1, 'the entrance clears the empty effects layer once');
+  assert.ok(dragDrawCalls > 0 && dragDrawCalls <= 3 * 81, 'dragging only submits exposed card surfaces, bodies and shadows');
   assert.ok(tilt.every(({ clearance, delta, tilt }) => clearance > 0 && delta.x === 0 && delta.y === 0 && tilt < 1));
   await page.tap('#back'); await idle(page);
   await page.tap('#theme-pages [data-theme="3"]'); await idle(page); await frames(page);

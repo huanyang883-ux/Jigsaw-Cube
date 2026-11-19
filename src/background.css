@@ -6,6 +6,12 @@
     var(--game-safe-bottom, env(safe-area-inset-bottom, 0px))
     var(--game-safe-left, env(safe-area-inset-left, 0px));
 }
+.overlay {
+  /* Keep the backdrop full bleed. Center the dialog over the same safe
+     rectangle as the game, even with a cutout on only one side. */
+  padding: inherit;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+}
 .scene-layer {
   --scene-base: #fbf1e3;
   --scene-mint: #e0e8cc;

@@ -88,7 +88,7 @@ export class PuzzleRenderer {
       const p = this.world(this.positions[id]);
       mesh.position.set(p.x, p.y, 0);
       shadow.position.set(p.x + .018, p.y - .026, -.065);
-      this.cards.push({ mesh, shadow, picture, flash, shape, flashStart: null });
+      this.cards.push({ mesh, shadow, picture, reverse, flash, shape, flashStart: null });
       this.scene.add(shadow, mesh);
     }
     this.updateJoinedEdges();
@@ -300,6 +300,7 @@ export class PuzzleRenderer {
         const p = this.world(positions[id]);
         card.mesh.position.set(p.x, p.y, 0);
         card.mesh.rotation.set(0, introPlan[id].direction * Math.PI, 0);
+        card.reverse.visible = true;
         sources[id] = card.mesh.position.clone();
       });
     }
@@ -409,7 +410,7 @@ export class PuzzleRenderer {
     if (document.hidden) return;
     const dt = Math.min((time - (this.lastFrame ?? time)) / 1000, .05); this.lastFrame = time;
     const renderBoard = this.boardDirty || this.animation || this.mergePulse;
-    const drawGuides = this.effectsDirty || this.hint || this.animation?.intro;
+    const drawGuides = this.effectsDirty || this.hint;
     const renderEffects = drawGuides || this.particles.length > 0;
     this.boardDirty = this.effectsDirty = false;
     if (this.animation) {
@@ -436,6 +437,8 @@ export class PuzzleRenderer {
           const p = this.world(this.positions[id]);
           card.mesh.position.set(p.x, p.y, 0);
           card.mesh.rotation.set(0, 0, 0);
+          // Cards only turn over during the entrance. Drag and drop keep the back facing away.
+          card.reverse.visible = false;
         });
         this.updateJoinedEdges();
         this.busy = false; this.animation = null; animation.resolve();

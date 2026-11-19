@@ -20,7 +20,7 @@ Windows 安装 Node.js 22+ 后，双击 `start-game.cmd` 启动普通版，或�
 
 ## Android 测试 APK
 
-应用名 **JigsawCube**，包名 **com.huanyang.jigsawcube**。使用 Capacitor 8.6.2，`compileSdk = 36`、`targetSdk = 36`、`minSdk = 24`。APK 内置游戏代码、90 张章节/关卡 WebP 和引导手套，可离线游玩，不需要运行电脑上的服务；`art-source` 原图不参与打包。旧 Android 手机还需要兼容当前游戏的 WebView / WebGL，最低 SDK 不等于所有旧设备均已通过实测。
+应用名 **JigsawCube**，包名 **com.huanyang.jigsawcube**。使用 Capacitor 8.6.2，`compileSdk = 36`、`targetSdk = 36`、`minSdk = 24`。测试 APK 使用 `npm run build:test`，首页齿轮可重置账号或完成全部关卡。174 关的图片、章节封面和引导手套随包安装，可离线游玩。手机的系统 WebView 需要支持游戏所用的 WebGL 2。
 
 在 Windows 双击根目录的 **build-apk.cmd**，输入版本号（例如 `2.0.1`）并回车。脚本会构建网页、同步原生工程、编译调试 APK，并检查签名、包名、版本号和 SDK 版本。成功后输出到：
 
