@@ -5,6 +5,7 @@ import original from '../src/continent-layouts.json' with { type: 'json' };
 import { freshProgress, restoreProgress, saveSlot, levelArt, LEVEL_CONFIGS } from '../src/progress.js';
 import { continentOrder } from '../src/continent-order.js';
 import { moveGroup, connectionCount } from '../src/puzzle.js';
+import { assertPuzzlePreview } from './assert-puzzle-preview.mjs';
 
 const base = process.env.PUZZLE_TEST_URL || 'http://127.0.0.1:5173';
 const output = 'test-results/continent-order';
@@ -12,8 +13,8 @@ await fs.mkdir(output, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.PUZZLE_BROWSER || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', headless: true });
 const errors = [], key = saveSlot('?trial=continents');
 try {
-  // Verify real legacy sessions on the small, hard and placeholder boards.
-  for (const source of [original[1], original[6], original[24], original[43], original[50], original[65]]) {
+  // Verify real legacy sessions across all six chapters and board sizes.
+  for (const source of [original[1], original[6], original[24], original[43], original[50], original[65], original[84]]) {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     const old = freshProgress(); delete old.continentOrderVersion;
     old.completed[0].fill(true); old.completed[1].fill(true);
@@ -48,8 +49,8 @@ try {
     assert.equal(current.session.level, level); assert.equal(current.session.art, levelArt(2, source.face, level));
     assert.deepEqual(current.session.positions, positions);
     assert.equal((await p.evaluate(() => window.__game.puzzleGeometry())).cards.length, source.gridSize ** 2);
-    await p.tap('#picture-peek'); await p.waitForFunction(() => document.querySelector('.overlay-card img')?.complete);
-    assert.equal(await p.locator('.overlay-card img').getAttribute('src'), levelArt(2, source.face, level));
+    await p.tap('#picture-peek');
+    await assertPuzzlePreview(p, current.session.art);
     await p.tap('#close-picture'); await idle();
     await p.tap('#hint'); await p.waitForFunction(() => window.__game.state().session.stats.moves === 2); await idle();
     const resumed = (await state()).session;

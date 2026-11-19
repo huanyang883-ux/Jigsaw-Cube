@@ -11,6 +11,7 @@ for (const [face, chapter] of continents.entries()) for (const [level, gridSize]
   const number = 79 + face * 16 + level;
   const artId = `${chapter.id}-${String(level + 1).padStart(2, '0')}`;
   const art = artById.get(artId);
+  assert.ok(art, `Missing continent level artwork: ${artId}`);
   let chosen;
   for (let attempt = 0; !chosen && attempt < 2000; attempt++) {
     const seed = 20261117 + number * 100003 + attempt * 997;
@@ -33,8 +34,8 @@ for (const [face, chapter] of continents.entries()) for (const [level, gridSize]
     chosen = {
       number, theme: 2, face, level, chapter: chapter.id, artId,
       gridSize, layoutVersion: 6, difficulty: gridSize === 7 || face === 0 && gridSize === 6 ? 'challenge' : 'normal',
-      imageDifficulty: art?.imageDifficulty ?? 'placeholder', imageNotes: art?.label ?? '白图占位，后续制作',
-      placeholder: !art, maxInitialLinks: 0, seed, positions, solution,
+      imageDifficulty: art.imageDifficulty, imageNotes: art.label,
+      maxInitialLinks: 0, seed, positions, solution,
       audit: { initialCorrect: fixed, initialGroups: groups(positions).map(g => g.length), initialLinks: 0, solutionMoves: solution.length, exact: false, hintMoves: solution.length, groupMoves },
     };
   }

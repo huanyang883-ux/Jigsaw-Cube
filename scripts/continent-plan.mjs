@@ -1,5 +1,7 @@
 // Art direction and fixed chapter rhythm for the fourth cube.
 import { continentOrder } from '../src/continent-order.js';
+import { africaScenes } from './africa-scenes.mjs';
+import { oceaniaScenes } from './oceania-scenes.mjs';
 export const continents = [
   { id: 'north-america', name: '北美洲', scene: 'The Grand Canyon in Arizona, viewed from a rocky rim with layered red and ochre mesas, a winding glimpse of the Colorado River, sparse juniper branches in the foreground, and pale blue afternoon sky. A coherent real landscape, no added landmarks.' },
   { id: 'south-america', name: '南美洲', scene: 'Machu Picchu in Peru: recognizable Inca stone terraces and roofless stone buildings step down the green mountain ridge, Huayna Picchu rises behind them, a few thin clouds thread the distant Andes. One geographically coherent view, natural stone texture and deep green grass.' },
@@ -106,8 +108,11 @@ export const asiaScenes = [
 
 export const continentArt = [
   ...continents.map(c => ({ id: `${c.id}-face`, theme: 2, chapter: c.id, label: c.name, cover: true, prompt: `Required output: square 1:1, 1536x1536. Chapter cover for a geography puzzle cube. ${c.scene} Recognizable broad silhouette and a few strong environmental cues, with useful details across all sixteen future cube stickers. ${photoStyle}` })),
-  ...northAmericaScenes.map(([label, imageDifficulty, scene], i) => ({ id: `north-america-${String(i + 1).padStart(2, '0')}`, theme: 2, chapter: 'north-america', label, cover: false, imageDifficulty, prompt: `Required output: exact 2:3 portrait, 1024x1536. ${scene} ${photoStyle}` })),
-  ...southAmericaScenes.map(([label, imageDifficulty, scene], i) => ({ id: `south-america-${String(i + 1).padStart(2, '0')}`, theme: 2, chapter: 'south-america', label, cover: false, imageDifficulty, prompt: `Required output: exact 2:3 portrait, 1024x1536. ${scene} ${photoStyle}` })),
-  ...europeScenes.map(([label, imageDifficulty, scene], i) => ({ id: `europe-${String(i + 1).padStart(2, '0')}`, theme: 2, chapter: 'europe', label, cover: false, imageDifficulty, prompt: `Required output: exact 2:3 portrait, 1024x1536. ${scene} ${photoStyle}` })),
-  ...asiaScenes.map(([label, imageDifficulty, scene], i) => ({ id: `asia-${String(i + 1).padStart(2, '0')}`, theme: 2, chapter: 'asia', label, cover: false, imageDifficulty, prompt: `Required output: exact 2:3 portrait, 1024x1536. ${scene} ${photoStyle}` })),
+  ...Object.entries({
+    'north-america': northAmericaScenes, 'south-america': southAmericaScenes,
+    europe: europeScenes, asia: asiaScenes, africa: africaScenes, oceania: oceaniaScenes,
+  }).flatMap(([chapter, scenes]) => scenes.map(([label, imageDifficulty, scene], i) => ({
+    id: `${chapter}-${String(i + 1).padStart(2, '0')}`, theme: 2, chapter, label, cover: false, imageDifficulty,
+    prompt: `Required output: exact 2:3 portrait, 1024x1536. ${scene} ${photoStyle}`,
+  }))),
 ];

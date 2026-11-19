@@ -95,7 +95,7 @@ export function markComplete(progress, theme, face, level) {
   delete progress.puzzles[levelKey(theme, face, level)];
   return { newFace: !wasFaceDone && faceComplete(progress, theme, face), newTheme: !wasThemeDone && themeComplete(progress, theme) };
 }
-export function levelArt(theme, face, level) { return artUrl(levelConfig(theme, face, level)?.placeholder ? 'continent-placeholder' : levelArtId(theme, face, level)); }
+export function levelArt(theme, face, level) { return artUrl(levelArtId(theme, face, level)); }
 export function initialLayout(theme, face, level) {
   const config = levelConfig(theme, face, level);
   return config.positions ? [...config.positions] : legacyInitialLayout(theme, face, level);

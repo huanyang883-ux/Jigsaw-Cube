@@ -1,4 +1,116 @@
 {
+  "africa-01": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 457848,
+    "sourceBytes": 3805988,
+    "hash": "ccfe916e091bae415f8e8b78b4fbec6f68d6f9f224545243e7fd9c7f97365cdc"
+  },
+  "africa-02": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 406860,
+    "sourceBytes": 3727555,
+    "hash": "4df5f5fee36e2be397cca9c39a204772fa0ae0b4dfc00445dbf17ab19b8dffd1"
+  },
+  "africa-03": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 338884,
+    "sourceBytes": 3380062,
+    "hash": "2d41bf1e178e467891a2378a6c22c45735522911f05fd57d335a419697702175"
+  },
+  "africa-04": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 482576,
+    "sourceBytes": 3885223,
+    "hash": "a8005bb7f8878443a5cfeb98466dc60fef9f54e5c45d8994c719df427c8520da"
+  },
+  "africa-05": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 569470,
+    "sourceBytes": 4487840,
+    "hash": "acee6a71bcad608a9f3543150edd2398077a3f5d12ed4980c18677a82e70028d"
+  },
+  "africa-06": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 406930,
+    "sourceBytes": 3657721,
+    "hash": "0e4a7f59248e2f3a5c5996898e3ea937de30d1e5be8dfc44070a58df90364a9a"
+  },
+  "africa-07": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 511000,
+    "sourceBytes": 3980471,
+    "hash": "f3c30d87a6a40d12af4e2f4800cb686cee6aa739a85d2f42b63577ef4a6fe54d"
+  },
+  "africa-08": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 366902,
+    "sourceBytes": 3463558,
+    "hash": "7dce1ca800b1d88d9b5f3a8e490fa2200e211019315ace92acf233994d0b5e86"
+  },
+  "africa-09": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 482480,
+    "sourceBytes": 4008467,
+    "hash": "a5d9ef149ae859bc2d318fe5dd73d431b4117a9d051ace10076ee6a0b3817375"
+  },
+  "africa-10": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 392624,
+    "sourceBytes": 3671091,
+    "hash": "89f80c685b8f80eb3743bf2055621b6f4a79848bbec6b9a01328b09bd6206936"
+  },
+  "africa-11": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 475032,
+    "sourceBytes": 3868645,
+    "hash": "7abf763a7daa6947796851029bf599294943e88cb6aeb5ba7ff58c1e7148a419"
+  },
+  "africa-12": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 357644,
+    "sourceBytes": 3446758,
+    "hash": "3d4cd5915d922f4bcde1941773f5fdc28a7e01d222fea4467f485e67967bddcc"
+  },
+  "africa-13": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 458980,
+    "sourceBytes": 3954412,
+    "hash": "ce0de0c47fcef38a6ae9fcf786f958135ddcee73eef01fe7a7148c20775da7f1"
+  },
+  "africa-14": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 447442,
+    "sourceBytes": 3940310,
+    "hash": "4b2ef220a17b062f46ce1151f6752ff6acbff498f6cf6985d3c619e2bdabd8a5"
+  },
+  "africa-15": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 394266,
+    "sourceBytes": 3517808,
+    "hash": "5f5bce778b62b1c8161f6e953ef28a31c71a113ee632f8381a286856d8f0fb55"
+  },
+  "africa-16": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 334352,
+    "sourceBytes": 3468492,
+    "hash": "bc401eac97b4d4c78493e8bfc98120f1e3b84ed0a5b21c1334ecaf48b5ab7903"
+  },
   "africa-face": {
     "width": 1254,
     "height": 1254,
@@ -439,13 +551,6 @@
     "bytes": 341262,
     "sourceBytes": 2652524,
     "hash": "484adc884f97bf59bf6e029066b54aff1df6babeb900333e675fca0fa2531f26"
-  },
-  "continent-placeholder": {
-    "width": 960,
-    "height": 1440,
-    "bytes": 2520,
-    "sourceBytes": 7970,
-    "hash": "3963c06ec33afb1ace94e9a1aa56124e50bcebe398711af5fb86cf6b7d7fbd1c"
   },
   "cream-01": {
     "width": 960,
@@ -999,6 +1104,118 @@
     "bytes": 526470,
     "sourceBytes": 3390486,
     "hash": "6027b9bc685a584c7f78a737617fd60c6f3f30cd51bc187f93ead4f95968c615"
+  },
+  "oceania-01": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 355462,
+    "sourceBytes": 3309907,
+    "hash": "31bd20fb484b9e17034d737bb5a43ce43e8c533b002ad145f1afd6b4f3e2c156"
+  },
+  "oceania-02": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 456854,
+    "sourceBytes": 3821306,
+    "hash": "c2afb4f01be880b11f206b48852f6e97110de4645e38d314c4ae810857b78c40"
+  },
+  "oceania-03": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 455798,
+    "sourceBytes": 3729287,
+    "hash": "b8b075ea176b532ea5f9a219cd9f5c15e6b15a88afe510ab2b50ca80edca55fc"
+  },
+  "oceania-04": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 504398,
+    "sourceBytes": 4036873,
+    "hash": "29cdabaf292a1eef166f1e497502251080c466bdcfe6074c02498d54b1b595b9"
+  },
+  "oceania-05": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 497738,
+    "sourceBytes": 4180730,
+    "hash": "30c708acbbc89375cc37ca1f1b53faab3c9570322d6f5ce17c6dc826cfdfa7db"
+  },
+  "oceania-06": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 465260,
+    "sourceBytes": 3987874,
+    "hash": "4e58a7a786a8e82aba4dafd8c348ed2326638af7cf0452c978477a1ea3b02303"
+  },
+  "oceania-07": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 466746,
+    "sourceBytes": 3785434,
+    "hash": "8366a5411a05cd88ad4b9c10992748912fd2c9778f6a4dc149c01b28d5a40a1c"
+  },
+  "oceania-08": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 470442,
+    "sourceBytes": 3732097,
+    "hash": "81fd045c3dc186426abf86ea0ff076b1c733f045bccd1dd95e8a8b9dd3198534"
+  },
+  "oceania-09": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 466500,
+    "sourceBytes": 3880023,
+    "hash": "26fe52c2c8e8bb434c80d447e524ade85bf5d119b4114754b35fb191025e064e"
+  },
+  "oceania-10": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 477766,
+    "sourceBytes": 4053074,
+    "hash": "05200c14a48896f9844674299b0546d1e5ef2e52a2cef74933b557505af8dc68"
+  },
+  "oceania-11": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 581202,
+    "sourceBytes": 4454800,
+    "hash": "b3e922c006f3cf292ee66c29af913a7841ad14bf11135ec962bf6280d8cefadd"
+  },
+  "oceania-12": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 410656,
+    "sourceBytes": 3563564,
+    "hash": "4d69a919d1f7f7bbe17289b23a31ddaf2b1c0121f3d74412dac8ee30c0659c80"
+  },
+  "oceania-13": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 415410,
+    "sourceBytes": 3750494,
+    "hash": "274485f7cf4d5ced9428139045208f2b9f15cb5ccae4166f11142f741215bc04"
+  },
+  "oceania-14": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 549202,
+    "sourceBytes": 4147879,
+    "hash": "3f8acab034baa5d5c508c6c308c8534c2a8d322f3a4987b79027ce4eebe2aeb2"
+  },
+  "oceania-15": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 503600,
+    "sourceBytes": 4013483,
+    "hash": "16ed9ee2a783d5c412682b4ee8520284579bf744e12d3bc2205795f58e9ab728"
+  },
+  "oceania-16": {
+    "width": 960,
+    "height": 1440,
+    "bytes": 476638,
+    "sourceBytes": 3912687,
+    "hash": "d25dba43800eaf2a78bc31ff905aedb13d99eafdc802e8d64b9dab8befb1969d"
   },
   "oceania-face": {
     "width": 1254,

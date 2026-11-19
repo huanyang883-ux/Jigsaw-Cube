@@ -11,7 +11,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "金门大桥",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 28173318,
     "positions": [
@@ -123,7 +122,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "魁北克老城",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 28263351,
     "positions": [
@@ -240,7 +238,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "奇琴伊察",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 28363354,
     "positions": [
@@ -415,7 +412,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "加拿大落基山湖畔",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 28464354,
     "positions": [
@@ -570,7 +566,6 @@
     "difficulty": "normal",
     "imageDifficulty": "hard",
     "imageNotes": "纽约褐石建筑",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 28566351,
     "positions": [
@@ -740,7 +735,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "墨西哥街头玉米饼",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 28662366,
     "positions": [
@@ -915,7 +909,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "阿拉斯加冰川",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 28764363,
     "positions": [
@@ -1147,7 +1140,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "新奥尔良街头爵士",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 28865363,
     "positions": [
@@ -1312,7 +1304,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "哈瓦那街道",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 28967360,
     "positions": [
@@ -1477,7 +1468,6 @@
     "difficulty": "normal",
     "imageDifficulty": "hard",
     "imageNotes": "新墨西哥土坯建筑",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 29061381,
     "positions": [
@@ -1632,7 +1622,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "危地马拉织物市场",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 29168363,
     "positions": [
@@ -1884,7 +1873,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "尤卡坦天然井",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 29261387,
     "positions": [
@@ -2064,7 +2052,6 @@
     "difficulty": "normal",
     "imageDifficulty": "hard",
     "imageNotes": "尼亚加拉瀑布",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 29366375,
     "positions": [
@@ -2234,7 +2221,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "布莱斯峡谷石林",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 29463387,
     "positions": [
@@ -2486,7 +2472,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "哥斯达黎加云雾林",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 29561396,
     "positions": [
@@ -2661,7 +2646,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "墨西哥街头乐队",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 29669375,
     "positions": [
@@ -2898,7 +2882,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "里约热内卢海湾",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 29765390,
     "positions": [
@@ -3063,7 +3046,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "瓦尔帕莱索彩色阶梯",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 29862402,
     "positions": [
@@ -3248,7 +3230,6 @@
     "difficulty": "normal",
     "imageDifficulty": "hard",
     "imageNotes": "库斯科印加石巷",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 29967390,
     "positions": [
@@ -3490,7 +3471,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "亚马孙水上森林",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 30061411,
     "positions": [
@@ -3722,7 +3702,6 @@
     "difficulty": "normal",
     "imageDifficulty": "hard",
     "imageNotes": "巴西千湖沙漠",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 30164405,
     "positions": [
@@ -3959,7 +3938,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "布宜诺斯艾利斯探戈",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 30266402,
     "positions": [
@@ -4124,7 +4102,6 @@
     "difficulty": "normal",
     "imageDifficulty": "hard",
     "imageNotes": "马丘比丘梯田",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 30361420,
     "positions": [
@@ -4361,7 +4338,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "卡塔赫纳水果摊",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 30464414,
     "positions": [
@@ -4603,7 +4579,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "萨尔瓦多街头鼓乐",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 30561426,
     "positions": [
@@ -4936,7 +4911,6 @@
     "difficulty": "normal",
     "imageDifficulty": "hard",
     "imageNotes": "乌尤尼盐沼纹理",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 30673393,
     "positions": [
@@ -5178,7 +5152,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "的的喀喀湖芦苇船",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 30767414,
     "positions": [
@@ -5338,7 +5311,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "潘塔纳尔水豚",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 30863429,
     "positions": [
@@ -5580,7 +5552,6 @@
     "difficulty": "normal",
     "imageDifficulty": "hard",
     "imageNotes": "欧鲁普雷图老城",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 30961438,
     "positions": [
@@ -5807,7 +5778,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "秘鲁彩虹山",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 31063435,
     "positions": [
@@ -6140,7 +6110,6 @@
     "difficulty": "normal",
     "imageDifficulty": "hard",
     "imageNotes": "阿塔卡马月亮谷",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 31166429,
     "positions": [
@@ -6367,7 +6336,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "厄瓜多尔高地集市",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 31262444,
     "positions": [
@@ -6619,7 +6587,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "瑞士采尔马特",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 31362447,
     "positions": [
@@ -6784,7 +6751,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "伦敦塔桥",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 31464444,
     "positions": [
@@ -7026,7 +6992,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "希腊圣托里尼",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 31566441,
     "positions": [
@@ -7278,7 +7243,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "法国圣米歇尔山",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 31668438,
     "positions": [
@@ -7596,7 +7560,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "维也纳咖啡馆",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 31761462,
     "positions": [
@@ -7823,7 +7786,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "意大利五渔村",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 31866450,
     "positions": [
@@ -7998,7 +7960,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "苏格兰斯凯岛",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 31971438,
     "positions": [
@@ -8326,7 +8287,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "阿姆斯特丹运河",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 32062468,
     "positions": [
@@ -8553,7 +8513,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "巴黎露天书摊",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 32162471,
     "positions": [
@@ -8886,7 +8845,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "克罗地亚十六湖",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 32272444,
     "positions": [
@@ -9123,7 +9081,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "挪威罗弗敦渔村",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 32365468,
     "positions": [
@@ -9370,7 +9327,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "伊斯坦布尔香料市场",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 32479429,
     "positions": [
@@ -9688,7 +9644,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "布拉格老城屋顶",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 32571456,
     "positions": [
@@ -9925,7 +9880,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "冰岛玄武岩海岸",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 32661489,
     "positions": [
@@ -10253,7 +10207,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "葡萄牙波尔图河岸",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 32762489,
     "positions": [
@@ -10485,7 +10438,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "西班牙阿尔罕布拉宫",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 32866480,
     "positions": [
@@ -10823,7 +10775,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "中国桂林漓江",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 32962495,
     "positions": [
@@ -11055,7 +11006,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "蒙古草原牧场",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 33062498,
     "positions": [
@@ -11312,7 +11262,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "日本伏见稻荷大社",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 33164495,
     "positions": [
@@ -11640,7 +11589,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "泰国丹嫩沙多水上市场",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 33281447,
     "positions": [
@@ -11882,7 +11830,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "韩国北村韩屋",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 33365498,
     "positions": [
@@ -12119,7 +12066,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "越南木江界梯田",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 33473477,
     "positions": [
@@ -12452,7 +12398,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "约旦佩特拉古城",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 33565504,
     "positions": [
@@ -12674,7 +12619,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "印度斋浦尔风之宫",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 33664510,
     "positions": [
@@ -12992,7 +12936,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "菲律宾巴拉望岩湾",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 33761522,
     "positions": [
@@ -13229,7 +13172,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "马来西亚槟城街头厨房",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 33875483,
     "positions": [
@@ -13461,7 +13403,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "尼泊尔加德满都杜巴广场",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 33961528,
     "positions": [
@@ -13779,7 +13720,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "斯里兰卡高地列车",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 34061531,
     "positions": [
@@ -14031,7 +13971,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "乌兹别克斯坦撒马尔罕",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 34163528,
     "positions": [
@@ -14359,7 +14298,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium-hard",
     "imageNotes": "阿曼苏尔木船工坊",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 34270510,
     "positions": [
@@ -14606,7 +14544,6 @@
     "difficulty": "normal",
     "imageDifficulty": "medium",
     "imageNotes": "印度尼西亚布罗莫火山",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 34361540,
     "positions": [
@@ -14843,7 +14780,6 @@
     "difficulty": "challenge",
     "imageDifficulty": "hard",
     "imageNotes": "巴基斯坦洪扎秋林",
-    "placeholder": false,
     "maxInitialLinks": 0,
     "seed": 34466528,
     "positions": [
@@ -15174,9 +15110,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium",
+    "imageNotes": "埃及阿斯旺帆船",
     "maxInitialLinks": 0,
     "seed": 34565534,
     "positions": [
@@ -15411,9 +15346,8 @@
     "gridSize": 7,
     "layoutVersion": 6,
     "difficulty": "challenge",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "hard",
+    "imageNotes": "摩洛哥非斯染坊",
     "maxInitialLinks": 0,
     "seed": 34670522,
     "positions": [
@@ -15744,9 +15678,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium-hard",
+    "imageNotes": "南非开普敦街巷",
     "maxInitialLinks": 0,
     "seed": 34767534,
     "positions": [
@@ -15986,9 +15919,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium",
+    "imageNotes": "马达加斯加猴面包树林",
     "maxInitialLinks": 0,
     "seed": 34862552,
     "positions": [
@@ -16233,9 +16165,8 @@
     "gridSize": 7,
     "layoutVersion": 6,
     "difficulty": "challenge",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "hard",
+    "imageNotes": "津巴布韦古城石墙",
     "maxInitialLinks": 0,
     "seed": 34975516,
     "positions": [
@@ -16556,9 +16487,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium-hard",
+    "imageNotes": "塞内加尔圣路易渔港",
     "maxInitialLinks": 0,
     "seed": 35061561,
     "positions": [
@@ -16778,9 +16708,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium",
+    "imageNotes": "卢旺达山坡茶园",
     "maxInitialLinks": 0,
     "seed": 35171534,
     "positions": [
@@ -17010,9 +16939,8 @@
     "gridSize": 7,
     "layoutVersion": 6,
     "difficulty": "challenge",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "hard",
+    "imageNotes": "加纳肯特织布工坊",
     "maxInitialLinks": 0,
     "seed": 35268546,
     "positions": [
@@ -17323,9 +17251,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium-hard",
+    "imageNotes": "博茨瓦纳湿地象群",
     "maxInitialLinks": 0,
     "seed": 35361570,
     "positions": [
@@ -17555,9 +17482,8 @@
     "gridSize": 7,
     "layoutVersion": 6,
     "difficulty": "challenge",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "hard",
+    "imageNotes": "突尼斯杰姆圆形剧场",
     "maxInitialLinks": 0,
     "seed": 35465561,
     "positions": [
@@ -17873,9 +17799,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium-hard",
+    "imageNotes": "肯尼亚湖畔火烈鸟",
     "maxInitialLinks": 0,
     "seed": 35567558,
     "positions": [
@@ -18125,9 +18050,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium",
+    "imageNotes": "纳米比亚沙丘枯林",
     "maxInitialLinks": 0,
     "seed": 35670552,
     "positions": [
@@ -18357,9 +18281,8 @@
     "gridSize": 7,
     "layoutVersion": 6,
     "difficulty": "challenge",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "hard",
+    "imageNotes": "埃塞俄比亚拉利贝拉岩石教堂",
     "maxInitialLinks": 0,
     "seed": 35772549,
     "positions": [
@@ -18690,9 +18613,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium-hard",
+    "imageNotes": "坦桑尼亚石头城木门",
     "maxInitialLinks": 0,
     "seed": 35861585,
     "positions": [
@@ -18937,9 +18859,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium",
+    "imageNotes": "赞比西河维多利亚瀑布",
     "maxInitialLinks": 0,
     "seed": 35966573,
     "positions": [
@@ -19179,9 +19100,8 @@
     "gridSize": 7,
     "layoutVersion": 6,
     "difficulty": "challenge",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "hard",
+    "imageNotes": "马里杰内泥砖街巷",
     "maxInitialLinks": 0,
     "seed": 36073555,
     "positions": [
@@ -19487,9 +19407,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium",
+    "imageNotes": "新西兰米尔福德峡湾",
     "maxInitialLinks": 0,
     "seed": 36161594,
     "positions": [
@@ -19734,9 +19653,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium-hard",
+    "imageNotes": "斐济苏瓦菜市场",
     "maxInitialLinks": 0,
     "seed": 36275555,
     "positions": [
@@ -19956,9 +19874,8 @@
     "gridSize": 7,
     "layoutVersion": 6,
     "difficulty": "challenge",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "hard",
+    "imageNotes": "澳大利亚大堡礁",
     "maxInitialLinks": 0,
     "seed": 36365588,
     "positions": [
@@ -20279,9 +20196,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium",
+    "imageNotes": "萨摩亚海滨凉亭",
     "maxInitialLinks": 0,
     "seed": 36467585,
     "positions": [
@@ -20511,9 +20427,8 @@
     "gridSize": 7,
     "layoutVersion": 6,
     "difficulty": "challenge",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "hard",
+    "imageNotes": "新西兰普纳凯基层岩",
     "maxInitialLinks": 0,
     "seed": 36561606,
     "positions": [
@@ -20839,9 +20754,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium-hard",
+    "imageNotes": "巴布亚新几内亚网袋编织",
     "maxInitialLinks": 0,
     "seed": 36662606,
     "positions": [
@@ -21081,9 +20995,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium",
+    "imageNotes": "澳大利亚墨尔本电车",
     "maxInitialLinks": 0,
     "seed": 36761612,
     "positions": [
@@ -21318,9 +21231,8 @@
     "gridSize": 7,
     "layoutVersion": 6,
     "difficulty": "challenge",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium-hard",
+    "imageNotes": "帕劳洛克群岛",
     "maxInitialLinks": 0,
     "seed": 36863609,
     "positions": [
@@ -21631,9 +21543,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium",
+    "imageNotes": "新西兰奥塔哥牧羊",
     "maxInitialLinks": 0,
     "seed": 36970591,
     "positions": [
@@ -21863,9 +21774,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium-hard",
+    "imageNotes": "瓦努阿图独木舟船坞",
     "maxInitialLinks": 0,
     "seed": 37063615,
     "positions": [
@@ -22105,9 +22015,8 @@
     "gridSize": 7,
     "layoutVersion": 6,
     "difficulty": "challenge",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "hard",
+    "imageNotes": "澳大利亚蓝山桉树林",
     "maxInitialLinks": 0,
     "seed": 37169600,
     "positions": [
@@ -22433,9 +22342,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium",
+    "imageNotes": "法属波利尼西亚莫雷阿岛",
     "maxInitialLinks": 0,
     "seed": 37264618,
     "positions": [
@@ -22675,9 +22583,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium-hard",
+    "imageNotes": "汤加塔帕布印制",
     "maxInitialLinks": 0,
     "seed": 37365618,
     "positions": [
@@ -22922,9 +22829,8 @@
     "gridSize": 7,
     "layoutVersion": 6,
     "difficulty": "challenge",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "hard",
+    "imageNotes": "新喀里多尼亚红土溪谷",
     "maxInitialLinks": 0,
     "seed": 37471603,
     "positions": [
@@ -23260,9 +23166,8 @@
     "gridSize": 6,
     "layoutVersion": 6,
     "difficulty": "normal",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "medium",
+    "imageNotes": "澳大利亚塔斯马尼亚彩岩湾",
     "maxInitialLinks": 0,
     "seed": 37565624,
     "positions": [
@@ -23487,9 +23392,8 @@
     "gridSize": 7,
     "layoutVersion": 6,
     "difficulty": "challenge",
-    "imageDifficulty": "placeholder",
-    "imageNotes": "白图占位，后续制作",
-    "placeholder": true,
+    "imageDifficulty": "hard",
+    "imageNotes": "密克罗尼西亚南马都尔遗址",
     "maxInitialLinks": 0,
     "seed": 37667621,
     "positions": [

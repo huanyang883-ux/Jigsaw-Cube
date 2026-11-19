@@ -5,6 +5,7 @@ import { THEME_ART } from '../src/theme-art.js';
 import { valid, solved, moveGroup, groups, groupFor, clampDelta, xy, connectionCount } from '../src/puzzle.js';
 import { hintSolution, shapeKey } from '../scripts/level-search.mjs';
 import { assignTiles } from '../src/tile-assignment.js';
+import { continentArt } from '../scripts/continent-plan.mjs';
 
 const continents = LEVEL_CONFIGS.filter(l => l.theme === 2);
 test('large-board displacement minimizes travel and remains bounded with 24 blockers', () => {
@@ -85,8 +86,10 @@ test('fourth cube has six ordered continents and the exact requested grid distri
       assert.equal(l.number, 79 + face * 16 + i); assert.equal(l.level, i);
       assert.equal(l.chapter, CONTINENT_CHAPTERS[face].id);
       assert.equal(levelConfig(2, face, i), l);
-      assert.ok(levelArt(2, face, i).includes(face <= 3 ? l.artId : 'continent-placeholder'));
-      assert.equal(l.placeholder, face > 3);
+      assert.ok(levelArt(2, face, i).startsWith(`/assets/${l.artId}.webp?`));
+      const art = continentArt.find(a => a.id === l.artId);
+      assert.equal(l.imageNotes, art.label);
+      assert.equal(l.imageDifficulty, art.imageDifficulty);
     }
   }
   assert.equal(THEMES[2].icon, 'globe'); assert.equal(THEMES[3].order, 5);
