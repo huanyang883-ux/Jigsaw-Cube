@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { stageResolution } from './render-resolution.js';
 import { Application, Graphics, Container } from 'pixi.js';
 import { boardSize, xy, groupFor, groups, linked, clampDelta } from './puzzle.js';
 import { pieceBounds } from './piece-geometry.js';
@@ -133,7 +134,7 @@ export class PuzzleRenderer {
     const width = this.host.clientWidth, height = this.host.clientHeight;
     const rect = this.host.getBoundingClientRect();
     if (!width || !height || !rect.width || !rect.height) return;
-    const resolution = Math.max(1 / Math.min(width, height), Math.min(devicePixelRatio, 2) * rect.width / width);
+    const resolution = stageResolution(rect.width / width);
     if (width === this.width && height === this.height && resolution === this.resolution) return;
     this.cancelDrag();
     this.width = width; this.height = height; this.resolution = resolution;

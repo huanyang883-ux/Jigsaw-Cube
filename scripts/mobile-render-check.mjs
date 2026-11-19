@@ -45,7 +45,7 @@ try {
     await page.evaluate(() => { for (let count = 0; count < 10; count++) window.dispatchEvent(new Event('resize')); });
     await frames(page);
   }
-  assert.deepEqual(await page.evaluate(() => window.renderCounts), { board: 4, effects: 4, buffer: 4 });
+  assert.deepEqual(await page.evaluate(() => window.renderCounts), { board: 0, effects: 0, buffer: 0 });
   assert.deepEqual(await page.evaluate(() => window.__game.state().session.positions), initialPositions);
   assert.equal(await page.evaluate(() => window.puzzleLoading.failed), false);
 
@@ -60,7 +60,7 @@ try {
   await page.evaluate(() => window.contextExtension.restoreContext());
   await page.waitForFunction(() => window.contextRestored);
   await frames(page);
-  assert.deepEqual(await page.evaluate(() => window.renderCounts), { board: 5, effects: 4, buffer: 4 });
+  assert.deepEqual(await page.evaluate(() => window.renderCounts), { board: 1, effects: 0, buffer: 0 });
 
   await page.evaluate(() => {
     window.levelTexture = window.boardRenderer.baseTexture;
@@ -95,8 +95,19 @@ try {
   await page.tap('#theme-pages [data-theme="3"]'); await idle(page); await frames(page);
   assert.equal(await page.evaluate(() => window.menuRenderer.renderer.info.render.calls), 3 * 25 + 3,
     '5x5 home submits three faces of stickers, one instanced shell and two arrows');
+  await page.evaluate(() => {
+    const cube = window.menuRenderer;
+    document.querySelector('#theme-pages [data-theme="0"]').click();
+    window.cubeExtension = cube.renderer.getContext().getExtension('WEBGL_lose_context');
+    window.cubeExtension.loseContext();
+  });
+  await page.waitForFunction(() => window.menuRenderer.contextLost && window.menuRenderer.frame === null);
+  await page.setViewportSize(landscape);
+  await page.evaluate(() => window.cubeExtension.restoreContext());
+  await idle(page); await frames(page);
+  assert.ok(await page.evaluate(() => !window.menuRenderer.contextLost && window.menuRenderer.frame != null && window.__game.state().theme === 0));
   assert.deepEqual(errors, []);
-  console.log('PASS: idle puzzle and hidden cube stop, portrait/landscape preserves the session and resizes once, WebGL restores, blocked 9x9 group stays above its shadows.');
+  console.log('PASS: phone rotation reuses the puzzle buffer and preserves progress, WebGL restores, and blocked groups stay above their shadows.');
 } finally {
   await browser.close();
 }

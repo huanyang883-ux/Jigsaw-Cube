@@ -11,6 +11,7 @@
     "test": "node --test tests/*.test.js",
     "test:browser": "node scripts/browser-check.mjs",
     "test:mobile-render": "node scripts/mobile-render-check.mjs",
+    "test:rotation": "node scripts/rotation-check.mjs",
     "test:home": "node scripts/home-check.mjs",
     "test:controls": "node scripts/test-controls-check.mjs",
     "test:amphibians": "node scripts/amphibians-check.mjs",

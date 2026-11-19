@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
-import { Application, Graphics, Container } from 'pixi.js';
+import { stageResolution } from './render-resolution.js';
 import { THEMES, isComplete, faceSize, themeUnlocked, currentTheme, currentFace } from './progress.js';
 import { createBackTexture } from './card-back.js';
 import { THEME_ART } from './theme-art.js';
@@ -12,6 +12,8 @@ export const faceQuaternion = (face) => new THREE.Quaternion().setFromEuler(new 
 export const homeQuaternion = (face) => new THREE.Quaternion().setFromEuler(new THREE.Euler(.34, -.55, -.10)).multiply(faceQuaternion(face));
 const smooth = (t) => t * t * (3 - 2 * t);
 const isFront = ({ depth }) => depth > .04;
+const svgNS = 'http://www.w3.org/2000/svg';
+const starPath = 'M0 -1 L.22 -.22 1 0 .22 .22 0 1 -.22 .22 -1 0 -.22 -.22 Z';
 
 function orderedFaces(pose) {
   const direction = new THREE.Vector3();
@@ -89,18 +91,14 @@ export class CubeScene {
     this.makeArrows();
     // Prepare every theme during loading, before a switch can reveal it.
     for (const texture of this.themeBacks) this.renderer.initTexture(texture);
-    this.pixi = new Application();
     let frontProgress = 0, previewProgress = 0;
     const report = () => onFaceProgress((frontProgress * 3 + previewProgress) / 4);
     const [fronts, previews] = await Promise.all([
       this.preloadFrontArt((value) => { frontProgress = value; report(); }),
       loadImageAsset(new URL('./cube-previews.webp', import.meta.url).href, (value) => { previewProgress = value; report(); }),
       this.renderer.compileAsync(this.scene, this.camera),
-      this.pixi.init({ width: 1, height: 1, backgroundAlpha: 0, antialias: true, autoStart: false, preference: 'webgl' }),
     ]);
-    this.pixi.canvas.className = 'cube-effects'; this.pixi.canvas.setAttribute('aria-hidden', 'true'); this.host.appendChild(this.pixi.canvas);
     this.resizeRenderers();
-    this.decor = new Graphics(); this.particleLayer = new Container(); this.pixi.stage.addChild(this.decor, this.particleLayer);
     this.installPreviews(previews);
     for (const art of fronts) if (art) this.installFaceArt(art);
     this.drawDecor(); this.events(); this.busy = false; this.nextSpin = 0;
@@ -109,24 +107,22 @@ export class CubeScene {
   }
 
   resizeRenderers() {
-    if (!this.active || !this.pixi?.renderer) return;
+    if (!this.active || !this.renderer || this.contextLost || document.hidden) return;
     const { width, height } = this.host.getBoundingClientRect();
     if (!width || !height) return;
-    const resolution = Math.max(1 / 1080, Math.min(devicePixelRatio, 2) * Math.min(width / 1080, height / 1920, 1));
+    const resolution = stageResolution(Math.min(width / 1080, height / 1920, 1));
     if (resolution === this.resolution) return;
     this.resolution = resolution;
     this.renderer.setDrawingBufferSize(1080, 1920, resolution);
-    this.pixi.renderer.resize(1080, 1920, resolution);
-    this.effectsDirty = true;
   }
 
   scheduleFrame() {
-    if (this.frame == null && this.active && !document.hidden) this.frame = requestAnimationFrame(this.tick);
+    if (this.frame == null && this.active && !document.hidden && !this.contextLost) this.frame = requestAnimationFrame(this.tick);
   }
 
   setActive(active) {
     this.active = active;
-    if (active && !document.hidden) {
+    if (active && !document.hidden && !this.contextLost) {
       this.resizeRenderers();
       this.scheduleFrame();
     } else {
@@ -195,7 +191,7 @@ export class CubeScene {
 
   requestFaceArt(theme, face) {
     const url = THEMES[theme].faceArt[face];
-    if (this.art.has(url) || this.failedFaceArt.has(url) || !this.active || document.hidden) return;
+    if (this.art.has(url) || this.failedFaceArt.has(url) || !this.active || document.hidden || this.contextLost) return;
     if (this.faceArtJob?.url === url) return;
     this.cancelFaceArt();
     const job = this.faceArtJob = { theme, face, url, abort: new AbortController() };
@@ -334,10 +330,18 @@ export class CubeScene {
   }
 
   drawDecor() {
-    const g = this.decor;
-    for (const [x, y, r] of [[172, 533, 15], [908, 570, 12], [923, 1277, 18], [177, 1250, 10]]) g.star(x, y, 4, r, r * .3).stroke({ color: 0xcab89b, width: 2.7 });
-    g.moveTo(157, 692).bezierCurveTo(114, 708, 124, 747, 157, 735).bezierCurveTo(190, 719, 137, 691, 125, 725).stroke({ color: 0xc9d3b4, width: 3.5, cap: 'round' });
-    for (const [x, y] of [[861, 462], [214, 1420], [854, 1350]]) g.circle(x, y, 6).fill({ color: 0xd6c7ac, alpha: .6 });
+    this.effects = document.createElementNS(svgNS, 'svg');
+    this.effects.setAttribute('class', 'cube-effects');
+    this.effects.setAttribute('viewBox', '0 0 1080 1920');
+    this.effects.setAttribute('aria-hidden', 'true');
+    this.effects.innerHTML = `
+      <g fill="none" stroke="#cab89b">
+        ${[[172, 533, 15], [908, 570, 12], [923, 1277, 18], [177, 1250, 10]].map(([x, y, r]) =>
+          `<path d="${starPath}" transform="translate(${x} ${y}) scale(${r})" stroke-width="${2.7 / r}"/>`).join('')}
+      </g>
+      <path d="M157 692 C114 708 124 747 157 735 C190 719 137 691 125 725" fill="none" stroke="#c9d3b4" stroke-width="3.5" stroke-linecap="round"/>
+      <g fill="#d6c7ac" opacity=".6"><circle cx="861" cy="462" r="6"/><circle cx="214" cy="1420" r="6"/><circle cx="854" cy="1350" r="6"/></g>`;
+    this.host.appendChild(this.effects);
   }
 
   events() {
@@ -374,7 +378,13 @@ export class CubeScene {
     this.host.addEventListener('lostpointercapture', cancel, { signal });
     window.addEventListener('blur', cancel, { signal });
     document.addEventListener('visibilitychange', () => this.setActive(this.active), { signal });
-    this.pixi.canvas.addEventListener('webglcontextrestored', () => { this.effectsDirty = true; this.scheduleFrame(); }, { signal });
+    const canvas = this.renderer.domElement;
+    canvas.addEventListener('webglcontextlost', (event) => {
+      event.preventDefault(); this.contextLost = true; this.setActive(this.active);
+    }, { signal });
+    canvas.addEventListener('webglcontextrestored', () => {
+      this.contextLost = false; this.setActive(this.active);
+    }, { signal });
   }
 
   pick(x, y) {
@@ -481,12 +491,14 @@ export class CubeScene {
 
   celebrate(full) {
     if (this.reducedMotion) return;
-    const colors = [0xeab5a1, 0xb6cc9f, 0xf1d38a, 0xadcbd1, 0xd5bdd9];
+    const colors = ['#eab5a1', '#b6cc9f', '#f1d38a', '#adcbd1', '#d5bdd9'];
     for (let i = 0; i < (full ? 100 : 38); i++) {
-      const g = new Graphics().star(0, 0, 4, 5 + Math.random() * 6, 3).fill(colors[i % colors.length]);
-      g.x = 540 + (Math.random() - .5) * 600; g.y = full ? 250 + Math.random() * 500 : 920;
-      this.particleLayer.addChild(g);
-      this.particles.push({ g, vx: (Math.random() - .5) * 230, vy: full ? Math.random() * 70 : -90 - Math.random() * 200, life: 2 + Math.random() * 2 });
+      const star = document.createElementNS(svgNS, 'path');
+      star.setAttribute('d', starPath); star.setAttribute('fill', colors[i % colors.length]);
+      const x = 540 + (Math.random() - .5) * 600, y = full ? 250 + Math.random() * 500 : 920, size = 5 + Math.random() * 6;
+      star.setAttribute('transform', `translate(${x} ${y}) scale(${size})`);
+      this.effects.appendChild(star);
+      this.particles.push({ star, x, y, size, angle: 0, vx: (Math.random() - .5) * 230, vy: full ? Math.random() * 70 : -90 - Math.random() * 200, life: 2 + Math.random() * 2 });
     }
   }
 
@@ -511,7 +523,7 @@ export class CubeScene {
 
   tick = (time) => {
     this.frame = null;
-    if (document.hidden || !this.active) return;
+    if (document.hidden || !this.active || this.contextLost) return;
     this.scheduleFrame();
     const dt = Math.min(.05, (time - (this.lastFrame ?? time)) / 1000); this.lastFrame = time;
     const motion = this.motion;
@@ -543,14 +555,14 @@ export class CubeScene {
       arrow.position.y = 35 + (this.reducedMotion ? 0 : Math.cos(time * .0015) * 5);
       arrow.material.color.copy(this.arrowColor);
     });
-    const renderEffects = this.effectsDirty || this.particles.length > 0;
     for (let i = this.particles.length - 1; i >= 0; i--) {
-      const p = this.particles[i]; p.life -= dt; p.vy += 110 * dt; p.g.x += p.vx * dt; p.g.y += p.vy * dt; p.g.rotation += dt; p.g.alpha = Math.min(1, p.life);
-      if (p.life <= 0) { p.g.destroy(); this.particles.splice(i, 1); }
+      const p = this.particles[i]; p.life -= dt;
+      if (p.life <= 0) { p.star.remove(); this.particles.splice(i, 1); continue; }
+      p.vy += 110 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.angle += dt * 180 / Math.PI;
+      p.star.setAttribute('transform', `translate(${p.x} ${p.y}) rotate(${p.angle}) scale(${p.size})`);
+      p.star.setAttribute('opacity', Math.min(1, p.life));
     }
     this.renderCube();
-    // The decorative canvas stays on screen without redrawing when it is static.
-    if (renderEffects) { this.pixi.render(); this.effectsDirty = false; }
     if (!motion) this.updateFaceArt(time);
   };
 
@@ -563,6 +575,6 @@ export class CubeScene {
     const geometries = new Set(), materials = new Set();
     this.scene.traverse((o) => { if (o.isInstancedMesh) o.dispose(); if (o.geometry) geometries.add(o.geometry); if (o.material) materials.add(o.material); });
     for (const g of geometries) g.dispose(); for (const m of materials) m.dispose(); for (const texture of this.themeBacks) texture.dispose();
-    this.renderer.dispose(); this.renderer.forceContextLoss(); this.renderer.domElement.remove(); this.pixi.destroy(true, { children: true });
+    this.renderer.dispose(); this.renderer.forceContextLoss(); this.renderer.domElement.remove(); this.effects.remove();
   }
 }

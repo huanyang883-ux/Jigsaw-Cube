@@ -83,6 +83,24 @@
 .doodle-one { color: var(--scene-spark); }
 .doodle-two { color: var(--scene-flower); }
 
+@media (pointer: coarse) {
+  .scene-layer { will-change: auto; }
+  .scene-art {
+    visibility: hidden;
+    transition: visibility 0s linear .8s;
+  }
+  .viewport[data-theme="0"] .scene-layer[data-scene="0"] .scene-art,
+  .viewport[data-theme="1"] .scene-layer[data-scene="1"] .scene-art,
+  .viewport[data-theme="2"] .scene-layer[data-scene="2"] .scene-art,
+  .viewport[data-theme="3"] .scene-layer[data-scene="3"] .scene-art {
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .scene-art .ambient { filter: none; }
+  .scene-art .ambient-mint { background: radial-gradient(ellipse, var(--scene-mint) 25%, transparent 72%); }
+  .scene-art .ambient-peach { background: radial-gradient(ellipse, var(--scene-peach) 25%, transparent 72%); }
+}
+
 .theme-medallion {
   background: var(--theme-panel, #fae7cf);
   border-color: var(--theme-border, #e7ccb5);
