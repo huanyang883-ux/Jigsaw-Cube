@@ -12,9 +12,9 @@ import { levelAspect, useProp, nextPlayableLevel, levelConfig, freshStats, compl
 import { IdleGuide } from './idle-guide.js';
 import { learnGuide, guideMove } from './guide-state.js';
 import { loading } from './loading.js';
-import { preloadAssets, isPreloaded, warmAssets } from './preload.js';
+import { loadImageAsset } from './preload.js';
 import { moveGroup, solved, connectionCount, newlyConnectedGroups } from './puzzle.js';
-import { SAVE_KEY, THEMES, freshProgress, restoreProgress, faceSize, levelKey, levelArt, initialLayout, isComplete, faceComplete, themeUnlocked, unlockedFaces, currentTheme, currentFace, markComplete } from './progress.js';
+import { SAVE_KEY, THEMES, freshProgress, restoreProgress, faceSize, levelKey, levelArt, initialLayout, isComplete, faceComplete, themeComplete, themeUnlocked, unlockedFaces, currentTheme, currentFace, markComplete } from './progress.js';
 
 mountUI();
 const $ = (s) => document.querySelector(s);
@@ -27,6 +27,7 @@ let hintWorker, hintVersion = 0, hintDelay, winDelay, overlayFocus;
 let winAnimations = [];
 let settingsOpen = false;
 let settingsMode = null;
+let requestedTheme = null;
 let playClock = null;
 const save = () => { try { localStorage.setItem(SAVE_KEY, JSON.stringify(progress)); } catch { /* Private browsing remains playable. */ } };
 const guarded = (fn) => (...args) => Promise.resolve(fn(...args)).catch(showError);
@@ -40,15 +41,6 @@ document.addEventListener('visibilitychange', syncPlayTime);
 
 function remember(action) {
   if (learnGuide(progress, action)) { save(); guide?.hide(); }
-}
-function warmChapter(selectedTheme, selectedFace, afterLevel = -1) {
-  if (!themeUnlocked(progress, selectedTheme)) return;
-  const count = faceSize(selectedTheme), levels = [];
-  for (let step = 1; step <= count; step++) {
-    const level = (afterLevel + step) % count;
-    if (!isComplete(progress, selectedTheme, selectedFace, level)) levels.push(levelArt(selectedTheme, selectedFace, level));
-  }
-  warmAssets([THEMES[selectedTheme].faceArt[selectedFace], ...levels.slice(0, 2)]);
 }
 function guideContext() {
   const latestFace = currentFace(progress, theme);
@@ -118,6 +110,20 @@ function setSettingsOpen(open, restoreFocus = false) {
   else if (restoreFocus) $('#settings').focus({ preventScroll: true });
 }
 
+function refreshThemePages() {
+  const pages = $('#theme-pages');
+  if (!pages.children.length) pages.innerHTML = THEMES.map((t, i) =>
+    `<button class="theme-page" data-theme="${i}">${gridIcon(t.order)}</button>`).join('');
+  const selected = requestedTheme?.next ?? theme;
+  THEMES.forEach((t, i) => {
+    const button = pages.children[i];
+    button.classList.toggle('active', selected === i);
+    button.setAttribute('aria-pressed', String(selected === i));
+    button.setAttribute('aria-label', `${t.order}阶魔方${t.comingSoon ? '，敬请期待' : !themeUnlocked(progress, i) ? '，未解锁' : ''}`);
+    button.disabled = busy && !requestedTheme;
+  });
+}
+
 function refresh() {
   syncPlayTime();
   if (busy) guide?.hide();
@@ -180,7 +186,7 @@ function refresh() {
   $('#enter').classList.toggle('locked', !unlocked);
   $('#enter').innerHTML = icon(unlocked ? 'play' : THEMES[theme].comingSoon ? 'hourglass' : 'lock');
   $('#theme-pages').hidden = chapters; $('#chapter-pages').hidden = !chapters;
-  $('#theme-pages').innerHTML = THEMES.map((t, i) => `<button class="theme-page ${i === theme ? 'active' : ''}" data-theme="${i}" aria-label="${t.order}阶魔方${t.comingSoon ? '，敬请期待' : !themeUnlocked(progress, i) ? '，未解锁' : ''}" aria-pressed="${i === theme}" ${busy ? 'disabled' : ''}>${gridIcon(t.order)}</button>`).join('');
+  refreshThemePages();
   $('#chapter-pages').innerHTML = Array.from({ length: 6 }, (_, i) => `<button class="chapter-page ${i === face ? 'active' : ''} ${faceComplete(progress, theme, i) ? 'done' : ''}" data-face="${i}" aria-label="第${i + 1}面${i >= count ? '，未解锁' : ''}" aria-pressed="${i === face}" ${i >= count || busy ? 'disabled' : ''}>${icon(i >= count ? 'lock' : faceComplete(progress, theme, i) ? 'check' : 'cube')}</button>`).join('');
   $('#face-progress').innerHTML = Array.from({ length: 6 }, (_, i) => `<span class="face-pip ${faceComplete(progress, theme, i) ? 'done' : i === (chapters ? face : currentFace(progress, theme)) && unlocked ? 'current' : ''}">${icon(faceComplete(progress, theme, i) ? 'check' : i < count ? 'cube' : 'lock')}</span>`).join('');
   $('#previous').disabled = busy || (chapters && count < 2); $('#next').disabled = $('#previous').disabled;
@@ -196,9 +202,20 @@ function lockedFeedback() {
 }
 
 async function selectTheme(next, direction = 1) {
-  if (!ready || busy || mode !== 'home' || next === theme) return;
-  busy = true; theme = next; face = currentFace(progress, theme); refresh(); audio.play('move');
-  await cube.switchTheme(theme, direction); busy = false; refresh();
+  if (!ready || mode !== 'home' || (busy && !requestedTheme) || next === (requestedTheme?.next ?? theme)) return;
+  requestedTheme = { next, direction };
+  if (busy) { refreshThemePages(); return; }
+  busy = true;
+  try {
+    while (theme !== requestedTheme.next) {
+      const target = requestedTheme;
+      theme = target.next; face = currentFace(progress, theme);
+      refresh(); audio.play('move');
+      await cube.switchTheme(theme, target.direction);
+    }
+  } finally {
+    requestedTheme = null; busy = false; refresh();
+  }
 }
 async function navigate(direction) {
   if (!ready || busy || mode === 'puzzle') return;
@@ -210,15 +227,13 @@ async function navigate(direction) {
 async function selectFace(next) {
   if (busy || mode !== 'chapters' || next === face || next >= unlockedFaces(progress, theme) || next < 0) return;
   busy = true; refresh(); audio.play('move'); await cube.turn(next); face = next; busy = false; refresh();
-  warmChapter(theme, face);
 }
 async function enterCube() {
   if (!ready || busy || mode !== 'home') return;
   if (!themeUnlocked(progress, theme)) { lockedFeedback(); return; }
   remember('enterChapter');
-  busy = true; mode = 'chapters'; face = currentFace(progress, theme); refresh();
+  busy = true; mode = 'chapters'; face = themeComplete(progress, theme) ? cube.frontFace() : currentFace(progress, theme); refresh();
   audio.unlock(); await cube.enter(face); busy = false; refresh();
-  warmChapter(theme, face);
 }
 async function back() {
   if (busy || !ready) return;
@@ -250,14 +265,14 @@ async function enterLevel(level) {
   const aspect = levelAspect(theme, face, level), layout = photoLayout(aspect);
   for (const [key, value] of Object.entries(layout)) $('.puzzle-frame').style[key] = `${value}px`;
   refresh();
-  const ticket = loading.begin(isPreloaded(session.art) ? 120 : 0);
-  await preloadAssets([session.art], (fraction) => ticket.progress(fraction * .9));
+  const ticket = loading.begin(120, session.art);
+  const image = await loadImageAsset(session.art, (fraction) => ticket.progress(fraction * .9));
+  if (!ticket.active) return;
   puzzle = new PuzzleRenderer($('#puzzle-board'), session.positions, {
     onGrab: () => audio.unlock(), onDrag: () => remember('dragPuzzle'), onDrop: guarded(applyMove),
     onReady: () => { ticket.progress(1); ticket.finish(); },
   }, theme);
-  await puzzle.init(session.art); busy = false; refresh();
-  warmChapter(theme, face, level);
+  await puzzle.init(image); busy = false; refresh();
 }
 
 async function applyMove(id, dx, dy, fromHint = false) {
@@ -305,11 +320,15 @@ async function leavePuzzle() {
   busy = false; refresh();
 }
 
-function showOverlay(html, name) {
+function showOverlay(html, name, image) {
   setSettingsOpen(false, true);
   guide?.hide();
   if (cube) cube.gesture = null;
   overlayFocus = document.activeElement; $('#overlay-content').innerHTML = html; overlay.hidden = false;
+  if (image) {
+    const placeholder = $('#overlay-content img');
+    image.alt = placeholder.alt; placeholder.replaceWith(image);
+  }
   overlay.setAttribute('aria-label', name); $('#menu-screen').inert = true; $('#puzzle-screen').inert = true; $('.top-bar').inert = true;
   puzzle?.setBlocked(true); overlay.querySelector('button')?.focus({ preventScroll: true });
   syncPlayTime();
@@ -318,6 +337,7 @@ function closeOverlay() {
   winAnimations.forEach((animation) => animation.cancel()); winAnimations = [];
   overlay.removeAttribute('aria-busy');
   overlay.hidden = true; $('#menu-screen').inert = false; $('#puzzle-screen').inert = false; $('.top-bar').inert = false;
+  $('#overlay-content').replaceChildren();
   if (puzzle) puzzle.setBlocked(busy || session?.completed); overlayFocus?.focus?.({ preventScroll: true });
   syncPlayTime();
 }
@@ -325,7 +345,7 @@ async function showWin() {
   if (!session?.completed || mode !== 'puzzle') return;
   const finishedSession = session;
   busy = true; refresh();
-  showOverlay(`<div class="overlay-card win-card"><div class="win-mark">${icon('check')}</div><img src="${levelArt(theme, face, session.level)}" alt="已完成的拼图"/><div class="star-row">${icon('spark')}${icon('spark')}${icon('spark')}</div><button id="continue" class="icon-button next-level" aria-label="返回魔方并揭开图块" disabled>${icon('arrow')}</button></div>`, '拼图完成');
+  showOverlay(`<div class="overlay-card win-card"><div class="win-mark">${icon('check')}</div><img alt="已完成的拼图"/><div class="star-row">${icon('spark')}${icon('spark')}${icon('spark')}</div><button id="continue" class="icon-button next-level" aria-label="返回魔方并揭开图块" disabled>${icon('arrow')}</button></div>`, '拼图完成', puzzle.baseTexture.image);
   overlay.setAttribute('aria-busy', 'true');
   const timing = { duration: 1000, easing: 'cubic-bezier(.22, 1, .36, 1)' };
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -362,7 +382,6 @@ async function resetAccount() {
   closeOverlay(); refresh();
   if (previousTheme !== 0) await cube.switchTheme(0, -1);
   busy = false; refresh(); $('#settings').focus({ preventScroll: true });
-  warmChapter(0, 0);
 }
 
 async function completeAccount() {
@@ -375,7 +394,6 @@ async function completeAccount() {
   const previousTheme = theme;
   theme = currentTheme(progress); face = currentFace(progress, theme); refresh();
   if (previousTheme !== theme) await cube.switchTheme(theme, 1);
-  else await cube.ensureThemeArt(theme);
   busy = false; refresh(); $('#settings').focus({ preventScroll: true });
 }
 
@@ -407,7 +425,7 @@ $('#chapter-targets').addEventListener('click', guarded((e) => { const b = e.tar
 $('#picture-peek').addEventListener('click', () => {
   if (busy || !session || session.completed || !overlay.hidden || !useProp(progress, 'preview')) return;
   session.stats.previews++; savePuzzle(); refresh();
-  showOverlay(`<div class="overlay-card"><button id="close-picture" class="icon-button overlay-close" aria-label="关闭原图">${icon('close')}</button><img src="${session.art}" alt="完整原图"/></div>`, '原图');
+  showOverlay(`<div class="overlay-card"><button id="close-picture" class="icon-button overlay-close" aria-label="关闭原图">${icon('close')}</button><img alt="完整原图"/></div>`, '原图', puzzle.baseTexture.image);
 });
 function activateOverlayButton(button) {
   if (overlay.hidden || busy || !button) return;
@@ -461,20 +479,19 @@ $('#hint').addEventListener('click', () => {
 });
 window.addEventListener('pagehide', () => { savePuzzle(); save(); });
 
-async function init() {
+export async function startGame(onFaceProgress) {
   refresh();
   cube = new CubeScene($('#cube-host'), progress, { onEnter: guarded(enterCube), onLevel: guarded(enterLevel), onRotate: () => remember('rotateCube') });
-  await cube.init();
+  await cube.init(onFaceProgress);
   guide = new IdleGuide($('#hand-guide'), guideContext, guideTarget);
   ready = true; busy = false; refresh();
-  warmChapter(theme, face, nextPlayableLevel(progress, theme, face) ?? 0);
   if (import.meta.env.DEV) window.__game = {
     state: () => structuredClone({ mode, theme, face, busy, ready, progress, session }),
     idle: () => ready && !busy && !cube.busy && (!puzzle || !puzzle.busy),
     cubePose: () => ({ quaternion: cube.current.quaternion.toArray(), scale: cube.current.scale.x, mode: cube.mode }),
     arrowColors: () => cube.arrows.map((arrow) => arrow.material.color.getHexString()),
     celebration: () => puzzle?.particles.length ?? 0,
-    tileCenter: (level) => cube.tileScreen(face, level),
+    tileCenter: (level, targetFace = face) => cube.tileScreen(targetFace, level),
     pieceCenter: (id) => {
       const r = $('#puzzle-board').getBoundingClientRect(), p = puzzle.screen(puzzle.world(session.positions[id]));
       return { x: r.left + p.x * r.width / puzzle.width, y: r.top + p.y * r.height / puzzle.height };
@@ -489,4 +506,3 @@ async function init() {
   };
 }
 if (import.meta.hot) import.meta.hot.dispose(() => { window.removeEventListener('resize', queueResize); document.removeEventListener('visibilitychange', queueResize); cancelAnimationFrame(resizeFrame); clearTimeout(winDelay); clearTimeout(hintDelay); closeOverlay(); hintWorker?.terminate(); guide?.destroy(); puzzle?.destroy(); cube?.destroy(); audio.destroy(); });
-export async function startGame() { await init(); }

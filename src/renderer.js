@@ -53,7 +53,8 @@ export class PuzzleRenderer {
     this.particleLayer = new Container();
     this.pixi.stage.addChild(this.guides, this.particleLayer);
 
-    const base = await new THREE.TextureLoader().loadAsync(art);
+    const base = typeof art === 'string' ? await new THREE.TextureLoader().loadAsync(art) : new THREE.Texture(art);
+    base.needsUpdate = true;
     base.colorSpace = THREE.SRGBColorSpace;
     base.anisotropy = Math.min(4, this.three.capabilities.getMaxAnisotropy());
     this.baseTexture = base;
@@ -481,6 +482,7 @@ export class PuzzleRenderer {
     this.resizeObserver?.disconnect();
     this.animation?.resolve();
     const geometries = new Set(), materials = new Set(), textures = new Set();
+    if (this.baseTexture) textures.add(this.baseTexture);
     this.scene?.traverse((object) => {
       if (object.geometry) geometries.add(object.geometry);
       if (object.material) materials.add(object.material);
@@ -488,7 +490,7 @@ export class PuzzleRenderer {
     for (const mat of materials) { if (mat.map) textures.add(mat.map); mat.dispose(); }
     for (const geo of geometries) geo.dispose();
     for (const tex of textures) tex.dispose();
-    this.baseTexture?.dispose();
+    if (this.baseTexture) { this.baseTexture.image = null; this.baseTexture = null; }
     this.three?.dispose();
     this.three?.forceContextLoss();
     this.three?.domElement.remove();

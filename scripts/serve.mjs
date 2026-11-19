@@ -42,7 +42,8 @@ const server = http.createServer(async (request, response) => {
     const info = await stat(file);
     if (!info.isFile()) { response.writeHead(404).end(); return; }
     const ext = path.extname(file), versionedImage = ext === '.webp' && new URL(request.url, url).searchParams.has('v');
-    const immutable = versionedImage || /-[\w-]{8,}\.(js|css)$/.test(path.basename(file));
+    const name = path.basename(file);
+    const immutable = versionedImage || /-[\w-]{8,}\.(js|css)$/.test(name) || /^cube-previews-[\w-]{8,}\.webp$/.test(name);
     const etag = `W/"${info.size.toString(16)}-${Math.trunc(info.mtimeMs).toString(16)}"`;
     const compressible = ['.html', '.js', '.css', '.json', '.svg'].includes(ext) && info.size > 1024;
     const gzip = compressible && /\bgzip\b/.test(request.headers['accept-encoding'] || '');

@@ -1,6 +1,7 @@
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
+import { Quaternion, Vector3 } from 'three';
 import { freshProgress, saveSlot, THEMES, currentFace, currentTheme } from '../src/progress.js';
 import { homeQuaternion, faceQuaternion } from '../src/cube-scene.js';
 
@@ -11,6 +12,25 @@ const state=p=>p.evaluate(()=>window.__game.state());
 const makeProgress=(desserts,animals=0)=>{
   const p=freshProgress();p.completed[0].fill(true,0,desserts);p.completed[1].fill(true,0,animals);return p;
 };
+async function checkRotatedEntry(page, completed) {
+  const before=await state(page);
+  await page.mouse.move(180,410);await page.mouse.down();await page.mouse.move(325,410,{steps:12});await page.mouse.up();
+  const {quaternion}=await page.evaluate(()=>window.__game.cubePose());
+  const pose=new Quaternion().fromArray(quaternion);
+  const [front,side]=Array.from({length:6},(_,face)=>({
+    face,depth:new Vector3(0,0,1).applyQuaternion(faceQuaternion(face).invert()).applyQuaternion(pose).z,
+  })).sort((left,right)=>right.depth-left.depth);
+  assert.notEqual(front.face,before.face,'drag puts a different face in front');
+  assert.ok(side.depth>.2,'a side face is still visible');
+  const spot=await page.evaluate(face=>window.__game.tileCenter(0,face),completed?side.face:front.face);
+  await page.touchscreen.tap(spot.x,spot.y);await idle(page);
+  const after=await state(page),expected=completed?front.face:before.face;
+  assert.equal(after.mode,'chapters');
+  assert.equal(after.face,expected,completed?'completed cubes enter the face toward the viewer, not the tapped side':'unfinished cubes still enter the progress face');
+  const entered=await page.evaluate(()=>window.__game.cubePose());
+  assert.ok(new Quaternion().fromArray(entered.quaternion).angleTo(faceQuaternion(expected))<1e-6);
+  await page.tap('#back');await idle(page);
+}
 await fs.mkdir('test-results',{recursive:true});
 try {
   const cases=[
@@ -41,14 +61,27 @@ try {
     assert.ok(pose.quaternion.every((v,i)=>Math.abs(v-homeQuaternion(c.face).toArray()[i])<1e-9),`${c.name}: current chapter faces the viewer on the first home frame`);
     const revealed=await p.evaluate(()=>window.__game.revealed());
     assert.equal(revealed.length,c.progress.completed[c.theme].filter(Boolean).length);
-    const chapterNames=THEMES[c.theme].chapters.map(ch=>ch.id);
-    assert.ok(images.every(url=>url.includes('/ui/guide-hand.webp')||chapterNames.some(id=>url.includes(`/assets/${id}-`))),`${c.name}: only current theme images load at startup`);
+    const adjacent=[c.theme-1,c.theme+1].map(index=>(index+THEMES.length)%THEMES.length);
+    const neighborFronts=adjacent.filter(index=>!THEMES[index].comingSoon).flatMap(index=>{
+      const pose=homeQuaternion(currentFace(c.progress,index));
+      return THEMES[index].faceArt.filter((_,face)=>new Vector3(0,0,1).applyQuaternion(faceQuaternion(face).invert()).applyQuaternion(pose).z>.04);
+    });
+    const allowed=new Set([...THEMES[c.theme].faceArt,...neighborFronts]);
+    assert.ok(images.every(value=>{
+      const url=new URL(value);
+      return url.pathname==='/src/cube-previews.webp'||url.pathname.includes('/ui/guide-hand.webp')||allowed.has(url.pathname+url.search);
+    }),`${c.name}: full covers are limited to the current cube and neighboring fronts`);
     await p.screenshot({path:`test-results/cube-resume-${c.name}.png`});
     await p.tap('#enter');await idle(p);
     s=await state(p);assert.equal(s.theme,c.theme);assert.equal(s.face,c.face);assert.equal(s.mode,'chapters');
     const entered=await p.evaluate(()=>window.__game.cubePose());
     assert.ok(entered.quaternion.every((v,i)=>Math.abs(v-faceQuaternion(c.face).toArray()[i])<1e-9));
     await p.tap('#back');await idle(p);
+    if(c.name==='dessert')await checkRotatedEntry(p,false);
+    if(c.name==='continent-unlocked'){
+      await p.tap('[data-theme="1"]');await idle(p);
+      await checkRotatedEntry(p,true);
+    }
     if(c.theme===1){await p.tap('[data-theme="0"]');await idle(p);}
     await p.reload();await idle(p);
     s=await state(p);assert.equal(s.theme,c.theme,'browsing an earlier cube does not replace actual progress on reload');assert.equal(s.face,c.face);
@@ -56,5 +89,5 @@ try {
     assert.equal(currentTheme(s.progress),c.theme);assert.equal(currentFace(s.progress,c.theme),c.face);
     assert.deepEqual(errors,[]);await context.close();
   }
-  console.log('PASS: current cube/chapter on first home frame, matching background and reveals, current-theme preloads, chapter entry, reload, complete saves and independent trial slots.');
+  console.log('PASS: progress-face entry for unfinished cubes, front-face entry for completed cubes, bounded face preloads, reload and independent trial slots.');
 } finally {await browser.close();}

@@ -42,7 +42,12 @@ try {
     if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify(progress));
     localStorage.setItem('unrelated-app', 'keep');
   }, { key: SAVE_KEY, progress });
-  await p.goto(base); await failed(p, 1);
+  await p.goto(base); await idle(p);
+  assert.equal(requests.length, 0, 'corrupt level art does not block startup');
+  await p.tap('#enter'); await idle(p);
+  const first = await p.locator('[data-level="0"]').boundingBox();
+  await p.touchscreen.tap(first.x + first.width / 2, first.y + first.height / 2);
+  await failed(p, 1);
   assert.equal(await p.locator('#retry-load').getAttribute('data-recovery'), 'reload');
   assert.equal(requests.length, 1);
   await p.evaluate(async () => {

@@ -28,7 +28,7 @@
         const key = 'sweet-cube:load-recovery:v1', cachePrefix = 'sweet-cube:assets:';
         const screen = document.querySelector('#loading'), fill = document.querySelector('#loading-fill'), retry = document.querySelector('#retry-load');
         let saved; try { saved = JSON.parse(sessionStorage.getItem(key)); } catch {}
-        let recovery = { attempts: Number(saved?.attempts) || 0, urls: Array.isArray(saved?.urls) ? saved.urls : [] };
+        let recovery = { attempts: Number(saved?.attempts) || 0, urls: Array.isArray(saved?.urls) ? saved.urls : [], image: saved?.image };
         let sequence = 0, delayed, watchdog, failed = false;
         const known = new Set();
         function assetURL(value) {
@@ -36,6 +36,7 @@
             const url = new URL(value, location.href);
             // Ignore removed thumbnails in recovery sessions saved by an older build.
             if (url.pathname.startsWith('/assets/thumbs/')) return null;
+            if (url.pathname.endsWith('-face.webp')) return null;
             return url.origin === location.origin && /^\/(assets|src|node_modules\/\.vite)\//.test(url.pathname) && /\.(js|css|webp|png|svg)$/.test(url.pathname) ? url.href : null;
           } catch { return null; }
         }
@@ -47,10 +48,10 @@
           return [...known];
         }
         function persist() { try { sessionStorage.setItem(key, JSON.stringify(recovery)); } catch {} }
-        function arm() { clearTimeout(watchdog); watchdog = setTimeout(() => fail(new Error('Loading stalled')), 45000); }
-        function begin(delay = 0) {
+        function arm(resourceUrl) { clearTimeout(watchdog); watchdog = setTimeout(() => fail({ resourceUrl }), 45000); }
+        function begin(delay = 0, resourceUrl) {
           const ticket = ++sequence; let last = -1;
-          clearTimeout(delayed); failed = false; arm();
+          clearTimeout(delayed); failed = false; arm(resourceUrl);
           retry.hidden = true; retry.disabled = false; screen.classList.remove('load-error');
           fill.style.width = '0%'; fill.parentElement.setAttribute('aria-valuenow', '0'); screen.setAttribute('aria-busy', 'true');
           if (delay) delayed = setTimeout(() => { screen.hidden = false; }, delay); else screen.hidden = false;
@@ -60,7 +61,7 @@
             progress(value) {
               if (ticket !== sequence || failed) return;
               const fraction = Math.max(0, Math.min(1, value));
-              if (fraction > last) { last = fraction; arm(); }
+              if (fraction > last) { last = fraction; arm(resourceUrl); }
               fill.style.width = `${fraction * 100}%`; fill.parentElement.setAttribute('aria-valuenow', Math.round(fraction * 100));
             },
             finish() {
@@ -73,8 +74,10 @@
         function fail(error) {
           if (failed) return;
           failed = true; sequence++; clearTimeout(delayed); clearTimeout(watchdog);
-          track(error?.resourceUrl || error?.target?.src);
-          recovery = { attempts: recovery.attempts + 1, urls: collect() }; persist();
+          const url = assetURL(error?.resourceUrl || error?.target?.src);
+          track(url);
+          const image = url && /\.(webp|png)$/.test(new URL(url).pathname) ? url : recovery.image;
+          recovery = { attempts: recovery.attempts + 1, urls: collect(), image }; persist();
           screen.hidden = false; screen.setAttribute('aria-busy', 'false'); screen.classList.add('load-error');
           retry.hidden = false; retry.disabled = false; retry.dataset.recovery = recovery.attempts < 2 ? 'reload' : 'refresh-assets';
         }
@@ -112,7 +115,7 @@
           begin, fail, track,
           get visible() { return !screen.hidden; },
           get failed() { return failed; },
-          get retryAssets() { return recovery.urls.filter((url) => assetURL(url) && /\.(webp|png)$/.test(new URL(url).pathname)); },
+          get retryImage() { return recovery.image && assetURL(recovery.image); },
         };
         window.addEventListener('error', (event) => {
           const target = event.target;

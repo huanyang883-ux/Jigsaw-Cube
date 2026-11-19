@@ -112,11 +112,11 @@
     "hash": "bc401eac97b4d4c78493e8bfc98120f1e3b84ed0a5b21c1334ecaf48b5ab7903"
   },
   "africa-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 480266,
+    "width": 832,
+    "height": 832,
+    "bytes": 230204,
     "sourceBytes": 3343837,
-    "hash": "dc55f653e18eb82ddbb06261444ee7196dd55c8046e61d831300ff1472dc55b1"
+    "hash": "0c0444cc7c5beb34a4fa7cae5ed1a35060b120d4069b417ebaf39b7343999888"
   },
   "amphibians-01": {
     "width": 960,
@@ -182,11 +182,11 @@
     "hash": "fd5e26ee68a9bce2166faa426cadf0f91a8e94e3c39d5151840202559bdba748"
   },
   "amphibians-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 464832,
+    "width": 832,
+    "height": 832,
+    "bytes": 257410,
     "sourceBytes": 3155783,
-    "hash": "696ed83fbb54cde3bcab01c3feef2e4b00813df93179710213e6ea1f7233255f"
+    "hash": "11fe11515049f655b5e62fcd5544895f9e90ca764b69e1f7ff9abf421fa85c28"
   },
   "ancient-01": {
     "width": 960,
@@ -252,11 +252,11 @@
     "hash": "e44509c4e9915b30631a79052221c3c9bb61be1fa729dd7209276297efd69f55"
   },
   "ancient-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 623802,
+    "width": 832,
+    "height": 832,
+    "bytes": 310690,
     "sourceBytes": 3769055,
-    "hash": "df50f546de64fe468ba59c9e700ceb0ca21590e50c8a10b651804ac1cfb36116"
+    "hash": "dabdad7f36ace2b77ad5fbe943638af499612a2b21a1bc1a4bba1e60fa834893"
   },
   "asia-01": {
     "width": 960,
@@ -371,11 +371,11 @@
     "hash": "0ac70271004f579da8210ac58478d9dd06238c405fa8d47a74cb25b6144b5efb"
   },
   "asia-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 628722,
+    "width": 832,
+    "height": 832,
+    "bytes": 304204,
     "sourceBytes": 3790123,
-    "hash": "0fa244245f3777b4cc87c21b0dd57b70acdc74a962a0348be154a0825f3e3d41"
+    "hash": "9a70cce4c39de2ef71b91e36dd6efeb6a4256995256ddc0e3c79acfcbf6a6719"
   },
   "birds-01": {
     "width": 960,
@@ -441,11 +441,11 @@
     "hash": "328af51eaa0aa4420bd7fffc22ed819a3b23512ce005a85fa0c0f662051783d3"
   },
   "birds-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 678394,
+    "width": 832,
+    "height": 832,
+    "bytes": 354590,
     "sourceBytes": 3738765,
-    "hash": "305d5fb47204e46c8308790d296b1ec77828dbcc88ad7e5e2d8b8242331c4d6b"
+    "hash": "645401550461d37e5b05c048803c2771c99e9fd85327c3c531a0d71b517fc90b"
   },
   "cake-01": {
     "width": 960,
@@ -476,11 +476,11 @@
     "hash": "9959d104b5334a9bf20619055da9d5db090d341b4c2a4848e166f0be650aad7c"
   },
   "cake-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 214852,
+    "width": 832,
+    "height": 832,
+    "bytes": 119380,
     "sourceBytes": 2212364,
-    "hash": "22544e9c50aa29d3eea086fe52a8c5bf1fa27be7bc6dd2ba740936b71e5b131d"
+    "hash": "9000bdab2f1da4c9cce3760090a3881dd9045a9cd0ed861f53f5f87eb0f03f61"
   },
   "candy-01": {
     "width": 960,
@@ -511,11 +511,11 @@
     "hash": "b3fd1df873929e68cc5c840b125aa34ea42d36a4ba5f6f2b323d09390131ca4a"
   },
   "candy-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 314566,
+    "width": 832,
+    "height": 832,
+    "bytes": 176884,
     "sourceBytes": 2489344,
-    "hash": "8183cbc7a49f05fe79ac7224008600a03f58c6a3354a967d641e3887a109361b"
+    "hash": "def9d6d8ef474fdf6433afa80f3496298402ddd81c8c54daff2e1be08519cc27"
   },
   "chocolate-01": {
     "width": 960,
@@ -546,11 +546,11 @@
     "hash": "7bf69e808fab44d6cee3438e410f8fdd007fffd7e68c10b5ea5b534142751234"
   },
   "chocolate-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 341262,
+    "width": 832,
+    "height": 832,
+    "bytes": 201998,
     "sourceBytes": 2652524,
-    "hash": "484adc884f97bf59bf6e029066b54aff1df6babeb900333e675fca0fa2531f26"
+    "hash": "52a708a573f8b068e875eb8125eda91eee3db6ba433d5cd044258af27dd07f05"
   },
   "cream-01": {
     "width": 960,
@@ -581,11 +581,11 @@
     "hash": "8394de1abbf036c8325658c0eba3a18cbe02815575583888b5b18e21e0b95f4e"
   },
   "cream-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 324220,
+    "width": 832,
+    "height": 832,
+    "bytes": 196302,
     "sourceBytes": 2548687,
-    "hash": "1845b881e32a9357ee02847b72a70a8c61cf9cacc3885e4e391395c67488879c"
+    "hash": "9f427cea7a51403c0059cd3a599d2ae66ca665d58bcdd6386c855041351df321"
   },
   "europe-01": {
     "width": 960,
@@ -700,11 +700,11 @@
     "hash": "7710d4f226deb5c06377657c9ce706dd6ce67564674d7149512c0511d3508b5f"
   },
   "europe-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 493228,
+    "width": 832,
+    "height": 832,
+    "bytes": 254414,
     "sourceBytes": 3194149,
-    "hash": "4620b11c50fab3fe106d95093b47224003c8241e6dcb73ce78132f6aeed97579"
+    "hash": "d4e83e5bae16ef4541525bc5e6a687ed25e5880af70007180c0d667531b0cd80"
   },
   "icecream-01": {
     "width": 960,
@@ -735,11 +735,11 @@
     "hash": "bcc2510d12b9a7b6daa9db49e9c2d9a2ce83723115408b8ad5965901cba86c72"
   },
   "icecream-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 312282,
+    "width": 832,
+    "height": 832,
+    "bytes": 184828,
     "sourceBytes": 2508490,
-    "hash": "4a3dbe6eee6f9effc2ae90b4795f7a8d8749c2e193732805cf106428f1cdc7aa"
+    "hash": "42878235a998e3a194b2505b0481e26c89848df7d3e0e9aacefefd184cfa24b1"
   },
   "insects-01": {
     "width": 960,
@@ -805,11 +805,11 @@
     "hash": "b3638d16cddbfddc8e8d9e8cea026d4c6aef4fa6a623caf76c7bb29e09ed87a1"
   },
   "insects-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 474462,
+    "width": 832,
+    "height": 832,
+    "bytes": 272508,
     "sourceBytes": 3179393,
-    "hash": "c49f6f91e743a7769a37dc754e5aed074898f20dfae141b913677866a10bb8f7"
+    "hash": "85db3fef6957087febad2560a68048cc1328ff2dfc0288c4a902db5b18b79c29"
   },
   "jelly-01": {
     "width": 960,
@@ -840,11 +840,11 @@
     "hash": "0d43c9af4a0acd78d13ce47f06a92c21e02f0d40ed3b13c7a8273727f5ccfa35"
   },
   "jelly-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 344782,
+    "width": 832,
+    "height": 832,
+    "bytes": 200570,
     "sourceBytes": 2671482,
-    "hash": "649ea9f58d73d116ad556bc4ff35965c215886c8ba87c20e927c8e35f90d4245"
+    "hash": "e86bd263c21a5e426c7a41066e3eada1924d26804995e7f70f7d91fd6f100230"
   },
   "land-01": {
     "width": 960,
@@ -910,11 +910,11 @@
     "hash": "ff8c540b348d14ccec2c5b4167b9e900317e1b6ff1f918f247a2437de5146367"
   },
   "land-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 580414,
+    "width": 832,
+    "height": 832,
+    "bytes": 287066,
     "sourceBytes": 3525543,
-    "hash": "ff57c0116fd3b3604af589172880d2fbe09baf81bd05055372b2e03186319d28"
+    "hash": "134f997588f5fdce966478073fb6ad9292a502e04a14b4135e653bef1ed76af9"
   },
   "north-america-01": {
     "width": 960,
@@ -1029,11 +1029,11 @@
     "hash": "93e1d93e7b5b69b98561a92574fadc9160273574568e6dee048ba444457e6823"
   },
   "north-america-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 686744,
+    "width": 832,
+    "height": 832,
+    "bytes": 325504,
     "sourceBytes": 3892970,
-    "hash": "1eb771dbbaaac568eb7d1a956015c7688ac78edf2571bea692c72e1c32303c95"
+    "hash": "78cb8213bff54669ed01178eba0d3e45a591f2c21edda90777a56b2eca75937b"
   },
   "ocean-01": {
     "width": 960,
@@ -1099,11 +1099,11 @@
     "hash": "e2a584840dfcc778478c11fa2176123f61c79fc8ab479979a311f76badfce999"
   },
   "ocean-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 526470,
+    "width": 832,
+    "height": 832,
+    "bytes": 291346,
     "sourceBytes": 3390486,
-    "hash": "6027b9bc685a584c7f78a737617fd60c6f3f30cd51bc187f93ead4f95968c615"
+    "hash": "8c1e7e69fd042deded44925156b205306f1583b7733c134a4f1462d67b279dcc"
   },
   "oceania-01": {
     "width": 960,
@@ -1218,11 +1218,11 @@
     "hash": "d25dba43800eaf2a78bc31ff905aedb13d99eafdc802e8d64b9dab8befb1969d"
   },
   "oceania-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 578350,
+    "width": 832,
+    "height": 832,
+    "bytes": 287104,
     "sourceBytes": 3484048,
-    "hash": "176692f03507f534ba8f281c0d113a1fb953a8baafcc4b230590ad67339b0c31"
+    "hash": "737a791a5968143902b038a8eb0a3f420b8cb932bd6f6cd5e90539fe90e36a8b"
   },
   "south-america-01": {
     "width": 960,
@@ -1337,10 +1337,10 @@
     "hash": "82ae9f24e5ae94e614aed55911bfc7403ebb768dcd5793723d9a12abfe186ffa"
   },
   "south-america-face": {
-    "width": 1254,
-    "height": 1254,
-    "bytes": 613890,
+    "width": 832,
+    "height": 832,
+    "bytes": 303592,
     "sourceBytes": 3781878,
-    "hash": "9573a1b07a409124a87809a26d30245f7fbf99cf2dcbfee9bce94e4f8272f1cc"
+    "hash": "ad9aea051aebb3fc8a6f5571858aef07fd67a5aa04a06af5117c4a6cdfb4882a"
   }
 }

@@ -62,8 +62,13 @@ try {
   await frames(page);
   assert.deepEqual(await page.evaluate(() => window.renderCounts), { board: 5, effects: 4, buffer: 4 });
 
+  await page.evaluate(() => {
+    window.levelTexture = window.boardRenderer.baseTexture;
+    window.levelTexture.addEventListener('dispose', () => { window.levelTextureDisposed = true; });
+  });
   await page.tap('#settings'); await page.tap('#back'); await idle(page);
   assert.equal(await page.evaluate(() => window.__game.state().mode), 'chapters');
+  assert.ok(await page.evaluate(() => window.levelTextureDisposed && window.levelTexture.image === null));
   assert.notEqual(await page.evaluate(() => window.menuRenderer.frame), null, 'returning to the cube resumes drawing');
 
   const tilt = await page.evaluate(async () => {
@@ -86,6 +91,10 @@ try {
     return results;
   });
   assert.ok(tilt.every(({ clearance, delta, tilt }) => clearance > 0 && delta.x === 0 && delta.y === 0 && tilt < 1));
+  await page.tap('#back'); await idle(page);
+  await page.tap('#theme-pages [data-theme="3"]'); await idle(page); await frames(page);
+  assert.equal(await page.evaluate(() => window.menuRenderer.renderer.info.render.calls), 3 * 25 + 3,
+    '5x5 home submits three faces of stickers, one instanced shell and two arrows');
   assert.deepEqual(errors, []);
   console.log('PASS: idle puzzle and hidden cube stop, portrait/landscape preserves the session and resizes once, WebGL restores, blocked 9x9 group stays above its shadows.');
 } finally {

@@ -41,9 +41,9 @@ async function makePage(progress) {
 }
 try {
   const fresh = await makePage(); const images = [];
-  fresh.p.on('request', (r) => { if (r.resourceType() === 'image') images.push(r.url()); });
+  fresh.p.on('request', (request) => { if (new URL(request.url()).pathname.endsWith('.webp')) images.push(request.url()); });
   await fresh.p.goto(base); await idle(fresh.p);
-  assert.ok(images.every((url) => url.includes('/assets/ui/guide-hand.webp')), 'fresh home only mounts the guide image; photo preloads use fetch');
+  assert.ok(images.every((url) => url.includes('/assets/ui/guide-hand.webp') || /(?:-face|\/cube-previews)\.webp$/.test(new URL(url).pathname)), 'fresh home does not request level photos');
   await fresh.c.close();
 
   const progress = freshProgress(); progress.completed[0].fill(true, 0, 4);

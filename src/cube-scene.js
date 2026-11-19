@@ -4,11 +4,33 @@ import { Application, Graphics, Container } from 'pixi.js';
 import { THEMES, isComplete, faceSize, themeUnlocked, currentTheme, currentFace } from './progress.js';
 import { createBackTexture } from './card-back.js';
 import { THEME_ART } from './theme-art.js';
+import { loadImageAsset } from './preload.js';
 
 const FACE_ROTATIONS = [[0, 0, 0], [0, Math.PI / 2, 0], [0, Math.PI, 0], [0, -Math.PI / 2, 0], [-Math.PI / 2, 0, 0], [Math.PI / 2, 0, 0]];
+const FACE_NORMALS = FACE_ROTATIONS.map((rotation) => new THREE.Vector3(0, 0, 1).applyEuler(new THREE.Euler(...rotation)));
 export const faceQuaternion = (face) => new THREE.Quaternion().setFromEuler(new THREE.Euler(...FACE_ROTATIONS[face])).invert();
 export const homeQuaternion = (face) => new THREE.Quaternion().setFromEuler(new THREE.Euler(.34, -.55, -.10)).multiply(faceQuaternion(face));
 const smooth = (t) => t * t * (3 - 2 * t);
+const isFront = ({ depth }) => depth > .04;
+
+function orderedFaces(pose) {
+  const direction = new THREE.Vector3();
+  return FACE_NORMALS.map((normal, face) => ({
+    face, depth: direction.copy(normal).applyQuaternion(pose).z,
+  })).sort((left, right) => right.depth - left.depth);
+}
+
+function orderedFaceArt(theme, pose) {
+  if (THEMES[theme].comingSoon) return [];
+  return orderedFaces(pose).map((entry) => ({ ...entry, theme, url: THEMES[theme].faceArt[entry.face] }));
+}
+
+function tileMap(texture, order, level, x = 0, y = 0, width = 1, height = 1) {
+  const map = texture.clone();
+  map.repeat.set(width / order, height / order);
+  map.offset.set(x + level % order * map.repeat.x, y + (order - 1 - Math.floor(level / order)) * map.repeat.y);
+  return map;
+}
 
 function stickerGeometry(size) {
   const h = size / 2, r = size * .075, shape = new THREE.Shape();
@@ -39,9 +61,11 @@ export class CubeScene {
     this.reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.abort = new AbortController(); this.raycaster = new THREE.Raycaster();
     this.pointer = new THREE.Vector2(); this.spin = new THREE.Vector3(.06, .1, .025); this.targetSpin = this.spin.clone();
+    this.faceNormal = new THREE.Vector3();
+    this.failedFaceArt = new Set(); this.nextArtCheck = 0;
   }
 
-  async init() {
+  async init(onFaceProgress = () => {}) {
     this.scene = new THREE.Scene();
     this.camera = new THREE.OrthographicCamera(-540, 540, 960, -960, 1, 6000);
     this.camera.position.set(0, 0, 2500);
@@ -56,22 +80,31 @@ export class CubeScene {
     const key = new THREE.DirectionalLight(0xfff8ed, 1.8); key.position.set(-900, 1400, 1800); this.scene.add(key);
     const fill = new THREE.DirectionalLight(0xd5e9ed, .65); fill.position.set(1000, -300, 800); this.scene.add(fill);
     this.themeBacks = THEMES.map((_, theme) => createBackTexture(1, theme));
-    this.art = new Map(); this.artLoads = new Map();
+    this.art = new Map();
     for (let i = 0; i < THEMES.length; i++) this.models.push(this.buildCube(i));
-    await this.ensureThemeArt(this.theme);
     this.models.forEach((cube, i) => { cube.visible = i === this.theme; this.scene.add(cube); });
     this.current = this.models[this.theme]; this.current.scale.setScalar(460); this.current.position.set(0, 35, 0);
     this.current.quaternion.copy(homeQuaternion(this.face));
+    this.planFaceArt();
     this.makeArrows();
     // Prepare every theme during loading, before a switch can reveal it.
     for (const texture of this.themeBacks) this.renderer.initTexture(texture);
-    await this.renderer.compileAsync(this.scene, this.camera);
     this.pixi = new Application();
-    await this.pixi.init({ width: 1, height: 1, backgroundAlpha: 0, antialias: true, autoStart: false, preference: 'webgl' });
+    let frontProgress = 0, previewProgress = 0;
+    const report = () => onFaceProgress((frontProgress * 3 + previewProgress) / 4);
+    const [fronts, previews] = await Promise.all([
+      this.preloadFrontArt((value) => { frontProgress = value; report(); }),
+      loadImageAsset(new URL('./cube-previews.webp', import.meta.url).href, (value) => { previewProgress = value; report(); }),
+      this.renderer.compileAsync(this.scene, this.camera),
+      this.pixi.init({ width: 1, height: 1, backgroundAlpha: 0, antialias: true, autoStart: false, preference: 'webgl' }),
+    ]);
     this.pixi.canvas.className = 'cube-effects'; this.pixi.canvas.setAttribute('aria-hidden', 'true'); this.host.appendChild(this.pixi.canvas);
     this.resizeRenderers();
     this.decor = new Graphics(); this.particleLayer = new Container(); this.pixi.stage.addChild(this.decor, this.particleLayer);
+    this.installPreviews(previews);
+    for (const art of fronts) if (art) this.installFaceArt(art);
     this.drawDecor(); this.events(); this.busy = false; this.nextSpin = 0;
+    this.renderCube();
     this.scheduleFrame();
   }
 
@@ -98,6 +131,7 @@ export class CubeScene {
       this.scheduleFrame();
     } else {
       this.cancelGesture();
+      this.cancelFaceArt();
       cancelAnimationFrame(this.frame); this.frame = null; this.lastFrame = null;
     }
   }
@@ -108,42 +142,148 @@ export class CubeScene {
     if (pointerId != null && this.host.hasPointerCapture(pointerId)) this.host.releasePointerCapture(pointerId);
   }
 
-  async loadFaceArt(theme, face) {
-    const url = THEMES[theme].faceArt[face];
-    if (this.artLoads.has(url)) return this.artLoads.get(url);
-    const job = (async () => {
-      const texture = await new THREE.TextureLoader().loadAsync(url);
-      texture.colorSpace = THREE.SRGBColorSpace;
-      texture.anisotropy = Math.min(4, this.renderer.capabilities.getMaxAnisotropy());
-      if (this.disposed) { texture.dispose(); return; }
-      this.art.set(url, texture);
-      const n = THEMES[theme].order;
-      for (const tile of this.tiles[theme].filter((t) => t.userData.face === face)) {
-        const level = tile.userData.level, map = texture.clone();
-        map.repeat.set(1 / n, 1 / n); map.offset.set((level % n) / n, 1 - (Math.floor(level / n) + 1) / n); map.needsUpdate = true;
-        tile.userData.picture = map;
-        if (tile.userData.complete) { tile.material.map = map; tile.material.needsUpdate = true; }
-      }
-    })();
-    this.artLoads.set(url, job);
-    try { await job; } catch (e) { this.artLoads.delete(url); throw e; }
+  cancelFaceArt() {
+    this.faceArtJob?.abort.abort(); this.faceArtJob = null;
   }
 
-  async ensureThemeArt(theme) {
-    if (THEMES[theme].comingSoon) return;
-    const revealedFaces = [...new Set(this.tiles[theme].filter((t) => t.userData.complete).map((t) => t.userData.face))];
-    await Promise.all(revealedFaces.map((face) => this.loadFaceArt(theme, face)));
+  async preloadFrontArt(onProgress) {
+    const fronts = orderedFaceArt(this.theme, this.current.quaternion).filter(isFront);
+    if (!fronts.length) { onProgress(1); return []; }
+    const fractions = fronts.map(() => 0);
+    const report = (index, fraction) => {
+      fractions[index] = fraction;
+      onProgress(fractions.reduce((sum, part) => sum + part, 0) / fronts.length);
+    };
+    const abort = new AbortController();
+    const timer = setTimeout(() => abort.abort(), 12000);
+    try {
+      return await Promise.all(fronts.map(async (entry, index) => {
+        try {
+          return { ...entry, image: await loadImageAsset(entry.url, (fraction) => report(index, fraction), { signal: abort.signal }) };
+        } catch {
+          this.failedFaceArt.add(entry.url);
+          report(index, 1);
+          return null;
+        }
+      }));
+    } finally { clearTimeout(timer); }
+  }
+
+  planFaceArt(keepFrontsOnly = false) {
+    const theme = this.theme, total = THEMES.length;
+    const front = this.mode === 'chapters' ? this.face : currentFace(this.progress, theme);
+    const current = orderedFaceArt(theme, this.mode === 'chapters' ? faceQuaternion(front) : homeQuaternion(front));
+    const neighbors = [(theme + total - 1) % total, (theme + 1) % total]
+      .flatMap((index) => orderedFaceArt(index, homeQuaternion(currentFace(this.progress, index))).filter(isFront));
+    const fronts = [...current.filter(isFront), ...neighbors];
+    if (keepFrontsOnly) {
+      const keep = new Set(fronts.map(({ url }) => url));
+      for (const url of this.art.keys()) if (!keep.has(url)) this.releaseFaceArt(url);
+    }
+    this.faceArtQueue = [...fronts, ...current.filter((entry) => !isFront(entry))];
+    if (this.faceArtJob && this.faceArtJob.url !== this.nextFaceArt()?.url) this.cancelFaceArt();
+    this.nextArtCheck = 0;
+  }
+
+  nextFaceArt() {
+    while (this.faceArtQueue.length) {
+      const entry = this.faceArtQueue[0];
+      if (!this.art.has(entry.url) && !this.failedFaceArt.has(entry.url)) return entry;
+      this.faceArtQueue.shift();
+    }
+  }
+
+  requestFaceArt(theme, face) {
+    const url = THEMES[theme].faceArt[face];
+    if (this.art.has(url) || this.failedFaceArt.has(url) || !this.active || document.hidden) return;
+    if (this.faceArtJob?.url === url) return;
+    this.cancelFaceArt();
+    const job = this.faceArtJob = { theme, face, url, abort: new AbortController() };
+    loadImageAsset(url, undefined, { signal: job.abort.signal, background: true }).then((image) => {
+      if (this.faceArtJob === job) job.image = image;
+    }).catch(() => {
+      if (this.faceArtJob !== job) return;
+      this.faceArtJob = null; this.failedFaceArt.add(url);
+    });
+  }
+
+  applyFaceArt(theme, face) {
+    const job = this.faceArtJob;
+    if (!job?.image || job.theme !== theme || job.face !== face) return;
+    this.faceArtJob = null;
+    this.installFaceArt(job);
+  }
+
+  installPreviews(image) {
+    const atlas = this.previewAtlas = new THREE.Texture(image);
+    atlas.colorSpace = THREE.SRGBColorSpace;
+    atlas.generateMipmaps = false;
+    atlas.minFilter = THREE.LinearFilter;
+    atlas.needsUpdate = true;
+    const size = image.width / 6;
+    for (const [theme, tiles] of this.tiles.entries()) {
+      if (THEMES[theme].comingSoon) continue;
+      for (const tile of tiles) {
+        const { face, level, complete } = tile.userData;
+        // Sample between texel centers so filtering cannot bleed into an adjacent cover.
+        const x = (face * size + .5) / image.width;
+        const y = 1 - ((theme + 1) * size - .5) / image.height;
+        const preview = tileMap(atlas, THEMES[theme].order, level, x, y, (size - 1) / image.width, (size - 1) / image.height);
+        tile.userData.preview = preview;
+        if (complete) tile.material.map = preview;
+      }
+    }
+    this.renderer.initTexture(atlas);
+  }
+
+  installFaceArt({ theme, face, url, image }) {
+    const texture = new THREE.Texture(image);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.anisotropy = Math.min(4, this.renderer.capabilities.getMaxAnisotropy());
+    texture.needsUpdate = true;
+    this.art.set(url, { theme, face, texture });
+    const n = THEMES[theme].order;
+    const count = n ** 2;
+    for (const tile of this.tiles[theme].slice(face * count, (face + 1) * count)) {
+      const map = tileMap(texture, n, tile.userData.level);
+      tile.userData.picture = map;
+      if (tile.userData.complete) tile.material.map = map;
+    }
+    this.renderer.initTexture(texture);
+  }
+
+  releaseFaceArt(url) {
+    const { theme, face, texture } = this.art.get(url);
+    const count = faceSize(theme);
+    for (const tile of this.tiles[theme].slice(face * count, (face + 1) * count)) {
+      tile.material.map = tile.userData.complete ? tile.userData.preview : this.themeBacks[theme];
+      tile.userData.picture?.dispose();
+      tile.userData.picture = null;
+    }
+    texture.dispose(); texture.image = null;
+    this.art.delete(url);
+  }
+
+  updateFaceArt(time) {
+    if (this.busy || this.gesture || time < this.nextArtCheck || (!this.faceArtJob && !this.faceArtQueue.length)) return;
+    this.nextArtCheck = time + 120;
+    const job = this.faceArtJob;
+    if (job) this.applyFaceArt(job.theme, job.face);
+    const next = this.nextFaceArt();
+    if (!this.faceArtJob && next) this.requestFaceArt(next.theme, next.face);
   }
 
   resetProgress(progress) {
+    this.cancelFaceArt(); this.failedFaceArt.clear();
     this.progress = progress; this.face = currentFace(progress, this.theme); this.gesture = null;
     for (const tile of this.tiles.flat()) {
       const { theme, face, level } = tile.userData;
       tile.userData.complete = isComplete(progress, theme, face, level);
-      tile.material.map = tile.userData.complete && tile.userData.picture ? tile.userData.picture : this.themeBacks[theme];
+      tile.material.map = tile.userData.complete ? tile.userData.picture ?? tile.userData.preview : this.themeBacks[theme];
       tile.material.needsUpdate = true;
     }
     if (this.mode === 'home') this.current.quaternion.copy(homeQuaternion(this.face));
+    this.planFaceArt(true);
   }
 
   buildCube(theme) {
@@ -162,6 +302,7 @@ export class CubeScene {
     const tileList = [];
     for (let face = 0; face < 6; face++) {
       const surface = new THREE.Group(); surface.rotation.set(...FACE_ROTATIONS[face]);
+      surface.userData.normal = FACE_NORMALS[face];
       surface.position.copy(new THREE.Vector3(0, 0, .5005).applyEuler(surface.rotation));
       cube.add(surface);
       for (let row = 0; row < n; row++) for (let col = 0; col < n; col++) {
@@ -243,6 +384,8 @@ export class CubeScene {
     return this.raycaster.intersectObjects(this.tiles[this.theme], false).find((hit) => hit.object.visible)?.object;
   }
 
+  frontFace() { return orderedFaces(this.current.quaternion)[0].face; }
+
   tween(duration, update) {
     return new Promise((resolve) => {
       this.motion?.resolve();
@@ -252,20 +395,24 @@ export class CubeScene {
   }
 
   async switchTheme(theme, direction) {
-    // Begin recoloring with the background, including while face art is loading.
     this.arrowTheme = theme;
-    this.busy = true; await this.ensureThemeArt(theme);
+    this.failedFaceArt.clear();
     this.face = currentFace(this.progress, theme);
     const old = this.current, next = this.models[theme], startQuaternion = homeQuaternion(this.face);
     this.theme = theme; next.visible = true; next.scale.setScalar(460); next.position.set(direction * 1350, 35, 0); next.quaternion.copy(startQuaternion);
+    this.planFaceArt();
+    const first = this.nextFaceArt();
+    if (first?.theme === theme && isFront(first)) this.requestFaceArt(theme, first.face);
     await this.tween(680, (t) => {
       const e = smooth(t); old.position.x = -direction * 1350 * e; next.position.x = direction * 1350 * (1 - e);
       old.scale.setScalar(460 - 80 * Math.sin(t * Math.PI)); next.scale.setScalar(460 - 80 * Math.sin(t * Math.PI));
     });
     old.visible = false; next.position.x = 0; next.scale.setScalar(460); this.current = next;
+    this.planFaceArt(true);
   }
 
   async enter(face) {
+    this.failedFaceArt.delete(THEMES[this.theme].faceArt[face]);
     this.homePose = { quaternion: this.current.quaternion.clone(), position: this.current.position.clone(), scale: this.current.scale.x };
     this.face = face; this.mode = 'chapters';
     const from = this.current.quaternion.clone(), to = faceQuaternion(face), startScale = this.current.scale.x, startY = this.current.position.y;
@@ -274,6 +421,7 @@ export class CubeScene {
       this.current.scale.setScalar(startScale + (750 - startScale) * e);
       this.current.position.y = startY * (1 - e) + 35 * e;
     });
+    this.planFaceArt();
   }
 
   async leave() {
@@ -284,26 +432,34 @@ export class CubeScene {
       this.current.position.y = startY + (pose.position.y - startY) * e;
     });
     this.mode = 'home';
+    this.planFaceArt();
   }
 
   async turn(face) {
+    this.failedFaceArt.delete(THEMES[this.theme].faceArt[face]);
     const from = this.current.quaternion.clone(), to = faceQuaternion(face);
     await this.tween(760, (t) => {
       this.current.quaternion.slerpQuaternions(from, to, smooth(t));
       this.current.scale.setScalar(750 - Math.sin(t * Math.PI) * 145);
     });
     this.face = face; this.current.scale.setScalar(750);
+    this.planFaceArt();
   }
 
   async reveal(face, level) {
     const tile = this.tiles[this.theme].find((t) => t.userData.face === face && t.userData.level === level);
     if (!tile || tile.userData.complete) return;
-    this.busy = true; await this.loadFaceArt(this.theme, face);
+    this.failedFaceArt.delete(THEMES[this.theme].faceArt[face]);
+    this.requestFaceArt(this.theme, face);
     let swapped = false;
     await this.tween(680, (t) => {
       tile.scale.x = Math.max(.025, Math.abs(Math.cos(t * Math.PI)));
       tile.position.z = Math.sin(t * Math.PI) * .03;
-      if (t >= .5 && !swapped) { swapped = true; tile.material.map = tile.userData.picture; tile.material.needsUpdate = true; tile.userData.complete = true; }
+      if (t >= .5 && !swapped) {
+        swapped = true; this.applyFaceArt(this.theme, face);
+        tile.userData.complete = true;
+        tile.material.map = tile.userData.picture ?? tile.userData.preview;
+      }
     });
     tile.scale.x = 1; tile.position.z = 0;
     this.celebrate(false);
@@ -341,13 +497,26 @@ export class CubeScene {
     return { x: r.left + (p.x + 1) / 2 * r.width, y: r.top + (1 - p.y) / 2 * r.height };
   }
 
+  renderCube() {
+    // The orthographic camera looks down -Z. Skip the draw calls for stickers facing away.
+    for (const cube of this.models) {
+      if (!cube.visible) continue;
+      for (const part of cube.children) {
+        const normal = part.userData.normal;
+        if (normal) part.visible = this.faceNormal.copy(normal).applyQuaternion(cube.quaternion).z > 0;
+      }
+    }
+    this.renderer.render(this.scene, this.camera);
+  }
+
   tick = (time) => {
     this.frame = null;
     if (document.hidden || !this.active) return;
     this.scheduleFrame();
     const dt = Math.min(.05, (time - (this.lastFrame ?? time)) / 1000); this.lastFrame = time;
-    if (this.motion) {
-      const motion = this.motion, t = Math.min(1, (time - motion.start) / motion.duration);
+    const motion = this.motion;
+    if (motion) {
+      const t = Math.max(0, Math.min(1, (time - motion.start) / motion.duration));
       motion.update(t);
       if (t === 1) { this.motion = null; this.busy = false; motion.resolve(); }
     } else if (this.mode === 'home' && !this.gesture && !this.reducedMotion) {
@@ -379,17 +548,21 @@ export class CubeScene {
       const p = this.particles[i]; p.life -= dt; p.vy += 110 * dt; p.g.x += p.vx * dt; p.g.y += p.vy * dt; p.g.rotation += dt; p.g.alpha = Math.min(1, p.life);
       if (p.life <= 0) { p.g.destroy(); this.particles.splice(i, 1); }
     }
-    this.renderer.render(this.scene, this.camera);
+    this.renderCube();
     // The decorative canvas stays on screen without redrawing when it is static.
     if (renderEffects) { this.pixi.render(); this.effectsDirty = false; }
+    if (!motion) this.updateFaceArt(time);
   };
 
   destroy() {
-    this.disposed = true;
+    this.cancelFaceArt();
     cancelAnimationFrame(this.frame); this.abort.abort(); this.motion?.resolve();
-    const geometries = new Set(), materials = new Set(), textures = new Set([...this.themeBacks, ...this.art.values()]);
-    this.scene.traverse((o) => { if (o.isInstancedMesh) o.dispose(); if (o.geometry) geometries.add(o.geometry); if (o.material) materials.add(o.material); if (o.userData.picture) textures.add(o.userData.picture); });
-    for (const g of geometries) g.dispose(); for (const m of materials) m.dispose(); for (const t of textures) t.dispose();
+    for (const url of this.art.keys()) this.releaseFaceArt(url);
+    for (const tiles of this.tiles) for (const tile of tiles) tile.userData.preview?.dispose();
+    this.previewAtlas?.dispose();
+    const geometries = new Set(), materials = new Set();
+    this.scene.traverse((o) => { if (o.isInstancedMesh) o.dispose(); if (o.geometry) geometries.add(o.geometry); if (o.material) materials.add(o.material); });
+    for (const g of geometries) g.dispose(); for (const m of materials) m.dispose(); for (const texture of this.themeBacks) texture.dispose();
     this.renderer.dispose(); this.renderer.forceContextLoss(); this.renderer.domElement.remove(); this.pixi.destroy(true, { children: true });
   }
 }
