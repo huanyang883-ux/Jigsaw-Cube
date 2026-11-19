@@ -8,6 +8,20 @@ const base = process.env.PUZZLE_TEST_URL || 'http://127.0.0.1:5173';
 const browser = await chromium.launch({ executablePath: process.env.PUZZLE_BROWSER || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', headless: true });
 await fs.mkdir('test-results', { recursive: true });
 const errors = [];
+async function coversWindow(page, selector) {
+  const box = await page.locator(selector).boundingBox();
+  const { width, height } = page.viewportSize();
+  assert.ok(box && box.x <= 1 && box.y <= 1 &&
+    box.x + box.width >= width - 1 && box.y + box.height >= height - 1, selector + ' covers all four screen edges');
+}
+async function checkScenery(page) {
+  const theme = await page.locator('.viewport').getAttribute('data-theme');
+  await coversWindow(page, '.scene-background');
+  const layer = '.scene-layer[data-scene="' + theme + '"]';
+  await coversWindow(page, layer);
+  await coversWindow(page, layer + ' .scene-art');
+  assert.equal(await page.locator(layer + ' .scene-art').evaluate(el => getComputedStyle(el).visibility), 'visible');
+}
 try {
   const context = await browser.newContext({ viewport: { width: 390, height: 720 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
   await context.addInitScript(() => {
@@ -33,6 +47,21 @@ try {
     const AudioContext = window.AudioContext;
     window.AudioContext = class extends AudioContext { constructor(...args) { super(...args); window.__testAudio = this; } };
   });
+  // Check the inline loading UI before the game stylesheet or JavaScript arrives.
+  const loading = await context.newPage();
+  await loading.route('**/src/boot.js', route => route.abort());
+  await loading.goto(base);
+  await loading.waitForSelector('#retry-load');
+  await loading.evaluate(() => {
+    document.documentElement.style.setProperty('--game-safe-top', '58px');
+    document.documentElement.style.setProperty('--game-safe-left', '32px');
+    document.documentElement.style.setProperty('--game-safe-bottom', '24px');
+  });
+  await coversWindow(loading, '#loading');
+  const group = await loading.locator('.loading-art').boundingBox();
+  assert.ok(Math.abs(group.x + group.width / 2 - (390 + 32) / 2) < 1 &&
+    Math.abs(group.y + group.height / 2 - (720 + 58 - 24) / 2) < 1, 'loading and retry center in the safe area on first paint');
+  await loading.close();
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(error.message));
   const idle = () => page.waitForFunction(() => window.__game?.idle() && window.__nativeTest.hiddenBars > 0);
@@ -47,7 +76,18 @@ try {
   await page.waitForFunction(() => document.querySelector('#game').getBoundingClientRect().height <= innerHeight - 76 + 1);
   const rect = await page.locator('#game').boundingBox();
   assert.ok(rect.y >= 47 && rect.y + rect.height <= 693, 'game fits between status/cutout and gesture areas');
+  await checkScenery(page);
   await page.screenshot({ path: 'test-results/android-safe-area.png' });
+  // Simulate a WebView window expanding into a previously reserved system
+  // area. The foreground still fits exactly the same width and height.
+  await page.evaluate(() => window.addEventListener('resize', () => {
+    document.documentElement.style.setProperty('--game-safe-bottom', '104px');
+  }, { once: true }));
+  await page.setViewportSize({ width: 390, height: 796 });
+  await page.waitForFunction(() => getComputedStyle(document.querySelector('.viewport')).paddingBottom === '104px');
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  assert.deepEqual(await page.locator('#game').boundingBox(), rect);
+  await checkScenery(page);
   await page.tap('#settings'); await page.tap('#sound');
   await page.waitForFunction(() => window.__testAudio?.state === 'running');
   await back(); await page.waitForSelector('#settings-menu', { state: 'hidden' });
@@ -58,6 +98,7 @@ try {
   const center = await page.evaluate(() => window.__game.tileCenter(0));
   await page.touchscreen.tap(center.x, center.y); await idle();
   assert.equal((await state()).mode, 'puzzle');
+  await checkScenery(page);
   await page.tap('#picture-peek'); await page.waitForSelector('#close-picture');
   for (const { width, height, top, right, bottom, left } of [
     { width: 720, height: 360, top: 0, right: 12, bottom: 26, left: 64 },
@@ -69,6 +110,8 @@ try {
     }, { top, right, bottom, left });
     await page.waitForFunction(scale => Math.abs(Number(document.documentElement.style.getPropertyValue('--stage-scale')) - scale) < .00001,
       Math.min((width - left - right) / 1080, (height - top - bottom) / 1920));
+    await checkScenery(page);
+    await coversWindow(page, '#overlay');
     for (const selector of ['#game', '#puzzle-board', '#settings', '#hint', '#picture-peek', '#overlay-content', '#close-picture']) {
       const box = await page.locator(selector).boundingBox();
       assert.ok(box.x >= left - 1 && box.x + box.width <= width - right + 1 &&

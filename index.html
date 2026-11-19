@@ -9,6 +9,10 @@
     <title>魔方拼图</title>
     <style>
       html,body{margin:0;background:#fcf8ee}#loading[hidden],#retry-load[hidden]{display:none!important}
+      #loading,.viewport{
+        padding:var(--game-safe-top,env(safe-area-inset-top,0px)) var(--game-safe-right,env(safe-area-inset-right,0px))
+          var(--game-safe-bottom,env(safe-area-inset-bottom,0px)) var(--game-safe-left,env(safe-area-inset-left,0px));
+      }
       #loading{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:radial-gradient(ellipse at 25% 20%,#e7efdc,transparent 60%),radial-gradient(ellipse at 90% 65%,#f8e4d3,transparent 55%),#fcf8ee}
       .loading-art{width:min(42vw,230px);display:flex;align-items:center;flex-direction:column;gap:32px}
       .loading-tiles{width:108px;height:108px;display:grid;grid-template-columns:1fr 1fr;gap:7px;transform:rotate(-8deg)}

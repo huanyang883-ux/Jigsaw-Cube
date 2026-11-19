@@ -1,10 +1,6 @@
 /* The scenery covers the viewport independently of the portrait game layout. */
 .viewport {
   background: #fbf1e3;
-  padding: var(--game-safe-top, env(safe-area-inset-top, 0px))
-    var(--game-safe-right, env(safe-area-inset-right, 0px))
-    var(--game-safe-bottom, env(safe-area-inset-bottom, 0px))
-    var(--game-safe-left, env(safe-area-inset-left, 0px));
 }
 .overlay {
   /* Keep the backdrop full bleed. Center the dialog over the same safe

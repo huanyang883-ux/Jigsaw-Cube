@@ -88,16 +88,17 @@ let resizeFrame, viewportWidth, viewportHeight;
 function resize() {
   resizeFrame = null;
   const viewport = $('.viewport'), style = getComputedStyle(viewport);
-  const width = viewport.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-  const height = viewport.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
-  if (!width || !height || document.hidden) return;
+  const fullWidth = viewport.clientWidth, fullHeight = viewport.clientHeight;
+  const width = fullWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+  const height = fullHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+  if (width <= 0 || height <= 0 || document.hidden) return;
+  // The window can change size while its cutout-safe content area stays the same.
+  document.documentElement.style.setProperty('--background-scale', Math.max(fullWidth / 1080, fullHeight / 1920) * 1.08);
   if (width !== viewportWidth || height !== viewportHeight) {
     puzzle?.cancelDrag(); cube?.cancelGesture();
     viewportWidth = width; viewportHeight = height;
     const scale = Math.min(width / 1080, height / 1920);
     document.documentElement.style.setProperty('--stage-scale', scale);
-    // Cover the entire viewport with a little overscan; keep gameplay fully visible.
-    document.documentElement.style.setProperty('--background-scale', Math.max(innerWidth / 1080, innerHeight / 1920) * 1.08);
     $('.stage-shell').style.width = `${1080 * scale}px`;
     $('.stage-shell').style.height = `${1920 * scale}px`;
   }
