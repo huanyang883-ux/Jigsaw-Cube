@@ -46,8 +46,7 @@ export class CubeScene {
     this.camera = new THREE.OrthographicCamera(-540, 540, 960, -960, 1, 6000);
     this.camera.position.set(0, 0, 2500);
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2) * Math.min(innerWidth / 1080, innerHeight / 1920, 1));
-    this.renderer.setSize(1080, 1920, false); this.renderer.setClearColor(0, 0);
+    this.renderer.setClearColor(0, 0);
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.55;
@@ -68,20 +67,45 @@ export class CubeScene {
     for (const texture of this.themeBacks) this.renderer.initTexture(texture);
     await this.renderer.compileAsync(this.scene, this.camera);
     this.pixi = new Application();
-    await this.pixi.init({ width: 1080, height: 1920, backgroundAlpha: 0, antialias: true, resolution: 1, autoStart: false, preference: 'webgl' });
+    await this.pixi.init({ width: 1, height: 1, backgroundAlpha: 0, antialias: true, autoStart: false, preference: 'webgl' });
     this.pixi.canvas.className = 'cube-effects'; this.pixi.canvas.setAttribute('aria-hidden', 'true'); this.host.appendChild(this.pixi.canvas);
     this.resizeRenderers();
     this.decor = new Graphics(); this.particleLayer = new Container(); this.pixi.stage.addChild(this.decor, this.particleLayer);
-    this.drawDecor(); this.events(); this.busy = false; this.lastFrame = performance.now(); this.nextSpin = 0;
-    this.tick(this.lastFrame);
+    this.drawDecor(); this.events(); this.busy = false; this.nextSpin = 0;
+    this.scheduleFrame();
   }
 
   resizeRenderers() {
-    if (!this.renderer) return;
-    const resolution = Math.min(devicePixelRatio, 2) * Math.min(innerWidth / 1080, innerHeight / 1920, 1);
-    this.renderer.setPixelRatio(resolution); this.renderer.setSize(1080, 1920, false);
-    if (this.pixi?.renderer) { this.pixi.renderer.resolution = resolution; this.pixi.renderer.resize(1080, 1920); }
+    if (!this.active || !this.pixi?.renderer) return;
+    const { width, height } = this.host.getBoundingClientRect();
+    if (!width || !height) return;
+    const resolution = Math.max(1 / 1080, Math.min(devicePixelRatio, 2) * Math.min(width / 1080, height / 1920, 1));
+    if (resolution === this.resolution) return;
+    this.resolution = resolution;
+    this.renderer.setDrawingBufferSize(1080, 1920, resolution);
+    this.pixi.renderer.resize(1080, 1920, resolution);
     this.effectsDirty = true;
+  }
+
+  scheduleFrame() {
+    if (this.frame == null && this.active && !document.hidden) this.frame = requestAnimationFrame(this.tick);
+  }
+
+  setActive(active) {
+    this.active = active;
+    if (active && !document.hidden) {
+      this.resizeRenderers();
+      this.scheduleFrame();
+    } else {
+      this.cancelGesture();
+      cancelAnimationFrame(this.frame); this.frame = null; this.lastFrame = null;
+    }
+  }
+
+  cancelGesture() {
+    const pointerId = this.gesture?.pointerId;
+    this.gesture = null;
+    if (pointerId != null && this.host.hasPointerCapture(pointerId)) this.host.releasePointerCapture(pointerId);
   }
 
   async loadFaceArt(theme, face) {
@@ -204,10 +228,12 @@ export class CubeScene {
       if (this.mode === 'home' && tile) this.callbacks.onEnter();
       else if (tile && tile.userData.face === this.face) this.callbacks.onLevel(tile.userData.level);
     }, { signal });
-    const cancel = () => { this.gesture = null; };
+    const cancel = () => this.cancelGesture();
     this.host.addEventListener('pointercancel', cancel, { signal });
     this.host.addEventListener('lostpointercapture', cancel, { signal });
     window.addEventListener('blur', cancel, { signal });
+    document.addEventListener('visibilitychange', () => this.setActive(this.active), { signal });
+    this.pixi.canvas.addEventListener('webglcontextrestored', () => { this.effectsDirty = true; this.scheduleFrame(); }, { signal });
   }
 
   pick(x, y) {
@@ -316,9 +342,10 @@ export class CubeScene {
   }
 
   tick = (time) => {
-    this.frame = requestAnimationFrame(this.tick);
-    const dt = Math.min(.05, (time - this.lastFrame) / 1000); this.lastFrame = time;
+    this.frame = null;
     if (document.hidden || !this.active) return;
+    this.scheduleFrame();
+    const dt = Math.min(.05, (time - (this.lastFrame ?? time)) / 1000); this.lastFrame = time;
     if (this.motion) {
       const motion = this.motion, t = Math.min(1, (time - motion.start) / motion.duration);
       motion.update(t);

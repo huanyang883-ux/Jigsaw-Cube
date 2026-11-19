@@ -8,6 +8,7 @@ import { cardShapeUniforms, updateCardShape, createCardFaceMaterial, createCardS
 import { createMergeFlashMaterial, mergeFlashEnvelope, MERGE_FLASH_DURATION } from './merge-flash.js';
 
 const easeOut = (t) => 1 - (1 - t) ** 3;
+const DRAG_SHADOW_Z = .12;
 
 export class PuzzleRenderer {
   constructor(host, positions, callbacks, theme = 0) {
@@ -36,7 +37,6 @@ export class PuzzleRenderer {
     this.camera = new THREE.OrthographicCamera(-extent, extent, extent, -extent, .1, 40);
     this.camera.position.z = 12;
     this.three = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' });
-    this.three.setPixelRatio(Math.min(devicePixelRatio, 2));
     this.three.setClearColor(0x000000, 0);
     this.three.outputColorSpace = THREE.SRGBColorSpace;
     this.three.domElement.className = 'puzzle-canvas';
@@ -45,7 +45,7 @@ export class PuzzleRenderer {
     this.host.appendChild(this.three.domElement);
 
     this.pixi = new Application();
-    await this.pixi.init({ width: 500, height: 500, backgroundAlpha: 0, antialias: true, resolution: Math.min(devicePixelRatio, 2), autoDensity: true, autoStart: false, preference: 'webgl' });
+    await this.pixi.init({ width: 1, height: 1, backgroundAlpha: 0, antialias: true, autoStart: false, preference: 'webgl' });
     this.pixi.canvas.className = 'effects-canvas';
     this.pixi.canvas.setAttribute('aria-hidden', 'true');
     this.host.appendChild(this.pixi.canvas);
@@ -90,13 +90,12 @@ export class PuzzleRenderer {
       this.scene.add(shadow, mesh);
     }
     this.updateJoinedEdges();
-    this.resizeObserver = new ResizeObserver(() => { this.cancelDrag(); this.resize(); });
+    this.resizeObserver = new ResizeObserver(() => this.resize());
     this.resizeObserver.observe(this.host);
     this.resize();
     this.events();
     this.callbacks.onReady?.();
     const entrance = this.setPositions(this.positions, { intro: true });
-    this.lastFrame = performance.now(); this.animate(this.lastFrame);
     await entrance;
   }
 
@@ -129,14 +128,25 @@ export class PuzzleRenderer {
   world(cell) { const p = xy(cell, this.size), half = (this.size - 1) / 2; return { x: p.x - half, y: (half - p.y) * this.cellHeight }; }
   screen(world) { return { x: (world.x / this.worldSize + .5) * this.width, y: (.5 - world.y / this.worldHeight) * this.height }; }
   resize() {
-    if (!this.three || !this.pixi?.renderer) return;
-    this.width = this.host.clientWidth; this.height = this.host.clientHeight;
-    const scale = this.host.getBoundingClientRect().width / this.width;
-    const resolution = Math.min(devicePixelRatio, 2) * scale;
-    this.three.setPixelRatio(resolution);
-    this.three.setSize(this.width, this.height, false);
-    this.pixi.renderer.resolution = resolution;
-    this.pixi.renderer.resize(this.width, this.height);
+    if (!this.three || !this.pixi?.renderer || document.hidden) return;
+    const width = this.host.clientWidth, height = this.host.clientHeight;
+    const rect = this.host.getBoundingClientRect();
+    if (!width || !height || !rect.width || !rect.height) return;
+    const resolution = Math.max(1 / Math.min(width, height), Math.min(devicePixelRatio, 2) * rect.width / width);
+    if (width === this.width && height === this.height && resolution === this.resolution) return;
+    this.cancelDrag();
+    this.width = width; this.height = height; this.resolution = resolution;
+    this.three.setDrawingBufferSize(width, height, resolution);
+    this.pixi.renderer.resize(width, height, resolution);
+    this.invalidate();
+  }
+  scheduleFrame() {
+    if (this.frame == null && !document.hidden) this.frame = requestAnimationFrame(this.animate);
+  }
+  invalidate(board = true, effects = true) {
+    this.boardDirty ||= board;
+    this.effectsDirty ||= effects;
+    this.scheduleFrame();
   }
   eventWorld(event) {
     const rect = this.three.domElement.getBoundingClientRect();
@@ -178,8 +188,16 @@ export class PuzzleRenderer {
     canvas.addEventListener('lostpointercapture', () => this.cancelDrag(), { signal });
     window.addEventListener('blur', () => this.cancelDrag(), { signal });
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) this.cancelDrag();
+      if (document.hidden) {
+        this.cancelDrag();
+        cancelAnimationFrame(this.frame); this.frame = null; this.lastFrame = null;
+      } else {
+        this.resize();
+        this.invalidate();
+      }
     }, { signal });
+    canvas.addEventListener('webglcontextrestored', () => this.invalidate(true, false), { signal });
+    this.pixi.canvas.addEventListener('webglcontextrestored', () => this.invalidate(false, true), { signal });
     this.host.addEventListener('keydown', (e) => {
       const directions = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
       if (![...Object.keys(directions), ' ', 'Enter', 'Escape'].includes(e.key)) return;
@@ -196,8 +214,9 @@ export class PuzzleRenderer {
         }
       } else if (this.drag) this.endDrag();
       else this.startDrag(this.positions.indexOf(this.keyCell), { x: 0, y: 0 }, null);
+      this.invalidate(false, true);
     }, { signal });
-    this.host.addEventListener('blur', () => { this.cancelDrag(); this.keyboard = false; }, { signal });
+    this.host.addEventListener('blur', () => { this.cancelDrag(); this.keyboard = false; this.invalidate(false, true); }, { signal });
   }
 
   startDrag(id, start, pointerId) {
@@ -222,17 +241,24 @@ export class PuzzleRenderer {
     this.drag.ids.forEach((id) => { const p = this.world(this.positions[id]); pivot.x += p.x; pivot.y += p.y; });
     pivot.divideScalar(this.drag.ids.length);
     const nudgeX = Math.tanh(excessX) * .045, nudgeY = Math.tanh(excessY) * .045 * this.cellHeight;
-    this.drag.ids.forEach((id) => {
-      const p = this.world(this.positions[id]), card = this.cards[id];
-      const offset = new THREE.Vector3(p.x - pivot.x, p.y - pivot.y, 0).applyQuaternion(tilt);
-      card.mesh.position.set(pivot.x + offset.x + d.x + nudgeX, pivot.y + offset.y - d.y * this.cellHeight - nudgeY, .23 + offset.z);
-      card.mesh.quaternion.copy(tilt);
-      card.shadow.position.set(p.x + d.x + .04, p.y - d.y * this.cellHeight - .06, .12);
-      card.shadow.material.opacity = .17;
+    const pieces = this.drag.ids.map((id) => {
+      const p = this.world(this.positions[id]);
+      return { p, card: this.cards[id], offset: new THREE.Vector3(p.x - pivot.x, p.y - pivot.y, 0).applyQuaternion(tilt) };
     });
+    const depthAxis = new THREE.Vector3(0, 0, 1).applyQuaternion(tilt.clone().invert());
+    const halfDepth = .501 * (Math.abs(depthAxis.x) + this.cellHeight * Math.abs(depthAxis.y)) + .032;
+    const lift = Math.max(.23, DRAG_SHADOW_Z + .015 + halfDepth - Math.min(...pieces.map(({ offset }) => offset.z)));
+    for (const { p, card, offset } of pieces) {
+      card.mesh.position.set(pivot.x + offset.x + d.x + nudgeX, pivot.y + offset.y - d.y * this.cellHeight - nudgeY, lift + offset.z);
+      card.mesh.quaternion.copy(tilt);
+      card.shadow.position.set(p.x + d.x + .04, p.y - d.y * this.cellHeight - .06, DRAG_SHADOW_Z);
+      card.shadow.material.opacity = .17;
+    }
+    this.invalidate();
   }
   releaseCapture() {
     const id = this.drag?.pointerId;
+    if (this.drag) this.invalidate(false, true);
     this.drag = null;
     if (id !== null && id !== undefined && this.three.domElement.hasPointerCapture(id)) this.three.domElement.releasePointerCapture(id);
     this.three.domElement.style.cursor = 'grab';
@@ -278,10 +304,11 @@ export class PuzzleRenderer {
     this.busy = true;
     return new Promise((resolve) => {
       this.animation = { start: performance.now(), duration: instant || this.reducedMotion ? 1 : intro ? INTRO_DURATION : 230, sources, rotations, pivots, intro, introPlan, resolve };
+      this.invalidate();
     });
   }
 
-  showHint(hint) { this.clearMergeFeedback(); this.hint = hint; }
+  showHint(hint) { this.clearMergeFeedback(); this.hint = hint; this.invalidate(); }
 
   clearMergeFeedback() {
     if (this.mergePulse) for (const { ids } of this.mergePulse.groups) for (const id of ids) {
@@ -320,6 +347,7 @@ export class PuzzleRenderer {
       return { ids: [...ids], center: center.divideScalar(ids.length) };
     });
     this.mergePulse = { groups: pulses, start };
+    this.invalidate(true, false);
   }
 
   celebrate() {
@@ -333,6 +361,7 @@ export class PuzzleRenderer {
       this.particleLayer.addChild(g);
       this.particles.push({ g, vx: (Math.random() - .5) * 65, vy: 35 + Math.random() * 80, life: 4, spin: (Math.random() - .5) * 5 });
     }
+    this.invalidate(false, true);
   }
 
   drawOverlay(time) {
@@ -374,9 +403,13 @@ export class PuzzleRenderer {
   }
 
   animate = (time) => {
-    this.frame = requestAnimationFrame(this.animate);
-    const dt = Math.min((time - this.lastFrame) / 1000, .05); this.lastFrame = time;
+    this.frame = null;
     if (document.hidden) return;
+    const dt = Math.min((time - (this.lastFrame ?? time)) / 1000, .05); this.lastFrame = time;
+    const renderBoard = this.boardDirty || this.animation || this.mergePulse;
+    const drawGuides = this.effectsDirty || this.hint || this.animation?.intro;
+    const renderEffects = drawGuides || this.particles.length > 0;
+    this.boardDirty = this.effectsDirty = false;
     if (this.animation) {
       const animation = this.animation;
       const t = Math.max(0, Math.min((time - animation.start) / animation.duration, 1));
@@ -435,9 +468,11 @@ export class PuzzleRenderer {
       p.g.alpha = Math.min(1, p.life / 1.4);
       if (p.life <= 0) { this.particleLayer.removeChild(p.g); p.g.destroy(); this.particles.splice(i, 1); }
     }
-    this.drawOverlay(time);
-    this.three.render(this.scene, this.camera);
-    this.pixi.render();
+    if (drawGuides) this.drawOverlay(time);
+    if (renderBoard) this.three.render(this.scene, this.camera);
+    if (renderEffects) this.pixi.render();
+    if (this.animation || this.mergePulse || this.hint || this.particles.length) this.scheduleFrame();
+    else this.lastFrame = null;
   };
 
   destroy() {

@@ -81,18 +81,26 @@ function guideTarget(kind) {
   return { from: point(from), to: point({ x: from.x + move.dx, y: from.y - move.dy * puzzle.cellHeight }) };
 }
 
+let resizeFrame, viewportWidth, viewportHeight;
 function resize() {
-  puzzle?.cancelDrag();
-  if (cube) cube.gesture = null;
-  const scale = Math.min(innerWidth / 1080, innerHeight / 1920);
-  document.documentElement.style.setProperty('--stage-scale', scale);
-  // Cover the entire viewport with a little overscan; keep gameplay fully visible.
-  document.documentElement.style.setProperty('--background-scale', Math.max(innerWidth / 1080, innerHeight / 1920) * 1.08);
-  $('.stage-shell').style.width = `${1080 * scale}px`;
-  $('.stage-shell').style.height = `${1920 * scale}px`;
+  resizeFrame = null;
+  const width = innerWidth, height = innerHeight;
+  if (!width || !height || document.hidden) return;
+  if (width !== viewportWidth || height !== viewportHeight) {
+    puzzle?.cancelDrag(); cube?.cancelGesture();
+    viewportWidth = width; viewportHeight = height;
+    const scale = Math.min(width / 1080, height / 1920);
+    document.documentElement.style.setProperty('--stage-scale', scale);
+    // Cover the entire viewport with a little overscan; keep gameplay fully visible.
+    document.documentElement.style.setProperty('--background-scale', Math.max(width / 1080, height / 1920) * 1.08);
+    $('.stage-shell').style.width = `${1080 * scale}px`;
+    $('.stage-shell').style.height = `${1920 * scale}px`;
+  }
   cube?.resizeRenderers(); puzzle?.resize();
 }
-window.addEventListener('resize', resize); resize();
+const queueResize = () => { if (resizeFrame == null) resizeFrame = requestAnimationFrame(resize); };
+window.addEventListener('resize', queueResize); resize();
+document.addEventListener('visibilitychange', queueResize);
 
 function setSettingsOpen(open, restoreFocus = false) {
   if (open && (!ready || busy || cube?.busy || !overlay.hidden)) return;
@@ -233,7 +241,7 @@ function savePuzzle() {
 async function enterLevel(level) {
   if (busy || mode !== 'chapters' || face >= unlockedFaces(progress, theme) || level < 0 || level >= faceSize(theme)) return;
   remember('enterLevel');
-  busy = true; mode = 'puzzle'; cube.active = false;
+  busy = true; mode = 'puzzle'; cube.setActive(false);
   const saved = progress.puzzles[levelKey(theme, face, level)];
   session = { level, art: levelArt(theme, face, level), positions: saved?.positions ?? initialLayout(theme, face, level),
     layoutVersion: saved?.layoutVersion ?? levelConfig(theme, face, level).layoutVersion,
@@ -283,7 +291,7 @@ async function leavePuzzle() {
   if (mode !== 'puzzle' || busy) return;
   busy = true; clearTimeout(winDelay); clearTimeout(hintDelay); hintVersion++; hintWorker?.terminate(); hintWorker = null;
   savePuzzle(); closeOverlay(); const finished = session.completed, level = session.level, unlock = session.unlock;
-  puzzle.destroy(); puzzle = null; session = null; mode = 'chapters'; cube.active = true; refresh();
+  puzzle.destroy(); puzzle = null; session = null; mode = 'chapters'; refresh(); cube.setActive(true);
   if (finished) {
     await cube.reveal(face, level);
     if (unlock?.newFace) {
@@ -480,5 +488,5 @@ async function init() {
     entrance: () => puzzle?.animation?.intro ? { elapsed: performance.now() - puzzle.animation.start, duration: puzzle.animation.duration, cards: structuredClone(puzzle.animation.introPlan) } : null,
   };
 }
-if (import.meta.hot) import.meta.hot.dispose(() => { clearTimeout(winDelay); clearTimeout(hintDelay); closeOverlay(); hintWorker?.terminate(); guide?.destroy(); puzzle?.destroy(); cube?.destroy(); audio.destroy(); });
+if (import.meta.hot) import.meta.hot.dispose(() => { window.removeEventListener('resize', queueResize); document.removeEventListener('visibilitychange', queueResize); cancelAnimationFrame(resizeFrame); clearTimeout(winDelay); clearTimeout(hintDelay); closeOverlay(); hintWorker?.terminate(); guide?.destroy(); puzzle?.destroy(); cube?.destroy(); audio.destroy(); });
 export async function startGame() { await init(); }
