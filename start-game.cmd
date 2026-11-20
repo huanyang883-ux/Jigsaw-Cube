@@ -20,5 +20,5 @@ if errorlevel 1 (
   pause
   exit /b 1
 )
-node scripts/serve.mjs --open
+node scripts/serve.mjs --release --open
 if errorlevel 1 pause

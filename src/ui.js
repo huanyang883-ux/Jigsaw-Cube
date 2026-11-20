@@ -9,7 +9,7 @@ export function mountUI() {
       <div class="background-doodle doodle-one" aria-hidden="true">${icon('spark')}</div><div class="background-doodle doodle-two" aria-hidden="true">${icon('flower')}</div>
     </div></div>`).join('')}</div><div class="stage-shell"><main class="game-stage" id="game" data-mode="home" aria-label="魔方拼图">
       <header class="top-bar">
-        <div class="puzzle-settings"><button id="settings" class="icon-button" aria-label="Settings" aria-expanded="false" aria-controls="settings-menu">${icon('gear')}</button><div id="settings-menu" class="settings-menu" role="group" aria-label="Settings" aria-hidden="true" inert><button id="sound" class="icon-button" aria-label="Sound on">${icon('mute')}</button>${TEST_CONTROLS ? `<button id="reset-account" class="icon-button" aria-label="Reset account" title="Reset account" disabled>${icon('reset')}</button><button id="complete-all" class="icon-button" aria-label="Complete all levels" title="Complete all levels" disabled>${icon('trophy')}</button>` : ''}</div></div>
+        <div class="puzzle-settings"><button id="settings" class="icon-button" aria-label="Settings" aria-expanded="false" aria-controls="settings-menu">${icon('gear')}</button><div id="settings-menu" class="settings-menu" role="group" aria-label="Settings" aria-hidden="true" inert><button id="sound" class="icon-button" aria-label="Sound on">${icon('mute')}</button>${TEST_CONTROLS ? `<button id="reset-account" class="icon-button" aria-label="Reset current mode" title="Reset current mode" disabled>${icon('reset')}</button><button id="complete-all" class="icon-button" aria-label="Complete all levels" title="Complete all levels" disabled>${icon('trophy')}</button>` : ''}</div></div>
         <div class="puzzle-progress" role="progressbar" aria-label="Puzzle progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><div id="puzzle-fill"></div></div>
         <div class="puzzle-tools" hidden>
           <button id="hint" class="icon-button tool accent" aria-label="Hint">${icon('bulb')}<span class="prop-count" id="hint-count" aria-hidden="true"></span></button>
@@ -29,6 +29,7 @@ export function mountUI() {
       </section>
       <section id="puzzle-screen" class="screen" aria-label="拼图关卡" hidden>
         <div class="puzzle-frame"><div id="puzzle-board" tabindex="0" role="application" aria-label="拖动拼片交换位置。方向键选择，空格拿起，回车放下。"></div></div>
+        <div id="jigsaw-workspace" hidden></div>
       </section>
       <div id="hand-guide" class="hand-guide" aria-hidden="true" hidden><img alt="" draggable="false"/></div>
       <div class="bottom-grip" aria-hidden="true"></div>

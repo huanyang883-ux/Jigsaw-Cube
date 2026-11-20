@@ -1,7 +1,7 @@
 export const HAND_ART = '/assets/ui/guide-hand.webp?v=069c618d42ca';
 const activeLoads = new Set();
 
-export async function loadImageAsset(url, onProgress = () => {}, { signal, background = false } = {}) {
+export async function loadImageAsset(url, onProgress = () => {}, { signal, background = false, keepSource = false } = {}) {
   url = new URL(url, location.href).href;
   if (!background) window.puzzleLoading.track(url);
   const abort = new AbortController();
@@ -32,6 +32,9 @@ export async function loadImageAsset(url, onProgress = () => {}, { signal, backg
     await image.decode();
     if (abort.signal.aborted) throw abort.signal.reason;
     onProgress(1);
+    // SVG fragments can reuse this decoded photo's URL until the board is destroyed.
+    // With keepSource, the caller owns image.src and revokes it on teardown.
+    if (keepSource) objectURL = null;
     return image;
   } catch (cause) {
     const error = new Error('Asset could not be downloaded or decoded', { cause }); error.resourceUrl = url;

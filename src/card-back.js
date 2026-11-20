@@ -48,8 +48,7 @@ function drawGlobe(c, art) {
 
 // Each theme shares its emblem and palette across cube stickers and puzzle cards.
 // Portrait cards extend the frame while keeping the emblem at its natural ratio.
-export function createBackTexture(aspect = 1, theme = 0) {
-  const art = THEME_ART[theme];
+export function createBackTexture(aspect = 1, theme = 0, art = THEME_ART[theme]) {
   const canvas = document.createElement('canvas');
   const width = 512, height = Math.round(width / aspect);
   canvas.width = width; canvas.height = height;

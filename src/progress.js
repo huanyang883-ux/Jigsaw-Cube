@@ -9,7 +9,7 @@ import { THEME_ART } from './theme-art.js';
 
 export const saveSlot = (search = '') => {
   const trial = new URLSearchParams(search).get('trial');
-  return ['first12', 'all78', 'continents'].includes(trial) ? `sweet-cube:trial:${trial}:v1` : 'sweet-cube:progress:v2';
+  return ['first12', 'all78', 'continents', 'jigsaw'].includes(trial) ? `sweet-cube:trial:${trial}:v1` : 'sweet-cube:progress:v2';
 };
 export const SAVE_KEY = saveSlot(typeof location === 'undefined' ? '' : location.search);
 export const WHITE_ART = '/assets/white.svg';
@@ -41,6 +41,13 @@ export function levelAspect(theme, face, level) {
   return asset ? asset.width / asset.height : 2 / 3;
 }
 export const INITIAL_PROPS = Object.freeze({ hint: 28, preview: 28 });
+export function restoreProps(raw) {
+  return Object.fromEntries(Object.entries(INITIAL_PROPS).map(([type, initial]) => {
+    const count = raw?.[type];
+    // Older saves have no inventory. Preserve zero; never refill on reload.
+    return [type, count === undefined ? initial : Number.isFinite(count) ? Math.max(0, Math.min(initial, Math.floor(count))) : 0];
+  }));
+}
 export const freshProgress = () => ({ version: 2, continentOrderVersion: CONTINENT_ORDER_VERSION, completed: THEMES.filter(t => !t.comingSoon).map(t => Array(6 * t.order ** 2).fill(false)), puzzles: {}, sound: false, props: { ...INITIAL_PROPS }, guides: freshGuides(), records: {} });
 export function completeAllLevels(progress) {
   for (const levels of progress.completed) levels.fill(true);
@@ -134,11 +141,7 @@ export function restoreProgress(raw) {
     }
   }
   result.sound = raw.sound === true;
-  for (const [type, initial] of Object.entries(INITIAL_PROPS)) {
-    const count = raw.props?.[type];
-    // Older v2 saves have no inventory. Preserve zero; never refill on reload.
-    result.props[type] = count === undefined ? initial : Number.isFinite(count) ? Math.max(0, Math.min(initial, Math.floor(count))) : 0;
-  }
+  result.props = restoreProps(raw.props);
   for (const [key, value] of Object.entries(raw.puzzles ?? {})) {
     if (!/^\d+:[0-5]:\d+$/.test(key)) continue;
     const [theme, face, level] = key.split(':').map(Number);
@@ -161,13 +164,14 @@ export function restoreProgress(raw) {
     if (gridSize) result.records[key] = { ...restoreStats(value), gridSize, layoutVersion: version, completedAt: Number.isFinite(value.completedAt) ? value.completedAt : 0 };
   }
   for (const action of GUIDE_ACTIONS) result.guides[action] = raw.guides?.[action] === true;
+  if (raw.guides) return result;
   // Older saves can prove entry / play experience, but never prove manual orbit.
   const hasCompletion = result.completed.some((theme) => theme.some(Boolean));
   const savedPuzzles = Object.entries(result.puzzles);
   if (hasCompletion || savedPuzzles.length) { result.guides.enterChapter = true; result.guides.enterLevel = true; }
-  if (!raw.guides && (hasCompletion || savedPuzzles.some(([key, value]) => {
+  if (hasCompletion || savedPuzzles.some(([key, value]) => {
     const initial = (value.layoutVersion === 1 ? legacyInitialLayout : initialLayout)(...key.split(':').map(Number));
     return value.positions.some((cell, id) => cell !== initial[id]);
-  }))) result.guides.dragPuzzle = true;
+  })) result.guides.dragPuzzle = true;
   return result;
 }

@@ -25,6 +25,7 @@ test('complete-all unlocks every playable level, clears resumptions and preserve
   assert.equal(themeUnlocked(p, 3), false, 'the fifth cube stays unavailable');
   const once = structuredClone(p); completeAllLevels(p); assert.deepEqual(p, once);
   assert.deepEqual(restoreProgress(p).records, before.records);
+  assert.deepEqual(restoreProgress(p).guides, before.guides, 'a trophy does not teach gestures after reload');
 });
 
 test('all animal version-3 sessions and records survive version-4 no-join layouts', () => {

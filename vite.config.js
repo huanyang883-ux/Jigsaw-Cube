@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 
-export default defineConfig({
+export default defineConfig(({ command, isPreview }) => ({
+  mode: command === 'serve' && !isPreview ? 'test' : undefined,
   build: {
     rollupOptions: {
       output: {
@@ -11,4 +12,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

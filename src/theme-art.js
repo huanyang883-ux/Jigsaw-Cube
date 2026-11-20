@@ -21,3 +21,27 @@ export const THEME_ART = [
     ink: '#9077ab', fill: '#b59bcf', wrapper: '#cab7df', highlight: '#f6edfb', dots: '#b8a3cc',
   },
 ];
+
+// Brighter printed sticker inks and coordinating shells for the jigsaw cubes.
+export const JIGSAW_THEME_ART = [
+  {
+    icon: 'candy', body: '#328e88', base: '#91e1c8', stripe: '#65c5ae',
+    panel: '#4fc4b0', border: '#299b8c', medallion: '#f7ffd9',
+    ink: '#2b6a68', fill: '#ff9876', wrapper: '#ffcd79', highlight: '#fff6d1', dots: '#2f9d8c',
+  },
+  {
+    icon: 'paw', body: '#ba715f', base: '#ffc1a3', stripe: '#ed9d80',
+    panel: '#ff9f83', border: '#d87869', medallion: '#fff1cd',
+    ink: '#934d49', fill: '#d57464', wrapper: '#f5b27a', highlight: '#fff0bd', dots: '#bf7364',
+  },
+  {
+    icon: 'globe', body: '#427baf', base: '#a3dded', stripe: '#76c0dc',
+    panel: '#70bcdf', border: '#408ebc', medallion: '#eefde9',
+    ink: '#2f648c', fill: '#78c7e3', wrapper: '#86d4a0', highlight: '#f5ffcf', dots: '#408ebc',
+  },
+  {
+    icon: 'cube', body: '#865ba9', base: '#e1c1f2', stripe: '#cba1e4',
+    panel: '#c89ce3', border: '#a97ac4', medallion: '#fff2e6',
+    ink: '#784c91', fill: '#c59ae1', wrapper: '#e7a6c0', highlight: '#ffe3ab', dots: '#aa79c5',
+  },
+];

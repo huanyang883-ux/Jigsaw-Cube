@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="jigsaw-medallion" viewBox="0 0 224 224">
+  <defs>
+    <linearGradient id="badge-finish" x1="0%" y1="0%" x2="60%" y2="100%">
+      <stop stop-color="var(--scene-base)"/>
+      <stop offset="1" stop-color="var(--scene-mint)"/>
+    </linearGradient>
+    <path id="piece" d="M37 45h39c6 0 7-4 4-10-9-17 0-30 17-30s27 13 18 30c-3 6-2 10 4 10h39q12 0 12 12v31c0 6 4 7 10 4 18-9 32 0 32 17s-14 27-32 18c-6-3-10-2-10 4v43q0 12-12 12h-38c-7 0-8-4-5-10 8-16 1-29-16-29s-25 13-17 29c3 6 2 10-5 10H37q-12 0-12-12v-37c0-6 4-7 10-4 17 9 31 0 31-17s-14-26-31-17c-6 3-10 2-10-4V57q0-12 12-12Z"/>
+  </defs>
+  <use href="#piece" transform="translate(0 7)" fill="var(--badge-edge)" stroke="var(--badge-edge)" stroke-width="3"/>
+  <use href="#piece" fill="url(#badge-finish)" stroke="var(--badge-edge)" stroke-width="3"/>
+  <path d="M34 84V59q0-6 7-6h27m17-32q2-9 12-9" fill="none" stroke="white" opacity=".65" stroke-linecap="round" stroke-width="5"/>
+</svg>

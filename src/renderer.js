@@ -1,12 +1,13 @@
 import * as THREE from 'three';
 import { stageResolution } from './render-resolution.js';
-import { Application, Graphics, Container } from 'pixi.js';
+import { Application, Graphics } from 'pixi.js';
 import { boardSize, xy, groupFor, groups, linked, clampDelta } from './puzzle.js';
 import { pieceBounds } from './piece-geometry.js';
 import { createIntroPlan, introPose, INTRO_DURATION } from './intro.js';
 import { createBackTexture } from './card-back.js';
 import { cardShapeUniforms, updateCardShape, createCardFaceMaterial, createCardShadowMaterial, createCardBodyGeometry, SHADOW_REACH } from './card-surface.js';
 import { createMergeFlashMaterial, mergeFlashEnvelope, MERGE_FLASH_DURATION } from './merge-flash.js';
+import { WinConfetti } from './win-confetti.js';
 
 const easeOut = (t) => 1 - (1 - t) ** 3;
 const DRAG_SHADOW_Z = .12;
@@ -22,7 +23,6 @@ export class PuzzleRenderer {
     this.theme = theme;
     this.cards = [];
     this.mergePulse = null;
-    this.particles = [];
     this.busy = true;
     this.blocked = false;
     this.reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -51,8 +51,8 @@ export class PuzzleRenderer {
     this.pixi.canvas.setAttribute('aria-hidden', 'true');
     this.host.appendChild(this.pixi.canvas);
     this.guides = new Graphics();
-    this.particleLayer = new Container();
-    this.pixi.stage.addChild(this.guides, this.particleLayer);
+    this.pixi.stage.addChild(this.guides);
+    this.confetti = new WinConfetti(this.host);
 
     const base = typeof art === 'string' ? await new THREE.TextureLoader().loadAsync(art) : new THREE.Texture(art);
     base.needsUpdate = true;
@@ -140,6 +140,7 @@ export class PuzzleRenderer {
     this.width = width; this.height = height; this.resolution = resolution;
     this.three.setDrawingBufferSize(width, height, resolution);
     this.pixi.renderer.resize(width, height, resolution);
+    this.confetti.resize(width, height, resolution);
     this.invalidate();
   }
   scheduleFrame() {
@@ -192,7 +193,7 @@ export class PuzzleRenderer {
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         this.cancelDrag();
-        cancelAnimationFrame(this.frame); this.frame = null; this.lastFrame = null;
+        cancelAnimationFrame(this.frame); this.frame = null;
       } else {
         this.resize();
         this.invalidate();
@@ -354,17 +355,7 @@ export class PuzzleRenderer {
   }
 
   celebrate() {
-    if (this.reducedMotion) return;
-    const palette = [0xa4bd7b, 0xf1c275, 0xe8ab90, 0xa6c9d2, 0xd8ca87];
-    for (let i = 0; i < 90; i++) {
-      const g = new Graphics();
-      if (i % 3 === 0) g.star(0, 0, 4, 5, 2).fill(palette[i % palette.length]);
-      else g.roundRect(-2.5, -4, 5, 8, 2).fill(palette[i % palette.length]);
-      g.x = Math.random() * this.width; g.y = -12 - Math.random() * 80;
-      this.particleLayer.addChild(g);
-      this.particles.push({ g, vx: (Math.random() - .5) * 65, vy: 35 + Math.random() * 80, life: 4, spin: (Math.random() - .5) * 5 });
-    }
-    this.invalidate(false, true);
+    this.confetti.start();
   }
 
   drawOverlay(time) {
@@ -408,10 +399,8 @@ export class PuzzleRenderer {
   animate = (time) => {
     this.frame = null;
     if (document.hidden) return;
-    const dt = Math.min((time - (this.lastFrame ?? time)) / 1000, .05); this.lastFrame = time;
     const renderBoard = this.boardDirty || this.animation || this.mergePulse;
     const drawGuides = this.effectsDirty || this.hint;
-    const renderEffects = drawGuides || this.particles.length > 0;
     this.boardDirty = this.effectsDirty = false;
     if (this.animation) {
       const animation = this.animation;
@@ -467,21 +456,15 @@ export class PuzzleRenderer {
       }
       if (t === 1) this.clearMergeFeedback();
     }
-    for (let i = this.particles.length - 1; i >= 0; i--) {
-      const p = this.particles[i]; p.life -= dt; p.vy += 22 * dt;
-      p.g.x += p.vx * dt; p.g.y += p.vy * dt; p.g.rotation += p.spin * dt;
-      p.g.alpha = Math.min(1, p.life / 1.4);
-      if (p.life <= 0) { this.particleLayer.removeChild(p.g); p.g.destroy(); this.particles.splice(i, 1); }
-    }
     if (drawGuides) this.drawOverlay(time);
     if (renderBoard) this.three.render(this.scene, this.camera);
-    if (renderEffects) this.pixi.render();
-    if (this.animation || this.mergePulse || this.hint || this.particles.length) this.scheduleFrame();
-    else this.lastFrame = null;
+    if (drawGuides) this.pixi.render();
+    if (this.animation || this.mergePulse || this.hint) this.scheduleFrame();
   };
 
   destroy() {
     cancelAnimationFrame(this.frame);
+    this.confetti?.destroy();
     this.abort.abort();
     this.resizeObserver?.disconnect();
     this.animation?.resolve();

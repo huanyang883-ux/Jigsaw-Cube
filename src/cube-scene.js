@@ -3,7 +3,7 @@ import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.j
 import { stageResolution } from './render-resolution.js';
 import { THEMES, isComplete, faceSize, themeUnlocked, currentTheme, currentFace } from './progress.js';
 import { createBackTexture } from './card-back.js';
-import { THEME_ART } from './theme-art.js';
+import { THEME_ART, JIGSAW_THEME_ART } from './theme-art.js';
 import { loadImageAsset } from './preload.js';
 
 const FACE_ROTATIONS = [[0, 0, 0], [0, Math.PI / 2, 0], [0, Math.PI, 0], [0, -Math.PI / 2, 0], [-Math.PI / 2, 0, 0], [Math.PI / 2, 0, 0]];
@@ -56,8 +56,9 @@ function arrowGeometry() {
 }
 
 export class CubeScene {
-  constructor(host, progress, callbacks) {
+  constructor(host, progress, callbacks, gameplay = 'A') {
     this.host = host; this.progress = progress; this.callbacks = callbacks;
+    this.palette = gameplay === 'B' ? JIGSAW_THEME_ART : THEME_ART;
     this.mode = 'home'; this.theme = currentTheme(progress); this.face = currentFace(progress, this.theme); this.active = true;
     this.busy = true; this.particles = []; this.models = []; this.tiles = [];
     this.reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -81,7 +82,7 @@ export class CubeScene {
     this.scene.add(new THREE.HemisphereLight(0xfffcf4, 0xc3bcad, 1.15));
     const key = new THREE.DirectionalLight(0xfff8ed, 1.8); key.position.set(-900, 1400, 1800); this.scene.add(key);
     const fill = new THREE.DirectionalLight(0xd5e9ed, .65); fill.position.set(1000, -300, 800); this.scene.add(fill);
-    this.themeBacks = THEMES.map((_, theme) => createBackTexture(1, theme));
+    this.themeBacks = this.palette.map((art, theme) => createBackTexture(1, theme, art));
     this.art = new Map();
     for (let i = 0; i < THEMES.length; i++) this.models.push(this.buildCube(i));
     this.models.forEach((cube, i) => { cube.visible = i === this.theme; this.scene.add(cube); });
@@ -269,9 +270,18 @@ export class CubeScene {
     if (!this.faceArtJob && next) this.requestFaceArt(next.theme, next.face);
   }
 
-  resetProgress(progress) {
+  resetProgress(progress, gameplay = 'A') {
     this.cancelFaceArt(); this.failedFaceArt.clear();
     this.progress = progress; this.face = currentFace(progress, this.theme); this.gesture = null;
+    const palette = gameplay === 'B' ? JIGSAW_THEME_ART : THEME_ART;
+    if (palette !== this.palette) {
+      this.palette = palette;
+      for (const texture of this.themeBacks) texture.dispose();
+      this.themeBacks = palette.map((art, theme) => {
+        this.models[theme].userData.shellMaterial.color.set(art.body);
+        return createBackTexture(1, theme, art);
+      });
+    }
     for (const tile of this.tiles.flat()) {
       const { theme, face, level } = tile.userData;
       tile.userData.complete = isComplete(progress, theme, face, level);
@@ -285,7 +295,8 @@ export class CubeScene {
   buildCube(theme) {
     const cube = new THREE.Group(), n = THEMES[theme].order, unit = 1 / n;
     const bodyGeo = new RoundedBoxGeometry(unit * .972, unit * .972, unit * .972, 3, unit * .075);
-    const bodyMaterial = new THREE.MeshStandardMaterial({ color: THEME_ART[theme].body, roughness: .65, metalness: 0 });
+    const bodyMaterial = new THREE.MeshStandardMaterial({ color: this.palette[theme].body, roughness: .65, metalness: 0 });
+    cube.userData.shellMaterial = bodyMaterial;
     // All shell blocks share one geometry/material and one draw submission.
     const body = new THREE.InstancedMesh(bodyGeo, bodyMaterial, n ** 3 - Math.max(0, n - 2) ** 3);
     const matrix = new THREE.Matrix4(); let instance = 0;
@@ -317,8 +328,14 @@ export class CubeScene {
     return cube;
   }
 
+  arrowTint() {
+    const art = this.palette[this.arrowTheme];
+    if (this.mode === 'home' && !themeUnlocked(this.progress, this.arrowTheme)) return art.border;
+    return this.palette === JIGSAW_THEME_ART ? art.panel : art.fill;
+  }
+
   makeArrows() {
-    this.arrowTheme = this.theme; this.arrowPalette = THEME_ART[this.theme].fill;
+    this.arrowTheme = this.theme; this.arrowPalette = this.arrowTint();
     this.arrowColor = new THREE.Color(this.arrowPalette);
     this.arrowFrom = this.arrowColor.clone(); this.arrowTarget = this.arrowColor.clone(); this.arrowColorStarted = 0;
     const geo = arrowGeometry(), material = new THREE.MeshStandardMaterial({ color: this.arrowColor, roughness: .43, metalness: .04 });
@@ -541,8 +558,7 @@ export class CubeScene {
       if (speed > .00001) this.current.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(this.spin.clone().normalize(), speed * dt));
       this.current.position.y = 35 + Math.sin(time * .00065) * 11;
     }
-    const art = THEME_ART[this.arrowTheme];
-    const palette = this.mode === 'home' && !themeUnlocked(this.progress, this.arrowTheme) ? art.border : art.fill;
+    const palette = this.arrowTint();
     if (palette !== this.arrowPalette) {
       this.arrowPalette = palette; this.arrowFrom.copy(this.arrowColor); this.arrowTarget.set(palette); this.arrowColorStarted = time;
     }

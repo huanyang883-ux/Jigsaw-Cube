@@ -8,7 +8,7 @@ export function learnGuide(progress, action) {
   return true;
 }
 
-export function chooseGuide({ mode, idleMs, learned, canEnter, hasLevel, canSwitchFace, canDrag }) {
+export function chooseGuide({ mode, idleMs, learned, canEnter, hasLevel, canSwitchFace, canDrag, emptyEdgeTray }) {
   if (mode === 'home') {
     if (idleMs >= 5000 && !learned.rotateCube) return 'rotateCube';
     if (idleMs >= 3000 && canEnter && !learned.enterChapter) return 'enterChapter';
@@ -18,6 +18,7 @@ export function chooseGuide({ mode, idleMs, learned, canEnter, hasLevel, canSwit
     if (hasLevel) return 'enterLevel';
     if (canSwitchFace) return 'switchFace';
   }
+  if (mode === 'puzzle' && idleMs >= 5000 && emptyEdgeTray) return 'clearEdgeFilter';
   if (mode === 'puzzle' && idleMs >= 400 && canDrag && !learned.dragPuzzle) return 'dragPuzzle';
   return null;
 }

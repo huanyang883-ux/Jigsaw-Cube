@@ -45,6 +45,13 @@ test('chapter target is the first unfinished level on an unlocked face; finished
   assert.equal(chooseGuide({ ...state, idleMs: 5000, hasLevel: false }), null);
 });
 
+test('the empty jigsaw edge filter prompts after five idle seconds', () => {
+  const state = { mode: 'puzzle', learned: freshGuides(), emptyEdgeTray: true };
+  assert.equal(chooseGuide({ ...state, idleMs: 4999 }), null);
+  assert.equal(chooseGuide({ ...state, idleMs: 5000 }), 'clearEdgeFilter');
+  assert.equal(chooseGuide({ ...state, idleMs: 60000, emptyEdgeTray: false }), null);
+});
+
 test('chapter reminders repeat after 5s and guide completed faces to the latest unfinished face', () => {
   const learned = { ...freshGuides(), enterLevel: true };
   const state = { mode: 'chapters', learned, hasLevel: false, canSwitchFace: true };

@@ -7,7 +7,9 @@ import { spawn } from 'node:child_process';
 import { networkInterfaces } from 'node:os';
 import { createGzip } from 'node:zlib';
 
-const root = fileURLToPath(new URL('../dist/', import.meta.url));
+const release = process.argv.includes('--release');
+const mode = release ? 'release' : 'test';
+const root = fileURLToPath(new URL(release ? '../dist/' : '../.local/test-web/', import.meta.url));
 const requestedPort = Number(process.argv.find((arg) => arg.startsWith('--port='))?.slice(7) || 4173);
 if (!Number.isInteger(requestedPort) || requestedPort < 1024 || requestedPort > 65525) throw new Error('Invalid port');
 let port = requestedPort;
@@ -26,7 +28,7 @@ function openBrowser() {
   child.unref();
 }
 
-await stat(path.join(root, 'index.html')).catch(() => { throw new Error('Build missing. Run npm run build first.'); });
+await stat(path.join(root, 'index.html')).catch(() => { throw new Error(`Build missing. Run npm run ${release ? 'build' : 'build:test'} first.`); });
 const server = http.createServer(async (request, response) => {
   if (!['GET', 'HEAD'].includes(request.method)) { response.writeHead(405).end(); return; }
   let pathname;
@@ -34,7 +36,7 @@ const server = http.createServer(async (request, response) => {
   catch { response.writeHead(400).end(); return; }
   if (pathname === '/__puzzle_health') {
     response.writeHead(200, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify({ app: appId, host, port })); return;
+    response.end(JSON.stringify({ app: appId, host, port, mode })); return;
   }
   const file = path.resolve(root, `.${pathname === '/' ? '/index.html' : pathname}`);
   if (!file.startsWith(path.resolve(root) + path.sep)) { response.writeHead(403).end(); return; }
@@ -65,7 +67,7 @@ server.on('error', async (error) => {
     try {
       const response = await fetch(`${url}/__puzzle_health`, { signal: AbortSignal.timeout(1500) });
       const running = await response.json();
-      if (running.app === appId && running.host === host) { console.log(`Game already running: ${url}`); openBrowser(); return; }
+      if (running.app === appId && running.host === host && running.mode === mode) { console.log(`Game already running (${mode}): ${url}`); openBrowser(); return; }
     } catch { /* Another app owns the port. */ }
     if (port < requestedPort + 9) {
       port++; url = `http://127.0.0.1:${port}`;
