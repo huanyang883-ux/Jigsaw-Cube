@@ -79,11 +79,11 @@ async function main() {
   if (process.platform !== 'win32') throw new Error('此一键脚本面向 Windows；其他平台可以直接使用 Capacitor / Gradle。');
   if (Number(process.versions.node.split('.')[0]) < 22) throw new Error('需要 Node.js 22 或更新版本。');
   process.chdir(root);
-  const pkg = await readJSON(path.join(root, 'package.json'));
+  const { versionName: defaultVersion } = await readJSON(path.join(root, 'android/version.json'));
   let input = process.argv[2];
   if (input === undefined) {
     const rl = createInterface({ input: process.stdin, output: process.stdout });
-    try { input = (await rl.question(`\nJigsawCube Android APK\n请输入版本号，例如 2.0.1 [默认 ${pkg.version}]: `)).trim() || pkg.version; }
+    try { input = (await rl.question(`\nJigsawCube Android APK\n请输入版本号 [默认 ${defaultVersion}]: `)).trim() || defaultVersion; }
     finally { rl.close(); }
   }
   const { versionName, versionCode } = androidVersion(input);
@@ -95,7 +95,7 @@ async function main() {
   }
   console.log(`\n应用: JigsawCube / com.huanyang.jigsawcube\n版本: ${versionName} (${versionCode})\nAPI: compile 36 / target 36 / min 24\nSDK: ${sdkPath}\nJava: ${javaHome}`);
   console.log('\n[1/5] 构建测试版游戏资源');
-  await run(process.execPath, [npmCli, 'run', 'build:test'], { env });
+  await run(process.execPath, [npmCli, 'run', 'android:web', '--', '--mode', 'test'], { env });
   console.log('\n[2/5] 同步 Android 工程');
   // Keep the double-click flow to a single version prompt; Capacitor's
   // non-interactive mode also skips its automatic CLI telemetry opt-in.

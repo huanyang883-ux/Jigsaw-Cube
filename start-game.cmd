@@ -7,7 +7,8 @@ if errorlevel 1 (
   pause
   exit /b 1
 )
-if not exist "node_modules\vite" (
+call npm ls --depth=0 >nul 2>nul
+if errorlevel 1 (
   call npm install --no-audit --no-fund
   if errorlevel 1 (
     pause

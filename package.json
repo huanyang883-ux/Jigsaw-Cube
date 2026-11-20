@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "android:build": "node scripts/build-android.mjs",
-    "android:sync": "npm run build && cap sync android",
+    "android:web": "vite build --outDir .local/android-web",
+    "android:sync": "npm run android:web && cap sync android",
     "android:icons": "node scripts/android-icons.mjs",
     "test:android": "node scripts/android-check.mjs",
     "dev": "vite --host 0.0.0.0 --port 5173",

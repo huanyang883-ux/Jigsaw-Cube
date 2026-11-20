@@ -1,7 +1,7 @@
 {
   "appId": "com.huanyang.jigsawcube",
   "appName": "JigsawCube",
-  "webDir": "dist",
+  "webDir": ".local/android-web",
   "backgroundColor": "#fbf1e3",
   "android": {
     "backgroundColor": "#fbf1e3"

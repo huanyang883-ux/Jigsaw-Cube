@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+def apkVersion = new groovy.json.JsonSlurper().parse(rootProject.file('version.json'))
+
 android {
     namespace = "com.huanyang.jigsawcube"
     compileSdk = rootProject.ext.compileSdkVersion
@@ -8,8 +10,8 @@ android {
         applicationId "com.huanyang.jigsawcube"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode = (project.findProperty('jigsawVersionCode') ?: '2000000').toString().toInteger()
-        versionName = (project.findProperty('jigsawVersionName') ?: '2.0.0').toString()
+        versionCode = (project.findProperty('jigsawVersionCode') ?: apkVersion.versionCode).toString().toInteger()
+        versionName = (project.findProperty('jigsawVersionName') ?: apkVersion.versionName).toString()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

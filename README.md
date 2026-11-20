@@ -20,19 +20,19 @@ Windows 安装 Node.js 22+ 后，双击 `start-game.cmd` 启动普通版，或�
 
 ## Android 测试 APK
 
-应用名 **JigsawCube**，包名 **com.huanyang.jigsawcube**。使用 Capacitor 8.6.2，`compileSdk = 36`、`targetSdk = 36`、`minSdk = 24`。测试 APK 使用 `npm run build:test`，首页齿轮可重置账号或完成全部关卡。174 关的图片、章节封面和引导手套随包安装，可离线游玩。手机的系统 WebView 需要支持游戏所用的 WebGL 2。
+应用名 **JigsawCube**，包名 **com.huanyang.jigsawcube**。使用 Capacitor 8.6.2，`compileSdk = 36`、`targetSdk = 36`、`minSdk = 24`。APK 脚本使用 Vite 的 test 模式，将网页资源构建到独立的 `.local/android-web/`。H5 开发服务和 `dist/` 预览可以在打包期间继续使用。测试包首页齿轮可重置账号或完成全部关卡。174 关的图片、章节封面和引导手套随包安装，可离线游玩。手机的系统 WebView 需要支持游戏所用的 WebGL 2。
 
-在 Windows 双击根目录的 **build-apk.cmd**，输入版本号（例如 `2.0.1`）并回车。脚本会构建网页、同步原生工程、编译调试 APK，并检查签名、包名、版本号和 SDK 版本。成功后输出到：
+在 Windows 双击根目录的 **build-apk.cmd**，直接回车使用默认版本 `0.0.1`，也可输入其他版本号。脚本会构建网页、同步原生工程、编译调试 APK，并检查签名、包名、版本号和 SDK 版本。默认版本的输出文件为
 
-    builds/android/JigsawCube-2.0.1-debug.apk
+    builds/android/JigsawCube-0.0.1-debug.apk
 
 同目录的 `.apk.sha256` 是校验值，`.apk.json` 记录包信息。构建失败时窗口会保留错误信息，进程返回非零退出码。重复构建同一版本会替换该版本的输出文件；不同版本的 APK 会分别保留。
 
-命令行也可运行（省略版本号会提示输入，留空使用 package.json 中的版本）：
+命令行可以直接指定本次 APK 的版本号。
 
-    node scripts/build-android.mjs 2.0.1
+    npm run android:build -- 0.0.1
 
-版本采用 `主版本.次版本.修订号`，自动转换为 Android 内部版本码 `主版本 × 1000000 + 次版本 × 1000 + 修订号`。次版本和修订号分别为 0–999，内部版本码不超过 Android 的 2100000000 上限。打包参数只影响 APK 的版本，不修改网页工程 package.json。安装更新时使用相同包名、相同签名和不低于已安装包的版本码，可保留应用存档；APK 存档与浏览器试玩存档彼此独立。
+APK 默认版本由 `android/version.json` 管理，打包脚本和 Android Studio 共用。新系列沿用旧版 `2.0.2` 的包名和签名，内部版本码按 `2000002 + 主版本 × 1000000 + 次版本 × 1000 + 修订号` 计算，次版本和修订号分别为 0–999。首版 `0.0.1` 的内部版本码为 `2000003`，覆盖安装旧包可保留游戏存档。下一版可指定 `0.0.2`，对应 `2000004`。H5 和 APK 分别保存各自的进度。
 
 ### 构建环境
 
