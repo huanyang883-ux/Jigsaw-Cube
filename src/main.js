@@ -189,7 +189,19 @@ function refresh() {
   game.style.setProperty('--theme-border', art.border);
   game.style.setProperty('--theme-ink', art.ink);
   game.style.setProperty('--theme-shadow', art.stripe);
-  $('#face-progress').hidden = chapters || !!THEMES[theme].comingSoon;
+  const faceProgress = $('#face-progress');
+  faceProgress.hidden = chapters || !!THEMES[theme].comingSoon;
+  if (!faceProgress.hidden) {
+    const faces = Array.from({ length: 6 }, (_, i) => faceComplete(progress, theme, i));
+    const completed = faces.filter(Boolean).length;
+    const current = unlocked ? currentFace(progress, theme) : -1;
+    faceProgress.innerHTML = faces.map((done, i) => {
+      const state = done ? 'done' : i === current ? 'current' : '';
+      return `<span class="face-pip ${state}" aria-hidden="true"></span>`;
+    }).join('');
+    faceProgress.setAttribute('aria-valuenow', completed);
+    faceProgress.setAttribute('aria-valuetext', `已完成 ${completed} / 6 面${current >= 0 && !faces[current] ? `，当前第 ${current + 1} 面` : ''}`);
+  }
   $('#chapter-progress').hidden = !chapters;
   if (chapters) {
     const total = faceSize(theme), completed = Array.from({ length: total }, (_, i) => isComplete(progress, theme, face, i)).filter(Boolean).length;
@@ -203,8 +215,15 @@ function refresh() {
   $('#enter').innerHTML = icon(unlocked ? 'play' : THEMES[theme].comingSoon ? 'hourglass' : 'lock');
   $('#theme-pages').hidden = chapters; $('#chapter-pages').hidden = !chapters;
   refreshThemePages();
-  $('#chapter-pages').innerHTML = Array.from({ length: 6 }, (_, i) => `<button class="chapter-page ${i === face ? 'active' : ''} ${faceComplete(progress, theme, i) ? 'done' : ''}" data-face="${i}" aria-label="第${i + 1}面${i >= count ? '，未解锁' : ''}" aria-pressed="${i === face}" ${i >= count || busy ? 'disabled' : ''}>${icon(i >= count ? 'lock' : faceComplete(progress, theme, i) ? 'check' : 'cube')}</button>`).join('');
-  $('#face-progress').innerHTML = Array.from({ length: 6 }, (_, i) => `<span class="face-pip ${faceComplete(progress, theme, i) ? 'done' : i === (chapters ? face : currentFace(progress, theme)) && unlocked ? 'current' : ''}">${icon(faceComplete(progress, theme, i) ? 'check' : i < count ? 'cube' : 'lock')}</span>`).join('');
+  $('#chapter-pages').innerHTML = Array.from({ length: 6 }, (_, i) => {
+    const locked = i >= count;
+    const done = !locked && faceComplete(progress, theme, i);
+    // The preview atlas has one row per theme and one column per face.
+    const thumbnail = done ? `style="background-position: ${i * 20}% ${theme * 50}%"` : '';
+    const label = `第${i + 1}面${locked ? '，未解锁' : done ? '，已完成' : ''}`;
+    return `<button class="chapter-page ${i === face ? 'active' : ''} ${done ? 'done' : ''}" data-face="${i}" ${thumbnail}
+      aria-label="${label}" aria-pressed="${i === face}" ${locked || busy ? 'disabled' : ''}>${done ? '' : icon(locked ? 'lock' : 'cube')}</button>`;
+  }).join('');
   $('#previous').disabled = busy || (chapters && count < 2); $('#next').disabled = $('#previous').disabled;
   $('#chapter-targets').hidden = !chapters;
   $('#chapter-targets').style.setProperty('--order', THEMES[theme].order);

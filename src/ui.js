@@ -22,7 +22,7 @@ export function mountUI() {
         <div class="cube-shadow" aria-hidden="true"></div><div id="cube-host" aria-label="拖动旋转魔方，点击进入章节"></div>
         <button id="previous" class="arrow-hotspot arrow-left" aria-label="上一页"></button><button id="next" class="arrow-hotspot arrow-right" aria-label="下一页"></button>
         <div id="chapter-targets" aria-label="本章关卡" hidden></div>
-        <div id="face-progress" class="face-progress" aria-label="章节进度"></div><button id="enter" class="play-button" aria-label="进入魔方">${icon('play')}</button>
+        <div id="face-progress" class="face-progress" role="progressbar" aria-label="魔方六面进度" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0"></div><button id="enter" class="play-button" aria-label="进入魔方">${icon('play')}</button>
         <div id="chapter-progress" class="chapter-progress" role="progressbar" aria-label="Current face progress" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0" hidden></div>
         <button id="back" class="icon-button" aria-label="Back" hidden>${icon('back')}</button>
         <div id="theme-pages" class="theme-pages" aria-label="选择主题"></div><div id="chapter-pages" class="chapter-pages" aria-label="选择已解锁章节" hidden></div>

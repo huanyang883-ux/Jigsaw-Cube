@@ -97,12 +97,28 @@ try {
     const chapterContext = await browser.newContext({ viewport:{width:390,height:844}, deviceScaleFactor:2, isMobile:true, hasTouch:true });
     const progress = freshProgress(), total = faceSize(theme);
     for (let i = 0; i < theme; i++) progress.completed[i].fill(true);
-    progress.completed[theme].fill(true, 0, total);
-    progress.completed[theme][total] = true; progress.completed[theme][total * 2 - 1] = true;
+    progress.completed[theme].fill(true, 0, total * 2);
+    progress.completed[theme][total * 2] = true; progress.completed[theme][total * 3 - 1] = true;
     await chapterContext.addInitScript(({key,progress}) => localStorage.setItem(key, JSON.stringify(progress)), {key:SAVE_KEY,progress});
     const q = await chapterContext.newPage(); q.on('pageerror', e => errors.push(e.message));
     await q.goto(base); await idle(q); await q.tap('#enter'); await idle(q);
-    assert.equal((await state(q)).face, 1);
+    assert.equal((await state(q)).face, 2);
+    const tabs = q.locator('#chapter-pages button');
+    const shortcuts = await tabs.evaluateAll(buttons => buttons.map(button => {
+      const style = getComputedStyle(button);
+      return { image: style.backgroundImage, position: style.backgroundPosition, size: style.backgroundSize, disabled: button.disabled };
+    }));
+    assert.equal(shortcuts.length, 6);
+    for (const [face, tab] of shortcuts.entries()) {
+      assert.equal(tab.disabled, face > 2);
+      if (face < 2) {
+        assert.match(tab.image, /cube-previews[^"/]*\.webp/);
+        assert.equal(tab.position, `${face * 20}% ${theme * 50}%`);
+        assert.equal(tab.size, '600% 300%');
+      } else {
+        assert.doesNotMatch(tab.image, /cube-previews/);
+      }
+    }
     assert.equal(await q.locator('#chapter-progress').getAttribute('aria-valuenow'), '2');
     assert.equal(await q.locator('#chapter-progress').getAttribute('aria-valuemax'), String(total));
     assert.equal(await q.locator('#chapter-progress .chapter-dot').count(), total);
@@ -118,14 +134,18 @@ try {
       const rows = Object.values(layout);
       for (const rect of rows) assert.ok(rect.x >= 0 && rect.right <= width + 1 && rect.y >= 0 && rect.bottom < height);
       for (let i=1;i<rows.length;i++) assert.ok(rows[i-1].bottom < rows[i].y, 'chapter grid, progress, return and face tabs have separate space');
+      const bounds = await tabs.evaluateAll(buttons => buttons.map(button => button.getBoundingClientRect().toJSON()));
+      assert.ok(bounds[0].left >= layout['#chapter-pages'].x - 1 && bounds.at(-1).right <= layout['#chapter-pages'].right + 1);
+      for (let i = 1; i < bounds.length; i++) assert.ok(bounds[i - 1].right < bounds[i].left);
     }
     await q.setViewportSize({width:390,height:844});
     await q.tap('#settings'); await q.keyboard.press('ArrowRight');
-    assert.equal((await state(q)).face, 1, 'open settings block face switching');
+    assert.equal((await state(q)).face, 2, 'open settings block face switching');
     await q.keyboard.press('Escape'); await q.waitForSelector('#settings-menu',{state:'hidden'});
     await q.screenshot({path:`test-results/chapter-progress-${total}.png`});
-    await q.tap('#previous'); await idle(q);
-    assert.equal((await state(q)).face, 0);
+    await tabs.nth(1).tap(); await idle(q);
+    assert.equal((await state(q)).face, 1, 'tapping a completed thumbnail selects its face');
+    assert.equal(await tabs.nth(1).getAttribute('aria-pressed'), 'true');
     assert.equal(await q.locator('#chapter-progress').getAttribute('aria-valuenow'), String(total));
     assert.equal(await q.locator('#chapter-progress .done').count(), total);
     await q.tap('#next'); await idle(q);
