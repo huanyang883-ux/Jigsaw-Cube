@@ -59,13 +59,55 @@ async function continueWin(art) {
   await idle();
 }
 
-async function selectMode(mode) {
+function waitForHandOn(selector) {
+  return page.waitForFunction(target => {
+    const hand = document.querySelector('#hand-guide');
+    if (!hand || hand.hidden) return false;
+    const stage = document.querySelector('#game').getBoundingClientRect();
+    const x = stage.left + parseFloat(hand.style.left) * stage.width / 1080;
+    const y = stage.top + parseFloat(hand.style.top) * stage.height / 1920;
+    return Boolean(document.elementFromPoint(x, y)?.closest(target));
+  }, selector, { timeout: 8500 });
+}
+
+async function verifyLockedSwitch() {
+  const trigger = page.locator('#mode-switch'), lock = trigger.locator('.mode-lock');
+  const alternate = page.locator('#mode-switch-alternate');
+  assert.ok(await lock.isVisible(), '53 of 54 classic levels shows the locked switch');
+  assert.ok(await trigger.locator('.mode-caret').isHidden());
+  assert.equal((await trigger.innerText()).trim(), '');
+  const button = await trigger.boundingBox(), badge = await lock.boundingBox();
+  assert.ok(badge.x + badge.width / 2 > button.x + button.width / 2 &&
+    badge.y + badge.height / 2 > button.y + button.height / 2, 'lock occupies the lower-right corner');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.touchscreen.tap(button.x + button.width / 2, button.y + button.height / 2);
+  const motion = await trigger.evaluate(el => {
+    const moves = target => target.getAnimations().some(animation => {
+      const frames = animation.effect.getKeyframes();
+      return new Set(frames.map(frame => frame.transform).filter(Boolean)).size > 1;
+    });
+    return { button: moves(el), lock: moves(el.querySelector('.mode-lock')) };
+  });
+  assert.deepEqual(motion, { button: true, lock: true }, 'tap shakes the switch and swings its lock');
+  assert.equal(await trigger.getAttribute('aria-expanded'), 'false');
+  await trigger.press('ArrowDown');
+  assert.equal(await trigger.getAttribute('aria-expanded'), 'false');
+  assert.ok(await alternate.isHidden());
+  assert.equal((await state()).gameplay, 'A');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+}
+
+async function selectMode(mode, guided = false) {
   const trigger = page.locator('#mode-switch');
   const alternate = page.locator('#mode-switch-alternate');
   assert.equal(await trigger.getAttribute('aria-expanded'), 'false');
+  assert.ok(await trigger.locator('.mode-caret').isVisible());
+  assert.ok(await trigger.locator('.mode-lock').isHidden());
+  if (guided) await waitForHandOn('#mode-switch');
   await trigger.tap();
   assert.equal(await trigger.getAttribute('aria-expanded'), 'true');
   assert.equal(await alternate.getAttribute('data-mode'), mode);
+  if (guided) await waitForHandOn('#mode-switch-alternate');
   await alternate.tap();
   await idle();
   assert.equal(await trigger.getAttribute('data-mode'), mode);
@@ -73,13 +115,25 @@ async function selectMode(mode) {
   await alternate.waitFor({ state: 'hidden' });
 }
 
+async function verifySwitchReminder(mode) {
+  await waitForHandOn('#mode-switch');
+  await tap('#mode-switch');
+  await waitForHandOn('#mode-switch-alternate');
+  // Seeing both steps does not teach a switch. Ignore it and come home again.
+  await enterCube();
+  await tap('#back'); await idle();
+  await waitForHandOn('#mode-switch');
+  await page.reload(); await idle();
+  await selectMode(mode, true);
+}
+
 function cellCenter(rect, cols, col, row) {
   const cell = rect.width / cols;
   return { x: rect.x + (col + .5) * cell, y: rect.y + (row + .5) * cell };
 }
 
-async function placeTrayPiece(cols, { loose = false } = {}) {
-  const piece = page.locator('.jb-tray [data-piece]').nth(loose ? 2 : 0);
+async function placeTrayPiece(cols, { loose = false, source } = {}) {
+  const piece = source ?? page.locator('.jb-tray [data-piece]').nth(loose ? 2 : 0);
   const id = Number(await piece.getAttribute('data-piece'));
   const img = await piece.locator('svg').boundingBox();
   const board = await page.locator('.jb-plane').boundingBox();
@@ -90,15 +144,26 @@ async function placeTrayPiece(cols, { loose = false } = {}) {
   return { id, col, row, dx };
 }
 
+async function pinchBoard(original, dx = 0, dy = 0) {
+  const x = original.x + original.width / 2, y = original.y + original.height / 2;
+  const fingers = d => {
+    const t = (d - 38) / 32, cx = x + t * dx, cy = y + t * dy;
+    return [{ x: cx - d, y: cy, id: 0 }, { x: cx + d, y: cy, id: 1 }];
+  };
+  await touch('touchStart', fingers(38));
+  for (const d of [44, 52, 60, 70]) await touch('touchMove', fingers(d));
+  await touch('touchEnd', []);
+  await page.waitForFunction(({ x, y, width }) => {
+    const r = document.querySelector('.jb-plane').getBoundingClientRect();
+    return Math.abs(r.width - width) < 1 && Math.abs(r.x + r.width / 2 - x) < 1 && Math.abs(r.y + r.height / 2 - y) < 1;
+  }, { x: x + dx, y: y + dy, width: original.width * 70 / 38 });
+}
+
 async function verifyPreview() {
   const boardRect = () => page.locator('.jb-plane').evaluate(el => el.getBoundingClientRect().toJSON());
   const original = await boardRect();
   const x = original.x + original.width / 2, y = original.y + original.height / 2;
-  const fingers = d => [{ x: x - d, y, id: 0 }, { x: x + d, y, id: 1 }];
-  await touch('touchStart', fingers(38));
-  for (const d of [44, 52, 60, 70]) await touch('touchMove', fingers(d));
-  await touch('touchEnd', []);
-  await page.waitForFunction(w => Math.abs(document.querySelector('.jb-plane').getBoundingClientRect().width - w) < 1, original.width * 70 / 38);
+  await pinchBoard(original);
   const zoomed = await boardRect();
   await drag({ x, y }, { x: x + 35, y: y - 20 });
   await page.waitForFunction(r => {
@@ -142,6 +207,27 @@ async function verifyResume(cols) {
   assert.equal(await page.locator('.puzzle-progress').getAttribute('aria-valuenow'), '1');
 }
 
+async function verifyLargeBoardGesture(cols) {
+  const last = page.locator('.jb-tray [data-piece]').last();
+  await last.scrollIntoViewIfNeeded();
+  await page.waitForFunction(() => document.querySelector('[data-tool="next"]').disabled);
+  const { id, col, row, dx } = await placeTrayPiece(cols, { loose: true, source: last });
+  const loose = (await state()).session.board;
+  assert.ok(loose.groups.some(group => group.ids.includes(id) && Math.abs(group.dx - dx) < .01),
+    'the last tray piece is loose one cell from home');
+
+  const plane = page.locator('.jb-plane'), original = await plane.boundingBox();
+  const home = cellCenter(original, cols, col, row);
+  // Pan toward this piece while zooming so both its current cell and home stay visible.
+  await pinchBoard(original, .7 * (original.x + original.width / 2 - home.x), .7 * (original.y + original.height / 2 - home.y));
+  assert.deepEqual((await state()).session.board, loose);
+  const enlarged = await plane.boundingBox();
+  await drag(cellCenter(enlarged, cols, col + dx, row), cellCenter(enlarged, cols, col, row));
+  assert.equal(await page.locator('.puzzle-progress').getAttribute('aria-valuenow'), '2');
+  assert.ok((await state()).session.board.groups.some(group => group.ids.includes(id) && group.dx === 0 && group.dy === 0),
+    'the enlarged piece can be picked up at its new screen position and locked at home');
+}
+
 try {
   await mkdir('test-results/jigsaw', { recursive: true });
   const classic = freshProgress();
@@ -157,7 +243,7 @@ try {
   }, { key: SAVE_KEY, classic });
   await page.goto(base);
   await idle();
-  assert.ok(await page.locator('#mode-switch').isHidden(), '53 of 54 classic levels keeps the selector locked');
+  await verifyLockedSwitch();
   await enterCube();
   await openLevel(8);
   const toolbarLayout = () => page.locator('#settings, .puzzle-progress, .puzzle-tools button').evaluateAll(nodes =>
@@ -171,7 +257,7 @@ try {
   await continueWin(levelArt(1, 5, 8));
   const before = (await state()).progress;
   assert.ok(before.completed[1].every(Boolean));
-  await selectMode('B');
+  await verifySwitchReminder('B');
   assert.equal((await state()).theme, 0);
   assert.equal((await state()).progress.completed.flat().filter(Boolean).length, 0);
   const gearStyle = () => page.locator('#settings').evaluate(el => {
@@ -180,7 +266,13 @@ try {
   });
   const homeGear = await gearStyle();
   await page.screenshot({ path: 'test-results/jigsaw/home.png' });
+  await waitForHandOn('#enter');
+  await page.locator('#hand-guide[data-guide="rotateCube"]').waitFor();
+  await drag({ x: 160, y: 415 }, { x: 250, y: 450 });
+  assert.equal((await state()).progress.guides.rotateCube, true);
+  await waitForHandOn('#enter');
   await enterCube();
+  await page.locator('#hand-guide[data-guide="enterLevel"]').waitFor();
 
   for (let level = 0; level < 4; level++) {
     const size = levelConfig(0, 0, level).gridSize;
@@ -201,7 +293,12 @@ try {
       await tap('[data-tool="edge"]');
       assert.equal(await page.locator('.jb-tray [data-piece]').count(), 2 * (cols + rows) - 4);
       await tap('[data-tool="edge"]');
+      await waitForHandOn('.jb-tray [data-piece]');
+      assert.equal(await page.locator('#hand-guide').getAttribute('data-guide'), 'dragPuzzle');
+      await page.locator('.jb-tray [data-piece]').first().tap();
+      assert.equal((await state()).progress.guides.dragPuzzle, false, 'tapping a fragment does not teach dragging');
       await verifyResume(cols);
+      assert.equal((await state()).progress.guides.dragPuzzle, true, 'a real drag is remembered after reload');
       await tap('#hint');
       assert.equal(await page.locator('.puzzle-progress').getAttribute('aria-valuenow'), '2');
       assert.equal(await page.locator('#hint-count').textContent(), '27');
@@ -230,6 +327,11 @@ try {
     assert.equal(record.hints, level === 0 ? 2 : 0);
     assert.equal(await page.locator('#chapter-progress').getAttribute('aria-valuenow'), String(level === 3 ? 0 : level + 1));
     assert.deepEqual(await page.evaluate(() => window.__game.revealed().map(t => t.level).sort()), Array.from({ length: level + 1 }, (_, i) => i));
+    if (level === 0) {
+      await tap('#back'); await idle();
+      await waitForHandOn('#mode-switch');
+      await enterCube();
+    }
     console.log(`PASS B${level + 1}: ${cols} × ${rows} real touch placements, win image and cube reveal`);
   }
   assert.ok(await page.locator('#chapter-pages [data-face="1"]').isEnabled());
@@ -238,6 +340,7 @@ try {
   assert.equal((await state()).session.art, levelArt(0, 1, 0), 'the newly unlocked face opens its own art');
   await tap('#settings'); await tap('#back'); await idle();
   await tap('#chapter-pages [data-face="0"]'); await idle();
+  await waitForHandOn('#chapter-pages [data-face="1"]');
   await openLevel(0);
   assert.equal(await page.locator('.puzzle-progress').getAttribute('aria-valuenow'), '0', 'completed puzzles replay from the full tray');
   assert.equal(await page.locator('.jb-tray [data-piece]').count(), 24);
@@ -246,12 +349,14 @@ try {
   await idle();
   await tap('#back');
   await idle();
-  await selectMode('A');
+  await verifySwitchReminder('A');
   assert.deepEqual((await state()).progress, before, 'B activity preserves classic progress, inventory and records');
   await page.reload();
   await idle();
   assert.equal(await page.locator('#mode-switch').getAttribute('data-mode'), 'A');
   assert.deepEqual((await state()).progress, before);
+  await page.waitForTimeout(4200);
+  assert.ok(await page.locator('#hand-guide').isHidden(), 'A no longer prompts entry to B');
   const lastSave = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), SAVE_KEY);
   lastSave.jigsaw.selected = 'B';
   lastSave.jigsaw.props = { hint: 1, preview: 1 };
@@ -276,6 +381,8 @@ try {
   assert.deepEqual(await lastItems.evaluate(key => JSON.parse(localStorage.getItem(key)).jigsaw.props, SAVE_KEY), { hint: 0, preview: 0 });
   await inventoryContext.close();
   await selectMode('B');
+  await page.waitForTimeout(4200);
+  assert.ok(await page.locator('#hand-guide').isHidden(), 'B remembers the return switch on subsequent visits');
   await tap('#settings'); await tap('#complete-all'); await idle();
   const completed = (await state()).progress.completed;
   assert.deepEqual(completed.map(levels => levels.filter(Boolean).length), [24, 54, 96]);
@@ -292,6 +399,7 @@ try {
     assert.equal(await page.locator('.jb-tray [data-piece]').count(), cols * rows);
     await tap('#hint');
     assert.equal(await page.locator('.puzzle-progress').getAttribute('aria-valuenow'), '1');
+    if (cols === 12) await verifyLargeBoardGesture(cols);
     await tap('#settings'); await tap('#back'); await idle();
     await tap('#back'); await idle();
   }

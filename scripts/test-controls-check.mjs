@@ -89,7 +89,8 @@ async function verifyResetOrder() {
     if (await page.locator('#mode-switch').getAttribute('data-mode') === 'B') await switchTo(page, 'A');
     await resetMode(page);
     await page.reload(); await idle(page);
-    assert.ok(await page.locator('#mode-switch').isHidden(), 'B reset followed by A reset restores the original gate');
+    assert.ok(await page.locator('#mode-switch .mode-lock').isVisible(), 'B reset followed by A reset restores the visible lock');
+    assert.ok(await page.locator('#mode-switch .mode-caret').isHidden());
     assert.deepEqual((await snapshot()).A, freshProgress());
     console.log('PASS independent A/B trophies, resets, cancellation, saved unlock and ordered re-lock.');
   } finally {
@@ -156,7 +157,7 @@ try {
     await p.tap('#settings'); await p.tap('#reset-account'); await p.tap('#confirm-reset'); await idle(p);
     after = await stored(p); assert.deepEqual(restoreProgress(JSON.parse(after[key])), freshProgress());
     await p.reload(); await idle(p);
-    assert.ok(await p.locator('#mode-switch').isVisible(), 'A reset preserves the unlock even before the first visit to B');
+    assert.ok(await p.locator('#mode-switch .mode-caret').isVisible(), 'A reset preserves the unlock even before the first visit to B');
     for (const name of Object.keys(before)) if (name !== key) assert.equal(after[name], before[name]);
     console.log(`PASS: ${search || 'normal'} complete-all, preservation, reload, unlocked faces, cancel, reset and save isolation.`);
   }

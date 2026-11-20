@@ -32,12 +32,13 @@ function syncChildren(parent, ordered) {
 }
 
 export class JigsawBoard {
-  constructor(host, { model, imageUrl, onChange, onWin, onPreviewChange }) {
+  constructor(host, { model, imageUrl, onChange, onWin, onPreviewChange, onDrag }) {
     this.host = host;
     this.model = model;
     this.onChange = onChange;
     this.onWin = onWin;
     this.onPreviewChange = onPreviewChange;
+    this.onDrag = onDrag;
     this.prefix = `jigsaw-${++nextBoard}-`;
     this.zoom = 1;
     this.pan = { x: 0, y: 0 };
@@ -100,20 +101,23 @@ export class JigsawBoard {
     }
     defs.append(this.sheenClip, gradient);
     this.sheen.setAttribute('clip-path', `url(#${this.sheenClip.id})`);
-    const imgId = `${this.prefix}image`;
-    defs.append(svgNode('image', { id: imgId, href: imageUrl, width: model.cols, height: model.rows, preserveAspectRatio: 'none' }));
+    const photo = svgNode('image', {
+      id: this.prefix + 'photo', href: imageUrl, width: model.cols, height: model.rows, preserveAspectRatio: 'none',
+    });
+    defs.append(photo);
     host.querySelector('.jb-reference').setAttribute('href', imageUrl);
     for (const piece of model.pieces) {
-      const clipId = `${this.prefix}cut-${piece.id}`;
-      const clip = svgNode('clipPath', { id: clipId });
-      clip.append(svgNode('path', { id: this.prefix + 'outline-' + piece.id, d: piece.path }));
-      const fragment = svgNode('g', { id: this.pieceId(piece.id) });
-      const cut = svgNode('g', { 'clip-path': `url(#${clipId})` });
-      cut.append(svgNode('use', { href: `#${imgId}`, x: -piece.col, y: -piece.row }));
-      fragment.append(cut, svgNode('path', {
-        d: piece.path, fill: 'none', stroke: '#463b35', 'stroke-opacity': '.5', 'stroke-width': '.011', 'stroke-linejoin': 'round',
+      // Fill and stroke a single path so camera updates have fewer paint chunks to composite.
+      // Limit the pattern tile to the piece and its tabs to bound the raster cache at high zoom.
+      const texture = svgNode('pattern', {
+        id: this.prefix + 'texture-' + piece.id, patternUnits: 'userSpaceOnUse',
+        x: -.32, y: -.32, width: 1.64, height: 1.64,
+      });
+      texture.append(svgNode('use', { href: `#${photo.id}`, x: .32 - piece.col, y: .32 - piece.row }));
+      defs.append(texture, svgNode('path', {
+        id: this.pieceId(piece.id), d: piece.path, fill: `url(#${texture.id})`,
+        stroke: '#463b35', 'stroke-opacity': '.5', 'stroke-width': '.011', 'stroke-linejoin': 'round',
       }));
-      defs.append(clip, fragment);
       lines.append(svgNode('path', { d: piece.path, transform: `translate(${piece.col} ${piece.row})` }));
     }
   }
@@ -172,6 +176,7 @@ export class JigsawBoard {
   }
 
   updateTrayButtons() {
+    this.noGuidePath = false;
     this.host.querySelector('[data-tool="prev"]').disabled = this.tray.scrollLeft <= 1;
     this.host.querySelector('[data-tool="next"]').disabled = this.tray.scrollLeft + this.tray.clientWidth >= this.tray.scrollWidth - 1;
   }
@@ -180,6 +185,41 @@ export class JigsawBoard {
   get busy() { return Boolean(this.drag || this.pinch); }
   get emptyEdgeTray() {
     return this.edgesOnly && !this.tray.firstElementChild && !this.previewing && !this.keyboard && !this.blocked;
+  }
+
+  guideDragPath() {
+    if (!this.view || this.busy || this.blocked || this.previewing || this.keyboard || this.flight || this.emptyEdgeTray || this.noGuidePath) return null;
+    const board = this.getImageRect(), cell = board.width / this.model.cols;
+    const center = (col, row) => ({ x: board.left + (col + .5) * cell, y: board.top + (row + .5) * cell });
+    const tray = this.tray.getBoundingClientRect();
+    let fallback;
+    for (const button of this.tray.children) {
+      const rect = button.getBoundingClientRect();
+      const from = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+      if (from.x < tray.left) continue;
+      if (from.x > tray.right) break;
+      const piece = this.model.pieces[button.dataset.piece], to = center(piece.col, piece.row);
+      if (this.hitWindow(to.x, to.y)) return { from, to };
+      // A tray piece whose home is offscreen can still be taken onto the table.
+      fallback ??= { from, to: { x: this.view.cx, y: this.view.cy } };
+    }
+    for (const piece of this.model.pieces) {
+      if (piece.locked || piece.x === null) continue;
+      const from = center(piece.x, piece.y), to = center(piece.col, piece.row);
+      if (!this.hitWindow(from.x, from.y)) continue;
+      // Overlapping loose pieces can only be picked up from their exposed surface.
+      const hit = document.elementFromPoint(from.x, from.y)?.closest('[data-piece]');
+      if (hit !== this.stamps.get(piece.id)) continue;
+      if (this.hitWindow(to.x, to.y)) return { from, to };
+      if (!fallback) {
+        const r = this.view.windowRect;
+        const towardHome = { x: clamp(to.x, r.left + 1, r.right - 1), y: clamp(to.y, r.top + 1, r.bottom - 1) };
+        if (Math.hypot(towardHome.x - from.x, towardHome.y - from.y) > 3) fallback = { from, to: towardHome };
+      }
+    }
+    if (fallback) return fallback;
+    this.noGuidePath = true;
+    return null;
   }
 
   boardPoint(x, y) {
@@ -203,6 +243,7 @@ export class JigsawBoard {
   applyView() {
     // A flight uses stage coordinates. Settle it before changing the camera.
     this.finishFlight();
+    this.noGuidePath = false;
     const v = this.view;
     const maxX = Math.max(0, (v.boardWidth * this.zoom - v.windowWidth) / 2 + 28);
     const maxY = Math.max(0, (v.boardHeight * this.zoom - v.windowHeight) / 2 + 28);
@@ -380,6 +421,7 @@ export class JigsawBoard {
     const drag = this.drag;
     if (!drag || drag.pointerId !== e.pointerId) return;
     if (drag.kind === 'piece') {
+      this.onDrag?.();
       const point = this.boardPoint(e.clientX, e.clientY);
       const x = point.x - drag.offset.x, y = point.y - drag.offset.y;
       const from = { x, y: y - LIFT };
@@ -515,7 +557,7 @@ export class JigsawBoard {
     const near = this.model.pieces.filter(p => p.group === center.group
       && Math.abs(p.x - center.x) <= radius + .8 && Math.abs(p.y - center.y) <= radius + .8);
     this.sheenClip.replaceChildren(...near.map(p => svgNode('use', {
-      href: `#${this.prefix}outline-${p.id}`, x: p.x, y: p.y,
+      href: `#${this.pieceId(p.id)}`, x: p.x, y: p.y,
     })));
     const origin = svgNode('g', { transform: `translate(${center.x + .5} ${center.y + .5})` });
     const light = svgNode('circle', { r: radius, fill: `url(#${this.prefix}sheen-light)` });

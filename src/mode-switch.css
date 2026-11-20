@@ -53,6 +53,42 @@
   transition: transform .2s;
 }
 .mode-switch.is-open .mode-caret { transform: rotate(180deg); }
+.mode-lock {
+  position: absolute;
+  right: -12%;
+  bottom: -15%;
+  width: 49%;
+  height: 49%;
+  color: #795135;
+  transform-origin: 50% 15%;
+  filter: drop-shadow(0 2px 1px #70482c4d);
+  pointer-events: none;
+}
+.mode-lock .icon { width: 100%; height: 100%; stroke-width: 2; }
+.mode-lock rect { fill: #f5c77f; }
+.mode-switch:not(.is-locked) .mode-lock, .mode-switch.is-locked .mode-caret { display: none; }
+.lock-feedback { animation: mode-switch-shake .32s ease-in-out; }
+.lock-feedback .mode-lock { animation: mode-lock-swing .48s .03s ease-in-out; }
+@keyframes mode-switch-shake {
+  0%, 100% { transform: translateX(0); }
+  16% { transform: translateX(-6%); }
+  40% { transform: translateX(5%); }
+  64% { transform: translateX(-3%); }
+  84% { transform: translateX(1.5%); }
+}
+@keyframes mode-lock-swing {
+  0%, 100% { transform: rotate(0); }
+  15% { transform: rotate(-24deg); }
+  34% { transform: rotate(20deg); }
+  53% { transform: rotate(-13deg); }
+  71% { transform: rotate(8deg); }
+  87% { transform: rotate(-3deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lock-feedback { animation: none; }
+  .lock-feedback .mode-lock { animation: mode-lock-glow .25s ease-out; animation-duration: .25s !important; }
+  @keyframes mode-lock-glow { 35% { filter: brightness(1.3); } }
+}
 .mode-alternate {
   position: absolute;
   top: calc(100% + 23px);

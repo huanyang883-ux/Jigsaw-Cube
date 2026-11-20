@@ -9,7 +9,6 @@ export class IdleGuide {
     this.abort = new AbortController(); const signal = this.abort.signal;
     const activity = () => { this.lastActivity = performance.now(); this.hide(); };
     document.addEventListener('pointerdown', (e) => { this.pointers.add(e.pointerId); activity(); }, { capture: true, signal });
-    document.addEventListener('pointermove', (e) => { if (this.pointers.has(e.pointerId)) activity(); }, { capture: true, signal });
     for (const event of ['pointerup', 'pointercancel']) document.addEventListener(event, (e) => { this.pointers.delete(e.pointerId); activity(); }, { capture: true, signal });
     for (const event of ['keydown', 'click', 'wheel']) document.addEventListener(event, activity, { capture: true, passive: true, signal });
     window.addEventListener('blur', () => { this.unfocused = true; this.pointers.clear(); activity(); }, { signal });
@@ -61,6 +60,7 @@ export class IdleGuide {
   }
 
   hide() {
+    if (!this.kind) return;
     this.animation?.cancel(); this.animation = null; this.kind = null;
     this.host.hidden = true; delete this.host.dataset.guide;
   }

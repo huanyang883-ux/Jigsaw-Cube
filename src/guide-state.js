@@ -8,8 +8,11 @@ export function learnGuide(progress, action) {
   return true;
 }
 
-export function chooseGuide({ mode, idleMs, learned, canEnter, hasLevel, canSwitchFace, canDrag, emptyEdgeTray }) {
+export function chooseGuide({ mode, idleMs, learned, canEnter, hasLevel, canSwitchFace, canDrag, emptyEdgeTray,
+  suggestModeSwitch, modeSwitchOpen }) {
   if (mode === 'home') {
+    if (modeSwitchOpen) return suggestModeSwitch && idleMs >= 400 ? 'selectAlternateMode' : null;
+    if (suggestModeSwitch) return idleMs >= 3000 ? 'openModeSwitch' : null;
     if (idleMs >= 5000 && !learned.rotateCube) return 'rotateCube';
     if (idleMs >= 3000 && canEnter && !learned.enterChapter) return 'enterChapter';
   }

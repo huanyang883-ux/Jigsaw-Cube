@@ -4,7 +4,7 @@ import { mountUI } from './ui.js';
 import { bindButtonTap } from './button-tap.js';
 import { mountModeSwitch } from './mode-switch.js';
 import { createJigsaw, jigsawConfig } from './jigsaw.js';
-import { restoreAccount, serializeAccount, jigsawUnlocked, resetSelectedMode } from './gameplay-progress.js';
+import { restoreAccount, serializeAccount, jigsawUnlocked, selectAccountMode, shouldGuideModeSwitch, resetSelectedMode } from './gameplay-progress.js';
 import { TEST_CONTROLS } from './build-flags.js';
 import { icon, gridIcon } from './icons.js';
 import { CubeScene } from './cube-scene.js';
@@ -64,31 +64,41 @@ function remember(action) {
   if (learnGuide(progress, action)) { save(); guide?.hide(); }
 }
 function guideContext() {
-  const latestFace = currentFace(progress, theme);
+  const latestFace = mode === 'chapters' ? currentFace(progress, theme) : null;
+  const emptyEdgeTray = puzzle?.emptyEdgeTray;
   return {
-    key: `${mode}:${theme}:${face}:${session?.level ?? ''}`,
+    key: `${account.selected}:${mode}:${theme}:${face}:${session?.level ?? ''}:${modeSwitch.open}`,
     mode, learned: progress.guides,
-    blocked: !ready || busy || settingsOpen || cube?.busy || puzzle?.busy || loading.visible || !overlay.hidden || session?.completed,
+    blocked: !ready || !nativeActive || busy || settingsOpen || cube?.busy || puzzle?.busy || loading.visible || !overlay.hidden
+      || session?.completed || (inJigsaw() && (puzzle?.previewing || puzzle?.keyboard)),
+    suggestModeSwitch: mode === 'home' && shouldGuideModeSwitch(account),
+    modeSwitchOpen: modeSwitch.open,
     canEnter: themeUnlocked(progress, theme),
     hasLevel: mode === 'chapters' && nextPlayableLevel(progress, theme, face) !== null,
     canSwitchFace: mode === 'chapters' && face !== latestFace && nextPlayableLevel(progress, theme, latestFace) !== null,
-    canDrag: mode === 'puzzle' && !inJigsaw() && session && !session.completed,
-    emptyEdgeTray: puzzle?.emptyEdgeTray,
+    canDrag: mode === 'puzzle' && !!puzzle && !emptyEdgeTray,
+    emptyEdgeTray,
   };
 }
 function guideTarget(kind) {
   const rect = game.getBoundingClientRect();
   const stagePoint = (p) => ({ x: (p.x - rect.left) * 1080 / rect.width, y: (p.y - rect.top) * 1920 / rect.height });
   if (kind === 'rotateCube') return { from: { x: 415, y: 980 }, to: { x: 675, y: 850 } };
-  if (kind === 'enterChapter' || kind === 'switchFace' || kind === 'clearEdgeFilter') {
-    const button = kind === 'clearEdgeFilter' ? $('.jb-filter')
-      : kind === 'enterChapter' ? $('#enter') : $(`#chapter-pages [data-face="${currentFace(progress, theme)}"]`);
-    const r = button.getBoundingClientRect();
+  const buttonSelector = {
+    enterChapter: '#enter', clearEdgeFilter: '.jb-filter', openModeSwitch: '#mode-switch', selectAlternateMode: '#mode-switch-alternate',
+    switchFace: `#chapter-pages [data-face="${currentFace(progress, theme)}"]`,
+  }[kind];
+  if (buttonSelector) {
+    const r = $(buttonSelector).getBoundingClientRect();
     return { from: stagePoint({ x: r.left + r.width / 2, y: r.top + r.height / 2 }) };
   }
   if (kind === 'enterLevel') {
     const level = nextPlayableLevel(progress, theme, face);
     return level === null ? null : { from: stagePoint(cube.tileScreen(face, level)) };
+  }
+  if (inJigsaw()) {
+    const path = puzzle.guideDragPath();
+    return path && { from: stagePoint(path.from), to: stagePoint(path.to) };
   }
   const move = guideMove(session.positions); if (!move) return null;
   const r = $('#puzzle-board').getBoundingClientRect(), from = puzzle.world(session.positions[move.id]);
@@ -123,7 +133,8 @@ const viewportObserver = new ResizeObserver(queueResize);
 viewportObserver.observe($('.viewport'));
 
 function updateModeSwitch() {
-  modeSwitch.update({ mode: account.selected, visible: mode === 'home' && jigsawUnlocked(account), disabled: busy || !ready || settingsOpen || !overlay.hidden });
+  modeSwitch.update({ mode: account.selected, visible: mode === 'home', unlocked: jigsawUnlocked(account),
+    disabled: busy || !ready || settingsOpen || !overlay.hidden });
 }
 function setSettingsOpen(open, restoreFocus = false) {
   if (open && (!ready || busy || cube?.busy || !overlay.hidden)) return;
@@ -296,11 +307,11 @@ async function selectTheme(next, direction = 1) {
   }
 }
 async function selectGameplay(next) {
-  if (!ready || busy || cube.busy || settingsOpen || !overlay.hidden || mode !== 'home' ||
-      !jigsawUnlocked(account) || next === account.selected || !['A', 'B'].includes(next)) return;
+  if (!ready || busy || cube.busy || settingsOpen || !overlay.hidden || mode !== 'home') return;
+  if (!selectAccountMode(account, next)) return;
   const previousTheme = theme;
   busy = true;
-  account.selected = next; progress = account[next]; audio.enabled = progress.sound;
+  progress = account[next]; audio.enabled = progress.sound;
   theme = currentTheme(progress); face = currentFace(progress, theme);
   cube.resetProgress(progress, account.selected);
   save(); refresh(); audio.play('move');
@@ -375,6 +386,7 @@ async function enterLevel(level) {
   if (model) {
     puzzle = new boardModule.JigsawBoard($('#jigsaw-workspace'), {
       model, imageUrl: image.src,
+      onDrag: () => remember('dragPuzzle'),
       onWin: celebrateWin,
       onPreviewChange: refreshPuzzleToolbar,
       onChange: (snapshot, action) => {

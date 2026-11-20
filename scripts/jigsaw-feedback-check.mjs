@@ -57,6 +57,22 @@ export async function verifyJigsawFeedback(browser, base) {
     const from = await last.boundingBox();
     const plane = await page.locator('.jb-plane').boundingBox();
     const cell = plane.width / model.cols;
+    const dragHand = page.locator('#hand-guide[data-guide="dragPuzzle"]');
+    await dragHand.waitFor();
+    const followsPiece = await dragHand.evaluate((hand, { from, home }) => {
+      const stage = document.querySelector('#game').getBoundingClientRect();
+      const scale = stage.width / 1080;
+      const x = stage.left + parseFloat(hand.style.left) * scale, y = stage.top + parseFloat(hand.style.top) * scale;
+      return Math.hypot(x - from.x, y - from.y) < 2 && hand.querySelector('img').getAnimations()
+        .some(animation => animation.effect.getKeyframes().some(frame => {
+          const transform = new DOMMatrix(frame.transform);
+          return Math.hypot(x + transform.e * scale - home.x, y + transform.f * scale - home.y) < 2;
+        }));
+    }, {
+      from: { x: from.x + from.width / 2, y: from.y + from.height / 2 },
+      home: { x: plane.x + (lastId % model.cols + .5) * cell, y: plane.y + (Math.floor(lastId / model.cols) + .5) * cell },
+    });
+    assert.ok(followsPiece, 'the drag guide animates from the last tray piece to its matching cell');
     // Leave a quarter-cell gap between the release point and the correct position.
     const target = { x: plane.x + (lastId % model.cols + .75) * cell, y: plane.y + (Math.floor(lastId / model.cols) + .5) * cell };
     const cdp = await context.newCDPSession(page);

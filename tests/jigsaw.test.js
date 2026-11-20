@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createJigsaw, isJigsawSave, jigsawConfig, jigsawGrid } from '../src/jigsaw.js';
-import { jigsawUnlocked, resetSelectedMode, restoreAccount, serializeAccount } from '../src/gameplay-progress.js';
+import { jigsawUnlocked, resetSelectedMode, restoreAccount, selectAccountMode, serializeAccount, shouldGuideModeSwitch } from '../src/gameplay-progress.js';
 import { THEMES, completeAllLevels, currentFace, currentTheme, faceSize, freshProgress, freshStats, initialLayout, isComplete, levelArt, levelConfig, markComplete,
   nextPlayableLevel, restoreProgress, themeUnlocked, unlockedFaces } from '../src/progress.js';
 
@@ -225,7 +225,7 @@ test('classic and jigsaw completions, records and interrupted games round-trip i
   game.drop(2, 2, 0);
   const stats = { ...freshStats(), moves: 9, previews: 2, activeMs: 1234 };
   account.B.puzzles[key] = { board: game.serialize(), stats };
-  account.selected = 'B';
+  selectAccountMode(account, 'B');
   const reload = account => restoreAccount(JSON.parse(JSON.stringify(serializeAccount(account))));
   const resumed = reload(account);
   assert.deepEqual(resumed.B.props, { hint: 0, preview: 17 });
@@ -234,7 +234,7 @@ test('classic and jigsaw completions, records and interrupted games round-trip i
   assert.equal(createJigsaw(cake(0), resumed.B.puzzles[key].board).placedCount, 1);
   markComplete(resumed.B, 0, 0, 0);
   resumed.B.records[key] = { ...stats, columns: 4, rows: 6, completedAt: 2000 };
-  resumed.selected = 'A';
+  selectAccountMode(resumed, 'A');
   const done = reload(resumed);
   assert.equal(done.selected, 'A');
   assert.equal(isComplete(done.B, 0, 0, 0), true);
@@ -244,9 +244,60 @@ test('classic and jigsaw completions, records and interrupted games round-trip i
   assert.deepEqual(restoreProgress(serializeAccount(done)), classic, 'an older classic build can read the shared save');
 });
 
+test('mode switch history follows successful selections even before a player opens a level', () => {
+  const reload = account => restoreAccount(JSON.parse(JSON.stringify(serializeAccount(account))));
+  const account = restoreAccount();
+  assert.equal(selectAccountMode(account, 'B'), false);
+  assert.equal(account.switchHistory, null);
+  assert.equal(shouldGuideModeSwitch(account), false);
+  completeAllLevels(account.A);
+  assert.equal(selectAccountMode(account, 'A'), false);
+  assert.equal(reload(account).switchHistory, null);
+  assert.equal(shouldGuideModeSwitch(reload(account)), true);
+  assert.ok(selectAccountMode(account, 'B'));
+  const firstVisit = reload(account);
+  assert.equal(firstVisit.switchHistory, 'enteredB');
+  assert.equal(shouldGuideModeSwitch(firstVisit), false);
+  assert.ok(selectAccountMode(firstVisit, 'A'));
+  const returned = reload(firstVisit);
+  assert.equal(returned.switchHistory, 'returnedA');
+  assert.equal(shouldGuideModeSwitch(returned), false);
+  assert.ok(selectAccountMode(returned, 'B'));
+  assert.equal(reload(returned).switchHistory, 'returnedA');
+  markComplete(returned.B, 0, 0, 0);
+  assert.equal(shouldGuideModeSwitch(reload(returned)), false, 'switching back once before the first win is enough');
+});
+
+test('legacy mode selection and B progress establish prior visits without teaching an unvisited B', () => {
+  const raw = unlockedClassic();
+  raw.guides.dragPuzzle = true;
+  raw.jigsaw = { version: 1, selected: 'A' };
+  assert.equal(restoreAccount(raw).switchHistory, null);
+  assert.equal(shouldGuideModeSwitch(restoreAccount(raw)), true);
+  assert.equal(restoreAccount(raw).B.guides.dragPuzzle, false);
+  raw.jigsaw.selected = 'B';
+  assert.equal(restoreAccount(raw).switchHistory, 'enteredB');
+  const active = restoreAccount(raw);
+  assert.equal(shouldGuideModeSwitch(active), false);
+  markComplete(active.B, 0, 0, 0);
+  assert.equal(shouldGuideModeSwitch(restoreAccount(serializeAccount(active))), true);
+  raw.jigsaw.selected = 'A';
+  for (const evidence of [
+    { completed: { '0:0:0': true } },
+    { puzzles: { '0:0:0': { board: newGame().serialize() } } },
+    { props: { preview: 27 } },
+    { switchState: 'b-reset' },
+  ]) {
+    const restored = restoreAccount({ ...raw, jigsaw: { ...raw.jigsaw, ...evidence } });
+    assert.equal(restored.switchHistory, 'returnedA');
+    assert.equal(shouldGuideModeSwitch(restored), false);
+    assert.equal(restored.B.guides.dragPuzzle, true);
+  }
+});
+
 test('finishing a face opens the next B face, and the trophy unlocks all three playable cubes', () => {
   const account = restoreAccount(unlockedClassic());
-  account.selected = 'B';
+  selectAccountMode(account, 'B');
   for (let level = 0; level < 4; level++) markComplete(account.B, 0, 0, level);
   const next = restoreAccount(serializeAccount(account));
   assert.equal(currentTheme(next.B), 0);
@@ -271,17 +322,20 @@ test('A reset latches the unlocked switch before the first B visit; only B reset
   const reload = a => restoreAccount(JSON.parse(JSON.stringify(serializeAccount(a))));
   const afterA = reload(account);
   assert.ok(jigsawUnlocked(afterA));
-  afterA.selected = 'B';
+  assert.equal(afterA.switchHistory, null);
+  selectAccountMode(afterA, 'B');
   completeAllLevels(afterA.B);
   resetSelectedMode(afterA);
   const afterB = reload(afterA);
   assert.deepEqual(afterB.B, freshProgress());
   assert.equal(afterB.selected, 'B');
   assert.ok(jigsawUnlocked(afterB), 'the reverse order keeps the switch available');
-  afterB.selected = 'A';
+  assert.equal(afterB.switchHistory, 'enteredB');
+  selectAccountMode(afterB, 'A');
   resetSelectedMode(afterB);
   const locked = reload(afterB);
   assert.equal(locked.selected, 'A');
+  assert.equal(locked.switchHistory, null);
   assert.equal(jigsawUnlocked(locked), false);
   completeAllLevels(locked.A);
   assert.ok(jigsawUnlocked(reload(locked)), 'the same classic milestone unlocks both modes again');
@@ -289,7 +343,7 @@ test('A reset latches the unlocked switch before the first B visit; only B reset
 
 test('resetting A after resetting and playing B again preserves the new B data behind the gate', () => {
   const account = restoreAccount(unlockedClassic());
-  account.selected = 'B';
+  selectAccountMode(account, 'B');
   resetSelectedMode(account);
   const board = newGame();
   board.placeHint();
@@ -297,7 +351,7 @@ test('resetting A after resetting and playing B again preserves the new B data b
   account.B.props.hint--;
   account.B.sound = true;
   const played = structuredClone(account.B);
-  account.selected = 'A';
+  selectAccountMode(account, 'A');
   resetSelectedMode(account);
   const reloaded = restoreAccount(serializeAccount(account));
   assert.equal(jigsawUnlocked(reloaded), false);

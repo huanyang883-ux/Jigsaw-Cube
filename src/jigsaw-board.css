@@ -38,7 +38,8 @@
               0 23px 0 13px #528b7626, 0 26px 31px 15px #38746925;
   border-radius: 2px;
 }
-.jb-surface { display: block; width: 100%; height: 100%; overflow: visible; }
+/* Only loose pieces need shape-based hit testing. The plane handles camera gestures. */
+.jb-surface { display: block; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .jb-lines { fill: none; stroke: #78947a; stroke-opacity: .46; stroke-width: .008; }
 .jb-reference { opacity: 0; pointer-events: none; }
 .jb-preview .jb-plane { transform: translate(-50%, -50%) !important; }
@@ -47,7 +48,7 @@
 .jb-solved .jb-reference { opacity: 1; }
 .jb-solved .jb-plane { transition: transform .32s ease-out; }
 .jb-solved .jb-lines, .jb-solved .jb-pieces { visibility: hidden; }
-.jb-pieces [data-piece] { cursor: grab; }
+.jb-pieces [data-piece] { cursor: grab; pointer-events: visiblePainted; }
 .jb-pieces [data-piece]:focus-visible, .jb-pieces .jb-selected { filter: drop-shadow(0 0 .025px #f38435) brightness(1.15); }
 .jb-pieces .jb-lifted { visibility: hidden; }
 .jb-pieces .jb-arriving { opacity: 0; }
@@ -80,6 +81,7 @@
 .jb-piece {
   width:164px; height:164px; flex:none; display:grid; place-items:center; background:transparent;
   border-radius:21px; cursor:grab; padding:0; transition:opacity .1s; touch-action: none;
+  content-visibility:auto;
 }
 .jb-piece svg { width:100%; height:100%; overflow:visible; filter: drop-shadow(0 3px 2px #07373680); }
 .jb-piece.jb-lifted, .jb-piece.jb-arriving { opacity:.18; }

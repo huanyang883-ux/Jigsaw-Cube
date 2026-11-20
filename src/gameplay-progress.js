@@ -1,4 +1,4 @@
-import { THEMES, faceSize, freshProgress, levelKey, restoreProgress, restoreProps, restoreStats, themeComplete } from './progress.js';
+import { INITIAL_PROPS, THEMES, faceSize, freshProgress, levelKey, restoreProgress, restoreProps, restoreStats, themeComplete } from './progress.js';
 import { isJigsawSave, jigsawConfig, savedJigsawConfig } from './jigsaw.js';
 
 const jigsawLevels = [];
@@ -16,6 +16,31 @@ export function jigsawUnlocked(account) {
   return account.switchState === 'unlocked' || account.switchState === 'b-reset' || themeComplete(account.A, 1);
 }
 
+export function shouldGuideModeSwitch(account) {
+  if (!jigsawUnlocked(account)) return false;
+  if (account.selected === 'A') return account.switchHistory === null;
+  return account.switchHistory !== 'returnedA' && account.B.completed.some(levels => levels.includes(true));
+}
+
+export function selectAccountMode(account, next) {
+  if (account.selected === next || !['A', 'B'].includes(next) || !jigsawUnlocked(account)) return false;
+  account.selected = next;
+  if (next === 'A') account.switchHistory = 'returnedA';
+  else account.switchHistory ??= 'enteredB';
+  return true;
+}
+
+function restoreSwitchHistory(saved, account) {
+  if (saved.switchHistory === 'returnedA' || saved.switchHistory === 'enteredB') return saved.switchHistory;
+  if (account.selected === 'B') return 'enteredB';
+  if (saved.switchHistory === null || account.switchState === 'locked') return null;
+  // Older saves recorded only the selected mode. B activity while A is selected proves a return.
+  const b = account.B;
+  const played = account.switchState === 'b-reset' || b.completed.some(levels => levels.includes(true))
+    || Object.keys(b.puzzles).length > 0 || Object.keys(INITIAL_PROPS).some(type => b.props[type] < INITIAL_PROPS[type]);
+  return played ? 'returnedA' : null;
+}
+
 // Keep the classic v2 payload readable by older builds. Both modes commit in the
 // same save slot so a completion, mode selection or account reset is atomic.
 export function restoreAccount(raw) {
@@ -23,14 +48,12 @@ export function restoreAccount(raw) {
   const jigsaw = freshProgress();
   const saved = raw?.jigsaw;
   const knownSave = saved?.version === 1;
-  const account = { A: classic, B: jigsaw, selected: 'A', switchState: themeComplete(classic, 1) ? 'unlocked' : null };
+  const account = { A: classic, B: jigsaw, selected: 'A', switchState: themeComplete(classic, 1) ? 'unlocked' : null, switchHistory: null };
   if (knownSave && ['unlocked', 'b-reset', 'locked'].includes(saved.switchState)) account.switchState = saved.switchState;
   if (knownSave && account.switchState) {
     if (saved.selected === 'B' && jigsawUnlocked(account)) account.selected = 'B';
     // Older B saves used the classic settings. Copy them once so future resets are independent.
     jigsaw.sound = (saved.sound ?? classic.sound) === true;
-    const guides = saved.guides ?? classic.guides;
-    for (const action of Object.keys(jigsaw.guides)) jigsaw.guides[action] = guides[action] === true;
     jigsaw.props = restoreProps(saved.props);
     for (const { theme, index, key, config } of jigsawLevels) {
       jigsaw.completed[theme][index] = saved.completed?.[key] === true;
@@ -49,6 +72,9 @@ export function restoreAccount(raw) {
           completedAt: Number.isFinite(record.completedAt) ? record.completedAt : 0 };
       }
     }
+    account.switchHistory = restoreSwitchHistory(saved, account);
+    const guides = saved.guides ?? (account.switchHistory ? classic.guides : jigsaw.guides);
+    for (const action of Object.keys(jigsaw.guides)) jigsaw.guides[action] = guides[action] === true;
   }
   return account;
 }
@@ -60,7 +86,8 @@ export function serializeAccount(account) {
   const { completed, puzzles, records, props, sound, guides } = account.B;
   const completedLevels = {};
   for (const { theme, index, key } of jigsawLevels) if (completed[theme][index]) completedLevels[key] = true;
-  return { ...account.A, jigsaw: { version: 1, selected: account.selected, switchState, completed: completedLevels, puzzles, records, props, sound, guides } };
+  return { ...account.A, jigsaw: { version: 1, selected: account.selected, switchState, switchHistory: account.switchHistory,
+    completed: completedLevels, puzzles, records, props, sound, guides } };
 }
 
 export function resetSelectedMode(account) {
@@ -69,6 +96,7 @@ export function resetSelectedMode(account) {
   } else if (jigsawUnlocked(account)) {
     // Check the milestone before replacing A, even if the player never entered B.
     account.switchState = account.switchState === 'b-reset' ? 'locked' : 'unlocked';
+    if (account.switchState === 'locked') account.switchHistory = null;
   }
   account[account.selected] = freshProgress();
 }

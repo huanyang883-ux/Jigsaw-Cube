@@ -1,5 +1,6 @@
 import './mode-switch.css';
 import { createBackTexture } from './card-back.js';
+import { icon } from './icons.js';
 
 const modeNames = { A: '方块拼图', B: '经典拼图' };
 
@@ -28,13 +29,15 @@ export function mountModeSwitch(toolbar, onSelect) {
     <button id="mode-switch" type="button" class="mode-switch-button" aria-expanded="false" aria-controls="mode-switch-alternate">
       <span class="mode-emblem"></span>
       <svg class="mode-caret" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 8 5 5 5-5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="mode-lock" aria-hidden="true">${icon('lock')}</span>
     </button>
     <button id="mode-switch-alternate" type="button" class="mode-switch-button mode-alternate" aria-hidden="true" inert><span class="mode-emblem"></span></button>`;
   toolbar.append(root);
   const [trigger, alternate] = root.querySelectorAll('button');
+  const lock = trigger.querySelector('.mode-lock');
   const listeners = new AbortController();
   const events = { signal: listeners.signal };
-  let mode, emblems, open = false;
+  let mode, emblems, unlocked = false, open = false;
 
   function setOpen(next) {
     open = next;
@@ -48,7 +51,20 @@ export function mountModeSwitch(toolbar, onSelect) {
     setOpen(false);
     if (restoreFocus) trigger.focus({ preventScroll: true });
   }
-  trigger.addEventListener('click', () => setOpen(!open), events);
+  function requestOpen(next) {
+    if (trigger.disabled) return;
+    if (unlocked) {
+      setOpen(next);
+      return;
+    }
+    trigger.classList.remove('lock-feedback');
+    void trigger.offsetWidth;
+    trigger.classList.add('lock-feedback');
+  }
+  trigger.addEventListener('animationend', event => {
+    if (event.target === lock) trigger.classList.remove('lock-feedback');
+  }, events);
+  trigger.addEventListener('click', () => requestOpen(!open), events);
   alternate.addEventListener('click', () => {
     if (!open || trigger.disabled) return;
     close(true);
@@ -57,8 +73,8 @@ export function mountModeSwitch(toolbar, onSelect) {
   root.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowDown') {
       event.preventDefault();
-      setOpen(true);
-      alternate.focus();
+      requestOpen(true);
+      if (open) alternate.focus();
     } else if (open && (event.key === 'Escape' || event.key === 'ArrowUp')) {
       event.preventDefault();
       event.stopPropagation();
@@ -74,12 +90,19 @@ export function mountModeSwitch(toolbar, onSelect) {
   document.addEventListener('focusin', dismissOutside, events);
 
   return {
-    update({ mode: next, visible, disabled = false }) {
+    update({ mode: next, visible, unlocked: canSwitch, disabled = false }) {
       viewport.dataset.playMode = next;
-      if (!visible || disabled || next !== mode) close();
+      if (!visible || disabled || next !== mode || unlocked !== canSwitch) {
+        close();
+        trigger.classList.remove('lock-feedback');
+      }
       root.hidden = !visible;
       trigger.disabled = disabled;
-      if (!visible || next === mode) return;
+      if (!visible || (next === mode && canSwitch === unlocked)) return;
+      unlocked = canSwitch;
+      root.classList.toggle('is-locked', !unlocked);
+      trigger.setAttribute('aria-label', `当前玩法 ${next} · ${modeNames[next]}，${unlocked ? '选择玩法' : '玩法切换尚未解锁'}`);
+      if (next === mode) return;
       mode = next;
       emblems ??= makeEmblems();
       const other = mode === 'A' ? 'B' : 'A';
@@ -87,7 +110,6 @@ export function mountModeSwitch(toolbar, onSelect) {
         button.dataset.mode = value;
         button.querySelector('.mode-emblem').replaceChildren(emblems[value]);
       }
-      trigger.setAttribute('aria-label', `当前玩法 ${mode} · ${modeNames[mode]}，选择玩法`);
       alternate.setAttribute('aria-label', `切换到玩法 ${other} · ${modeNames[other]}`);
     },
     get open() { return open; },

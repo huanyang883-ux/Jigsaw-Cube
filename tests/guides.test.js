@@ -18,6 +18,17 @@ test('home reminders use 3s / 5s independently and never point at a locked entry
   assert.equal(chooseGuide({ ...state, idleMs: 8000 }), null);
 });
 
+test('the home hand follows the mode menu and gives its open choices priority', () => {
+  const state = { mode: 'home', learned: freshGuides(), canEnter: true, suggestModeSwitch: true };
+  assert.equal(chooseGuide({ ...state, idleMs: 2999 }), null);
+  assert.equal(chooseGuide({ ...state, idleMs: 3000 }), 'openModeSwitch');
+  assert.equal(chooseGuide({ ...state, idleMs: 9000 }), 'openModeSwitch');
+  assert.equal(chooseGuide({ ...state, modeSwitchOpen: true, idleMs: 399 }), null);
+  assert.equal(chooseGuide({ ...state, modeSwitchOpen: true, idleMs: 400 }), 'selectAlternateMode');
+  assert.equal(chooseGuide({ ...state, suggestModeSwitch: false, modeSwitchOpen: true, idleMs: 9000 }), null);
+  assert.equal(chooseGuide({ ...state, mode: 'chapters', hasLevel: true, idleMs: 5000 }), 'enterLevel');
+});
+
 test('learned actions persist, but only home and puzzle tutorials are permanently dismissed', () => {
   const p = freshProgress();
   for (const action of Object.keys(p.guides)) { assert.ok(learnGuide(p, action)); assert.equal(learnGuide(p, action), false); }
