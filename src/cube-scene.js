@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { stageResolution } from './render-resolution.js';
 import { THEMES, isComplete, faceSize, themeUnlocked, currentTheme, currentFace } from './progress.js';
 import { createBackTexture } from './card-back.js';
@@ -43,6 +44,20 @@ function stickerGeometry(size) {
   const geo = new THREE.ShapeGeometry(shape, 10), uv = geo.getAttribute('uv');
   for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) / size + .5, uv.getY(i) / size + .5);
   return geo;
+}
+
+// Home stickers are fixed relative to their face. The back repeats once per
+// tile; a fully revealed face samples the cover continuously across the gaps.
+function stickerFaceGeometries(sticker, order) {
+  const tiles = Array.from({ length: order ** 2 }, (_, level) =>
+    sticker.clone().translate((level % order + .5) / order - .5, .5 - (Math.floor(level / order) + .5) / order, 0));
+  const back = mergeGeometries(tiles);
+  tiles.forEach((tile, level) => {
+    const uv = tile.getAttribute('uv');
+    const col = level % order, row = order - 1 - Math.floor(level / order);
+    for (let i = 0; i < uv.count; i++) uv.setXY(i, (uv.getX(i) + col) / order, (uv.getY(i) + row) / order);
+  });
+  return { back, cover: mergeGeometries(tiles) };
 }
 
 function arrowGeometry() {
@@ -218,16 +233,23 @@ export class CubeScene {
     atlas.minFilter = THREE.LinearFilter;
     atlas.needsUpdate = true;
     const size = image.width / 6;
-    for (const [theme, tiles] of this.tiles.entries()) {
+    for (const [theme, cube] of this.models.entries()) {
       if (THEMES[theme].comingSoon) continue;
-      for (const tile of tiles) {
-        const { face, level, complete } = tile.userData;
+      for (const surface of cube.children) {
+        const { tiles } = surface.userData;
+        if (!tiles) continue;
+        const face = tiles.children[0].userData.face;
         // Sample between texel centers so filtering cannot bleed into an adjacent cover.
         const x = (face * size + .5) / image.width;
         const y = 1 - ((theme + 1) * size - .5) / image.height;
-        const preview = tileMap(atlas, THEMES[theme].order, level, x, y, (size - 1) / image.width, (size - 1) / image.height);
-        tile.userData.preview = preview;
-        if (complete) tile.material.map = preview;
+        const width = (size - 1) / image.width, height = (size - 1) / image.height;
+        surface.userData.preview = tileMap(atlas, 1, 0, x, y, width, height);
+        for (const tile of tiles.children) {
+          const { level, complete } = tile.userData;
+          const preview = tileMap(atlas, THEMES[theme].order, level, x, y, width, height);
+          tile.userData.preview = preview;
+          if (complete) tile.material.map = preview;
+        }
       }
     }
     this.renderer.initTexture(atlas);
@@ -270,9 +292,16 @@ export class CubeScene {
     if (!this.faceArtJob && next) this.requestFaceArt(next.theme, next.face);
   }
 
-  resetProgress(progress, gameplay = 'A') {
-    this.cancelFaceArt(); this.failedFaceArt.clear();
-    this.progress = progress; this.face = currentFace(progress, this.theme); this.gesture = null;
+  resetProgress(progress, gameplay = 'A', homeTheme) {
+    this.cancelFaceArt(); this.failedFaceArt.clear(); this.cancelGesture();
+    if (homeTheme !== undefined) {
+      this.current.visible = false;
+      this.current = this.models[homeTheme]; this.current.visible = true;
+      this.current.position.set(0, 35, 0); this.current.scale.setScalar(460);
+      this.theme = this.arrowTheme = homeTheme;
+      this.mode = 'home'; this.homePose = null;
+    }
+    this.progress = progress; this.face = currentFace(progress, this.theme);
     const palette = gameplay === 'B' ? JIGSAW_THEME_ART : THEME_ART;
     if (palette !== this.palette) {
       this.palette = palette;
@@ -294,7 +323,7 @@ export class CubeScene {
 
   buildCube(theme) {
     const cube = new THREE.Group(), n = THEMES[theme].order, unit = 1 / n;
-    const bodyGeo = new RoundedBoxGeometry(unit * .972, unit * .972, unit * .972, 3, unit * .075);
+    const bodyGeo = new RoundedBoxGeometry(unit * .972, unit * .972, unit * .972, 2, unit * .075);
     const bodyMaterial = new THREE.MeshStandardMaterial({ color: this.palette[theme].body, roughness: .65, metalness: 0 });
     cube.userData.shellMaterial = bodyMaterial;
     // All shell blocks share one geometry/material and one draw submission.
@@ -306,9 +335,14 @@ export class CubeScene {
     }
     body.instanceMatrix.needsUpdate = true; cube.add(body);
     const stickerGeo = stickerGeometry(unit * .899);
+    const faceGeometry = cube.userData.faceGeometry = stickerFaceGeometries(stickerGeo, n);
     const tileList = [];
     for (let face = 0; face < 6; face++) {
       const surface = new THREE.Group(); surface.rotation.set(...FACE_ROTATIONS[face]);
+      const tiles = new THREE.Group();
+      const batch = new THREE.Mesh(faceGeometry.back, new THREE.MeshBasicMaterial({ map: this.themeBacks[theme], toneMapped: false }));
+      surface.add(tiles, batch); batch.visible = false;
+      Object.assign(surface.userData, { tiles, batch, coverUrl: THEMES[theme].faceArt[face] });
       surface.userData.normal = FACE_NORMALS[face];
       surface.position.copy(new THREE.Vector3(0, 0, .5005).applyEuler(surface.rotation));
       cube.add(surface);
@@ -321,7 +355,7 @@ export class CubeScene {
         const tile = new THREE.Mesh(stickerGeo, mat);
         tile.position.set((col + .5) / n - .5, .5 - (row + .5) / n, 0);
         tile.userData = { theme, face, level: index, picture: null, complete };
-        surface.add(tile); tileList.push(tile);
+        tiles.add(tile); tileList.push(tile);
       }
     }
     this.tiles[theme] = tileList;
@@ -426,13 +460,18 @@ export class CubeScene {
     this.failedFaceArt.clear();
     this.face = currentFace(this.progress, theme);
     const old = this.current, next = this.models[theme], startQuaternion = homeQuaternion(this.face);
-    this.theme = theme; next.visible = true; next.scale.setScalar(460); next.position.set(direction * 1350, 35, 0); next.quaternion.copy(startQuaternion);
+    // 950 clears the 1080-wide camera even at the widest cube orientation.
+    // Anything further adds empty travel between the two visible models.
+    const travel = direction * 950;
+    this.theme = theme; next.visible = true; next.scale.setScalar(460); next.position.set(travel, 35, 0); next.quaternion.copy(startQuaternion);
     this.planFaceArt();
     const first = this.nextFaceArt();
     if (first?.theme === theme && isFront(first)) this.requestFaceArt(theme, first.face);
     await this.tween(680, (t) => {
-      const e = smooth(t); old.position.x = -direction * 1350 * e; next.position.x = direction * 1350 * (1 - e);
-      old.scale.setScalar(460 - 80 * Math.sin(t * Math.PI)); next.scale.setScalar(460 - 80 * Math.sin(t * Math.PI));
+      const e = smooth(t); old.position.x = -travel * e; next.position.x = travel * (1 - e);
+      const scale = 460 - 30 * Math.sin(t * Math.PI);
+      old.scale.setScalar(scale); next.scale.setScalar(scale);
+      if (!this.reducedMotion) next.position.y = 35 + Math.sin(performance.now() * .00065) * 11;
     });
     old.visible = false; next.position.x = 0; next.scale.setScalar(460); this.current = next;
     this.planFaceArt(true);
@@ -531,8 +570,17 @@ export class CubeScene {
     for (const cube of this.models) {
       if (!cube.visible) continue;
       for (const part of cube.children) {
-        const normal = part.userData.normal;
-        if (normal) part.visible = this.faceNormal.copy(normal).applyQuaternion(cube.quaternion).z > 0;
+        const { normal, tiles, batch, coverUrl } = part.userData;
+        if (!normal) continue;
+        part.visible = this.faceNormal.copy(normal).applyQuaternion(cube.quaternion).z > 0;
+        if (!part.visible) continue;
+        const first = tiles.children[0], complete = first.userData.complete;
+        batch.visible = this.mode === 'home' && tiles.children.every(tile => tile.userData.complete === complete);
+        tiles.visible = !batch.visible;
+        if (batch.visible) {
+          batch.geometry = complete ? cube.userData.faceGeometry.cover : cube.userData.faceGeometry.back;
+          batch.material.map = complete ? this.art.get(coverUrl)?.texture ?? part.userData.preview : first.material.map;
+        }
       }
     }
     this.renderer.render(this.scene, this.camera);
@@ -589,6 +637,10 @@ export class CubeScene {
     for (const tiles of this.tiles) for (const tile of tiles) tile.userData.preview?.dispose();
     this.previewAtlas?.dispose();
     const geometries = new Set(), materials = new Set();
+    for (const cube of this.models) {
+      for (const geometry of Object.values(cube.userData.faceGeometry)) geometries.add(geometry);
+      for (const part of cube.children) part.userData.preview?.dispose();
+    }
     this.scene.traverse((o) => { if (o.isInstancedMesh) o.dispose(); if (o.geometry) geometries.add(o.geometry); if (o.material) materials.add(o.material); });
     for (const g of geometries) g.dispose(); for (const m of materials) m.dispose(); for (const texture of this.themeBacks) texture.dispose();
     this.renderer.dispose(); this.renderer.forceContextLoss(); this.renderer.domElement.remove(); this.effects.remove();

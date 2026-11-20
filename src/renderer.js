@@ -5,12 +5,34 @@ import { boardSize, xy, groupFor, groups, linked, clampDelta } from './puzzle.js
 import { pieceBounds } from './piece-geometry.js';
 import { createIntroPlan, introPose, INTRO_DURATION } from './intro.js';
 import { createBackTexture } from './card-back.js';
-import { cardShapeUniforms, updateCardShape, createCardFaceMaterial, createCardShadowMaterial, createCardBodyGeometry, SHADOW_REACH } from './card-surface.js';
+import { cardShapeUniforms, updateCardShape, createCardFaceMaterial, createCardShadowMaterial, updateCardShadow, createCardBodyGeometry, SHADOW_REACH } from './card-surface.js';
 import { createMergeFlashMaterial, mergeFlashEnvelope, MERGE_FLASH_DURATION } from './merge-flash.js';
 import { WinConfetti } from './win-confetti.js';
 
 const easeOut = (t) => 1 - (1 - t) ** 3;
-const DRAG_SHADOW_Z = .12;
+const PICKUP_MS = 120;
+const SHADOW_X = .32, SHADOW_Y = -.43;
+
+function projectDragShadow(card, cellHeight, contactHeight) {
+  const { mesh, shadow } = card;
+  mesh.updateMatrix();
+  const m = mesh.matrix.elements, { x, y, z } = mesh.position;
+  // Keep a single receiver below the whole group but above nearby resting
+  // photos while airborne, so the shadow also lands when the cards do.
+  const receiverZ = Math.min(.045, contactHeight - .065);
+  shadow.position.set(x + .018 + SHADOW_X * z, y - .026 + SHADOW_Y * z, receiverZ);
+  // Project both local axes along the same light ray as the center. Neighboring
+  // tiles then cast one continuous silhouette even when the group is tilted.
+  shadow.matrixAutoUpdate = false;
+  shadow.matrix.set(
+    m[0] + SHADOW_X * m[2], m[4] + SHADOW_X * m[6], 0, shadow.position.x,
+    m[1] + SHADOW_Y * m[2], m[5] + SHADOW_Y * m[6], 0, shadow.position.y,
+    0, 0, 1, shadow.position.z,
+    0, 0, 0, 1,
+  );
+  shadow.matrixWorldNeedsUpdate = true;
+  updateCardShadow(shadow.material, z, m[2], m[6], cellHeight);
+}
 
 export class PuzzleRenderer {
   constructor(host, positions, callbacks, theme = 0) {
@@ -23,6 +45,7 @@ export class PuzzleRenderer {
     this.theme = theme;
     this.cards = [];
     this.mergePulse = null;
+    this.contactHeight = 0;
     this.busy = true;
     this.blocked = false;
     this.reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -225,7 +248,9 @@ export class PuzzleRenderer {
   startDrag(id, start, pointerId) {
     this.clearMergeFeedback();
     this.hint = null;
-    this.drag = { id, ids: groupFor(this.positions, id), start, pointerId, delta: { x: 0, y: 0 } };
+    const ids = groupFor(this.positions, id);
+    const pieces = ids.map((piece) => ({ card: this.cards[piece], ...this.world(this.positions[piece]) }));
+    this.drag = { id, ids, pieces, start, pointerId, pickedAt: performance.now(), pickup: 0 };
     this.three.domElement.style.cursor = 'grabbing';
     this.callbacks.onGrab?.();
     this.dragDelta(0, 0);
@@ -235,29 +260,44 @@ export class PuzzleRenderer {
     if (!this.drag.moved && Math.hypot(dx, dy) > .06) { this.drag.moved = true; this.callbacks.onDrag?.(); }
     const d = clampDelta(this.positions, this.drag.ids, dx, dy);
     this.drag.delta = d;
-    const excessX = dx - d.x, excessY = dy - d.y;
-    const tilt = new THREE.Quaternion().setFromEuler(new THREE.Euler(
-      Math.max(-.12, Math.min(.12, excessY * .16)),
-      Math.max(-.12, Math.min(.12, excessX * .16)), 0,
-    ));
-    const pivot = new THREE.Vector3();
-    this.drag.ids.forEach((id) => { const p = this.world(this.positions[id]); pivot.x += p.x; pivot.y += p.y; });
-    pivot.divideScalar(this.drag.ids.length);
-    const nudgeX = Math.tanh(excessX) * .045, nudgeY = Math.tanh(excessY) * .045 * this.cellHeight;
-    const pieces = this.drag.ids.map((id) => {
-      const p = this.world(this.positions[id]);
-      return { p, card: this.cards[id], offset: new THREE.Vector3(p.x - pivot.x, p.y - pivot.y, 0).applyQuaternion(tilt) };
-    });
-    const depthAxis = new THREE.Vector3(0, 0, 1).applyQuaternion(tilt.clone().invert());
-    const halfDepth = .501 * (Math.abs(depthAxis.x) + this.cellHeight * Math.abs(depthAxis.y)) + .032;
-    const lift = Math.max(.23, DRAG_SHADOW_Z + .015 + halfDepth - Math.min(...pieces.map(({ offset }) => offset.z)));
-    for (const { p, card, offset } of pieces) {
-      card.mesh.position.set(pivot.x + offset.x + d.x + nudgeX, pivot.y + offset.y - d.y * this.cellHeight - nudgeY, lift + offset.z);
-      card.mesh.quaternion.copy(tilt);
-      card.shadow.position.set(p.x + d.x + .04, p.y - d.y * this.cellHeight - .06, DRAG_SHADOW_Z);
-      card.shadow.material.opacity = .17;
-    }
+    this.drag.excessX = dx - d.x;
+    this.drag.excessY = dy - d.y;
+    // A fast swipe can cross into another cell before the pickup easing ends.
+    this.drag.pickup = Math.max(this.drag.pickup, Math.min(1, Math.hypot(dx, dy) * 4));
+    this.poseDrag(performance.now());
     this.invalidate();
+  }
+  poseDrag(time) {
+    const drag = this.drag, { pieces, delta, excessX, excessY } = drag;
+    const t = this.reducedMotion ? 1 : THREE.MathUtils.clamp((time - drag.pickedAt) / PICKUP_MS, 0, 1);
+    const pickup = drag.pickup = Math.max(drag.pickup, easeOut(t));
+    drag.pickingUp = pickup < 1;
+    const length = Math.hypot(excessX, excessY * this.cellHeight);
+    const nx = length ? excessX / length : 0, ny = length ? -excessY * this.cellHeight / length : 0;
+    const pressure = Math.tanh(3.2 * Math.hypot(excessX, excessY));
+    // The leading edge stays at the board limit. Rotate the whole footprint
+    // about that support line, including irregular groups and diagonal pulls.
+    let leading = -Infinity, trailing = Infinity;
+    for (const { x, y } of pieces) {
+      const along = nx * x + ny * y;
+      leading = Math.max(leading, along);
+      trailing = Math.min(trailing, along);
+    }
+    const halfTile = (Math.abs(nx) + this.cellHeight * Math.abs(ny)) * .5;
+    leading += halfTile;
+    const span = leading - trailing + halfTile;
+    const maxTilt = THREE.MathUtils.degToRad(this.reducedMotion ? 3 : 8);
+    const angle = pickup * pressure * Math.min(maxTilt, Math.atan2(.52, span));
+    const sin = Math.sin(angle), inset = 1 - Math.cos(angle);
+    const tilt = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(-ny, nx, 0), angle);
+    const lift = pickup * (.28 - .18 * pressure);
+    this.contactHeight = lift;
+    for (const { card, x, y } of pieces) {
+      const arm = leading - nx * x - ny * y;
+      card.mesh.position.set(x + delta.x + nx * inset * arm, y - delta.y * this.cellHeight + ny * inset * arm, lift + sin * arm);
+      card.mesh.quaternion.copy(tilt);
+      projectDragShadow(card, this.cellHeight, lift);
+    }
   }
   releaseCapture() {
     const id = this.drag?.pointerId;
@@ -307,7 +347,7 @@ export class PuzzleRenderer {
     }
     this.busy = true;
     return new Promise((resolve) => {
-      this.animation = { start: performance.now(), duration: instant || this.reducedMotion ? 1 : intro ? INTRO_DURATION : 230, sources, rotations, pivots, intro, introPlan, resolve };
+      this.animation = { start: performance.now(), duration: instant || this.reducedMotion ? 1 : intro ? INTRO_DURATION : 230, sources, contactHeight: this.contactHeight, rotations, pivots, intro, introPlan, resolve };
       this.invalidate();
     });
   }
@@ -399,15 +439,18 @@ export class PuzzleRenderer {
   animate = (time) => {
     this.frame = null;
     if (document.hidden) return;
-    const renderBoard = this.boardDirty || this.animation || this.mergePulse;
+    const renderBoard = this.boardDirty || this.animation || this.mergePulse || this.drag?.pickingUp;
     const drawGuides = this.effectsDirty || this.hint;
     this.boardDirty = this.effectsDirty = false;
+    if (this.drag?.pickingUp) this.poseDrag(time);
     if (this.animation) {
       const animation = this.animation;
       const t = Math.max(0, Math.min((time - animation.start) / animation.duration, 1));
+      const v = easeOut(t);
+      this.contactHeight = animation.contactHeight * (1 - v);
       this.cards.forEach((card, id) => {
         const target = this.world(this.positions[id]);
-        const start = animation.sources[id], v = easeOut(t);
+        const start = animation.sources[id];
         if (animation.intro) {
           const pose = introPose(t * INTRO_DURATION, animation.introPlan[id]);
           card.mesh.position.set(target.x + pose.x, target.y + pose.y * this.cellHeight, pose.z);
@@ -418,8 +461,15 @@ export class PuzzleRenderer {
           const pivot = animation.pivots.get(id);
           if (pivot) card.mesh.position.lerpVectors(pivot.from, pivot.to, v).add(pivot.relative.clone().applyQuaternion(card.mesh.quaternion));
         }
-        card.shadow.position.set(card.mesh.position.x + .018, card.mesh.position.y - .026, -.065);
-        card.shadow.material.opacity = .12;
+        if (!card.shadow.matrixAutoUpdate) {
+          projectDragShadow(card, this.cellHeight, this.contactHeight);
+          if (t === 1) {
+            card.shadow.matrixAutoUpdate = true;
+            updateCardShadow(card.shadow.material, 0);
+          }
+        } else {
+          card.shadow.position.set(card.mesh.position.x + .018, card.mesh.position.y - .026, -.065);
+        }
       });
       if (t === 1) {
         this.cards.forEach((card, id) => {
@@ -459,7 +509,7 @@ export class PuzzleRenderer {
     if (drawGuides) this.drawOverlay(time);
     if (renderBoard) this.three.render(this.scene, this.camera);
     if (drawGuides) this.pixi.render();
-    if (this.animation || this.mergePulse || this.hint) this.scheduleFrame();
+    if (this.animation || this.mergePulse || this.hint || this.drag?.pickingUp) this.scheduleFrame();
   };
 
   destroy() {

@@ -17,7 +17,7 @@ import { photoLayout } from './piece-geometry.js';
 import { levelAspect, useProp, nextPlayableLevel, levelConfig, freshStats, completeAllLevels } from './progress.js';
 import { IdleGuide } from './idle-guide.js';
 import { learnGuide, guideMove } from './guide-state.js';
-import { loading } from './loading.js';
+import { loading, withLoadingTransition } from './loading.js';
 import { loadImageAsset } from './preload.js';
 import { moveGroup, solved, connectionCount, newlyConnectedGroups } from './puzzle.js';
 import { SAVE_KEY, THEMES, faceSize, levelKey, levelArt, initialLayout, isComplete, faceComplete, themeComplete, themeUnlocked, unlockedFaces, currentTheme, currentFace, markComplete } from './progress.js';
@@ -133,7 +133,7 @@ const viewportObserver = new ResizeObserver(queueResize);
 viewportObserver.observe($('.viewport'));
 
 function updateModeSwitch() {
-  modeSwitch.update({ mode: account.selected, visible: mode === 'home', unlocked: jigsawUnlocked(account),
+  modeSwitch.update({ mode: account.selected, visible: mode === 'home' || mode === 'chapters', unlocked: jigsawUnlocked(account),
     disabled: busy || !ready || settingsOpen || !overlay.hidden });
 }
 function setSettingsOpen(open, restoreFocus = false) {
@@ -307,16 +307,20 @@ async function selectTheme(next, direction = 1) {
   }
 }
 async function selectGameplay(next) {
-  if (!ready || busy || cube.busy || settingsOpen || !overlay.hidden || mode !== 'home') return;
-  if (!selectAccountMode(account, next)) return;
-  const previousTheme = theme;
+  if (!ready || busy || cube.busy || settingsOpen || !overlay.hidden || loading.visible || mode === 'puzzle') return;
+  if (account.selected === next || !jigsawUnlocked(account)) return;
   busy = true;
-  progress = account[next]; audio.enabled = progress.sound;
-  theme = currentTheme(progress); face = currentFace(progress, theme);
-  cube.resetProgress(progress, account.selected);
-  save(); refresh(); audio.play('move');
-  if (previousTheme !== theme) await cube.switchTheme(theme, theme > previousTheme ? 1 : -1);
+  guide?.hide();
+  updateModeSwitch();
+  await withLoadingTransition(() => {
+    selectAccountMode(account, next);
+    progress = account[account.selected]; audio.enabled = progress.sound;
+    mode = 'home'; theme = currentTheme(progress); face = currentFace(progress, theme);
+    cube.resetProgress(progress, account.selected, theme);
+    save(); refresh(); audio.play('move');
+  });
   busy = false; refresh();
+  $('#mode-switch').focus({ preventScroll: true });
 }
 async function navigate(direction) {
   if (!ready || busy || mode === 'puzzle') return;

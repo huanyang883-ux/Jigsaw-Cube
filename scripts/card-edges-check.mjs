@@ -147,7 +147,55 @@ try {
     assert.ok(tested>0,`${name} fixture includes a concave corner`);
     report.push({fixture:name,aspect,corners:tested});
   }
+  // A three-piece bar spans the board: left and right drags tilt the same
+  // group without changing its cell, so its shadows should differ on screen.
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  const shadows = await page.evaluate(async () => {
+    const positions = [8,7,6,3,4,5,2,1,0];
+    await window.makeEdgeFixture(3, 2 / 3, positions);
+    const r = window.edgeRenderer;
+    r.cards.forEach((card, id) => {
+      card.mesh.visible = false;
+      card.shadow.visible = [3,4,5].includes(id);
+    });
+    const gl = r.three.getContext(), w = gl.drawingBufferWidth, h = gl.drawingBufferHeight;
+    function readShadow() {
+      r.three.render(r.scene, r.camera);
+      const image = new Uint8Array(w * h * 4);
+      gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, image);
+      return image;
+    }
+    function changedFraction(first, second) {
+      let changed = 0;
+      for (let i = 3; i < first.length; i += 4) {
+        if (Math.abs(first[i] - second[i]) > 2) changed++;
+      }
+      return changed / (w * h);
+    }
+    async function afterAnimation() {
+      const deadline = performance.now() + 2000;
+      while (r.frame != null && performance.now() < deadline) await new Promise(requestAnimationFrame);
+      return readShadow();
+    }
+    const rest = readShadow();
+    r.startDrag(4, r.world(4), null);
+    const pickup = await afterAnimation();
+    r.dragDelta(-.8, 0);
+    const left = await afterAnimation();
+    r.dragDelta(.8, 0);
+    const right = await afterAnimation();
+    await r.setPositions(positions);
+    return {
+      pickup: changedFraction(rest, pickup),
+      tilt: changedFraction(left, right),
+      settled: changedFraction(rest, readShadow()),
+    };
+  });
+  assert.ok(shadows.pickup > .001, `touching a group visibly changes its contact shadow (${shadows.pickup})`);
+  assert.ok(shadows.tilt > .001, `opposing blocked drags cast different shadows (${shadows.tilt})`);
+  assert.equal(shadows.settled, 0, 'the released group regains its original shadow');
+  report.push({ fixture: 'drag-shadow', changedFractions: shadows });
   assert.deepEqual(errors,[]);
   await fs.writeFile('test-results/card-edge-rendering.json',JSON.stringify(report,null,2));
-  console.log('PASS: continuous concave rims and shared shadows in all L orientations, T/stair/hole groups for square/portrait/landscape cards; matching merge sheen; seam-free 3x3/4x4/9x9 groups, draggable joins, bounded render passes and no shader errors.');
+  console.log('PASS: continuous concave rims and shared shadows in all L orientations, T/stair/hole groups for square/portrait/landscape cards; matching merge sheen; seam-free 3x3/4x4/9x9 groups, draggable joins, projected pickup/tilt/landing shadows, bounded render passes and no shader errors.');
 } finally {await browser.close();}

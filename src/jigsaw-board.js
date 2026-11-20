@@ -6,8 +6,6 @@ import { MERGE_FLASH_DURATION } from './merge-flash.js';
 
 const SVG = 'http://www.w3.org/2000/svg';
 const LAND_MS = 195;
-// Height of the held group above its position on the table, in cell units.
-const LIFT = .06;
 let nextBoard = 0;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const toolIcon = (paths) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
@@ -314,6 +312,11 @@ export class JigsawBoard {
     this.drag = { id, pointerId: e.pointerId, pointerType: e.pointerType, start: point, offset, tray: trayTarget,
       trayTop: trayTarget ? this.tray.getBoundingClientRect().top : null,
       scrollLeft: this.tray.scrollLeft, pan: { ...this.pan }, kind: 'pending' };
+    if (pieceNode && !trayTarget) {
+      const p = this.boardPoint(point.x, point.y);
+      this.drawGhost(id);
+      this.positionGhost(p.x - offset.x, p.y - offset.y);
+    }
   }
 
   touchPair() {
@@ -353,7 +356,7 @@ export class JigsawBoard {
       else if (drag.id === null) drag.kind = 'pan';
       else {
         drag.kind = 'piece';
-        this.drawGhost(drag.id);
+        if (drag.tray) this.drawGhost(drag.id);
       }
     }
     if (drag.kind === 'scroll' && drag.id !== null && (point.y < drag.trayTop || (dy < -12 && -dy > Math.abs(dx) * .65))) {
@@ -385,6 +388,10 @@ export class JigsawBoard {
     svg.setAttribute('viewBox', `${left} ${top} ${width} ${height}`);
     svg.style.width = `${width * cell}px`;
     svg.style.height = `${height * cell}px`;
+    // Scale the group's one soft shadow with its cuts, within phone-readable
+    // limits on the densest board and at maximum zoom.
+    svg.style.setProperty('--jb-shadow-cell', `${clamp(cell, 115, 245)}px`);
+    svg.classList.toggle('jb-held', liftSource);
     this.float.replaceChildren(...members.map(p => {
       const source = p.x === null ? this.trayButtons.get(p.id) : this.stamps.get(p.id);
       if (liftSource) source?.classList.add('jb-lifted');
@@ -402,7 +409,7 @@ export class JigsawBoard {
   }
 
   positionGhost(x, y) {
-    this.float.ownerSVGElement.style.transform = this.ghostTransform(x, y - LIFT);
+    this.float.ownerSVGElement.style.transform = this.ghostTransform(x, y);
   }
 
   pointerUp(e) {
@@ -424,7 +431,7 @@ export class JigsawBoard {
       this.onDrag?.();
       const point = this.boardPoint(e.clientX, e.clientY);
       const x = point.x - drag.offset.x, y = point.y - drag.offset.y;
-      const from = { x, y: y - LIFT };
+      const from = { x, y };
       this.clearDrag(true);
       if (this.hitWindow(e.clientX, e.clientY)) {
         this.drop(drag.id, x, y, from);
@@ -436,9 +443,11 @@ export class JigsawBoard {
       }
       return;
     }
-    this.clearDrag();
+    const tableTap = drag.kind === 'pending' && drag.id !== null && !drag.tray;
+    this.clearDrag(tableTap);
     if (drag.kind === 'pending' && drag.id !== null) {
       this.selectPiece(drag.id);
+      if (tableTap) this.animateLanding(drag.id, this.model.groupIds(drag.id), this.pieceOrigin(drag.id));
     } else if (drag.kind === 'pending' && this.selection !== undefined && this.hitWindow(e.clientX, e.clientY)) {
       const point = this.boardPoint(e.clientX, e.clientY);
       this.drop(this.selection, point.x - .5, point.y - .5);
@@ -447,8 +456,13 @@ export class JigsawBoard {
 
   clearDrag(keepGhost = false) {
     this.drag = null;
-    if (!keepGhost && !this.flight) this.float.replaceChildren();
+    if (!keepGhost && !this.flight) this.clearGhost();
     this.host.querySelectorAll('.jb-lifted').forEach(el => el.classList.remove('jb-lifted'));
+  }
+
+  clearGhost() {
+    this.float.ownerSVGElement.classList.remove('jb-held', 'jb-landing', 'jb-return', 'jb-regrabbable');
+    this.float.replaceChildren();
   }
 
   cancelDrag(keepFlight = false) {
@@ -510,7 +524,7 @@ export class JigsawBoard {
   animateLanding(id, members, from) {
     const p = this.model.pieces[id];
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      this.float.replaceChildren();
+      this.clearGhost();
       return 0;
     }
     // Touch and keyboard drops retain the already-rasterized, group-sized drag layer.
@@ -527,10 +541,11 @@ export class JigsawBoard {
   flyTo(end, destinations, kind, regrabbable = false) {
     const ghost = this.float.ownerSVGElement;
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      this.float.replaceChildren();
+      this.clearGhost();
       return;
     }
     for (const node of destinations) node.classList.add('jb-arriving');
+    ghost.classList.remove('jb-held');
     ghost.classList.add(kind);
     ghost.classList.toggle('jb-regrabbable', regrabbable);
     const animation = ghost.animate([{ transform: ghost.style.transform, opacity: 1 }, end],
@@ -546,8 +561,7 @@ export class JigsawBoard {
     animation.onfinish = null;
     animation.cancel();
     if (!this.model.solved) for (const node of destinations) node.classList.remove('jb-arriving');
-    this.float.ownerSVGElement.classList.remove('jb-landing', 'jb-return', 'jb-regrabbable');
-    this.float.replaceChildren();
+    this.clearGhost();
   }
 
   flash(id) {
@@ -626,7 +640,7 @@ export class JigsawBoard {
     } else {
       this.keyboard = null;
       this.clearDrag(e.key !== 'Escape');
-      if (e.key !== 'Escape') this.drop(pos.id, pos.x, pos.y, { x: pos.x, y: pos.y - LIFT });
+      if (e.key !== 'Escape') this.drop(pos.id, pos.x, pos.y, { x: pos.x, y: pos.y });
       const focus = this.host.querySelector(`[data-piece="${pos.id}"]`) ?? this.tray.firstElementChild;
       focus?.focus({ preventScroll: true });
     }

@@ -62,32 +62,31 @@ try {
   const from = await p.evaluate((id) => window.__game.pieceCenter(id), hint.id);
   const to = await p.evaluate((cell) => window.__game.cellCenter(cell), (at.y + hint.dy) * 3 + at.x + hint.dx);
   const cdp = await c.newCDPSession(p);
-  async function touchMove(from, to, release = true) {
-    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [from] });
+  async function touchMove(from, to) {
     for (let i = 1; i <= 8; i++) await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: from.x + (to.x - from.x) * i / 8, y: from.y + (to.y - from.y) * i / 8 }] });
-    if (release) { await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }); await idle(p); }
   }
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [from] });
   await touchMove(from, to);
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }); await idle(p);
   const joined = (await state(p)).session.positions;
   assert.deepEqual(joined, moveGroup(initial, hint.id, hint.dx, hint.dy));
   assertSeamless(joined, await p.evaluate(() => window.__game.puzzleGeometry()));
   await p.screenshot({ path: 'test-results/portrait-joined.png' });
-  const movable = groups(joined).filter((g) => g.length > 1).flatMap((g) => [[.2, 0], [-.2, 0], [0, .2], [0, -.2]].map(([dx, dy]) => ({ ids: g, d: clampDelta(joined, g, dx, dy) }))).find(({ d }) => Math.abs(d.x) + Math.abs(d.y) > .1);
-  if (movable) {
-    const start = await p.evaluate((id) => window.__game.pieceCenter(id), movable.ids[0]);
-    const rect = await p.locator('#puzzle-board').boundingBox(), unitX = rect.width / 3.18, unitY = rect.height / 3.18;
-    await touchMove(start, { x: start.x + movable.d.x * unitX, y: start.y + movable.d.y * unitY }, false);
-    assertSeamless(joined, await p.evaluate(() => window.__game.puzzleGeometry()));
-    await p.screenshot({ path: 'test-results/portrait-group-drag.png' });
-    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }); await idle(p);
-  }
   const blocked = groups(joined).filter((g) => g.length > 1).flatMap((ids) => [[-.7, 0], [.7, 0], [0, -.7], [0, .7]].map(([dx, dy]) => ({ ids, dx, dy, d: clampDelta(joined, ids, dx, dy) }))).find(({ d }) => d.x === 0 && d.y === 0);
   assert.ok(blocked, 'fixture includes a group blocked by a board edge');
   const start = await p.evaluate((id) => window.__game.pieceCenter(id), blocked.ids[0]);
   const rect = await p.locator('#puzzle-board').boundingBox();
-  await touchMove(start, { x: start.x + blocked.dx * rect.width / 3.18, y: start.y + blocked.dy * rect.height / 3.18 }, false);
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [start] });
+  await p.waitForFunction((ids) => {
+    const { cards } = window.__game.puzzleGeometry();
+    return ids.every((id) => cards[id].position[2] > .01);
+  }, blocked.ids);
+  assertSeamless(joined, await p.evaluate(() => window.__game.puzzleGeometry()));
+  await p.screenshot({ path: 'test-results/portrait-group-pickup.png' });
+  await touchMove(start, { x: start.x + blocked.dx * rect.width / 3.18, y: start.y + blocked.dy * rect.height / 3.18 });
   const tilted = await p.evaluate(() => window.__game.puzzleGeometry());
   assert.ok(blocked.ids.every((id) => tilted.cards[id].rotation.some((v) => Math.abs(v) > .02)), 'blocked group visibly tilts in the drag direction');
+  assert.ok(blocked.ids.every((id) => tilted.cards[id].rotation.every((v) => Math.cos(v) >= .99)), 'edge pressure foreshortens the photo by less than one percent on this axis');
   assertRigidJoins(joined, tilted);
   await p.screenshot({ path: 'test-results/portrait-blocked.png' });
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });

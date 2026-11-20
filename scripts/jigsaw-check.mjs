@@ -203,7 +203,21 @@ async function verifyResume(cols) {
   await openLevel(0);
   assert.deepEqual((await state()).session.board, snapshot);
   const rect = await page.locator('.jb-plane').boundingBox();
-  await drag(cellCenter(rect, cols, col + dx, row), cellCenter(rect, cols, col, row));
+  const grip = cellCenter(rect, cols, col + dx, row);
+  await page.screenshot({ path: 'test-results/jigsaw/table-rest.png' });
+  await touch('touchStart', [grip]);
+  const held = page.locator(`.jb-float.jb-held [data-flight-piece="${id}"]`);
+  await held.waitFor({ state: 'visible' });
+  const center = await held.evaluate(stamp => {
+    const p = new DOMPoint(.5, .5).matrixTransform(stamp.getScreenCTM());
+    return { x: p.x, y: p.y };
+  });
+  assert.ok(Math.hypot(grip.x - center.x, grip.y - center.y) < 1, 'a stationary press lifts the loose piece at its exact grip point');
+  await page.screenshot({ path: 'test-results/jigsaw/table-held.png' });
+  await touch('touchCancel', []);
+  assert.equal(await page.locator('.jb-held, .jb-lifted, .jb-float [data-flight-piece]').count(), 0, 'cancelling a pickup clears its shadow and reveals the loose piece');
+  assert.deepEqual((await state()).session.board, snapshot);
+  await drag(grip, cellCenter(rect, cols, col, row));
   assert.equal(await page.locator('.puzzle-progress').getAttribute('aria-valuenow'), '1');
 }
 

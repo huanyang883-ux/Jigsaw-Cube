@@ -17,7 +17,7 @@ export function chooseGuide({ mode, idleMs, learned, canEnter, hasLevel, canSwit
     if (idleMs >= 3000 && canEnter && !learned.enterChapter) return 'enterChapter';
   }
   // Level selection stays helpful after the player has learned the controls.
-  if (mode === 'chapters' && idleMs >= 5000) {
+  if (mode === 'chapters' && !modeSwitchOpen && idleMs >= 5000) {
     if (hasLevel) return 'enterLevel';
     if (canSwitchFace) return 'switchFace';
   }

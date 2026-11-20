@@ -78,10 +78,22 @@ export async function verifyJigsawFeedback(browser, base) {
     const cdp = await context.newCDPSession(page);
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: from.x + from.width / 2, y: from.y + from.height / 2 }] });
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [target] });
-    await page.waitForSelector('.jb-float use', { state: 'attached' });
+    const held = page.locator('.jb-float.jb-held');
+    await held.locator('[data-flight-piece]').waitFor({ state: 'visible' });
+    await held.evaluate(async node => {
+      await Promise.all(node.getAnimations().map(animation => animation.finished));
+    });
+    const center = await held.locator('[data-flight-piece]').evaluate(stamp => {
+      const p = new DOMPoint(.5, .5).matrixTransform(stamp.getScreenCTM());
+      return { x: p.x, y: p.y };
+    });
+    assert.ok(Math.hypot(center.x - target.x, center.y - target.y) < 1, 'the tray piece follows the finger to its visible drop point');
     await page.evaluate(id => {
-      const result = window.dropFeedback = { x: [], maxParticles: 0, retained: false, staticDestination: false };
+      const result = window.dropFeedback = { x: [], shadowOffsets: [], maxParticles: 0, retained: false, staticDestination: false };
       const moving = document.querySelector('.jb-float');
+      // The second CSS length in drop-shadow() is the light's vertical offset.
+      const shadowOffset = () => parseFloat(getComputedStyle(moving).filter.match(/-?[\d.]+px/g)?.[1]);
+      result.heldOffset = shadowOffset();
       document.addEventListener('pointerup', () => {
         const sample = () => {
           const now = performance.now(), particles = window.__game.celebration();
@@ -91,6 +103,7 @@ export async function verifyJigsawFeedback(browser, base) {
               const destination = document.querySelector('.jb-pieces > use[href$="-' + id + '"]');
               result.staticDestination ||= !destination;
               result.x.push(moving.getBoundingClientRect().x);
+              result.shadowOffsets.push(shadowOffset());
             }
             if (particles > 0) result.burst = now;
           }
@@ -120,6 +133,7 @@ export async function verifyJigsawFeedback(browser, base) {
     const positions = new Set(feedback.x.map(x => Math.round(x * 10) / 10));
     assert.ok(feedback.retained && feedback.staticDestination, 'the final piece uses the existing drag layer without rebuilding the finished board');
     assert.ok(positions.size >= 3 && Math.max(...positions) - Math.min(...positions) > 3, 'released piece traverses multiple visible positions before the burst');
+    assert.ok(feedback.heldOffset > 0 && Math.min(...feedback.shadowOffsets) < feedback.heldOffset * .8, 'the held silhouette casts a shadow that contracts as the piece lands');
     assert.equal(feedback.maxParticles, 90);
     assert.ok(feedback.overlay - feedback.burst >= 1850 && feedback.overlay - feedback.burst < 2800, 'normal win overlay follows two seconds of confetti');
     await assertPuzzlePreview(page, levelArt(0, 0, 0));

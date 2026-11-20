@@ -12,9 +12,18 @@ const idle = p => p.waitForFunction(() => document.querySelector('#loading')?.hi
 const stored = p => p.evaluate(() => Object.fromEntries(Object.keys(localStorage).map(key => [key, localStorage.getItem(key)])));
 async function switchTo(p, mode) {
   await p.tap('#mode-switch');
-  await p.tap(`#mode-switch-alternate[data-mode="${mode}"]`);
+  const alternate = p.locator(`#mode-switch-alternate[data-mode="${mode}"]`);
+  // Observe a rendered frame, including a same-cube switch with warm assets.
+  await Promise.all([
+    p.waitForFunction(() => {
+      const cover = document.querySelector('#loading');
+      return !cover.hidden && Number(getComputedStyle(cover).opacity) > 0 && cover.getAttribute('aria-busy') === 'true';
+    }, undefined, { timeout: 5000 }),
+    alternate.tap(),
+  ]);
   await idle(p);
   assert.equal(await p.locator('.viewport').getAttribute('data-play-mode'), mode);
+  assert.ok(await p.locator('#enter').isVisible());
 }
 
 async function pressTrophy(p) {
@@ -51,6 +60,19 @@ async function verifyResetOrder() {
     assert.equal(originalB.records['0:0:0'].moves, 5);
     assert.ok(originalB.puzzles['0:0:1']);
     assert.ok(originalB.sound && originalB.guides.enterChapter, 'old shared settings migrate into B');
+    // A has cleared the first two cubes. B has one cleared tile on its first face.
+    await page.tap('#theme-pages [data-theme="0"]'); await idle(page);
+    await page.tap('#enter');
+    await page.tap('#chapter-pages [data-face="2"]');
+    await switchTo(page, 'B');
+    assert.equal(await page.locator('#theme-pages .active').getAttribute('data-theme'), '0');
+    await page.tap('#enter');
+    await page.waitForFunction(() => document.querySelector('#game').dataset.mode === 'chapters' && !document.querySelector('#back').disabled);
+    assert.equal(await page.locator('#chapter-pages .active').getAttribute('data-face'), '0');
+    assert.equal(await page.locator('#chapter-progress').getAttribute('aria-valuenow'), '1');
+    await switchTo(page, 'A');
+    assert.equal(await page.locator('#theme-pages .active').getAttribute('data-theme'), '2');
+    assert.deepEqual((await snapshot()).B, originalB, 'switching from either wall preserves B progress');
     await pressTrophy(page);
     assert.deepEqual((await snapshot()).B, originalB, 'A trophy preserves B');
     await resetMode(page);

@@ -104,8 +104,8 @@ try {
   assert.ok(tilt.every(({ clearance, delta, tilt }) => clearance > 0 && delta.x === 0 && delta.y === 0 && tilt < 1));
   await page.tap('#back'); await idle(page);
   await page.tap('#theme-pages [data-theme="3"]'); await idle(page); await frames(page);
-  assert.equal(await page.evaluate(() => window.menuRenderer.renderer.info.render.calls), 3 * 25 + 3,
-    '5x5 home submits three faces of stickers, one instanced shell and two arrows');
+  assert.equal(await page.evaluate(() => window.menuRenderer.renderer.info.render.calls), 6,
+    '5x5 home batches the three unrevealed sticker faces, plus one shell and two arrows');
   await page.evaluate(() => {
     const cube = window.menuRenderer;
     document.querySelector('#theme-pages [data-theme="0"]').click();

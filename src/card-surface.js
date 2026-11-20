@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 
 export const CARD_RADIUS = .042;
-export const SHADOW_REACH = .08;
+// Leave room for three standard deviations of the lifted shadow's penumbra.
+export const SHADOW_REACH = .15;
 
 export function cardShapeUniforms() {
   return {
@@ -70,12 +71,12 @@ export const cardShapeGLSL = `
   }
 `;
 
-function shapeMaterial(material, shape, fragment, extra = {}) {
+function shapeMaterial(material, shape, fragment, extra = {}, declarations = '') {
   material.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, shape, extra);
     shader.vertexShader = shader.vertexShader.replace('#include <common>', '#include <common>\nvarying vec2 vCardPoint;')
       .replace('#include <begin_vertex>', '#include <begin_vertex>\nvCardPoint = position.xy;');
-    shader.fragmentShader = shader.fragmentShader.replace('#include <common>', `#include <common>\nvarying vec2 vCardPoint;\n${cardShapeGLSL}`)
+    shader.fragmentShader = shader.fragmentShader.replace('#include <common>', `#include <common>\nvarying vec2 vCardPoint;\n${cardShapeGLSL}\n${declarations}`)
       .replace('#include <color_fragment>', `#include <color_fragment>\n${fragment}`);
   };
   material.customProgramCacheKey = () => fragment;
@@ -100,7 +101,10 @@ export function createCardFaceMaterial(map, shape) {
 }
 
 export function createCardShadowMaterial(shape) {
-  return shapeMaterial(new THREE.MeshBasicMaterial({ color: 0x484336, transparent: true, opacity: .12, depthWrite: false }), shape, `
+  const material = new THREE.MeshBasicMaterial({ color: 0x484336, transparent: true, depthWrite: false });
+  const plane = new THREE.Vector3();
+  material.userData.shadowPlane = plane;
+  return shapeMaterial(material, shape, `
     // Two arms of an L share the shadow in its notch. Give each fragment to
     // the nearer tile so their translucent shadows cannot double-darken it.
     for (int i = 0; i < 4; i++) {
@@ -109,9 +113,20 @@ export function createCardShadowMaterial(shape) {
       if (uCardDiagonals[i] > 0.5 && (offset.x > 0.0 ? bisector >= 0.0 : bisector > 0.0)) discard;
     }
     float outside = max(-cardDistance(vCardPoint), 0.0);
-    diffuseColor.a *= exp(-outside * outside / (2.0 * 0.024 * 0.024));
+    vec2 pointOnTile = clamp(vCardPoint / uCardCell, vec2(-0.5), vec2(0.5));
+    float height = max(0.0, uShadowPlane.x + dot(pointOnTile, uShadowPlane.yz));
+    float lift = smoothstep(0.0, 0.45, height);
+    float blur = mix(0.024, 0.05, lift);
+    float density = mix(0.12, 0.32, smoothstep(0.0, 0.10, height)) * (1.0 - 0.27 * lift);
+    diffuseColor.a *= density * exp(-0.5 * outside * outside / (blur * blur));
     if (diffuseColor.a < 0.001) discard;
-  `);
+  `, { uShadowPlane: { value: plane } }, 'uniform vec3 uShadowPlane;');
+}
+
+// Slopes measure z change per local unit. Store the rise across each whole tile
+// so the shader can sample height at either edge, including on portrait boards.
+export function updateCardShadow(material, height, slopeX = 0, slopeY = 0, cellHeight = 1) {
+  material.userData.shadowPlane.set(height, slopeX, slopeY * cellHeight);
 }
 
 export function createCardBodyGeometry(height) {
@@ -120,14 +135,14 @@ export function createCardBodyGeometry(height) {
   shape.lineTo(x, y - r); shape.quadraticCurveTo(x, y, x - r, y);
   shape.lineTo(-x + r, y); shape.quadraticCurveTo(-x, y, -x, y - r);
   shape.lineTo(-x, -y + r); shape.quadraticCurveTo(-x, -y, -x + r, -y);
-  const geometry = new THREE.ExtrudeGeometry(shape, { depth: .04, bevelEnabled: true, bevelSize: .002, bevelThickness: .002, bevelSegments: 2, steps: 1, curveSegments: 6 });
-  geometry.translate(0, 0, -.02);
+  const geometry = new THREE.ExtrudeGeometry(shape, { depth: .048, bevelEnabled: true, bevelSize: .003, bevelThickness: .003, bevelSegments: 2, steps: 1, curveSegments: 6 });
+  geometry.translate(0, 0, -.024);
   const normals = geometry.attributes.normal, colors = new Float32Array(normals.count * 3);
-  // Baked neutral side shading keeps the small bevel readable without lights,
-  // extra passes or a postprocessing blur on every animation frame.
+  // Warm cut edges and a lighter bevel are baked once into the shared body.
   for (let i = 0; i < normals.count; i++) {
-    const light = .88 + .12 * Math.max(0, -normals.getX(i) * .4 + normals.getY(i) * .6 + normals.getZ(i) * .7);
-    colors.set([light, light * .985, light * .95], i * 3);
+    const face = Math.abs(normals.getZ(i));
+    const light = .63 + .22 * face + .15 * (-.60 * normals.getX(i) + .80 * normals.getY(i));
+    colors.set([light, light * (.90 + .08 * face), light * (.76 + .20 * face)], i * 3);
   }
   geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   return geometry;
