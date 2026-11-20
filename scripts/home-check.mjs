@@ -47,16 +47,21 @@ try {
   assert.ok(scenePalettes.every(({ transition }) => transition === 'opacity'), 'large backgrounds only animate compositor opacity');
   const cream = await color(p);
   const creamArrows = await p.evaluate(() => window.__game.arrowColors());
-  await p.tap('#next'); await p.waitForTimeout(200);
-  const intermediate = await color(p);
-  const intermediateArrows = await p.evaluate(() => window.__game.arrowColors());
+  // Sample in the page's animation frames while the two palettes blend.
+  const blending = p.waitForFunction((start) => {
+    const opacity = Number(getComputedStyle(document.querySelector('.scene-layer[data-scene="1"]')).opacity);
+    const arrows = window.__game.arrowColors();
+    return opacity > 0 && opacity < 1 && arrows[0] !== start && arrows;
+  }, creamArrows[0]);
+  await p.tap('#next');
+  const intermediateArrows = await (await blending).jsonValue();
   await idle(p); await p.waitForTimeout(200);
   const sage = await color(p);
   const sageArrows = await p.evaluate(() => window.__game.arrowColors());
   assert.notDeepEqual(creamArrows, sageArrows);
   assert.notDeepEqual(intermediateArrows, creamArrows); assert.notDeepEqual(intermediateArrows, sageArrows, 'arrows interpolate rather than snap to the new palette');
   assert.equal(intermediateArrows[0], intermediateArrows[1], 'both arrows recolor together');
-  assert.notEqual(cream, sage); assert.notEqual(intermediate, cream); assert.notEqual(intermediate, sage);
+  assert.notEqual(cream, sage);
   await p.screenshot({ path: 'test-results/home-sage.png' });
   await p.tap('#next'); await idle(p); await p.waitForTimeout(200);
   const blue = await color(p); assert.notEqual(blue, cream); assert.notEqual(blue, sage);
@@ -67,6 +72,25 @@ try {
   await p.screenshot({ path: 'test-results/home-lilac.png' });
   await p.tap('[data-theme="0"]'); await idle(p); await p.waitForTimeout(200);
   assert.equal(await color(p), cream, 'theme tabs also update the background');
+
+  // Deliver inputs before the next animation frame so none can wait for a switch to settle.
+  const rapid = await p.evaluate(() => {
+    const previous = document.querySelector('#previous');
+    const selected = () => Number(document.querySelector('.theme-page.active').dataset.theme);
+    previous.click();
+    const { x, y, width, height } = previous.getBoundingClientRect();
+    const hit = document.elementFromPoint(x + width / 2, y + height / 2);
+    const targets = [selected()];
+    hit.click(); targets.push(selected());
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' })); targets.push(selected());
+    document.querySelector('#theme-pages [data-theme="3"]').click(); targets.push(selected());
+    document.querySelector('#next').click(); targets.push(selected());
+    return { hit: hit.id, targets };
+  });
+  assert.equal(rapid.hit, 'previous', 'the moving cube keeps both arrow hotspots interactive');
+  assert.deepEqual(rapid.targets, [3, 2, 1, 3, 0], 'rapid arrows, keys and tabs share the latest requested cube');
+  await idle(p);
+  assert.equal((await state(p)).theme, 0);
 
   for (const [width, height] of [[320, 568], [360, 800], [390, 844], [430, 932], [540, 960], [768, 1024], [1024, 768], [844, 390], [1920, 1080], [2560, 1080]]) {
     await p.setViewportSize({ width, height });

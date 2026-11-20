@@ -18,7 +18,8 @@
       .loading-tiles{width:108px;height:108px;display:grid;grid-template-columns:1fr 1fr;gap:7px;transform:rotate(-8deg)}
       .loading-tiles i{background:#e0ebcf;border:2px solid #a8b98c;border-radius:16px 14px 15px 13px;box-shadow:0 4px 0 #c6d4ae;animation:load-tile 1.8s ease-in-out infinite}
       .loading-tiles i:nth-child(2){background:#f9e5c7;border-color:#d6bd92;box-shadow:0 4px 0 #e4d2af;animation-delay:.15s}.loading-tiles i:nth-child(3){background:#f2d1bf;border-color:#c9a890;box-shadow:0 4px 0 #dfbfa8;animation-delay:.45s}.loading-tiles i:nth-child(4){background:#dce9e8;border-color:#a5bfba;box-shadow:0 4px 0 #bfd5cf;animation-delay:.3s}
-      .loading-track{width:100%;height:7px;border-radius:8px;background:#e0e4d1;overflow:hidden}.loading-fill{width:0;height:100%;border-radius:inherit;background:#a9be87;transition:width .18s ease}
+      .loading-track{width:100%;height:7px;border-radius:8px;background:#e0e4d1;overflow:hidden}.loading-fill{width:100%;height:100%;border-radius:inherit;background:#a9be87;transform-origin:left;transform:scaleX(0);transition:transform .18s ease}
+      .switch-loading .loading-fill{transition:none}
       #retry-load{display:grid;place-items:center;width:58px;height:58px;border:2px solid #bcb89f;border-radius:18px;background:#fffaf0;color:#998465;box-shadow:0 4px 0 #ded8c2;cursor:pointer}#retry-load svg{width:30px;height:30px}.load-error .loading-tiles i{animation:none}
       @keyframes load-tile{0%,65%,100%{transform:translateY(0)}30%{transform:translateY(-9px) rotate(4deg)}}@media(prefers-reduced-motion:reduce){.loading-tiles i{animation:none}}
     </style>
@@ -57,7 +58,7 @@
           const ticket = ++sequence; let last = -1;
           clearTimeout(delayed); failed = false; arm(resourceUrl);
           retry.hidden = true; retry.disabled = false; screen.classList.remove('load-error');
-          fill.style.width = '0%'; fill.parentElement.setAttribute('aria-valuenow', '0'); screen.setAttribute('aria-busy', 'true');
+          fill.style.transform = 'scaleX(0)'; fill.parentElement.setAttribute('aria-valuenow', '0'); screen.setAttribute('aria-busy', 'true');
           if (delay) delayed = setTimeout(() => { screen.hidden = false; }, delay); else screen.hidden = false;
           return {
             get active() { return ticket === sequence && !failed; },
@@ -66,7 +67,7 @@
               if (ticket !== sequence || failed) return;
               const fraction = Math.max(0, Math.min(1, value));
               if (fraction > last) { last = fraction; arm(resourceUrl); }
-              fill.style.width = `${fraction * 100}%`; fill.parentElement.setAttribute('aria-valuenow', Math.round(fraction * 100));
+              fill.style.transform = `scaleX(${fraction})`; fill.parentElement.setAttribute('aria-valuenow', Math.round(fraction * 100));
             },
             finish() {
               if (ticket !== sequence || failed) return;

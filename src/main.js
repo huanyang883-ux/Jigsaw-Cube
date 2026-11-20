@@ -278,7 +278,8 @@ function refresh() {
     return `<button class="chapter-page ${i === face ? 'active' : ''} ${done ? 'done' : ''}" data-face="${i}" ${thumbnail}
       aria-label="${label}" aria-pressed="${i === face}" ${locked || busy ? 'disabled' : ''}>${done ? '' : icon(locked ? 'lock' : 'cube')}</button>`;
   }).join('');
-  $('#previous').disabled = busy || (chapters && count < 2); $('#next').disabled = $('#previous').disabled;
+  $('#previous').disabled = (busy && !requestedTheme) || (chapters && count < 2);
+  $('#next').disabled = $('#previous').disabled;
   $('#chapter-targets').hidden = !chapters;
   $('#chapter-targets').style.setProperty('--order', THEMES[theme].order);
   $('#chapter-targets').innerHTML = chapters ? Array.from({ length: faceSize(theme) }, (_, i) => `<button class="tile-focus" data-level="${i}" aria-label="第${i + 1}关${isComplete(progress, theme, face, i) ? '，已完成' : ''}" ${busy ? 'disabled' : ''}></button>`).join('') : '';
@@ -291,7 +292,8 @@ function lockedFeedback() {
 }
 
 async function selectTheme(next, direction = 1) {
-  if (!ready || mode !== 'home' || (busy && !requestedTheme) || next === (requestedTheme?.next ?? theme)) return;
+  if (!ready || mode !== 'home' || settingsOpen || !overlay.hidden || loading.visible
+    || (busy && !requestedTheme) || next === (requestedTheme?.next ?? theme)) return;
   requestedTheme = { next, direction };
   if (busy) { refreshThemePages(); return; }
   busy = true;
@@ -323,8 +325,11 @@ async function selectGameplay(next) {
   $('#mode-switch').focus({ preventScroll: true });
 }
 async function navigate(direction) {
-  if (!ready || busy || mode === 'puzzle') return;
-  if (mode === 'home') return selectTheme((theme + direction + THEMES.length) % THEMES.length, direction);
+  if (mode === 'home') {
+    const from = requestedTheme?.next ?? theme;
+    return selectTheme((from + direction + THEMES.length) % THEMES.length, direction);
+  }
+  if (!ready || busy || mode !== 'chapters' || settingsOpen || !overlay.hidden || loading.visible) return;
   const count = unlockedFaces(progress, theme);
   if (count < 2) return;
   return selectFace((face + direction + count) % count);

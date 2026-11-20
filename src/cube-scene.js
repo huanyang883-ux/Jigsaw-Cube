@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
-import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { mergeGeometries, mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import { stageResolution } from './render-resolution.js';
 import { THEMES, isComplete, faceSize, themeUnlocked, currentTheme, currentFace } from './progress.js';
 import { createBackTexture } from './card-back.js';
@@ -12,6 +12,10 @@ const FACE_NORMALS = FACE_ROTATIONS.map((rotation) => new THREE.Vector3(0, 0, 1)
 export const faceQuaternion = (face) => new THREE.Quaternion().setFromEuler(new THREE.Euler(...FACE_ROTATIONS[face])).invert();
 export const homeQuaternion = (face) => new THREE.Quaternion().setFromEuler(new THREE.Euler(.34, -.55, -.10)).multiply(faceQuaternion(face));
 const smooth = (t) => t * t * (3 - 2 * t);
+const themeSlideMs = 460;
+// At chapter scale the cube's bounding sphere spans at most 750 * sqrt(3)
+// stage units. Center the WebGL surface on the cube and leave room for its bob.
+const viewTop = 704, viewHeight = 1344;
 const isFront = ({ depth }) => depth > .04;
 const svgNS = 'http://www.w3.org/2000/svg';
 const starPath = 'M0 -1 L.22 -.22 1 0 .22 .22 0 1 -.22 .22 -1 0 -.22 -.22 Z';
@@ -41,7 +45,7 @@ function stickerGeometry(size) {
   shape.lineTo(h, h - r); shape.quadraticCurveTo(h, h, h - r, h);
   shape.lineTo(-h + r, h); shape.quadraticCurveTo(-h, h, -h, h - r);
   shape.lineTo(-h, -h + r); shape.quadraticCurveTo(-h, -h, -h + r, -h);
-  const geo = new THREE.ShapeGeometry(shape, 10), uv = geo.getAttribute('uv');
+  const geo = new THREE.ShapeGeometry(shape, 4), uv = geo.getAttribute('uv');
   for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) / size + .5, uv.getY(i) / size + .5);
   return geo;
 }
@@ -85,7 +89,8 @@ export class CubeScene {
 
   async init(onFaceProgress = () => {}) {
     this.scene = new THREE.Scene();
-    this.camera = new THREE.OrthographicCamera(-540, 540, 960, -960, 1, 6000);
+    this.scene.matrixWorldAutoUpdate = false;
+    this.camera = new THREE.OrthographicCamera(-540, 540, viewTop, viewTop - viewHeight, 1, 6000);
     this.camera.position.set(0, 0, 2500);
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' });
     this.renderer.setClearColor(0, 0);
@@ -93,6 +98,8 @@ export class CubeScene {
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.55;
     this.renderer.domElement.className = 'cube-canvas'; this.renderer.domElement.setAttribute('aria-hidden', 'true');
+    this.renderer.domElement.style.top = `${960 - viewTop}px`;
+    this.renderer.domElement.style.height = `${viewHeight}px`;
     this.host.appendChild(this.renderer.domElement);
     this.scene.add(new THREE.HemisphereLight(0xfffcf4, 0xc3bcad, 1.15));
     const key = new THREE.DirectionalLight(0xfff8ed, 1.8); key.position.set(-900, 1400, 1800); this.scene.add(key);
@@ -129,7 +136,7 @@ export class CubeScene {
     const resolution = stageResolution(Math.min(width / 1080, height / 1920, 1));
     if (resolution === this.resolution) return;
     this.resolution = resolution;
-    this.renderer.setDrawingBufferSize(1080, 1920, resolution);
+    this.renderer.setDrawingBufferSize(1080, viewHeight, resolution);
   }
 
   scheduleFrame() {
@@ -323,7 +330,11 @@ export class CubeScene {
 
   buildCube(theme) {
     const cube = new THREE.Group(), n = THEMES[theme].order, unit = 1 / n;
-    const bodyGeo = new RoundedBoxGeometry(unit * .972, unit * .972, unit * .972, 2, unit * .075);
+    // High-order bevels span only a few pixels. Share their untextured
+    // vertices so each shell instance can reuse the transformed corners.
+    const rounded = new RoundedBoxGeometry(unit * .972, unit * .972, unit * .972, n >= 4 ? 1 : 2, unit * .075);
+    rounded.deleteAttribute('uv');
+    const bodyGeo = mergeVertices(rounded);
     const bodyMaterial = new THREE.MeshStandardMaterial({ color: this.palette[theme].body, roughness: .65, metalness: 0 });
     cube.userData.shellMaterial = bodyMaterial;
     // All shell blocks share one geometry/material and one draw submission.
@@ -439,9 +450,11 @@ export class CubeScene {
   }
 
   pick(x, y) {
-    const r = this.host.getBoundingClientRect();
+    const r = this.renderer.domElement.getBoundingClientRect();
     this.pointer.set((x - r.left) / r.width * 2 - 1, -(y - r.top) / r.height * 2 + 1);
     this.raycaster.setFromCamera(this.pointer, this.camera);
+    // Hit testing uses the individual stickers even when a whole face is batched.
+    this.current.updateWorldMatrix(true, true);
     return this.raycaster.intersectObjects(this.tiles[this.theme], false).find((hit) => hit.object.visible)?.object;
   }
 
@@ -467,7 +480,7 @@ export class CubeScene {
     this.planFaceArt();
     const first = this.nextFaceArt();
     if (first?.theme === theme && isFront(first)) this.requestFaceArt(theme, first.face);
-    await this.tween(680, (t) => {
+    await this.tween(themeSlideMs, (t) => {
       const e = smooth(t); old.position.x = -travel * e; next.position.x = travel * (1 - e);
       const scale = 460 - 30 * Math.sin(t * Math.PI);
       old.scale.setScalar(scale); next.scale.setScalar(scale);
@@ -560,8 +573,7 @@ export class CubeScene {
 
   tileScreen(face, level) {
     const tile = this.tiles[this.theme].find((t) => t.userData.face === face && t.userData.level === level);
-    this.scene.updateMatrixWorld(true);
-    const p = tile.getWorldPosition(new THREE.Vector3()).project(this.camera), r = this.host.getBoundingClientRect();
+    const p = tile.getWorldPosition(new THREE.Vector3()).project(this.camera), r = this.renderer.domElement.getBoundingClientRect();
     return { x: r.left + (p.x + 1) / 2 * r.width, y: r.top + (1 - p.y) / 2 * r.height };
   }
 
@@ -583,6 +595,9 @@ export class CubeScene {
         }
       }
     }
+    // Parents precede children. Only the cubes and sticker groups being drawn
+    // need fresh world matrices for this frame.
+    this.scene.traverseVisible(object => object.updateWorldMatrix(false, false));
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -610,7 +625,7 @@ export class CubeScene {
     if (palette !== this.arrowPalette) {
       this.arrowPalette = palette; this.arrowFrom.copy(this.arrowColor); this.arrowTarget.set(palette); this.arrowColorStarted = time;
     }
-    const colorTime = this.reducedMotion ? 1 : Math.max(0, Math.min(1, (time - this.arrowColorStarted) / 800));
+    const colorTime = this.reducedMotion ? 1 : Math.max(0, Math.min(1, (time - this.arrowColorStarted) / themeSlideMs));
     this.arrowColor.lerpColors(this.arrowFrom, this.arrowTarget, smooth(colorTime));
     this.arrows.forEach((arrow, i) => {
       const dir = i ? 1 : -1;

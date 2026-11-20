@@ -22,6 +22,9 @@ try {
   });
   await page.tap('#enter'); await idle(page);
   const level = await page.evaluate(() => window.__game.tileCenter(0));
+  const tile = await page.locator('#chapter-targets [data-level="0"]').boundingBox();
+  assert.ok(Math.abs(level.x - (tile.x + tile.width / 2)) < 1 && Math.abs(level.y - (tile.y + tile.height / 2)) < 1,
+    'the cropped WebGL view aligns with the chapter grid on the full stage');
   await page.touchscreen.tap(level.x, level.y); await idle(page);
   assert.equal(await page.evaluate(() => window.__game.state().mode), 'puzzle');
   const initialPositions = await page.evaluate(() => window.__game.state().session.positions);

@@ -1,5 +1,6 @@
 /* The scenery covers the viewport independently of the portrait game layout. */
 .viewport {
+  --theme-slide-duration: 460ms;
   background: #fbf1e3;
 }
 .overlay {
@@ -23,7 +24,7 @@
   contain: paint;
   opacity: 0;
   will-change: opacity;
-  transition: opacity .8s ease;
+  transition: opacity var(--theme-slide-duration) ease;
 }
 .scene-layer[data-scene="1"] {
   --scene-base: #e9f0e4;
@@ -95,7 +96,7 @@
   .scene-layer { will-change: auto; }
   .scene-art {
     visibility: hidden;
-    transition: visibility 0s linear .8s;
+    transition: visibility 0s linear var(--theme-slide-duration);
   }
   .viewport[data-theme="0"] .scene-layer[data-scene="0"] .scene-art,
   .viewport[data-theme="1"] .scene-layer[data-scene="1"] .scene-art,
@@ -114,10 +115,10 @@
   border-color: var(--theme-border, #e7ccb5);
   color: var(--theme-ink, #c3927b);
   box-shadow: 0 9px 0 var(--theme-shadow, #ecd9be), 0 20px 40px #9c887513;
-  transition: background-color .8s ease, border-color .8s ease, color .8s ease, box-shadow .8s ease;
+  transition: background-color var(--theme-slide-duration) ease, border-color var(--theme-slide-duration) ease, color var(--theme-slide-duration) ease, box-shadow var(--theme-slide-duration) ease;
 }
 .top-emblem {
   color: var(--theme-ink, #c3927b);
   opacity: .7;
-  transition: color .8s ease;
+  transition: color var(--theme-slide-duration) ease;
 }

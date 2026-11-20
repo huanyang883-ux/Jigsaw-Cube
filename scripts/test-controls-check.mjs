@@ -13,17 +13,41 @@ const stored = p => p.evaluate(() => Object.fromEntries(Object.keys(localStorage
 async function switchTo(p, mode) {
   await p.tap('#mode-switch');
   const alternate = p.locator(`#mode-switch-alternate[data-mode="${mode}"]`);
-  // Observe a rendered frame, including a same-cube switch with warm assets.
-  await Promise.all([
-    p.waitForFunction(() => {
-      const cover = document.querySelector('#loading');
-      return !cover.hidden && Number(getComputedStyle(cover).opacity) > 0 && cover.getAttribute('aria-busy') === 'true';
-    }, undefined, { timeout: 5000 }),
-    alternate.tap(),
-  ]);
+  await alternate.evaluate(button => {
+    const cover = document.querySelector('#loading'), fill = document.querySelector('#loading-fill');
+    const samples = window.modeLoadSamples = { frames: [] };
+    button.addEventListener('click', () => {
+      const start = performance.now();
+      const observer = new MutationObserver(() => {
+        if (!cover.hidden) return;
+        samples.duration = performance.now() - start;
+        observer.disconnect();
+      });
+      observer.observe(cover, { attributes: true, attributeFilter: ['hidden'] });
+      function sample() {
+        if (cover.hidden) return;
+        if (Number(getComputedStyle(cover).opacity) > 0 && cover.getAttribute('aria-busy') === 'true') {
+          const fraction = fill.getBoundingClientRect().width / fill.parentElement.getBoundingClientRect().width;
+          samples.frames.push({ fraction, time: performance.now() - start });
+        }
+        requestAnimationFrame(sample);
+      }
+      requestAnimationFrame(sample);
+    }, { capture: true, once: true });
+  });
+  await alternate.tap();
+  await p.waitForFunction(() => window.modeLoadSamples.duration > 0);
+  const { duration, frames } = await p.evaluate(() => window.modeLoadSamples);
+  assert.ok(duration >= 500, `mode switch loading lasted only ${duration.toFixed(1)} ms`);
+  const moving = frames.filter(({ fraction }) => fraction > .01 && fraction < .99);
+  assert.ok(moving.length >= 3 && moving.at(-1).time - moving[0].time >= 200
+    && moving.at(-1).fraction - moving[0].fraction > .4, 'the painted bar advances through the padded loading time');
+  assert.ok(frames.every(({ fraction }, index) => !index || fraction >= frames[index - 1].fraction), 'the bar only advances');
+  assert.ok(frames.at(-1).fraction >= .99, 'the full bar is visible before the cover closes');
   await idle(p);
   assert.equal(await p.locator('.viewport').getAttribute('data-play-mode'), mode);
   assert.ok(await p.locator('#enter').isVisible());
+  return Math.round(duration);
 }
 
 async function pressTrophy(p) {
@@ -64,13 +88,16 @@ async function verifyResetOrder() {
     await page.tap('#theme-pages [data-theme="0"]'); await idle(page);
     await page.tap('#enter');
     await page.tap('#chapter-pages [data-face="2"]');
-    await switchTo(page, 'B');
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    const toB = await switchTo(page, 'B');
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     assert.equal(await page.locator('#theme-pages .active').getAttribute('data-theme'), '0');
     await page.tap('#enter');
     await page.waitForFunction(() => document.querySelector('#game').dataset.mode === 'chapters' && !document.querySelector('#back').disabled);
     assert.equal(await page.locator('#chapter-pages .active').getAttribute('data-face'), '0');
     assert.equal(await page.locator('#chapter-progress').getAttribute('aria-valuenow'), '1');
-    await switchTo(page, 'A');
+    const toA = await switchTo(page, 'A');
+    console.log(`PASS: visible mode-loading progress, A→B ${toB} ms and B→A with reduced motion ${toA} ms.`);
     assert.equal(await page.locator('#theme-pages .active').getAttribute('data-theme'), '2');
     assert.deepEqual((await snapshot()).B, originalB, 'switching from either wall preserves B progress');
     await pressTrophy(page);
